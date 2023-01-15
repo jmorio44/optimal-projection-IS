@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.313">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Maxime El Masri">
+<meta name="author" content="Jérôme Morio">
+<meta name="author" content="Florian Simatos">
+<meta name="dcterms.date" content="2023-01-15">
+<meta name="keywords" content="Importance sampling, High dimension, Gaussian covariance matrix, Kullback-Leibler divergence, Projection">
+<meta name="description" content="This document provides a dimension-reduction strategy in order to improve the performance of importance sampling in high dimension.">
+
+<title>Optimal projection for parametric importance sampling in high dimension</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<script src="content_files/libs/clipboard/clipboard.min.js"></script>
+<script src="content_files/libs/quarto-html/quarto.js"></script>
+<script src="content_files/libs/quarto-html/popper.min.js"></script>
+<script src="content_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="content_files/libs/quarto-html/anchor.min.js"></script>
+<link href="content_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="content_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="content_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="content_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="content_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<style>
+    .quarto-title-block .quarto-title-banner {
+      color: #FFFFFF;
+background: #034E79;
+    }
+    </style>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+</head>
+
+<body>
+
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <div class="quarto-title-block"><div><h1 class="title"><a href="https://computo.sfds.asso.fr">
+        <img src="https://computo.sfds.asso.fr/assets/img/logo_notext_white.png" height="60px">
+      </a> &nbsp; Optimal projection for parametric importance sampling in high dimension</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> source</button></div></div>
+            <p><a href="http://creativecommons.org/licenses/by/4.0/"><img src="https://i.creativecommons.org/l/by/4.0/80x15.png" alt="Creative Commons BY License"></a>
+ISSN 2824-7795</p>
+            <div>
+        <div class="description">
+          <p>This document provides a dimension-reduction strategy in order to improve the performance of importance sampling in high dimension.</p>
+        </div>
+      </div>
+                </div>
+  </div>
+    
+    <div class="quarto-title-meta-author">
+      <div class="quarto-title-meta-heading">Authors</div>
+      <div class="quarto-title-meta-heading">Affiliations</div>
+          
+          <div class="quarto-title-meta-contents">
+        Maxime El Masri <a href="https://orcid.org/0000-0002-9127-4503" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
+      </div>
+          
+          <div class="quarto-title-meta-contents">
+              <p class="affiliation">
+                  <a href="https://www.onera.fr/">ONERA/DTIS</a>, <a href="https://www.isae-supaero.fr/">ISAE-SUPAERO</a>, <a href="https://www.univ-toulouse.fr/">Université de Toulouse</a>
+                </p>
+            </div>
+            <div class="quarto-title-meta-contents">
+        <a href="https://www.onera.fr/en/staff/jerome-morio?destination=node/981">Jérôme Morio</a> <a href="https://orcid.org/0000-0002-8811-8956" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
+      </div>
+          
+          <div class="quarto-title-meta-contents">
+              <p class="affiliation">
+                  <a href="https://www.onera.fr/">ONERA/DTIS</a>, <a href="https://www.univ-toulouse.fr/">Université de Toulouse</a>
+                </p>
+            </div>
+            <div class="quarto-title-meta-contents">
+        <a href="https://pagespro.isae-supaero.fr/florian-simatos/">Florian Simatos</a> 
+      </div>
+          
+          <div class="quarto-title-meta-contents">
+              <p class="affiliation">
+                  <a href="https://www.isae-supaero.fr/">ISAE-SUPAERO</a>, <a href="https://www.univ-toulouse.fr/">Université de Toulouse</a>
+                </p>
+            </div>
+        </div>
+                    
+  <div class="quarto-title-meta">
+                                
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">January 15, 2023</p>
+      </div>
+    </div>
+                                    
+      
+                  
+      <div>
+      <div class="quarto-title-meta-heading">Keywords</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">Importance sampling, High dimension, Gaussian covariance matrix, Kullback-Leibler divergence, Projection</p>
+      </div>
+    </div>
+    
+    <div>
+      <div class="quarto-title-meta-heading">Status</div>
+      <div class="quarto-title-meta-contents">
+              <p class="date">draft</p>
+                  </div>
+    </div>
+
+  </div>
+                                                
+  <div>
+    <div class="abstract">
+    <div class="abstract-title">Abstract</div>
+      <p>In this paper we propose a dimension-reduction strategy in order to improve the performance of importance sampling in high dimension. The idea is to estimate variance terms in a small number of suitably chosen directions. We first prove that the optimal directions, i.e., the ones that minimize the Kullback–Leibler divergence with the optimal auxiliary density, are the eigenvectors associated to extreme (small or large) eigenvalues of the optimal covariance matrix. We then perform extensive numerical experiments that show that as dimension increases, these directions give estimations which are very close to optimal. Moreover, we show that the estimation remains accurate even when a simple empirical estimator of the covariance matrix is used to estimate these directions. These theoretical and numerical results open the way for different generalizations, in particular the incorporation of such ideas in adaptive importance sampling schemes.</p>
+    </div>
+  </div>
+
+  </header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">1</span>  Introduction</a></li>
+  <li><a href="#sec-IS" id="toc-sec-IS" class="nav-link" data-scroll-target="#sec-IS"><span class="toc-section-number">2</span>  Importance Sampling</a></li>
+  <li><a href="#sec-main-result" id="toc-sec-main-result" class="nav-link" data-scroll-target="#sec-main-result"><span class="toc-section-number">3</span>  Main result and positioning of the paper</a>
+  <ul class="collapse">
+  <li><a href="#sec-proj" id="toc-sec-proj" class="nav-link" data-scroll-target="#sec-proj"><span class="toc-section-number">3.1</span>  Projecting on a low dimensional subspace</a></li>
+  <li><a href="#sec-main-result-positioning" id="toc-sec-main-result-positioning" class="nav-link" data-scroll-target="#sec-main-result-positioning"><span class="toc-section-number">3.2</span>  Main result of the paper</a></li>
+  </ul></li>
+  <li><a href="#bibliography" id="toc-bibliography" class="nav-link" data-scroll-target="#bibliography">Bibliography</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+<div class="cell" data-execution_count="1">
+<details open="">
+<summary>Hide/Show the code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy <span class="im">as</span> sp</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.stats</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<p>Importance Sampling (IS) is a widely considered stochastic method to estimate integrals of the form <span class="math inline">E = \int \phi f</span> with a black-box function <span class="math inline">\phi</span> and a probability density function (pdf) <span class="math inline">f</span>. It rests upon the choice of an auxiliary density which, when suitably chosen, can significantly improve the situation compared to the naive Monte Carlo (MC) method <span class="citation" data-cites="AgapiouEtAl_ImportanceSamplingIntrinsic_2017">(<a href="#ref-AgapiouEtAl_ImportanceSamplingIntrinsic_2017" role="doc-biblioref">Agapiou et al. 2017</a>)</span>, <span class="citation" data-cites="OwenZhou_SafeEffectiveImportance_2000">(<a href="#ref-OwenZhou_SafeEffectiveImportance_2000" role="doc-biblioref">Owen and Zhou 2000</a>)</span>. The theoretical optimal IS density, also called zero-variance density, is defined by <span class="math inline">\phi f / E</span> when <span class="math inline">\phi</span> is a positive function. This density is not available in practice as it involves the unknown integral <span class="math inline">E</span>, but a classical strategy consists in searching an optimal approximation in a parametric family of densities. By minimising a ‘’distance’’ with the optimal IS density, such as the Kullback–Leibler divergence, one can find optimal parameters in this family to get an efficient sampling pdf. Adaptive Importance Sampling (AIS) algorithms, such as the Mixture Population Monte Carlo method <span class="citation" data-cites="CappeEtAl_AdaptiveImportanceSampling_2008">(<a href="#ref-CappeEtAl_AdaptiveImportanceSampling_2008" role="doc-biblioref">Cappé et al. 2008</a>)</span>, the Adaptive Multiple Importance Sampling method <span class="citation" data-cites="CornuetEtAl_AdaptiveMultipleImportance_2012">(<a href="#ref-CornuetEtAl_AdaptiveMultipleImportance_2012" role="doc-biblioref">Cornuet et al. 2012</a>)</span>, or the Cross Entropy method <span class="citation" data-cites="RubinsteinKroese_CrossentropyMethodUnified_2011">(<a href="#ref-RubinsteinKroese_CrossentropyMethodUnified_2011" role="doc-biblioref">Reuven Y. Rubinstein and Kroese 2011</a>)</span>, estimate the optimal parameters adaptively by updating intermediate parameters <span class="citation" data-cites="BugalloEtAl_AdaptiveImportanceSampling_2017">(<a href="#ref-BugalloEtAl_AdaptiveImportanceSampling_2017" role="doc-biblioref">Bugallo et al. 2017</a>)</span>.</p>
+<p>An intense research activity has made these techniques work very well, but only for moderate dimensions. In high dimension, most of these techniques actually fail to give efficient parameters for two reasons. The first one is the so-called weight degeneracy problem, which is that in high dimension, the weights appearing in the IS densities (which are self-normalized likelihood ratios) degenerate. More precisely, the largest weight takes all the mass, while all other weights are negligible so that the final estimation essentially uses only one sample, see for instance <span class="citation" data-cites="BengtssonEtAl_CurseofdimensionalityRevisitedCollapse_2008">(<a href="#ref-BengtssonEtAl_CurseofdimensionalityRevisitedCollapse_2008" role="doc-biblioref">Bengtsson, Bickel, and Li 2008</a>)</span> for a theoretical analysis in the related context of particle filtering. But even without likelihood ratios, such techniques may fail if they need to estimate high-dimensional parameters such as covariance matrices, whose size increases quadratically in the dimension <span class="citation" data-cites="AshurbekovaEtAl_OptimalShrinkageRobust_">(<a href="#ref-AshurbekovaEtAl_OptimalShrinkageRobust_" role="doc-biblioref">Ashurbekova et al. 2020</a>)</span>, <span class="citation" data-cites="LedoitWolf_WellconditionedEstimatorLargedimensional_2004">(<a href="#ref-LedoitWolf_WellconditionedEstimatorLargedimensional_2004" role="doc-biblioref">Ledoit and Wolf 2004</a>)</span>. The conditions under which importance sampling is applicable in high dimension are notably investigated in a reliability context in <span class="citation" data-cites="AuBeck_ImportantSamplingHigh_2003">(<a href="#ref-AuBeck_ImportantSamplingHigh_2003" role="doc-biblioref">Au and Beck 2003</a>)</span>: it is remarked that the optimal covariance matrix should not deviate significantly from the identity matrix. <span class="citation" data-cites="El-LahamEtAl_RecursiveShrinkageCovariance_">(<a href="#ref-El-LahamEtAl_RecursiveShrinkageCovariance_" role="doc-biblioref">El-Laham, Elvira, and Bugallo 2019</a>)</span> tackle the weight degeneracy problem by applying a recursive shrinkage of the covariance matrix, which is constructed iteratively with a weighted sum of the sample covariance estimator and a biased, but more stable, estimator. Concerning the second problem of having to estimate high-dimensional parameters, the idea was recently put forth to reduce the effective dimension by only estimating these parameters (in particular the covariance matrix) in suitable directions <span class="citation" data-cites="MasriEtAl_ImprovementCrossentropyMethod_2020">(<a href="#ref-MasriEtAl_ImprovementCrossentropyMethod_2020" role="doc-biblioref">El Masri, Morio, and Simatos 2021</a>)</span>, <span class="citation" data-cites="UribeEtAl_CrossentropybasedImportanceSampling_2020">(<a href="#ref-UribeEtAl_CrossentropybasedImportanceSampling_2020" role="doc-biblioref">Uribe et al. 2021</a>)</span>. In this paper we seek to delve deeper into this idea. The main contribution of the present paper is to identify the optimal directions in the fundamental case when the parametric family is Gaussian, and perform numerical simulations in order to understand how they behave in practice. In particular, we propose directions which, in contrast to the recent paper <span class="citation" data-cites="UribeEtAl_CrossentropybasedImportanceSampling_2020">(<a href="#ref-UribeEtAl_CrossentropybasedImportanceSampling_2020" role="doc-biblioref">Uribe et al. 2021</a>)</span>, does not require the objective function to be differentiable, and moreover optimizes the Kullback–Leibler distance with the optimal density instead of simply an upper bound on it, as in <span class="citation" data-cites="UribeEtAl_CrossentropybasedImportanceSampling_2020">(<a href="#ref-UribeEtAl_CrossentropybasedImportanceSampling_2020" role="doc-biblioref">Uribe et al. 2021</a>)</span>. In <a href="#sec-proj">Section&nbsp;3.1</a> we elaborate in more details on the differences between the two approaches.</p>
+<p>The paper is organised as follows: in <a href="#sec-IS">Section&nbsp;2</a> we recall the foundations of IS. In <a href="#sec-main-result">Section&nbsp;3</a>, we state our main theoretical result and we compare it with the current state-of-the-art. <strong>?@sec-proof</strong> presents the proof of our theoretical result; <strong>?@sec-num-results-framework</strong> introduces the numerical framework that we have adopted, and <strong>?@sec-test-cases</strong> presents the numerical results obtained on five different test cases to assess the efficiency of the directions that we propose. We conclude in <strong>?@sec-Ccl</strong> with a summary and research perspectives.</p>
+</section>
+<section id="sec-IS" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Importance Sampling</h1>
+<p>We consider the problem of estimating the following integral: <span class="math display">
+    E=\mathbb{E}_f(\phi(\mathbf{X}))=\int \phi(\mathbf{x})f(\mathbf{x})\textrm{d} \mathbf{x},
+    </span> where <span class="math inline">\mathbf{X}</span> is a random vector in <span class="math inline">\mathbb{R}^n</span> with Gaussian standard pdf <span class="math inline">f</span>, and <span class="math inline">\phi: \mathbb{R}^n\rightarrow\mathbb{R}_+</span> is a real-valued, non-negative function. If one were to relax this Gaussian standard assumption, one would need to look for covariance matrices in a different auxiliary set. The function <span class="math inline">\phi</span> is considered as a black-box function which is potentially expensive to evaluate, which means the number of calls to <span class="math inline">\phi</span> should be limited.</p>
+<p>IS is a widely considered approach to reduce the variance of the classical Monte Carlo estimator of <span class="math inline">E</span>. The idea of IS is to generate a random sample <span class="math inline">\mathbf{X}_1,\ldots,\mathbf{X}_N</span> from an auxiliary density <span class="math inline">g</span>, instead of <span class="math inline">f</span>, and to compute the following estimator: <span id="eq-hatE"><span class="math display">
+    \widehat{E}_N=\frac{1}{N}\sum_{i=1}^N \phi(\mathbf{X}_i)L(\mathbf{X}_i),
+     \tag{1}</span></span> with <span class="math inline">L=f/g</span> the likelihood ratio, or importance weight, and the density <span class="math inline">g</span>, called importance sampling density, is such that <span class="math inline">g(\mathbf{x})=0</span> implies <span class="math inline">\phi(\mathbf{x}) f(\mathbf{x})=0</span> for every <span class="math inline">\mathbf{x}</span> (which makes the product <span class="math inline">\phi L</span> well-defined). This estimator is consistent and unbiased but its accuracy strongly depends on the choice of the auxiliary density <span class="math inline">g</span>. It is well known that the optimal choice for <span class="math inline">g</span> is <span class="citation" data-cites="bucklew2013introduction">(<a href="#ref-bucklew2013introduction" role="doc-biblioref">Bucklew 2013</a>)</span> <span class="math display">
+    g^*(\mathbf{x})=\dfrac{\phi(\mathbf{x})f(\mathbf{x})}{E}, \ \mathbf{x}\in\mathbb{R}^n.
+    </span> Indeed, for this choice we have <span class="math inline">\phi L = E</span> and so <span class="math inline">\widehat E_N</span> is actually the deterministic estimator <span class="math inline">E</span>. For this reason, <span class="math inline">g^*</span> is sometimes called zero-variance density, a terminology that we will adopt here. Of course, <span class="math inline">g^*</span> is only of theoretical interest as it depends on the unknown integral <span class="math inline">E</span>. However, it gives an idea of good choices for the auxiliary density <span class="math inline">g</span>, and we will seek to approximate <span class="math inline">g^*</span> by an auxiliary density that minimizes a distance between <span class="math inline">g^*</span> and a given parametric family of densities.</p>
+<p>In this paper, the parametric family of densities is the Gaussian family <span class="math inline">\{g_{\mathbf{m}, \Sigma}: \mathbf{m} \in \mathbb{R}^n, \Sigma \in \mathcal{S}^+_n\}</span>, where <span class="math inline">g_{\mathbf{m}, \Sigma}</span> denotes the Gaussian density with mean <span class="math inline">\mathbf{m} \in \mathbb{R}^n</span> and covariance matrix <span class="math inline">\Sigma \in \mathcal{S}^+_n</span> with <span class="math inline">\mathcal{S}^+_n \subset \mathbb{R}^{n \times n}</span> the set of symmetric, positive-definite matrices: <span class="math display">
+    g_{\mathbf{m},\Sigma}(\mathbf{x})=\dfrac{1}{ (2\pi)^{n/2} \lvert \Sigma \rvert^{1/2}} \exp\left(-\frac{1}{2}(\mathbf{x}-\mathbf{m})^\top\Sigma^{-1}(\mathbf{x}-\mathbf{m})\right), \ \mathbf{x} \in \mathbb{R}^n.
+    </span> with <span class="math inline">\lvert \Sigma \rvert</span> the determinant of <span class="math inline">\Sigma</span>. Moreover, we will consider the Kullback–Leibler (KL) divergence to measure a ‘’distance’’ between <span class="math inline">g^*</span> and <span class="math inline">g_{\mathbf{m}, \Sigma}</span>. Recall that for two densities <span class="math inline">f</span> and <span class="math inline">h</span>, with <span class="math inline">f</span> absolutely continuous with respect to <span class="math inline">h</span>, the KL divergence <span class="math inline">D(f,h)</span> between <span class="math inline">f</span> and <span class="math inline">h</span> is defined by: <span class="math display">
+    D(f,h)=\mathbb{E}_{f}\left[\log \left( \frac{f(\mathbf{X})}{h(\mathbf{X})} \right) \right] = \int \log \left( \frac{f(\mathbf{x})}{h(\mathbf{x})} \right)f(\mathbf{x}) \textrm{d} \mathbf{x}.
+    </span> Thus, our goal is to approximate <span class="math inline">g^*</span> by <span class="math inline">g_{\mathbf{m}^*, \Sigma^*}</span> with the optimal mean vector <span class="math inline">\mathbf{m}^*</span> and the optimal covariance matrix <span class="math inline">\Sigma^*</span> given by: <span id="eq-argminDkl"><span class="math display">
+    (\mathbf{m}^*,\Sigma^*) = \arg\min \left\{ D(g^*,g_{\mathbf{m},\Sigma}): \mathbf{m} \in \mathbb{R}^n, \Sigma \in \mathcal{S}_n^+ \right\}.
+     \tag{2}</span></span> In the Gaussian case of the present setting, it is well-known that <span class="math inline">\mathbf{m}^*</span> and <span class="math inline">\Sigma^*</span> are simply the mean and variance of the zero-variance density <span class="citation" data-cites="RubinsteinKroese_CrossentropyMethodUnified_2011">(<a href="#ref-RubinsteinKroese_CrossentropyMethodUnified_2011" role="doc-biblioref">Reuven Y. Rubinstein and Kroese 2011</a>)</span>, <span class="citation" data-cites="RubinsteinKroese_SimulationMonteCarlo_2017">(<a href="#ref-RubinsteinKroese_SimulationMonteCarlo_2017" role="doc-biblioref">Reuven Y. Rubinstein and Kroese 2017</a>)</span>: <span id="eq-mstar"><span class="math display">
+    \mathbf{m}^*=\mathbb{E}_{g^*}(\mathbf{X}) \hspace{0.5cm} \text{ and } \hspace{0.5cm} \Sigma^* = \textrm{Var}_{g^*} \left(\mathbf{X}\right).
+     \tag{3}</span></span></p>
+</section>
+<section id="sec-main-result" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Main result and positioning of the paper</h1>
+<section id="sec-proj" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="sec-proj"><span class="header-section-number">3.1</span> Projecting on a low dimensional subspace</h2>
+<p>As <span class="math inline">g^*</span> is unknown (although, as will be considered below, we can in principle sample from it since it is known up to a multiplicative constant), the optimal parameters <span class="math inline">\mathbf{m}^*</span> and <span class="math inline">\Sigma^*</span> given by <a href="#eq-mstar">Equation&nbsp;3</a> are not directly computable. Therefore, usual estimation schemes start with estimating <span class="math inline">\mathbf{m}^*</span> and <span class="math inline">\Sigma^*</span>, say through <span class="math inline">\widehat{\mathbf{m}}^*</span> and <span class="math inline">\widehat{\Sigma}^*</span>, respectively, and then use these approximations to estimate <span class="math inline">E</span> through <a href="#eq-hatE">Equation&nbsp;1</a> with the auxiliary density <span class="math inline">g_{\widehat{\mathbf{m}}^*, \widehat{\Sigma}^*}</span>. Although the estimation of <span class="math inline">E</span> with the auxiliary density <span class="math inline">g_{\mathbf{m}^*, \Sigma^*}</span> usually provides very good results, it is well-known that in high dimension, the additional error induced by the estimations of <span class="math inline">\mathbf{m}^*</span> and <span class="math inline">\Sigma^*</span> severely degrades the accuracy of the final estimation <span class="citation" data-cites="PapaioannouEtAl_ImprovedCrossEntropybased_2019">(<a href="#ref-PapaioannouEtAl_ImprovedCrossEntropybased_2019" role="doc-biblioref">Papaioannou, Geyer, and Straub 2019</a>)</span>, <span class="citation" data-cites="UribeEtAl_CrossentropybasedImportanceSampling_2020">(<a href="#ref-UribeEtAl_CrossentropybasedImportanceSampling_2020" role="doc-biblioref">Uribe et al. 2021</a>)</span>. The main problem lies in the estimation of <span class="math inline">\Sigma^*</span> which, in dimension <span class="math inline">n</span>, involves the estimation of a quadratic (in the dimension) number of terms, namely <span class="math inline">n(n+1)/2</span>. Recently, the idea to overcome this problem by only evaluating variance terms in a small number of influential directions was explored in <span class="citation" data-cites="MasriEtAl_ImprovementCrossentropyMethod_2020">(<a href="#ref-MasriEtAl_ImprovementCrossentropyMethod_2020" role="doc-biblioref">El Masri, Morio, and Simatos 2021</a>)</span> and <span class="citation" data-cites="UribeEtAl_CrossentropybasedImportanceSampling_2020">(<a href="#ref-UribeEtAl_CrossentropybasedImportanceSampling_2020" role="doc-biblioref">Uribe et al. 2021</a>)</span>. In these two papers, the auxiliary covariance matrix <span class="math inline">\Sigma</span> is modeled in the form <span id="eq-Sigmak"><span class="math display">
+    \Sigma = \sum_{i=1}^k (v_i-1) \mathbf{d}_i \mathbf{d}_i^\top + I_n
+     \tag{4}</span></span> where the <span class="math inline">\mathbf{d}_i</span>’s are the <span class="math inline">k</span> orthonormal directions which are deemed influential. It is easy to check that <span class="math inline">\Sigma</span> is the covariance matrix of the Gaussian vector <span class="math display"> v^{1/2}_1 Y_1 \mathbf{d}_1 + \cdots + v^{1/2}_k Y_k \mathbf{d}_k + Y_{k+1} \mathbf{d}_{k+1} + \cdots + Y_n \mathbf{d}_n </span> where the <span class="math inline">Y_i</span>’s are i.i.d. standard normal random variables (one-dimensional), and the <span class="math inline">n-k</span> vectors <span class="math inline">(\mathbf{d}_{k+1}, \ldots, \mathbf{d}_n)</span> complete <span class="math inline">(\mathbf{d}_1, \ldots, \mathbf{d}_k)</span> into an orthonormal basis. In particular, <span class="math inline">v_i</span> is the variance in the direction of <span class="math inline">\mathbf{d}_i</span>, i.e., <span class="math inline">v_i = \mathbf{d}_i^\top \Sigma \mathbf{d}_i</span>. In <a href="#eq-Sigmak">Equation&nbsp;4</a>, <span class="math inline">k</span> can be considered as the effective dimension in which variance terms are estimated. In other words, in <span class="citation" data-cites="MasriEtAl_ImprovementCrossentropyMethod_2020">(<a href="#ref-MasriEtAl_ImprovementCrossentropyMethod_2020" role="doc-biblioref">El Masri, Morio, and Simatos 2021</a>)</span> and <span class="citation" data-cites="UribeEtAl_CrossentropybasedImportanceSampling_2020">(<a href="#ref-UribeEtAl_CrossentropybasedImportanceSampling_2020" role="doc-biblioref">Uribe et al. 2021</a>)</span>, the optimal variance parameter is not sought in <span class="math inline">\mathcal{S}^+_n</span> as in <a href="#eq-argminDkl">Equation&nbsp;2</a>}, but rather in the subset of matrices of the form <span class="math display"> \mathcal{L}_{n,k} = \left\{ \sum_{i=1}^k (\alpha_i-1) \frac{\mathbf{d}_i \mathbf{d}_i^\top}{\lVert \mathbf{d}_i \rVert^2} + I_n: \alpha_1, \ldots, \alpha_k &gt;0 \ \text{ and the $\mathbf{d}_i$'s are orthogonal} \right\}. </span> The relevant minimization problem thus becomes <span id="eq-argminDkl-k"><span class="math display">
+    (\mathbf{m}^*_k, \Sigma^*_k) = \arg\min \left\{ D(g^*,g_{\mathbf{m},\Sigma}): \mathbf{m} \in \mathbb{R}^n, \ \Sigma \in \mathcal{L}_{n,k} \right\}
+     \tag{5}</span></span> instead of <a href="#eq-argminDkl">Equation&nbsp;2</a>, with the effective dimension <span class="math inline">k</span> being allowed to be adjusted dynamically. By restricting the space in which the variance is looked up, one seeks to limit the number of variance terms to be estimated. The idea is that if the directions are suitably chosen, then the improvement of the accuracy due to the smaller error in estimating the variance terms will compensate the fact that we consider less candidates for the covariance matrix. In <span class="citation" data-cites="MasriEtAl_ImprovementCrossentropyMethod_2020">(<a href="#ref-MasriEtAl_ImprovementCrossentropyMethod_2020" role="doc-biblioref">El Masri, Morio, and Simatos 2021</a>)</span>, the authors consider <span class="math inline">k = 1</span> and <span class="math inline">\mathbf{d}_1 = \mathbf{m}^* / \lVert \mathbf{m}^* \rVert</span>. When <span class="math inline">f</span> is Gaussian, this choice is motivated by the fact that, due to the light tail of the Gaussian random variable and the reliability context, the variance should vary significantly in the direction of <span class="math inline">\mathbf{m}^*</span> and so estimating the variance in this direction can bring information. (In <strong>?@sec-mm</strong>, we actually use the techniques of the present paper to provide a stronger theoretical justification of this choice, see <strong>?@thm-thm2</strong> and the discussion following it). The method in <span class="citation" data-cites="UribeEtAl_CrossentropybasedImportanceSampling_2020">(<a href="#ref-UribeEtAl_CrossentropybasedImportanceSampling_2020" role="doc-biblioref">Uribe et al. 2021</a>)</span> is more involved: <span class="math inline">k</span> is adjusted dynamically, while the directions <span class="math inline">\mathbf{d}_i</span> are the eigenvectors associated to the largest eigenvalues of a certain matrix. They span a low-dimensional subspace called Failure-Informed Subspace, and the authors in <span class="citation" data-cites="UribeEtAl_CrossentropybasedImportanceSampling_2020">(<a href="#ref-UribeEtAl_CrossentropybasedImportanceSampling_2020" role="doc-biblioref">Uribe et al. 2021</a>)</span> prove that this choice minimizes an upper bound on the minimal KL divergence. In practice, this algorithm yields very accurate results. However, we will not consider it further in the present paper for two reasons. First, this algorithm is tailored for the reliability case where <span class="math inline">\phi = \mathbb{I}_{\{\varphi \geq 0\}}</span>, with a function <span class="math inline">\varphi: \mathbb{R}^n \to \mathbb{R}</span>, whereas our method is more general and applies to the general problem of estimating an integral (see for instance our test case of <strong>?@sec-sub:payoff</strong>). Second, the algorithm in <span class="citation" data-cites="UribeEtAl_CrossentropybasedImportanceSampling_2020">(<a href="#ref-UribeEtAl_CrossentropybasedImportanceSampling_2020" role="doc-biblioref">Uribe et al. 2021</a>)</span> requires the evaluation of the gradient of the function <span class="math inline">\varphi</span>. However, this gradient is not always known and can be expensive to evaluate in high dimension; in some cases, the function <span class="math inline">\varphi</span> is even not differentiable, as will be the case in our numerical example in <strong>?@sec-sub:portfolio</strong>. In contrast, our method makes no assumption on the form or smoothness of <span class="math inline">\phi</span>: it does not need to assume that it is of the form <span class="math inline">\mathbb{I}_{\{\varphi \geq 0\}}</span>, or to assume that <span class="math inline">\nabla \varphi</span> is tractable. For completeness, whenever the algorithm of <span class="citation" data-cites="UribeEtAl_CrossentropybasedImportanceSampling_2020">(<a href="#ref-UribeEtAl_CrossentropybasedImportanceSampling_2020" role="doc-biblioref">Uribe et al. 2021</a>)</span> was applicable and computing the gradient of <span class="math inline">\varphi</span> did not require any additional simulation budget, we have run it on the test cases considered here and found that it outperformed our algorithm. In more realistic settings, computing <span class="math inline">\nabla \varphi</span> would likely increase the simulation budget, and it would be interesting to compare the two algorithms in more details to understand when this extra computation cost is worthwhile. We reserve such a question for future research and will not consider the algorithm of <span class="citation" data-cites="UribeEtAl_CrossentropybasedImportanceSampling_2020">(<a href="#ref-UribeEtAl_CrossentropybasedImportanceSampling_2020" role="doc-biblioref">Uribe et al. 2021</a>)</span> further, as our aim in this paper is to establish benchmark results for a general algorithm which works for any function <span class="math inline">\phi</span>.</p>
+</section>
+<section id="sec-main-result-positioning" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="sec-main-result-positioning"><span class="header-section-number">3.2</span> Main result of the paper</h2>
+<p>The main result of the present paper is to actually compute the exact value for <span class="math inline">\Sigma^*_k</span> in <a href="#eq-argminDkl-k">Equation&nbsp;5</a>, which therefore paves the way for efficient high-dimensional estimation schemes. The statement of our result involves the following function <span class="math inline">\ell</span>, which is represented in <a href="#fig-l">Figure&nbsp;1</a>: <span id="eq-l"><span class="math display">
+    \ell: x \in (0,\infty) \mapsto -\log(x) + x - 1.
+     \tag{6}</span></span> In the following, <span class="math inline">(\lambda, \mathbf{d}) \in \mathbb{R} \times \mathbb{R}^n</span> is an eigenpair of a matrix <span class="math inline">A</span> if <span class="math inline">A\mathbf{d} = \lambda \mathbf{d}</span> and <span class="math inline">\lVert \mathbf{d} \rVert = 1</span>. A diagonalizable matrix has <span class="math inline">n</span> distinct eigenpairs, say <span class="math inline">((\lambda^*_i, \mathbf{d}^*_i), i = 1, \ldots, n)</span>, and we say that these eigenpairs are ranked in decreasing <span class="math inline">\ell</span>-order if <span class="math inline">\ell(\lambda^*_1) \geq \cdots \geq \ell(\lambda^*_n)</span>.</p>
+<div class="cell" data-execution_count="2">
+<details open="">
+<summary>Hide/Show the code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">###############################################################################################################################</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Figure 1. Plot of the function "l"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">###############################################################################################################################</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(np.finfo(<span class="bu">float</span>).eps,<span class="fl">4.0</span>,<span class="dv">100</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="op">-</span>np.log(x) <span class="op">+</span> x <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># plot</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>ax.plot(x, y, linewidth<span class="op">=</span><span class="fl">2.0</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>ax.<span class="bu">set</span>(xlim<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">4</span>), xticks<span class="op">=</span>[<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>],</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>       ylim<span class="op">=</span>(<span class="dv">0</span>, <span class="fl">0.5</span>), yticks<span class="op">=</span>[<span class="dv">0</span>,<span class="fl">0.5</span>,<span class="dv">1</span>,<span class="fl">1.5</span>])</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>plt.grid()</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="vs">r"$x$"</span>,fontsize<span class="op">=</span><span class="dv">16</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="vs">r"$\ell(x)$"</span>,fontsize<span class="op">=</span><span class="dv">16</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> tickLabel <span class="kw">in</span> plt.gca().get_xticklabels() <span class="op">+</span> plt.gca().get_yticklabels():</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    tickLabel.set_fontsize(<span class="dv">16</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-l" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="content_files/figure-html/fig-l-output-1.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;1: Plot of the function <span class="math inline">\ell=-\log(x) + x - 1</span> given by <a href="#eq-l">Equation&nbsp;6</a></figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<!-- -->
+
+</section>
+</section>
+<section id="bibliography" class="level1 unnumbered">
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">Bibliography</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-AgapiouEtAl_ImportanceSamplingIntrinsic_2017" class="csl-entry" role="doc-biblioentry">
+Agapiou, S., O. Papaspiliopoulos, D. Sanz-Alonso, and A. M. Stuart. 2017. <span>“Importance <span>Sampling</span> : <span>Intrinsic Dimension</span> and <span>Computational Cost</span>.”</span> <em>Statistical Science, Volume 32, P405-431</em>. <a href="https://doi.org/10.1214/17-STS611">https://doi.org/10.1214/17-STS611</a>.
+</div>
+<div id="ref-AshurbekovaEtAl_OptimalShrinkageRobust_" class="csl-entry" role="doc-biblioentry">
+Ashurbekova, Karina, Antoine Usseglio-Carleve, Florence Forbes, and Sophie Achard. 2020. <span>“Optimal Shrinkage for Robust Covariance Matrix Estimators in a Small Sample Size Setting.”</span>
+</div>
+<div id="ref-AuBeck_ImportantSamplingHigh_2003" class="csl-entry" role="doc-biblioentry">
+Au, S. K., and J. L. Beck. 2003. <span>“Important Sampling in High Dimensions.”</span> <em>Structural Safety</em> 25 (2): 139–63. <a href="https://doi.org/10.1016/S0167-4730(02)00047-4">https://doi.org/10.1016/S0167-4730(02)00047-4</a>.
+</div>
+<div id="ref-BengtssonEtAl_CurseofdimensionalityRevisitedCollapse_2008" class="csl-entry" role="doc-biblioentry">
+Bengtsson, Thomas, Peter Bickel, and Bo Li. 2008. <span>“Curse-of-Dimensionality Revisited: <span>Collapse</span> of the Particle Filter in Very Large Scale Systems.”</span> In <em>Institute of <span>Mathematical Statistics Collections</span></em>, 316–34. <span>Beachwood, Ohio, USA</span>: <span>Institute of Mathematical Statistics</span>. <a href="https://doi.org/10.1214/193940307000000518">https://doi.org/10.1214/193940307000000518</a>.
+</div>
+<div id="ref-bucklew2013introduction" class="csl-entry" role="doc-biblioentry">
+Bucklew, James. 2013. <em>Introduction to Rare Event Simulation</em>. Springer Science &amp; Business Media. <a href="https://doi.org/10.1007/978-1-4757-4078-3">https://doi.org/10.1007/978-1-4757-4078-3</a>.
+</div>
+<div id="ref-BugalloEtAl_AdaptiveImportanceSampling_2017" class="csl-entry" role="doc-biblioentry">
+Bugallo, Monica F., Victor Elvira, Luca Martino, David Luengo, Joaquin Miguez, and Petar M. Djuric. 2017. <span>“Adaptive <span>Importance Sampling</span>: <span>The</span> Past, the Present, and the Future.”</span> <em>IEEE Signal Processing Magazine</em> 34 (4): 60–79. <a href="https://doi.org/10.1109/MSP.2017.2699226">https://doi.org/10.1109/MSP.2017.2699226</a>.
+</div>
+<div id="ref-CappeEtAl_AdaptiveImportanceSampling_2008" class="csl-entry" role="doc-biblioentry">
+Cappé, Olivier, Randal Douc, Arnaud Guillin, Jean-Michel Marin, and Christian P. Robert. 2008. <span>“Adaptive Importance Sampling in General Mixture Classes.”</span> <em>Statistics and Computing</em> 18 (4): 447–59. <a href="https://doi.org/10.1007/s11222-008-9059-x">https://doi.org/10.1007/s11222-008-9059-x</a>.
+</div>
+<div id="ref-CornuetEtAl_AdaptiveMultipleImportance_2012" class="csl-entry" role="doc-biblioentry">
+Cornuet, Jean-Marie, Jean-Michel Marin, Antonietta Mira, and Christian P. Robert. 2012. <span>“Adaptive <span>Multiple Importance Sampling</span>: <span><em>Adaptive</em></span><span> <em>Multiple Importance Sampling</em></span>.”</span> <em>Scandinavian Journal of Statistics</em> 39 (4): 798–812. <a href="https://doi.org/10.1111/j.1467-9469.2011.00756.x">https://doi.org/10.1111/j.1467-9469.2011.00756.x</a>.
+</div>
+<div id="ref-MasriEtAl_ImprovementCrossentropyMethod_2020" class="csl-entry" role="doc-biblioentry">
+El Masri, Maxime, Jérôme Morio, and Florian Simatos. 2021. <span>“Improvement of the Cross-Entropy Method in High Dimension for Failure Probability Estimation Through a One-Dimensional Projection Without Gradient Estimation.”</span> <em>Reliability Engineering &amp; System Safety</em> 216: 107991. <a href="https://doi.org/10.1016/j.ress.2021.107991">https://doi.org/10.1016/j.ress.2021.107991</a>.
+</div>
+<div id="ref-El-LahamEtAl_RecursiveShrinkageCovariance_" class="csl-entry" role="doc-biblioentry">
+El-Laham, Yousef, Vı́ctor Elvira, and Mónica Bugallo. 2019. <span>“Recursive Shrinkage Covariance Learning in Adaptive Importance Sampling.”</span> In <em>2019 IEEE 8th International Workshop on Computational Advances in Multi-Sensor Adaptive Processing (CAMSAP)</em>, 624–28. IEEE. <a href="https://doi.org/10.1109/CAMSAP45676.2019.9022450">https://doi.org/10.1109/CAMSAP45676.2019.9022450</a>.
+</div>
+<div id="ref-LedoitWolf_WellconditionedEstimatorLargedimensional_2004" class="csl-entry" role="doc-biblioentry">
+Ledoit, Olivier, and Michael Wolf. 2004. <span>“A Well-Conditioned Estimator for Large-Dimensional Covariance Matrices.”</span> <em>Journal of Multivariate Analysis</em> 88 (2): 365–411. <a href="https://doi.org/10.1016/S0047-259X(03)00096-4">https://doi.org/10.1016/S0047-259X(03)00096-4</a>.
+</div>
+<div id="ref-OwenZhou_SafeEffectiveImportance_2000" class="csl-entry" role="doc-biblioentry">
+Owen, Art, and Yi Zhou. 2000. <span>“Safe and <span>Effective Importance Sampling</span>.”</span> <em>Journal of the American Statistical Association</em> 95 (449): 135–43. <a href="https://doi.org/10.1080/01621459.2000.10473909">https://doi.org/10.1080/01621459.2000.10473909</a>.
+</div>
+<div id="ref-PapaioannouEtAl_ImprovedCrossEntropybased_2019" class="csl-entry" role="doc-biblioentry">
+Papaioannou, Iason, Sebastian Geyer, and Daniel Straub. 2019. <span>“Improved Cross Entropy-Based Importance Sampling with a Flexible Mixture Model.”</span> <em>Reliability Engineering &amp; System Safety</em> 191 (November): 106564. <a href="https://doi.org/10.1016/j.ress.2019.106564">https://doi.org/10.1016/j.ress.2019.106564</a>.
+</div>
+<div id="ref-RubinsteinKroese_SimulationMonteCarlo_2017" class="csl-entry" role="doc-biblioentry">
+Rubinstein, Reuven Y., and Dirk P. Kroese. 2017. <em>Simulation and the <span>Monte Carlo</span> Method</em>. Third edition. Wiley Series in Probability and Statistics. <span>Hoboken, New Jersey</span>: <span>Wiley</span>. <a href="https://doi.org/10.1002/9781118631980">https://doi.org/10.1002/9781118631980</a>.
+</div>
+<div id="ref-RubinsteinKroese_CrossentropyMethodUnified_2011" class="csl-entry" role="doc-biblioentry">
+Rubinstein, Reuven Y, and Dirk P Kroese. 2011. <em>The Cross-Entropy Method: A Unified Approach to Combinatorial Optimization, <span>Monte</span>-<span>Carlo</span> Simulation and Machine Learning</em>. <span>New York; London</span>: <span>Springer</span>. <a href="https://doi.org/10.1007/978-1-4757-4321-0">https://doi.org/10.1007/978-1-4757-4321-0</a>.
+</div>
+<div id="ref-UribeEtAl_CrossentropybasedImportanceSampling_2020" class="csl-entry" role="doc-biblioentry">
+Uribe, Felipe, Iason Papaioannou, Youssef M. Marzouk, and Daniel Straub. 2021. <span>“Cross-Entropy-Based Importance Sampling with Failure-Informed Dimension Reduction for Rare Event Simulation.”</span> <em>SIAM/ASA Journal on Uncertainty Quantification</em> 9 (2): 818–47. <a href="https://doi.org/10.1137/20M1344585">https://doi.org/10.1137/20M1344585</a>.
+</div>
+</div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@article{elmasri2023,
+  author = {Maxime El Masri and Jérôme Morio and Florian Simatos},
+  title = {Optimal Projection for Parametric Importance Sampling in High
+    Dimension},
+  journal = {Computo},
+  date = {2023-01-15},
+  doi = {xxxx},
+  langid = {en},
+  abstract = {In this paper we propose a dimension-reduction strategy in
+    order to improve the performance of importance sampling in high
+    dimension. The idea is to estimate variance terms in a small number
+    of suitably chosen directions. We first prove that the optimal
+    directions, i.e., the ones that minimize the Kullback-\/-Leibler
+    divergence with the optimal auxiliary density, are the eigenvectors
+    associated to extreme (small or large) eigenvalues of the optimal
+    covariance matrix. We then perform extensive numerical experiments
+    that show that as dimension increases, these directions give
+    estimations which are very close to optimal. Moreover, we show that
+    the estimation remains accurate even when a simple empirical
+    estimator of the covariance matrix is used to estimate these
+    directions. These theoretical and numerical results open the way for
+    different generalizations, in particular the incorporation of such
+    ideas in adaptive importance sampling schemes.}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-elmasri2023" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
+Maxime El Masri, Jérôme Morio, and Florian Simatos. 2023. <span>“Optimal
+Projection for Parametric Importance Sampling in High Dimension.”</span>
+<em>Computo</em>, January. <a href="https://doi.org/xxxx">https://doi.org/xxxx</a>.
+</div></div></section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+    var links = window.document.querySelectorAll('a:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb3" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> Optimal projection for parametric importance sampling in high dimension</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Maxime El Masri</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation: '[ONERA/DTIS](https://www.onera.fr/), [ISAE-SUPAERO](https://www.isae-supaero.fr/), [Université de Toulouse](https://www.univ-toulouse.fr/)'</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">    orcid: 0000-0002-9127-4503</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Jérôme Morio</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">    url: 'https://www.onera.fr/en/staff/jerome-morio?destination=node/981'</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation: '[ONERA/DTIS](https://www.onera.fr/), [Université de Toulouse](https://www.univ-toulouse.fr/)'</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">    orcid: 0000-0002-8811-8956</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Florian Simatos</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">    url: 'https://pagespro.isae-supaero.fr/florian-simatos/'</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation: '[ISAE-SUPAERO](https://www.isae-supaero.fr/), [Université de Toulouse](https://www.univ-toulouse.fr/)'</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> last-modified</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> |</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">  This document provides a dimension-reduction strategy in order to improve the performance of importance sampling in high dimension.</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="an">abstract:</span><span class="co"> |</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co">  In this paper we propose a dimension-reduction strategy in order to improve the performance of importance sampling in high dimension. The idea is to estimate variance terms in a small number of suitably chosen directions. We first prove that the optimal directions, i.e., the ones that minimize the Kullback--Leibler divergence with the optimal auxiliary density, are the eigenvectors associated to extreme (small or large) eigenvalues of the optimal covariance matrix. We then perform extensive numerical experiments that show that as dimension increases, these directions give estimations which are very close to optimal. Moreover, we show that the estimation remains accurate even when a simple empirical estimator of the covariance matrix is used to estimate these directions. These theoretical and numerical results open the way for different generalizations, in particular the incorporation of such ideas in adaptive importance sampling schemes.</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="an">keywords:</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co">  - Importance sampling</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co">  - High dimension</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co">  - Gaussian covariance matrix</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co">  - Kullback-Leibler divergence</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="co">  - Projection</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="an">citation:</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="co">  type: article-journal</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="co">  container-title: Computo</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="co">  doi: xxxx</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> references.bib</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="an">github-user:</span><span class="co"> jmorio44</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="an">repo:</span><span class="co"> optimal-projection-IS</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="an">draft:</span><span class="co"> true</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="an">published:</span><span class="co"> false</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="co">  computo-html: default</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="co">  computo-pdf: default</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="an">jupyter:</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="co">  jupytext:</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="co">    text_representation:</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="co">      extension: .qmd</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="co">      format_name: quarto</span></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="co">      format_version: '1.0'</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="co">      jupytext_version: 1.14.2</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a><span class="co">  kernelspec:</span></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="co">    display_name: Python 3 (ipykernel)</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="co">    language: python</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a><span class="co">    name: python3</span></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy <span class="im">as</span> sp</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.stats</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a><span class="fu"># Introduction  </span></span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>Importance Sampling (IS) is a widely considered stochastic method to estimate integrals of the form $E = \int \phi f$ with a black-box function $\phi$ and a probability density function (pdf) $f$. It rests upon the choice of an auxiliary density which, when suitably chosen, can significantly improve the situation compared to the naive Monte Carlo (MC) method <span class="co">[</span><span class="ot">@AgapiouEtAl_ImportanceSamplingIntrinsic_2017</span><span class="co">]</span>, <span class="co">[</span><span class="ot">@OwenZhou_SafeEffectiveImportance_2000</span><span class="co">]</span>. The theoretical optimal IS density, also called zero-variance density, is defined by $\phi f / E$ when $\phi$ is a positive function. This density is not available in practice as it involves the unknown integral $E$, but a classical strategy consists in searching an optimal approximation in a parametric family of densities. By minimising a ''distance'' with the optimal IS density, such as the Kullback--Leibler divergence, one can find optimal parameters in this family to get an efficient sampling pdf. Adaptive Importance Sampling (AIS) algorithms, such as the Mixture Population Monte Carlo method <span class="co">[</span><span class="ot">@CappeEtAl_AdaptiveImportanceSampling_2008</span><span class="co">]</span>, the Adaptive Multiple Importance Sampling method <span class="co">[</span><span class="ot">@CornuetEtAl_AdaptiveMultipleImportance_2012</span><span class="co">]</span>, or the Cross Entropy method <span class="co">[</span><span class="ot">@RubinsteinKroese_CrossentropyMethodUnified_2011</span><span class="co">]</span>, estimate the optimal parameters adaptively by updating intermediate parameters <span class="co">[</span><span class="ot">@BugalloEtAl_AdaptiveImportanceSampling_2017</span><span class="co">]</span>.</span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>An intense research activity has made these techniques work very well, but only for moderate dimensions. In high dimension, most of these techniques actually fail to give efficient parameters for two reasons. The first one is the so-called weight degeneracy problem, which is that in high dimension, the weights appearing in the IS densities (which are self-normalized likelihood ratios) degenerate. More precisely, the largest weight takes all the mass, while all other weights are negligible so that the final estimation essentially uses only one sample, see for instance <span class="co">[</span><span class="ot">@BengtssonEtAl_CurseofdimensionalityRevisitedCollapse_2008</span><span class="co">]</span> for a theoretical analysis in the related context of particle filtering. But even without likelihood ratios, such techniques may fail if they need to estimate high-dimensional parameters such as covariance matrices, whose size increases quadratically in the dimension <span class="co">[</span><span class="ot">@AshurbekovaEtAl_OptimalShrinkageRobust_</span><span class="co">]</span>, <span class="co">[</span><span class="ot">@LedoitWolf_WellconditionedEstimatorLargedimensional_2004</span><span class="co">]</span>. The conditions under which importance sampling is applicable in high dimension are notably investigated in a reliability context in <span class="co">[</span><span class="ot">@AuBeck_ImportantSamplingHigh_2003</span><span class="co">]</span>: it is remarked that the optimal covariance matrix should not deviate significantly from the identity matrix. <span class="co">[</span><span class="ot">@El-LahamEtAl_RecursiveShrinkageCovariance_</span><span class="co">]</span> tackle the weight degeneracy problem by applying a recursive shrinkage of the covariance matrix, which is constructed iteratively with a weighted sum of the sample covariance estimator and a biased, but more stable, estimator. Concerning the second problem of having to estimate high-dimensional parameters, the idea was recently put forth to reduce the effective dimension by only estimating these parameters (in particular the covariance matrix) in suitable directions <span class="co">[</span><span class="ot">@MasriEtAl_ImprovementCrossentropyMethod_2020</span><span class="co">]</span>, <span class="co">[</span><span class="ot">@UribeEtAl_CrossentropybasedImportanceSampling_2020</span><span class="co">]</span>. In this paper we seek to delve deeper into this idea. The main contribution of the present paper is to identify the optimal directions in the fundamental case when the parametric family is Gaussian, and perform numerical simulations in order to understand how they behave in practice. In particular, we propose directions which, in contrast to the recent paper <span class="co">[</span><span class="ot">@UribeEtAl_CrossentropybasedImportanceSampling_2020</span><span class="co">]</span>, does not require the objective function to be differentiable, and moreover optimizes the Kullback--Leibler distance with the optimal density instead of simply an upper bound on it, as in <span class="co">[</span><span class="ot">@UribeEtAl_CrossentropybasedImportanceSampling_2020</span><span class="co">]</span>. In @sec-proj we elaborate in more details on the differences between the two approaches.</span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>The paper is organised as follows: in @sec-IS we recall the foundations of IS. In @sec-main-result, we state our main theoretical result and we compare it with the current state-of-the-art. @sec-proof presents the proof of our theoretical result; @sec-num-results-framework introduces the numerical framework that we have adopted, and @sec-test-cases presents the numerical results obtained on five different test cases to assess the efficiency of the directions that we propose. We conclude in @sec-Ccl with a summary and research perspectives. </span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a><span class="fu"># Importance Sampling {#sec-IS}</span></span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>We consider the problem of estimating the following integral:</span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>    $$</span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>    E=\mathbb{E}_f(\phi(\mathbf{X}))=\int \phi(\mathbf{x})f(\mathbf{x})\textrm{d} \mathbf{x},</span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>    $$</span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>where $\mathbf{X}$ is a random vector in $\mathbb{R}^n$ with Gaussian standard pdf $f$, and $\phi: \mathbb{R}^n\rightarrow\mathbb{R}_+$ is a real-valued, non-negative function. If one were to relax this Gaussian standard assumption, one would need to look for covariance matrices in a different auxiliary set. The function $\phi$ is considered as a black-box function which is potentially expensive to evaluate, which means the number of calls to $\phi$ should be limited.</span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>IS is a widely considered approach to reduce the variance of the classical Monte Carlo estimator of $E$. The idea of IS is to generate a random sample $\mathbf{X}_1,\ldots,\mathbf{X}_N$ from an auxiliary density $g$, instead of $f$, and to compute the following estimator: </span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>    $$</span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>    \widehat{E}_N=\frac{1}{N}\sum_{i=1}^N \phi(\mathbf{X}_i)L(\mathbf{X}_i),</span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>    $$ {#eq-hatE}</span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>    with $L=f/g$ the likelihood ratio, or importance weight, and the density $g$, called importance sampling density, is such that $g(\mathbf{x})=0$ implies $\phi(\mathbf{x}) f(\mathbf{x})=0$ for every $\mathbf{x}$ (which makes the product $\phi L$ well-defined). This estimator is consistent and unbiased but its accuracy strongly depends on the choice of the auxiliary density $g$. It is well known that the optimal choice for $g$ is <span class="co">[</span><span class="ot">@bucklew2013introduction</span><span class="co">]</span></span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>    $$</span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>    g^*(\mathbf{x})=\dfrac{\phi(\mathbf{x})f(\mathbf{x})}{E}, \ \mathbf{x}\in\mathbb{R}^n.</span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>    $$</span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a>Indeed, for this choice we have $\phi L = E$ and so $\widehat E_N$ is actually the deterministic estimator $E$. For this reason, $g^*$ is sometimes called zero-variance density, a terminology that we will adopt here. Of course, $g^*$ is only of theoretical interest as it depends on the unknown integral $E$. However, it gives an idea of good choices for the auxiliary density $g$, and we will seek to approximate $g^*$ by an auxiliary density that minimizes a distance between $g^*$ and a given parametric family of densities.</span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a>In this paper, the parametric family of densities is the Gaussian family $<span class="sc">\{</span>g_{\mathbf{m}, \Sigma}: \mathbf{m} \in \mathbb{R}^n, \Sigma \in \mathcal{S}^+_n\}$, where $g_{\mathbf{m}, \Sigma}$ denotes the Gaussian density with mean $\mathbf{m} \in \mathbb{R}^n$ and covariance matrix $\Sigma \in \mathcal{S}^+_n$ with $\mathcal{S}^+_n \subset \mathbb{R}^{n \times n}$ the set of symmetric, positive-definite matrices:</span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>    $$</span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a>    g_{\mathbf{m},\Sigma}(\mathbf{x})=\dfrac{1}{ (2\pi)^{n/2} \lvert \Sigma \rvert^{1/2}} \exp\left(-\frac{1}{2}(\mathbf{x}-\mathbf{m})^\top\Sigma^{-1}(\mathbf{x}-\mathbf{m})\right), \ \mathbf{x} \in \mathbb{R}^n.</span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a>    $$</span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a>with $\lvert \Sigma \rvert$ the determinant of $\Sigma$. Moreover, we will consider the Kullback--Leibler (KL) divergence to measure a ''distance'' between $g^*$ and  $g_{\mathbf{m}, \Sigma}$. Recall that for two densities $f$ and $h$, with $f$ absolutely continuous with respect to $h$, the KL divergence $D(f,h)$ between $f$ and $h$ is defined by: </span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a>    $$</span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>    D(f,h)=\mathbb{E}_{f}\left<span class="co">[</span><span class="ot">\log \left( \frac{f(\mathbf{X})}{h(\mathbf{X})} \right) \right</span><span class="co">]</span> = \int \log \left( \frac{f(\mathbf{x})}{h(\mathbf{x})} \right)f(\mathbf{x}) \textrm{d} \mathbf{x}.</span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a>    $$</span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a>Thus, our goal is to approximate $g^*$ by $g_{\mathbf{m}^*, \Sigma^*}$ with the optimal mean vector $\mathbf{m}^*$ and the optimal covariance matrix $\Sigma^*$ given by:</span>
+<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a>    $$</span>
+<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a>    (\mathbf{m}^*,\Sigma^*) = \arg\min \left\{ D(g^*,g_{\mathbf{m},\Sigma}): \mathbf{m} \in \mathbb{R}^n, \Sigma \in \mathcal{S}_n^+ \right<span class="sc">\}</span>.</span>
+<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a>    $$ {#eq-argminDkl}</span>
+<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a>In the Gaussian case of the present setting, it is well-known that $\mathbf{m}^*$ and $\Sigma^*$ are simply the mean and variance of the zero-variance density <span class="co">[</span><span class="ot">@RubinsteinKroese_CrossentropyMethodUnified_2011</span><span class="co">]</span>, <span class="co">[</span><span class="ot">@RubinsteinKroese_SimulationMonteCarlo_2017</span><span class="co">]</span>:</span>
+<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a>    $$</span>
+<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a>    \mathbf{m}^*=\mathbb{E}_{g^*}(\mathbf{X}) \hspace{0.5cm} \text{ and } \hspace{0.5cm} \Sigma^* = \textrm{Var}_{g^*} \left(\mathbf{X}\right).</span>
+<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a>    $$ {#eq-mstar}</span>
+<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a><span class="fu"># Main result and positioning of the paper {#sec-main-result} </span></span>
+<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a><span class="fu">## Projecting on a low dimensional subspace {#sec-proj} </span></span>
+<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a>As $g^*$ is unknown (although, as will be considered below, we can in principle sample from it since it is known up to a multiplicative constant), the optimal parameters $\mathbf{m}^*$ and $\Sigma^*$ given by @eq-mstar are not directly computable. Therefore, usual estimation schemes start with estimating $\mathbf{m}^*$ and $\Sigma^*$, say through $\widehat{\mathbf{m}}^*$ and $\widehat{\Sigma}^*$, respectively, and then use these approximations to estimate $E$ through @eq-hatE with the auxiliary density $g_{\widehat{\mathbf{m}}^*, \widehat{\Sigma}^*}$. Although the estimation of $E$ with the auxiliary density $g_{\mathbf{m}^*, \Sigma^*}$ usually provides very good results, it is well-known that in high dimension, the additional error induced by the estimations of $\mathbf{m}^*$ and $\Sigma^*$ severely degrades the accuracy of the final estimation [@PapaioannouEtAl_ImprovedCrossEntropybased_2019], [@UribeEtAl_CrossentropybasedImportanceSampling_2020]. The main problem lies in the estimation of $\Sigma^*$ which, in dimension $n$, involves the estimation of a quadratic (in the dimension) number of terms, namely $n(n+1)/2$.</span>
+<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a>Recently, the idea to overcome this problem by only evaluating variance terms in a small number of influential directions was explored in <span class="co">[</span><span class="ot">@MasriEtAl_ImprovementCrossentropyMethod_2020</span><span class="co">]</span> and <span class="co">[</span><span class="ot">@UribeEtAl_CrossentropybasedImportanceSampling_2020</span><span class="co">]</span>. In these two papers, the auxiliary covariance matrix $\Sigma$ is modeled in the form</span>
+<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a>    $$</span>
+<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a>    \Sigma = \sum_{i=1}^k (v_i-1) \mathbf{d}_i \mathbf{d}_i^\top + I_n</span>
+<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a>    $$ {#eq-Sigmak}</span>
+<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a>where the $\mathbf{d}_i$'s are the $k$ orthonormal directions which are deemed influential. It is easy to check that $\Sigma$ is the covariance matrix of the Gaussian vector</span>
+<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a>    $$ v^{1/2}_1 Y_1 \mathbf{d}_1 + \cdots + v^{1/2}_k Y_k \mathbf{d}_k + Y_{k+1} \mathbf{d}_{k+1} + \cdots + Y_n \mathbf{d}_n $$</span>
+<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a>where the $Y_i$'s are i.i.d. standard normal random variables (one-dimensional), and the $n-k$ vectors $(\mathbf{d}_{k+1}, \ldots, \mathbf{d}_n)$ complete $(\mathbf{d}_1, \ldots, \mathbf{d}_k)$ into an orthonormal basis. In particular, $v_i$ is the variance in the direction of $\mathbf{d}_i$, i.e., $v_i = \mathbf{d}_i^\top \Sigma \mathbf{d}_i$. In @eq-Sigmak, $k$ can be considered as the effective dimension in which variance terms are estimated. In other words, in [@MasriEtAl_ImprovementCrossentropyMethod_2020] and [@UribeEtAl_CrossentropybasedImportanceSampling_2020], the optimal variance parameter is not sought in $\mathcal{S}^+_n$ as in @eq-argminDkl}, but rather in the subset of matrices of the form</span>
+<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a>    $$ \mathcal{L}_{n,k} = \left\{ \sum_{i=1}^k (\alpha_i-1) \frac{\mathbf{d}_i \mathbf{d}_i^\top}{\lVert \mathbf{d}_i \rVert^2} + I_n: \alpha_1, \ldots, \alpha_k &gt;0 \ \text{ and the $\mathbf{d}_i$'s are orthogonal} \right<span class="sc">\}</span>. $$</span>
+<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a>The relevant minimization problem thus becomes</span>
+<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a>    $$ </span>
+<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a>    (\mathbf{m}^*_k, \Sigma^*_k) = \arg\min \left\{ D(g^*,g_{\mathbf{m},\Sigma}): \mathbf{m} \in \mathbb{R}^n, \ \Sigma \in \mathcal{L}_{n,k} \right<span class="sc">\}</span></span>
+<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a>    $$ {#eq-argminDkl-k}</span>
+<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a>instead of @eq-argminDkl, with the effective dimension $k$ being allowed to be adjusted dynamically. By restricting the space in which the variance is looked up, one seeks to limit the number of variance terms to be estimated. The idea is that if the directions are suitably chosen, then the improvement of the accuracy due to the smaller error in estimating the variance terms will compensate the fact that we consider less candidates for the covariance matrix.</span>
+<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a>In <span class="co">[</span><span class="ot">@MasriEtAl_ImprovementCrossentropyMethod_2020</span><span class="co">]</span>, the authors consider $k = 1$ and $\mathbf{d}_1 = \mathbf{m}^* / \lVert \mathbf{m}^* \rVert$. When $f$ is Gaussian, this choice is motivated by the fact that, due to the light tail of the Gaussian random variable and the reliability context, the variance should vary significantly in the direction of $\mathbf{m}^*$ and so estimating the variance in this direction can bring information. (In @sec-mm, we actually use the techniques of the present paper to provide a stronger theoretical justification of this choice, see @thm-thm2 and the discussion following it). The method in [@UribeEtAl_CrossentropybasedImportanceSampling_2020] is more involved: $k$ is adjusted dynamically, while the directions $\mathbf{d}_i$ are the eigenvectors associated to the largest eigenvalues of a certain matrix. They span a low-dimensional subspace called Failure-Informed Subspace, and the authors in [@UribeEtAl_CrossentropybasedImportanceSampling_2020] prove that this choice minimizes an upper bound on the minimal KL divergence. In practice, this algorithm yields very accurate results. However, we will not consider it further in the present paper for two reasons. First, this algorithm is tailored for the reliability case where $\phi = \mathbb{I}_{<span class="sc">\{</span>\varphi \geq 0<span class="sc">\}</span>}$, with a function $\varphi: \mathbb{R}^n \to \mathbb{R}$, whereas our method is more general and applies to the general problem of estimating an integral (see for instance our test case of @sec-sub:payoff). Second, the algorithm in <span class="co">[</span><span class="ot">@UribeEtAl_CrossentropybasedImportanceSampling_2020</span><span class="co">]</span> requires the evaluation of the gradient of the function $\varphi$. However, this gradient is not always known and can be expensive to evaluate in high dimension; in some cases, the function $\varphi$ is even not differentiable, as will be the case in our numerical example in @sec-sub:portfolio. </span>
+<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a>In contrast, our method makes no assumption on the form or smoothness of $\phi$: it does not need to assume that it is of the form $\mathbb{I}_{<span class="sc">\{</span>\varphi \geq 0<span class="sc">\}</span>}$, or to assume that $\nabla \varphi$ is tractable. For completeness, whenever  the algorithm of <span class="co">[</span><span class="ot">@UribeEtAl_CrossentropybasedImportanceSampling_2020</span><span class="co">]</span> was applicable and computing the gradient of $\varphi$ did not require any additional simulation budget, we have run it on the test cases considered here and found that it outperformed our algorithm. In more realistic settings, computing $\nabla \varphi$ would likely increase the simulation budget, and it would be interesting to compare the two algorithms in more details to understand when this extra computation cost is worthwhile. We reserve such a question for future research and will not consider the algorithm of <span class="co">[</span><span class="ot">@UribeEtAl_CrossentropybasedImportanceSampling_2020</span><span class="co">]</span> further, as our aim in this paper is to establish benchmark results for a general algorithm which works for any function $\phi$. </span>
+<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a><span class="fu">## Main result of the paper {#sec-main-result-positioning} </span></span>
+<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a>The main result of the present paper is to actually compute the exact value for $\Sigma^*_k$ in @eq-argminDkl-k, which therefore paves the way for efficient high-dimensional estimation schemes. The statement of our result involves the following function $\ell$, which is represented in @fig-l:</span>
+<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a>    $$</span>
+<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a>    \ell: x \in (0,\infty) \mapsto -\log(x) + x - 1.</span>
+<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a>    $$ {#eq-l}</span>
+<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a>In the following, $(\lambda, \mathbf{d}) \in \mathbb{R} \times \mathbb{R}^n$ is an eigenpair of a matrix $A$ if $A\mathbf{d} = \lambda \mathbf{d}$ and $\lVert \mathbf{d} \rVert = 1$. A diagonalizable matrix has $n$ distinct eigenpairs, say $((\lambda^*_i, \mathbf{d}^*_i), i = 1, \ldots, n)$, and we say that these eigenpairs are ranked in decreasing $\ell$-order if $\ell(\lambda^*_1) \geq \cdots \geq \ell(\lambda^*_n)$.</span>
+<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-133"><a href="#cb3-133" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb3-134"><a href="#cb3-134" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-l</span></span>
+<span id="cb3-135"><a href="#cb3-135" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: Plot of the function $\ell=-\log(x) + x - 1$ given by @eq-l</span></span>
+<span id="cb3-136"><a href="#cb3-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-137"><a href="#cb3-137" aria-hidden="true" tabindex="-1"></a><span class="co">###############################################################################################################################</span></span>
+<span id="cb3-138"><a href="#cb3-138" aria-hidden="true" tabindex="-1"></a><span class="co"># Figure 1. Plot of the function "l"</span></span>
+<span id="cb3-139"><a href="#cb3-139" aria-hidden="true" tabindex="-1"></a><span class="co">###############################################################################################################################</span></span>
+<span id="cb3-140"><a href="#cb3-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-141"><a href="#cb3-141" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(np.finfo(<span class="bu">float</span>).eps,<span class="fl">4.0</span>,<span class="dv">100</span>)</span>
+<span id="cb3-142"><a href="#cb3-142" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="op">-</span>np.log(x) <span class="op">+</span> x <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb3-143"><a href="#cb3-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-144"><a href="#cb3-144" aria-hidden="true" tabindex="-1"></a><span class="co"># plot</span></span>
+<span id="cb3-145"><a href="#cb3-145" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb3-146"><a href="#cb3-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-147"><a href="#cb3-147" aria-hidden="true" tabindex="-1"></a>ax.plot(x, y, linewidth<span class="op">=</span><span class="fl">2.0</span>)</span>
+<span id="cb3-148"><a href="#cb3-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-149"><a href="#cb3-149" aria-hidden="true" tabindex="-1"></a>ax.<span class="bu">set</span>(xlim<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">4</span>), xticks<span class="op">=</span>[<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>],</span>
+<span id="cb3-150"><a href="#cb3-150" aria-hidden="true" tabindex="-1"></a>       ylim<span class="op">=</span>(<span class="dv">0</span>, <span class="fl">0.5</span>), yticks<span class="op">=</span>[<span class="dv">0</span>,<span class="fl">0.5</span>,<span class="dv">1</span>,<span class="fl">1.5</span>])</span>
+<span id="cb3-151"><a href="#cb3-151" aria-hidden="true" tabindex="-1"></a>plt.grid()</span>
+<span id="cb3-152"><a href="#cb3-152" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="vs">r"$x$"</span>,fontsize<span class="op">=</span><span class="dv">16</span>)</span>
+<span id="cb3-153"><a href="#cb3-153" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="vs">r"$\ell(x)$"</span>,fontsize<span class="op">=</span><span class="dv">16</span>)</span>
+<span id="cb3-154"><a href="#cb3-154" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> tickLabel <span class="kw">in</span> plt.gca().get_xticklabels() <span class="op">+</span> plt.gca().get_yticklabels():</span>
+<span id="cb3-155"><a href="#cb3-155" aria-hidden="true" tabindex="-1"></a>    tickLabel.set_fontsize(<span class="dv">16</span>)</span>
+<span id="cb3-156"><a href="#cb3-156" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb3-157"><a href="#cb3-157" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>

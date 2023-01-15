@@ -1,239 +1,153 @@
 ---
-title: "Template for contribution to Computo"
-subtitle: "Example based on the quarto system"
+title: Optimal projection for parametric importance sampling in high dimension
 author:
-  - name: "The Computo team"
-    corresponding: true
-    email: computo@sfds.asso.fr
-    url: https://computo.sfds.asso.fr
-    orcid: 0000-0000-0000-0000
-    affiliations:
-      - name: Société Française de Statistique
-        department: Statistique
-        address: IHP
-        city: Paris
-        country: France
-        postal-code: 75005
-        url: https://www.sfds.asso.fr/
+  - name: Maxime El Masri
+    affiliation: '[ONERA/DTIS](https://www.onera.fr/), [ISAE-SUPAERO](https://www.isae-supaero.fr/), [Université de Toulouse](https://www.univ-toulouse.fr/)'
+    orcid: 0000-0002-9127-4503
+  - name: Jérôme Morio
+    url: 'https://www.onera.fr/en/staff/jerome-morio?destination=node/981'
+    affiliation: '[ONERA/DTIS](https://www.onera.fr/), [Université de Toulouse](https://www.univ-toulouse.fr/)'
+    orcid: 0000-0002-8811-8956
+  - name: Florian Simatos
+    url: 'https://pagespro.isae-supaero.fr/florian-simatos/'
+    affiliation: '[ISAE-SUPAERO](https://www.isae-supaero.fr/), [Université de Toulouse](https://www.univ-toulouse.fr/)'
 date: last-modified
 description: |
-  This document provides a template based on the quarto system for contributions to Computo, using the jounral extension and the knitr kernel (R user).
-abstract: >+
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur posuere vestibulum facilisis. Aenean pretium orci augue, quis lobortis libero accumsan eu. Nam mollis lorem sit amet pellentesque ullamcorper. Curabitur lobortis libero eget malesuada vestibulum. Nam nec nibh massa. Pellentesque porttitor cursus tellus. Mauris urna erat, rhoncus sed faucibus sit amet, venenatis eu ipsum.
-keywords: [key1, key2, key3]
+  This document provides a dimension-reduction strategy in order to improve the performance of importance sampling in high dimension.
+abstract: |
+  In this paper we propose a dimension-reduction strategy in order to improve the performance of importance sampling in high dimension. The idea is to estimate variance terms in a small number of suitably chosen directions. We first prove that the optimal directions, i.e., the ones that minimize the Kullback--Leibler divergence with the optimal auxiliary density, are the eigenvectors associated to extreme (small or large) eigenvalues of the optimal covariance matrix. We then perform extensive numerical experiments that show that as dimension increases, these directions give estimations which are very close to optimal. Moreover, we show that the estimation remains accurate even when a simple empirical estimator of the covariance matrix is used to estimate these directions. These theoretical and numerical results open the way for different generalizations, in particular the incorporation of such ideas in adaptive importance sampling schemes.
+keywords:
+  - Importance sampling
+  - High dimension
+  - Gaussian covariance matrix
+  - Kullback-Leibler divergence
+  - Projection
 citation:
   type: article-journal
-  container-title: "Computo"
-  doi: "xxxx"
-  url: https://computo.sfds.asso.fr/template-computo-quarto
+  container-title: Computo
+  doi: xxxx
 bibliography: references.bib
-github-user: computorg
-repo: "template-computo-quarto"
-draft: true # set to false once the build is running
-published: false # will be set to true once accepted
+github-user: jmorio44
+repo: optimal-projection-IS
+draft: true
+published: false
 format:
   computo-html: default
   computo-pdf: default
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .qmd
+      format_name: quarto
+      format_version: '1.0'
+      jupytext_version: 1.14.2
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
 ---
 
-# Introduction
-
-## About this document
-
-This document provides a template based on the [quarto system](https://quarto.org/) for contributions to **Computo** @computo. We show how `Python` [@perez2011python] or  `R` [@R-base] code can be included.
-
-## Advice for writting your manuscript
-
-First make sure that you are able to build your manuscript as a regular notebook on your system. Then you can start configure the binder environment.
-
-# Formatting
-
-This section covers basic formatting guidelines. [Quarto](https://quarto.org/) is a versatile  formatting system for authoring HTML based on markdown, integrating LaTeX and various code block interpreted either via Jupyter or Knitr (and thus deal with Python, R and many other langages). It relies on the [Pandoc Markdown](https://rmarkdown.rstudio.com/authoring_pandoc_markdown.html) markup language.
-
-To render/compile a document, run `quarto render`. A document will be generated that includes both content as well as the output of any embedded code chunks within the document:
-
-``` .bash
-quarto render content.qmd # will render to html
-```
-
-## Basic markdown formatting
-
-**Bold text** or _italic_
-
-- This is a list
-- With more elements
-- It isn't numbered.
-
-But we can also do a numbered list
-
-1. This is my first item
-2. This is my second item
-3. This is my third item
-
-## Mathematics
-
-### Mathematical formulae
-
-[LaTeX](https://www.latex-project.org/) code is natively supported[^katex], which makes it possible to use mathematical formulae:
-
-[^katex]: We use [katex](https://katex.org/) for this purpose.
-
-will render
-
-$$
-f(x_1, \dots, x_n; \mu, \sigma^2) =
-\frac{1}{\sigma \sqrt{2\pi}} \exp{\left(- \frac{1}{2\sigma^2}\sum_{i=1}^n(x_i - \mu)^2\right)}
-$$
-
-It is also posible to cross-reference an equation, see @eq-mylabel:
-
-$$
-\begin{aligned}
-D_{x_N} & = \frac12
-\left[\begin{array}{cc}
-x_L^\top & x_N^\top \end{array}\right] \,
-\left[\begin{array}{cc}  L_L & B \\ B^\top & L_N \end{array}\right] \,
-\left[\begin{array}{c}
-x_L \\ x_N \end{array}\right] \\
-& = \frac12 (x_L^\top L_L x_L + 2 x_N^\top B^\top x_L + x_N^\top L_N x_N),
-\end{aligned}
-$$ {#eq-mylabel}
-
-### Theorems and other amsthem-like environments
-
-Quarto includes a nice support for theorems, with predefined prefix labels for theorems, lemmas, proposition, etc. see [this page](https://quarto.org/docs/authoring/cross-references.html#theorems-and-proofs). Here is a simple example:
-
-::: {#thm-slln}
-## Strong law of large numbers
-
-The sample average converges almost surely to the expected value:
-
-$$\overline{X}_n\ \xrightarrow{\text{a.s.}}\ \mu \qquad\textrm{when}\ n \to \infty.$$
-:::
-
-See @thm-slln.
-
-## Code
-
-Quarto uses either Jupyter or knitr to render code chunks. This can be triggered in the yaml header, e.g., for Jupyter (should be installed on your computer) use
-
-``` yaml
----
-title: "My Document"
-author "Jane Doe"
-jupyter: python3
----
-```
-
-For knitr (R + knitr must be installed on your computer)
-
-``` yaml
----
-title: "My Document"
-author "Jane Doe"
----
-```
-
-You can use Jupyter for Python code and more. And R + KnitR for if you want to mix R with Python (via the package reticulate @R-reticulate).
-
-### R
-
-`R` code [@R-base] chunks may be embedded as follows:
-
-```{r r-code, echo=TRUE}
-x <- rnorm(10)
-```
-
-
-### Python
-
-``` yaml
----
-title: "My Document"
-author "Jane Doe"
-jupyter: python3
----
-```
-
-```{python, eval = FALSE}
-import matplotlib.pyplot as plt
+```{python}
 import numpy as np
+import scipy as sp
+import scipy.stats
+import matplotlib.pyplot as plt
+```
 
+# Introduction	
+
+Importance Sampling (IS) is a widely considered stochastic method to estimate integrals of the form $E = \int \phi f$ with a black-box function $\phi$ and a probability density function (pdf) $f$. It rests upon the choice of an auxiliary density which, when suitably chosen, can significantly improve the situation compared to the naive Monte Carlo (MC) method [@AgapiouEtAl_ImportanceSamplingIntrinsic_2017], [@OwenZhou_SafeEffectiveImportance_2000]. The theoretical optimal IS density, also called zero-variance density, is defined by $\phi f / E$ when $\phi$ is a positive function. This density is not available in practice as it involves the unknown integral $E$, but a classical strategy consists in searching an optimal approximation in a parametric family of densities. By minimising a ''distance'' with the optimal IS density, such as the Kullback--Leibler divergence, one can find optimal parameters in this family to get an efficient sampling pdf. Adaptive Importance Sampling (AIS) algorithms, such as the Mixture Population Monte Carlo method [@CappeEtAl_AdaptiveImportanceSampling_2008], the Adaptive Multiple Importance Sampling method [@CornuetEtAl_AdaptiveMultipleImportance_2012], or the Cross Entropy method [@RubinsteinKroese_CrossentropyMethodUnified_2011], estimate the optimal parameters adaptively by updating intermediate parameters [@BugalloEtAl_AdaptiveImportanceSampling_2017].
+
+An intense research activity has made these techniques work very well, but only for moderate dimensions. In high dimension, most of these techniques actually fail to give efficient parameters for two reasons. The first one is the so-called weight degeneracy problem, which is that in high dimension, the weights appearing in the IS densities (which are self-normalized likelihood ratios) degenerate. More precisely, the largest weight takes all the mass, while all other weights are negligible so that the final estimation essentially uses only one sample, see for instance [@BengtssonEtAl_CurseofdimensionalityRevisitedCollapse_2008] for a theoretical analysis in the related context of particle filtering. But even without likelihood ratios, such techniques may fail if they need to estimate high-dimensional parameters such as covariance matrices, whose size increases quadratically in the dimension [@AshurbekovaEtAl_OptimalShrinkageRobust_], [@LedoitWolf_WellconditionedEstimatorLargedimensional_2004]. The conditions under which importance sampling is applicable in high dimension are notably investigated in a reliability context in [@AuBeck_ImportantSamplingHigh_2003]: it is remarked that the optimal covariance matrix should not deviate significantly from the identity matrix. [@El-LahamEtAl_RecursiveShrinkageCovariance_] tackle the weight degeneracy problem by applying a recursive shrinkage of the covariance matrix, which is constructed iteratively with a weighted sum of the sample covariance estimator and a biased, but more stable, estimator. Concerning the second problem of having to estimate high-dimensional parameters, the idea was recently put forth to reduce the effective dimension by only estimating these parameters (in particular the covariance matrix) in suitable directions [@MasriEtAl_ImprovementCrossentropyMethod_2020], [@UribeEtAl_CrossentropybasedImportanceSampling_2020]. In this paper we seek to delve deeper into this idea. The main contribution of the present paper is to identify the optimal directions in the fundamental case when the parametric family is Gaussian, and perform numerical simulations in order to understand how they behave in practice. In particular, we propose directions which, in contrast to the recent paper [@UribeEtAl_CrossentropybasedImportanceSampling_2020], does not require the objective function to be differentiable, and moreover optimizes the Kullback--Leibler distance with the optimal density instead of simply an upper bound on it, as in [@UribeEtAl_CrossentropybasedImportanceSampling_2020]. In @sec-proj we elaborate in more details on the differences between the two approaches.
+
+The paper is organised as follows: in @sec-IS we recall the foundations of IS. In @sec-main-result, we state our main theoretical result and we compare it with the current state-of-the-art. @sec-proof presents the proof of our theoretical result; @sec-num-results-framework introduces the numerical framework that we have adopted, and @sec-test-cases presents the numerical results obtained on five different test cases to assess the efficiency of the directions that we propose. We conclude in @sec-Ccl with a summary and research perspectives. 
+
+# Importance Sampling {#sec-IS}
+We consider the problem of estimating the following integral:
+	$$
+	E=\mathbb{E}_f(\phi(\mathbf{X}))=\int \phi(\mathbf{x})f(\mathbf{x})\textrm{d} \mathbf{x},
+	$$
+where $\mathbf{X}$ is a random vector in $\mathbb{R}^n$ with Gaussian standard pdf $f$, and $\phi: \mathbb{R}^n\rightarrow\mathbb{R}_+$ is a real-valued, non-negative function. If one were to relax this Gaussian standard assumption, one would need to look for covariance matrices in a different auxiliary set. The function $\phi$ is considered as a black-box function which is potentially expensive to evaluate, which means the number of calls to $\phi$ should be limited.
+
+IS is a widely considered approach to reduce the variance of the classical Monte Carlo estimator of $E$. The idea of IS is to generate a random sample $\mathbf{X}_1,\ldots,\mathbf{X}_N$ from an auxiliary density $g$, instead of $f$, and to compute the following estimator: 
+	$$
+	\widehat{E}_N=\frac{1}{N}\sum_{i=1}^N \phi(\mathbf{X}_i)L(\mathbf{X}_i),
+	$$ {#eq-hatE}
+	with $L=f/g$ the likelihood ratio, or importance weight, and the density $g$, called importance sampling density, is such that $g(\mathbf{x})=0$ implies $\phi(\mathbf{x}) f(\mathbf{x})=0$ for every $\mathbf{x}$ (which makes the product $\phi L$ well-defined). This estimator is consistent and unbiased but its accuracy strongly depends on the choice of the auxiliary density $g$. It is well known that the optimal choice for $g$ is [@bucklew2013introduction]
+	$$
+	g^*(\mathbf{x})=\dfrac{\phi(\mathbf{x})f(\mathbf{x})}{E}, \ \mathbf{x}\in\mathbb{R}^n.
+	$$
+Indeed, for this choice we have $\phi L = E$ and so $\widehat E_N$ is actually the deterministic estimator $E$. For this reason, $g^*$ is sometimes called zero-variance density, a terminology that we will adopt here. Of course, $g^*$ is only of theoretical interest as it depends on the unknown integral $E$. However, it gives an idea of good choices for the auxiliary density $g$, and we will seek to approximate $g^*$ by an auxiliary density that minimizes a distance between $g^*$ and a given parametric family of densities.
+	
+In this paper, the parametric family of densities is the Gaussian family $\{g_{\mathbf{m}, \Sigma}: \mathbf{m} \in \mathbb{R}^n, \Sigma \in \mathcal{S}^+_n\}$, where $g_{\mathbf{m}, \Sigma}$ denotes the Gaussian density with mean $\mathbf{m} \in \mathbb{R}^n$ and covariance matrix $\Sigma \in \mathcal{S}^+_n$ with $\mathcal{S}^+_n \subset \mathbb{R}^{n \times n}$ the set of symmetric, positive-definite matrices:
+	$$
+	g_{\mathbf{m},\Sigma}(\mathbf{x})=\dfrac{1}{ (2\pi)^{n/2} \lvert \Sigma \rvert^{1/2}} \exp\left(-\frac{1}{2}(\mathbf{x}-\mathbf{m})^\top\Sigma^{-1}(\mathbf{x}-\mathbf{m})\right), \ \mathbf{x} \in \mathbb{R}^n.
+	$$
+with $\lvert \Sigma \rvert$ the determinant of $\Sigma$. Moreover, we will consider the Kullback--Leibler (KL) divergence to measure a ''distance'' between $g^*$ and  $g_{\mathbf{m}, \Sigma}$. Recall that for two densities $f$ and $h$, with $f$ absolutely continuous with respect to $h$, the KL divergence $D(f,h)$ between $f$ and $h$ is defined by: 
+	$$
+	D(f,h)=\mathbb{E}_{f}\left[\log \left( \frac{f(\mathbf{X})}{h(\mathbf{X})} \right) \right] = \int \log \left( \frac{f(\mathbf{x})}{h(\mathbf{x})} \right)f(\mathbf{x}) \textrm{d} \mathbf{x}.
+	$$
+Thus, our goal is to approximate $g^*$ by $g_{\mathbf{m}^*, \Sigma^*}$ with the optimal mean vector $\mathbf{m}^*$ and the optimal covariance matrix $\Sigma^*$ given by:
+	$$
+	(\mathbf{m}^*,\Sigma^*) = \arg\min \left\{ D(g^*,g_{\mathbf{m},\Sigma}): \mathbf{m} \in \mathbb{R}^n, \Sigma \in \mathcal{S}_n^+ \right\}.
+	$$ {#eq-argminDkl}
+In the Gaussian case of the present setting, it is well-known that $\mathbf{m}^*$ and $\Sigma^*$ are simply the mean and variance of the zero-variance density [@RubinsteinKroese_CrossentropyMethodUnified_2011], [@RubinsteinKroese_SimulationMonteCarlo_2017]:
+	$$
+	\mathbf{m}^*=\mathbb{E}_{g^*}(\mathbf{X}) \hspace{0.5cm} \text{ and } \hspace{0.5cm} \Sigma^* = \textrm{Var}_{g^*} \left(\mathbf{X}\right).
+	$$ {#eq-mstar}
+
+
+
+# Main result and positioning of the paper {#sec-main-result} 
+	
+## Projecting on a low dimensional subspace {#sec-proj} 
+	
+As $g^*$ is unknown (although, as will be considered below, we can in principle sample from it since it is known up to a multiplicative constant), the optimal parameters $\mathbf{m}^*$ and $\Sigma^*$ given by @eq-mstar are not directly computable. Therefore, usual estimation schemes start with estimating $\mathbf{m}^*$ and $\Sigma^*$, say through $\widehat{\mathbf{m}}^*$ and $\widehat{\Sigma}^*$, respectively, and then use these approximations to estimate $E$ through @eq-hatE with the auxiliary density $g_{\widehat{\mathbf{m}}^*, \widehat{\Sigma}^*}$. Although the estimation of $E$ with the auxiliary density $g_{\mathbf{m}^*, \Sigma^*}$ usually provides very good results, it is well-known that in high dimension, the additional error induced by the estimations of $\mathbf{m}^*$ and $\Sigma^*$ severely degrades the accuracy of the final estimation [@PapaioannouEtAl_ImprovedCrossEntropybased_2019], [@UribeEtAl_CrossentropybasedImportanceSampling_2020]. The main problem lies in the estimation of $\Sigma^*$ which, in dimension $n$, involves the estimation of a quadratic (in the dimension) number of terms, namely $n(n+1)/2$.
+Recently, the idea to overcome this problem by only evaluating variance terms in a small number of influential directions was explored in [@MasriEtAl_ImprovementCrossentropyMethod_2020] and [@UribeEtAl_CrossentropybasedImportanceSampling_2020]. In these two papers, the auxiliary covariance matrix $\Sigma$ is modeled in the form
+	$$
+	\Sigma = \sum_{i=1}^k (v_i-1) \mathbf{d}_i \mathbf{d}_i^\top + I_n
+	$$ {#eq-Sigmak}
+where the $\mathbf{d}_i$'s are the $k$ orthonormal directions which are deemed influential. It is easy to check that $\Sigma$ is the covariance matrix of the Gaussian vector
+	$$ v^{1/2}_1 Y_1 \mathbf{d}_1 + \cdots + v^{1/2}_k Y_k \mathbf{d}_k + Y_{k+1} \mathbf{d}_{k+1} + \cdots + Y_n \mathbf{d}_n $$
+where the $Y_i$'s are i.i.d. standard normal random variables (one-dimensional), and the $n-k$ vectors $(\mathbf{d}_{k+1}, \ldots, \mathbf{d}_n)$ complete $(\mathbf{d}_1, \ldots, \mathbf{d}_k)$ into an orthonormal basis. In particular, $v_i$ is the variance in the direction of $\mathbf{d}_i$, i.e., $v_i = \mathbf{d}_i^\top \Sigma \mathbf{d}_i$. In @eq-Sigmak, $k$ can be considered as the effective dimension in which variance terms are estimated. In other words, in [@MasriEtAl_ImprovementCrossentropyMethod_2020] and [@UribeEtAl_CrossentropybasedImportanceSampling_2020], the optimal variance parameter is not sought in $\mathcal{S}^+_n$ as in @eq-argminDkl}, but rather in the subset of matrices of the form
+	$$ \mathcal{L}_{n,k} = \left\{ \sum_{i=1}^k (\alpha_i-1) \frac{\mathbf{d}_i \mathbf{d}_i^\top}{\lVert \mathbf{d}_i \rVert^2} + I_n: \alpha_1, \ldots, \alpha_k >0 \ \text{ and the $\mathbf{d}_i$'s are orthogonal} \right\}. $$
+The relevant minimization problem thus becomes
+	$$ 
+	(\mathbf{m}^*_k, \Sigma^*_k) = \arg\min \left\{ D(g^*,g_{\mathbf{m},\Sigma}): \mathbf{m} \in \mathbb{R}^n, \ \Sigma \in \mathcal{L}_{n,k} \right\}
+	$$ {#eq-argminDkl-k}
+instead of @eq-argminDkl, with the effective dimension $k$ being allowed to be adjusted dynamically. By restricting the space in which the variance is looked up, one seeks to limit the number of variance terms to be estimated. The idea is that if the directions are suitably chosen, then the improvement of the accuracy due to the smaller error in estimating the variance terms will compensate the fact that we consider less candidates for the covariance matrix.
+In [@MasriEtAl_ImprovementCrossentropyMethod_2020], the authors consider $k = 1$ and $\mathbf{d}_1 = \mathbf{m}^* / \lVert \mathbf{m}^* \rVert$. When $f$ is Gaussian, this choice is motivated by the fact that, due to the light tail of the Gaussian random variable and the reliability context, the variance should vary significantly in the direction of $\mathbf{m}^*$ and so estimating the variance in this direction can bring information. (In @sec-mm, we actually use the techniques of the present paper to provide a stronger theoretical justification of this choice, see @thm-thm2 and the discussion following it). The method in [@UribeEtAl_CrossentropybasedImportanceSampling_2020] is more involved: $k$ is adjusted dynamically, while the directions $\mathbf{d}_i$ are the eigenvectors associated to the largest eigenvalues of a certain matrix. They span a low-dimensional subspace called Failure-Informed Subspace, and the authors in [@UribeEtAl_CrossentropybasedImportanceSampling_2020] prove that this choice minimizes an upper bound on the minimal KL divergence. In practice, this algorithm yields very accurate results. However, we will not consider it further in the present paper for two reasons. First, this algorithm is tailored for the reliability case where $\phi = \mathbb{I}_{\{\varphi \geq 0\}}$, with a function $\varphi: \mathbb{R}^n \to \mathbb{R}$, whereas our method is more general and applies to the general problem of estimating an integral (see for instance our test case of @sec-sub:payoff). Second, the algorithm in [@UribeEtAl_CrossentropybasedImportanceSampling_2020] requires the evaluation of the gradient of the function $\varphi$. However, this gradient is not always known and can be expensive to evaluate in high dimension; in some cases, the function $\varphi$ is even not differentiable, as will be the case in our numerical example in @sec-sub:portfolio. 
+In contrast, our method makes no assumption on the form or smoothness of $\phi$: it does not need to assume that it is of the form $\mathbb{I}_{\{\varphi \geq 0\}}$, or to assume that $\nabla \varphi$ is tractable. For completeness, whenever  the algorithm of [@UribeEtAl_CrossentropybasedImportanceSampling_2020] was applicable and computing the gradient of $\varphi$ did not require any additional simulation budget, we have run it on the test cases considered here and found that it outperformed our algorithm. In more realistic settings, computing $\nabla \varphi$ would likely increase the simulation budget, and it would be interesting to compare the two algorithms in more details to understand when this extra computation cost is worthwhile. We reserve such a question for future research and will not consider the algorithm of [@UribeEtAl_CrossentropybasedImportanceSampling_2020] further, as our aim in this paper is to establish benchmark results for a general algorithm which works for any function $\phi$. 
+
+## Main result of the paper {#sec-main-result-positioning} 
+The main result of the present paper is to actually compute the exact value for $\Sigma^*_k$ in @eq-argminDkl-k, which therefore paves the way for efficient high-dimensional estimation schemes. The statement of our result involves the following function $\ell$, which is represented in @fig-l:
+	$$
+	\ell: x \in (0,\infty) \mapsto -\log(x) + x - 1.
+	$$ {#eq-l}
+In the following, $(\lambda, \mathbf{d}) \in \mathbb{R} \times \mathbb{R}^n$ is an eigenpair of a matrix $A$ if $A\mathbf{d} = \lambda \mathbf{d}$ and $\lVert \mathbf{d} \rVert = 1$. A diagonalizable matrix has $n$ distinct eigenpairs, say $((\lambda^*_i, \mathbf{d}^*_i), i = 1, \ldots, n)$, and we say that these eigenpairs are ranked in decreasing $\ell$-order if $\ell(\lambda^*_1) \geq \cdots \geq \ell(\lambda^*_n)$.
+
+```{python}
+#| label: fig-l
+#| fig-cap: Plot of the function $\ell=-\log(x) + x - 1$ given by @eq-l
+
+###############################################################################################################################
+# Figure 1. Plot of the function "l"
+###############################################################################################################################
+
+x = np.linspace(np.finfo(float).eps,4.0,100)
+y = -np.log(x) + x -1
+
+# plot
 fig, ax = plt.subplots()
-ax.plot(np.arange(10))
+
+ax.plot(x, y, linewidth=2.0)
+
+ax.set(xlim=(0, 4), xticks=[0,1,2,3],
+       ylim=(0, 0.5), yticks=[0,0.5,1,1.5])
+plt.grid()
+plt.xlabel(r"$x$",fontsize=16)
+plt.ylabel(r"$\ell(x)$",fontsize=16)
+for tickLabel in plt.gca().get_xticklabels() + plt.gca().get_yticklabels():
+    tickLabel.set_fontsize(16)
+plt.show()
 ```
-
-## Figures
-
-Plots can be generated as follows:
-
-```{r pressure, message = FALSE}
-library("ggplot2")
-p <- ggplot(mpg, aes(displ, hwy)) +
-  geom_point() +
-  geom_smooth()
-p
-```
-
-It is also possible to create figures from static images:
-
-:::{#fig-logo}
-
-![](figures/sfds.png)
-
-SFdS logo (c.a. 2021)
-
-:::
-
-
-## Tables
-
-Tables (with label: `@tbl-mylabel` renders @tbl-mylabel) can be generated with markdown as follows
-
-| Tables   |      Are      |  Cool |
-|----------|:-------------:|------:|
-| col 1 is |  left-aligned | $1600 |
-| col 2 is |    centered   |   $12 |
-| col 3 is | right-aligned |    $1 |
-: my table caption {#tbl-mylabel}
-
-Table can also be generated by some code, for instance with knitr here:
-
-```{r cars}
-knitr::kable(summary(cars), caption = "Table caption.")
-```
-
-## Handling references {#sec-references}
-
-### Bibliographic references
-
-References are displayed as footnotes using
-[BibTeX](http://www.bibtex.org/), e.g. `[@computo]` will be displayed
-as [@computo], where `computo` is the bibtex key for this specific
-entry. The bibliographic information is automatically retrieved from
-the `.bib` file specified in the header of this document (here:
-`references.bib`).
-
-### Other cross-references
-
-As already (partially) seen, Quarto includes a mecanism similar to the
-bibliographic references for sections, equations, theorems, figures,
-lists, etc. Have a look at [this
-page](https://quarto.org/docs/authoring/cross-references.html).
-
-::: {.callout-warning}
-
-## For more information
-
-[Check our mock version of the t-SNE paper](https://computo.sfds.asso.fr/published-paper-tsne/) for a full and advanced example using the Jupyter kernel.
-
-[The template available in the Computo Quarto extension  ](https://computo.sfds.asso.fr/published-paper-tsne/) uses advanced features and the KnitR kernel (interactive plots and pseudocode). 
-
-:::
-
-# Session information {.appendix .unnumbered}
-
-```{r session-info}
-sessionInfo()
-```
-

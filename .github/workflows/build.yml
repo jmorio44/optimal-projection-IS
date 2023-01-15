@@ -27,6 +27,7 @@ jobs:
       - name: Installing quarto
         uses: quarto-dev/quarto-actions/setup@v2
         with:
+          version: pre-release
           tinytex: true
 
       - name: Install Computo extension for Quarto
@@ -39,7 +40,7 @@ jobs:
             quarto render ${{ env.quarto_file }}.qmd
             mkdir _build
             mv ${{ env.quarto_file }}.html _build/index.html
-            mv -vf ${{ env.quarto_file }}_files figures ${{ env.quarto_file }}.pdf _build/
+            mv -vf ${{ env.quarto_file }}_files figures _build/
             cp environment.yml _build/
             touch _build/.nojekyll
 

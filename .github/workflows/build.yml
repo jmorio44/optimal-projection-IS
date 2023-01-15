@@ -18,16 +18,18 @@ jobs:
     steps:
       - name: Checking out repository for Github action
         uses: actions/checkout@v2
-
-      - name: Installing dependencies with Micromamba
-        uses: mamba-org/provision-with-micromamba@main
+        
+      - name: Install Python and Dependencies
+        uses: actions/setup-python@v4
         with:
-          cache-env: true
-
+          python-version: '3.10'
+          cache: 'pip'
+      - run: pip install jupyter
+      - run: pip install -r requirements.txt
+      
       - name: Installing quarto
         uses: quarto-dev/quarto-actions/setup@v2
         with:
-          version: pre-release
           tinytex: true
 
       - name: Install Computo extension for Quarto
@@ -40,8 +42,8 @@ jobs:
             quarto render ${{ env.quarto_file }}.qmd
             mkdir _build
             mv ${{ env.quarto_file }}.html _build/index.html
-            mv -vf ${{ env.quarto_file }}_files figures _build/
-            cp environment.yml _build/
+            mv -vf ${{ env.quarto_file }}_files figures ${{ env.quarto_file }}.pdf _build/
+            cp requirements.txt _build/
             touch _build/.nojekyll
 
       - name: Deploying article on github pages

@@ -13,7 +13,7 @@ env: # Change this if needed
 
 jobs:
   computorticle:
-    runs-on: windows
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checking out repository for Github action

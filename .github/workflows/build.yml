@@ -19,6 +19,11 @@ jobs:
       - name: Checking out repository for Github action
         uses: actions/checkout@v2
         
+      - name: Installing dependencies with Micromamba
+        uses: mamba-org/provision-with-micromamba@main
+        with:
+          cache-env: true
+        
       - name: Install Python and Dependencies
         uses: actions/setup-python@v4
         with:

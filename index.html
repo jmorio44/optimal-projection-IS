@@ -280,7 +280,7 @@ ISSN 2824-7795</p>
 
 
 <div class="cell" data-execution_count="1">
-<details>
+<details open="">
 <summary>Hide/Show the code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy <span class="im">as</span> sp</span>
@@ -335,7 +335,7 @@ ISSN 2824-7795</p>
     \ell: x \in (0,\infty) \mapsto -\log(x) + x - 1.
      \tag{6}</span></span> In the following, <span class="math inline">(\lambda, \mathbf{d}) \in \mathbb{R} \times \mathbb{R}^n</span> is an eigenpair of a matrix <span class="math inline">A</span> if <span class="math inline">A\mathbf{d} = \lambda \mathbf{d}</span> and <span class="math inline">\lVert \mathbf{d} \rVert = 1</span>. A diagonalizable matrix has <span class="math inline">n</span> distinct eigenpairs, say <span class="math inline">((\lambda^*_i, \mathbf{d}^*_i), i = 1, \ldots, n)</span>, and we say that these eigenpairs are ranked in decreasing <span class="math inline">\ell</span>-order if <span class="math inline">\ell(\lambda^*_1) \geq \cdots \geq \ell(\lambda^*_n)</span>.</p>
 <div class="cell" data-execution_count="2">
-<details>
+<details open="">
 <summary>Hide/Show the code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">###############################################################################################################################</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Figure 1. Plot of the function "l"</span></span>
@@ -592,7 +592,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <p>Note that in the particularly simple case considered here, both <span class="math inline">\widehat{\mathbf{m}}^* / \lVert \widehat{\mathbf{m}}^* \rVert</span> and <span class="math inline">\widehat{\mathbf{d}}</span> are estimators of <span class="math inline">\textbf{1}</span> but they are obtained by different methods. In the next example we will consider a case where <span class="math inline">\mathbf{m}^*</span> is not an optimal projection direction as given by <a href="#thm-thm1">Theorem&nbsp;1</a>.</p>
 <p><a href="#fig-eigsum-2">Figure&nbsp;2 (b)</a> represents the images by <span class="math inline">\ell</span> of the eigenvalues of <span class="math inline">\Sigma^*</span> and <span class="math inline">\widehat{\Sigma}^*</span>. This picture carries a very important insight. We notice that the estimation of most eigenvalues is poor: indeed, all the blue crosses except the leftmost one are meant to be estimator of <span class="math inline">1</span>, whereas we see that they are more or less uniformly spread between <span class="math inline">0.4</span> and <span class="math inline">1.8</span>. This means that the variance terms in the corresponding directions are poorly estimated, which could be the explanation on why the use of <span class="math inline">\widehat{\Sigma}^*</span> gives an inaccurate estimation. But what we remark also is that the function <span class="math inline">\ell</span> is quite flat around one: as a consequence, although the eigenvalues offer significant variability, this variability is smoothed by the action of <span class="math inline">\ell</span>. Indeed, the images of the eigenvalues by <span class="math inline">\ell</span> take values between <span class="math inline">0</span> and <span class="math inline">0.4</span> and have smaller variability. Moreover, <span class="math inline">\ell(x)</span> increases sharply as <span class="math inline">x</span> approaches <span class="math inline">0</span> and thus efficiently distinguishes between the two leftmost estimated eigenvalues and is able to separate them.</p>
 <div>
-<details>
+<details open="">
 <summary>Hide/Show the code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">###############################################################################################################################</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Figure 2. Evolution of the partial KL divergence and spectrum of the eigenvalues for the test case 1</span></span>

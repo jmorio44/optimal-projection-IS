@@ -1926,16 +1926,3 @@ Markdown(tabulate(
     tablefmt="pipe"))
 ```
 
-The results of Table @tbl-portfolio show similar trends as for the first test case of @sec-sub:sum. First, projecting seems indeed a relevant idea, as using ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ or ${\widehat{\Sigma}^{\text{}}_\text{mean}}$ greatly improves the situation compared to $\widehat{\Sigma}^*$. This is particularly salient as $\widehat{\Sigma}^*$ yields an important bias and a coefficient of variation of $94\%$, whereas projecting on $\mathbf{d}^*_1$ or $\mathbf{m}^*$ yields a coefficient of variation of $11 \%$. This improvement is still true even when the projection directions are estimated: compared to ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ and ${\widehat{\Sigma}^{\text{}}_\text{mean}}$, ${\widehat{\Sigma}^{\text{+d}}_\text{opt}}$ and ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$ give coefficients of variation between $16$ and $13\%$. Finally, ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$ seems to behave better than ${\widehat{\Sigma}^{\text{+d}}_\text{opt}}$. 
-
-## Application: discretized Asian payoff {#sec-sub:payoff}
-
-Our last numerical experiment is a mathematical finance example coming from [@Kawai_OptimizingAdaptiveImportance_2018], representing a discrete approximation of a standard Asian payoff under the Black--Scholes model.
-	The goal is to estimate the integral $E=\int_{\mathbb{R}^n} \phi(\mathbf{x}) f(\mathbf{x}) \textrm{d}\mathbf{x}$  with $f$ the standard $n$-dimensional Gaussian distribution and the following function $\phi$: 
-$$
-	\phi: \mathbf{x}=(x_1,\ldots,x_n) \mapsto e^{-rT}\left[\frac{S_0}{n} \sum_{i=1}^n \exp\left( i \left(r-\frac{\sigma^2}{2}\right)\frac{T}{n}+\sigma \sqrt{\frac{T}{n}} \sum_{k=1}^{i} x_k \right)-K\right]_+
-$$ {#eq-payoff}
-	where $[y]_+=\max(y,0)$, for a real number $y$. The constants are taken from [@Kawai_OptimizingAdaptiveImportance_2018]: $S_0=50$, $r=0.05, T=0.5, \sigma=0.1, K=55$, where they test the function for dimension $n=16$. In our contribution, we test this example in dimension $100$. Concerning $\mathbf{m}^*$ and the $\mathbf{d}^*_i$'s, the situation is the same as in the previous example: they are not available analytically but can be estimated numerically by Monte Carlo with a large simulation budget. And again, it turns out that $\mathbf{m}^*$ and the first eigenvector $\mathbf{d}^*_1$ of $\Sigma^*$ are numerically indistinguishable and that Algorithm 2 selects $k=1$ projection direction, so that ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ and ${\widehat{\Sigma}^{\text{}}_\text{mean}}$ yield results that are numerically indistinguishable. The KL partial divergence and the spectrum with the associated $\ell$-order are respectively presented in @fig-inefficiency-kawai-1 and @fig-inefficiency-kawai-2. 
-
-The results of this example are given in @tbl-payoff. The insight gained in the previous examples is confirmed. Projecting on $\mathbf{m}^*$ or $\mathbf{d}^*_1$ in dimension $n = 100$ enables to reach convergence and reduces (compared to $\widehat{\Sigma}^*$) the coefficient of variation from $94\%$ to $2.6\%$. Moreover, this improvement goes through even when projection directions are estimated, with again ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$ behaving better than ${\widehat{\Sigma}^{\text{+d}}_\text{opt}}$.
-

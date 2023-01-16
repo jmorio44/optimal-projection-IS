@@ -1,33 +1,32 @@
 ---
-title: Visualizing Data using t-SNE
-subtitle: A practical computo example
+title: Optimal projection for parametric importance sampling in high dimension
+author:
+  - name: Maxime El Masri
+    affiliation: '[ONERA/DTIS](https://www.onera.fr/), [ISAE-SUPAERO](https://www.isae-supaero.fr/), [Université de Toulouse](https://www.univ-toulouse.fr/)'
+    orcid: 0000-0002-9127-4503
+  - name: Jérôme Morio
+    url: 'https://www.onera.fr/en/staff/jerome-morio?destination=node/981'
+    affiliation: '[ONERA/DTIS](https://www.onera.fr/), [Université de Toulouse](https://www.univ-toulouse.fr/)'
+    orcid: 0000-0002-8811-8956
+  - name: Florian Simatos
+    url: 'https://pagespro.isae-supaero.fr/florian-simatos/'
+    affiliation: '[ISAE-SUPAERO](https://www.isae-supaero.fr/), [Université de Toulouse](https://www.univ-toulouse.fr/)'
 date: last-modified
 description: |
-  This page is a reworking of the original t-SNE article using the Computo template. It aims to help authors submitting to the journal by using some advanced formatting features. We warmly thank the authors of t-SNE and the editor of JMLR for allowing us to use their work to illustrate the Computo spirit.
-author:
-  - name: Laurens van der Maaten
-    url: 'https://lvdmaaten.github.io/'
-    affiliation: 'TiCC, Tilburg University'
-    affiliation-url: 'https://www.tilburguniversity.edu/'
-    orcid: 0000-0002-1931-6828
-  - name: Geoffrey Hinton
-    url: 'https://www.cs.toronto.edu/~hinton/'
-    affiliation: 'Department of Computer Science, University of Toronto'
-    affiliation-url: 'https://web.cs.toronto.edu/'
-    orcid: 0000-0002-8063-7209
+  This document provides a dimension-reduction strategy in order to improve the performance of importance sampling in high dimension.
 abstract: |
-  We present a new technique called "t-SNE" that visualizes high-dimensional data by giving each datapoint a location in a two or three-dimensional map.  The technique is a variation of Stochastic Neighbor Embedding hinton:stochastic that is much easier to optimize, and produces significantly better visualizations by reducing the tendency to crowd points together in the center of the map. t-SNE is better than existing techniques at creating a single map that reveals structure at many different scales. This is particularly important for high-dimensional data that lie on several different, but related, low-dimensional manifolds, such as images of objects from multiple classes seen from multiple viewpoints. For visualizing the structure of very large data sets, we show how t-SNE can use random walks on neighborhood graphs to allow the implicit structure of all the data to influence the way in which a subset of the data is displayed. We illustrate the performance of t-SNE on a wide variety of data sets and compare it with many other non-parametric visualization techniques, including Sammon mapping, Isomap, and Locally Linear Embedding. The visualization produced by t-SNE are significantly better than those produced by other techniques on almost all of the data sets. <br/>
+  In this paper we propose a dimension-reduction strategy in order to improve the performance of importance sampling in high dimension. The idea is to estimate variance terms in a small number of suitably chosen directions. We first prove that the optimal directions, i.e., the ones that minimize the Kullback--Leibler divergence with the optimal auxiliary density, are the eigenvectors associated to extreme (small or large) eigenvalues of the optimal covariance matrix. We then perform extensive numerical experiments that show that as dimension increases, these directions give estimations which are very close to optimal. Moreover, we show that the estimation remains accurate even when a simple empirical estimator of the covariance matrix is used to estimate these directions. These theoretical and numerical results open the way for different generalizations, in particular the incorporation of such ideas in adaptive importance sampling schemes.
 keywords:
-  - visualization
-  - dimensionality reduction
-  - manifold learning
-  - embedding algorithms
-  - multidimensional scaling
+  - Importance sampling
+  - High dimension
+  - Gaussian covariance matrix
+  - Kullback-Leibler divergence
+  - Projection
 bibliography: references.bib
-github-user: computorg
-repo: published-paper-tsne
-draft: false
-published: true
+github-user: jmorio44
+repo: optimal-projection-IS
+draft: true
+published: false
 format:
   computo-html: default
   computo-pdf: default
@@ -46,506 +45,126 @@ jupyter:
     name: python3
 ---
 
-# Introduction
-
-Visualization of high-dimensional data is an important problem in many
-different domains, and deals with data of widely varying dimensionality. Cell
-nuclei that are relevant to breast cancer, for example, are described by
-approximately 30 variables @street:nuclear, whereas the pixel
-intensity vectors used to represent images or the word-count vectors used to
-represent documents typically have thousands of dimensions. Over the last few
-decades, a variety of techniques for the visualization of such high-dimensional
-data have been proposed, many of which are reviewed by @ferreira:visual.
-Important techniques include iconographic displays such as Chernoff faces @chernoff:use, 
-pixel-based techniques @keim:designing, and techniques that represent the dimensions in the 
-data as vertices in a graph @battista:algorithms. Most of these techniques simply
-provide tools to display more than two data dimensions, and leave the
-interpretation of the data to the human observer. This severely limits the
-applicability of these techniques to real-world data sets that contain
-thousands of high-dimensional datapoints.
-
-In contrast to the visualization techniques discussed above, dimensionality
-reduction methods convert the high-dimensional data set $\mathcal{X} = {x_1,
-x_2, \dots, x_n}$ into two or three-dimensional data $\mathcal{Y} = {y_1, y_2,
-\dots, y_n}$ that can be displayed in a scatterplot. In the paper, we refer to
-the low-dimensional data representation $\mathcal{Y}$ as a map, and to the
-low-dimensional representations $y_i$ of individual datapoints as map
-points. The aim of dimensionality reduction is to preserve as much of the
-significant structure of the high-dimensional data as possible in the
-low-dimensional map. Various techniques for this problem have been proposed
-that differ in the type of structure they preserve. Traditional dimensionality
-reduction techniques such as Principal Components Analysis
-@hotelling:analysis  and classical multidimensional scaling
-@torgerson:multidimensional are linear techniques that focus on keeping
-the low-dimensional representations of dissimilar datapoints far apart. For
-high-dimensional data that lies on or near a low-dimensional, non-linear
-manifold it is usually more important to keep the low-dimensional
-representations of very similar datapoints close together, which is typically
-not possible with a linear mapping.
-
-A large number of nonlinear dimensionality reduction techniques that aim to
-preserve the local structure of data have been proposed, many of which are
-reviewed by @lee:nonlinear. In particular, we mention the following
-seven techniques: (1) Sammon mapping @sammon:nonlinear, (2) curvilinear
-components analysis @demartines:curvilinear, (3) Stochastic Neighbor
-Embedding @hinton:stochastic; (4) Isomap @tenenbaum:global, (5)
-Maximum Variance Unfolding @weinberger:learning; (6) Locally Linear
-Embedding @roweis:nonlinear, and (7) Laplacian Eigenmaps
-@belkin:laplacian. Despite the strong performance of these techniques
-on artificial data sets, they are often not very successful at visualizing
-real, high-dimensional data. In particular, most of the techniques are not
-capable of retaining both the local and the global structure of the data in a
-single map. For instance, a recent study reveals that even a semi-supervised
-variant of MVU is not capable of separating handwritten digits into their
-natural clusters @song:colored.
-
-In this paper, we describe a way of converting a high-dimensional data
-set into a matrix of pairwise similarities and we introduce a new
-technique, called "t-SNE", for visualizing the resulting similarity
-data. t-SNE is capable of capturing much of the local structure of the
-high-dimensional data very well, while also revealing global structure
-such as the presence of clusters at several scales. We illustrate the
-performance of t-SNE by comparing it to the seven dimensionality
-reduction techniques mentioned above on five data sets from a variety
-of domains. Because of space limitations, most of the
-$(7+1)\times5=40$ maps are presented in the supplemental material, but
-the maps that we present in the paper are sufficient to demonstrate
-the superiority of t-SNE.
-
-The outline of the paper is as follows. In  @sec-sne, we
-outline SNE as presented by @hinton:stochastic, which forms
-the basis for t-SNE. In  @sec-tsne, we present t-SNE, which
-has two important differences from SNE. In Section
-@sec-experiments, we describe the experimental setup and the
-results of our experiments.  Subsequently, @sec-large-data shows how t-SNE can be modified to visualize
-real-world data sets that contain many more than 10,000
-datapoints. The results of our experiments are discussed in more
-detail in  @sec-discussion. Our conclusions and suggestions
-for future work are presented in  @sec-conclusion.
-
-# Stochastic Neighbor Embedding {#sec-sne}
-
-Stochastic Neighbor Embedding (SNE) starts by converting the
-high-dimensional Euclidean distances between datapoints into
-conditional probabilities that represent similarities.[^SNE] The
-similarity of datapoint $x_j$ to datapoint $x_i$ is the conditional
-probabilities, $p_{j|i}$, that $x_i$ would pick $x_j$ as its neighbor
-if neighbors were picked in proportion to their probability density
-under a Gaussian centered at $x_i$. For nearby datapoints, $p_{j|i}$
-is relatively high, whereas for widely separated datapoints, $p_{j|i}$
-will be almost infinitesimal (for reasonable values of the variance of
-the Gaussian, $\sigma_i$). Mathematically, the conditional probability
-$p_{j|i}$ is given by
-
-$$
-p_{j|i} = \frac{\exp(-\|x_i - x_j\|^2/(2\sigma_i^2))}{\sum_{k\neq i} \exp(-\|x_i
-- x_k\|^2 / 2 \sigma_i^2)}\,.
-$$ {#eq-sne_large_space}
-
-where $\sigma_i$ is the variance of the Gaussian that is centered on datapoint
-$x_i$. The method for determining the value of $\sigma_i$ is presented later
-in this section. Because we are only interested in modeling pairwise
-similarities, we set the value of $p_{i|i}$ to zero. For the low-dimensional
-counterparts $y_i$ and $y_j$ of the high-dimensional datapoints $x_i$ and $x_j$,
-it is possible to compute a similar conditional probability, which we denote
-by $q_{j|i}$. We set [^variance] the variance of the Gaussian that is employed
-in the computation of the conditional probabilities $q_{j|i}$ to
-$\frac{1}{\sqrt{2}}$. Hence, we model the similarity of a map point $y_j$ to
-map point $y_i$ by
-
-$$
-q_{j|i} = \frac{\exp(-\|y_i - y_j\|^2)}{\sum_{k \neq i} \exp(-\|y_i
--y_k\|^2)}\,.
-$$
-
-[^SNE]: SNE can also be applied to data sets that consist of pairwise
-  similarities between objects rather than high-dimensional vector
-  representations of each object, provided these similarities can be
-  interpreted as conditional probabilities. For example, human word
-  associations data consists of the probability of producing each possible
-  word in response to a given word, as a result of which it is already in the
-  form required by SNE.
-
-[^variance]: Setting the variance in the low-dimensional Gaussians to another
-  value only results in a rescaled version of the final map. Note that by
-  using the same variance for every datapoint in the low-dimensional map, we
-  lose the property that the data is a perfect model of itself if we embed it
-  in a space of the same dimensionality, because in the high-dimensional
-  space, we used a different variance $\sigma_i$ in each Gaussian.
-
-Again, since we are only interested in modeling pairwise similarities, we set
-$q_{i|i}=0$.
-
-If the map points $y_i$ and $y_j$ correctly model the similarity between the
-high-dimensional data-points $x_i$ and $x_j$, the conditional probabilities
-$p_{j|i}$ and $q_{j|i}$ will be equal. Motivated by this observation, SNE aims
-to find a low-dimensional data representation that minimizes the mismatch
-between $p_{j|i}$ and $q_{j|i}$. A natural measure of the faithfulness with
-which $q_{j|i}$ models $p_{j|i}$ is the Kullback-Leibler divergence (which is
-in the case equal to the cross-entropy up to an additive constant). SNE
-minimizes the sum of Kullback-Leibler divergences over all datapoints using a
-gradient descent method. The cost function $C$ is given by
-
-$$
-C = \sum_i KL(P_i\|Q_i) = \sum_i \sum_j p_{j|i} \log
-\frac{p_{j|i}}{q_{j|i}}\,,
-$$ {#eq-sne_cost_function}
-
-in which $P_i$ represents the conditional probability distribution
-over all other datapoints given datapoint $x_i$, and $Q_i$ represents
-the conditional probability distribution over all other map points
-given map point $y_i$.  Because the Kullback-Liebler divergence is not
-symmetric, different types of error in the pairwise distances in the
-low-dimensional map are not weighted equally. In particular, there is
-a large cost for using widely separated map points to represent nearby
-datapoints (i.e, for using a small $q_{j|i}$ to model a large
-$p_{j|i}$), but there is only a small cost for using nearby map points
-to represent widely separated datapoints. This small cost comes from
-wasting some of the probability mass in the relevant $Q$
-distributions. In other words, the SNE cost function focuses on
-retaining the local structure of the data in the map (for reasonable
-values of the variance of the Gaussian in the high-dimensional space,
-$\sigma_i$).
-
-
-The remaining parameter to be selected the variance $\sigma_i$ of the Gaussian
-that is centered over each high-dimensional datapoint, $x_i$.
-It is not likely that there is a single value of $\sigma_i$ that is optimal
-for all datapoints in the data set because the density of the data is likely
-to vary. In dense regions, a smaller value of $\sigma_i$ is usually more
-appropriate than in sparser regions. Any particular value of $\sigma_i$
-induces a probability distribution, $P_i$, over all of the other datapoints.
-This distribution has an entropy which increases as $\sigma_i$ increases. SNE
-performs a binary search for the value of $\sigma_i$ that produces a $P_i$
-with a fixed perplexity that is specified by the user[^perplexity]. The
-perplexity is defined as
-
-$$
-Perp(P_i) = 2^{H(P_i)}\,,
-$$
-
-where $H(P_i)$ is the Shannon entropy of $P_i$ measured in bits
-
-$$
-H(P_i) = - \sum_j p_{j|i} \log_2 p_{j|i}\,.
-$$
-
-
-[^perplexity]: Note that the perplexity increases monotonically with the variance
-  $\sigma_i$.
-
-The perplexity can be interpreted as a smooth measure of the effective number
-of neighbors. The performance of SNE is fairly robust to changes in the
-perplexity, and typical values are between 5 and 50.
-
-The minimization of the cost function in @eq-sne_cost_function is
-performed using a gradient descent method. The gradient has a surprisingly
-simple form
-
-$$
-\frac{\partial C}{\partial y_i} = 2 \sum_j (p_{j|i} - q_{j|i} + p_{i|j} -
-q_{i|j})(y_i - y_j)\,.
-$$
-
-Physically, the gradient may be interpreted as the resultant force created by
-a set of springs between the map point $y_i$ and all other map points $y_j$.
-All springs exert a force along the direction $(y_i - y_j)$. The spring
-between $y_i$ and $y_j$ repels or attracts the map points depending on whether
-the distance between the two in the map is too small or too large to represent
-the similarities between the two high-dimensional datapoints. The force
-exerted by the spring between $y_i$ and $y_j$ is proportional to its length,
-and also proportional to its stiffness, which is the mismatch $(p_{j|i} -
-q_{j|i} + p_{i|j} + q_{i|j})$ between the pairwise similarities of the data
-points.
-
-The gradient descent is initialized by sampling map points randomly from an
-isotropic Gaussian with small variance that is centered around the origin. In
-order to speed up the optimization and to avoid poor local minima, a
-relatively large momentum term is added to the gradient. In other words, the
-current gradient is added to an exponentially decaying sum of previous
-gradients in order to determine the changes in the coordinates of the map
-points at each iteration of the gradient search. Mathematically, the gradient
-update with a momentum term is given by
-
-$$
-\mathcal{Y}^{(t)} = \mathcal{Y}^{(t-1)} + \eta \frac{\partial C}{\partial
-\mathcal{Y}} + \alpha(t) \left( \mathcal{Y}^{(t-1)} - \mathcal{Y}^{(t-2)}\right)\,,
-$$
-
-where $\mathcal{Y}^{(t)}$ indicates the solution at iteration $t$, $\eta$
-indicates the learning rate, and $\alpha(t)$ represents the momentum at
-iteration $t$.
-
-In addition, in the early stages of the optimization, Gaussian noise is added
-to the map points after each iteration. Gradually reducing the variance of
-this noise performs a type of simulated annealing that helps the optimization
-to escape from poor local minima in the cost function. If the variance of the
-noise changes very slowly at the critical point at which the global structure
-of the map starts to form, SNE tends to find maps with a better global
-organization. Unfortunately, this requires sensible choices of the initial
-amount of Gaussian noise and the rate at which it decays. Moreover, these
-choices interact with the amount of momentum and the step size that are
-employed in the gradient descent. It is therefore common to run the
-optimization several times on a data set to find appropriate values for the
-parameters.[^global_optimization] In this respect, SNE is inferior to methods
-that allow convex optimization and it would be useful to find an optimization
-method that gives good results without requiring the extra computation time
-and parameter choices introduced by the simulated annealing.
-
-[^global_optimization]: Picking the best map after several runs as
-  visualization of the data is not nearly as problematic as picking the model
-  that does best on a test set during supervised learning. In visualization,
-  the aim is to see the structure in the training data, not to generalize to
-  held out test data.
-
-# t-Distributed Stochastic Neighbor Embedding {#sec-tsne}
-
-@sec-sne discussed SNE as it was presented by
-@hinton:stochastic. Although SNE constructs reasonably good
-visualizations, it is hampered by a cost function that is difficult to
-optimize and by a problem we refer to as the "crowding problem." In this
-section, we present a new technique called "t-Distributed Stochastic Neighbor
-Embedding" or "t-SNE" that aims to alleviate these problems. The cost
-function used by t-SNE differs from the one used by SNE in two ways: (1) it
-uses a symmetrized version of the SNE cost function with simpler gradients
-that was briefly introduced by @cook:visualizing and (2) it uses a
-Student-t distribution rather than a Gaussian to compute the similarity
-between two points *in the low dimensional space*. t-SNE employs a
-heavy-tailed distribution in the low-dimensional space to alleviate both the
-crowding problem and the optimization problems of SNE.
-
-In this section, we first discuss the symmetric version of SNE (@sec-symmetric_sne).
-Subsequently, we discuss the crowding problem
-(@sec-crowding), and the use of heavy-tailed distributions to
-address this problem (@sec-heavy_tail). We conclude the
- by describing our approach to the optimization of the t-SNE cost
-function (@sec-optimization_methods_for_tsne).
-
-## Symmetric SNE {#sec-symmetric_sne}
-
-As an alternative to minimizing the sum of the Kullback-Leibler divergences
-between the conditional probabilities $p_{j|i}$ and $q_{j|i}$, it is also
-possible to minimize a single Kullback-Leibler divergence between a joint
-probability distribution, $P$, in the high-dimensional space and a joint
-probability distribution, $Q$, in the low-dimensional space:
-
-$$
-C = KL(P\|Q) = \sum_i \sum_j p_{ij} \log \frac{p_{ij}}{q_{ij}}\,,
-$$
-
-where again, we set $p_{ij}$ and $q_{ii}$ to zero. We refer to this type of
-SNE as symmetric SNE, because it has the property that $p_{ij} = p_{ji}$ and
-$q_{ij} = q_{ji}$ for all $i, j$. In symmetric SNE, the pairwise
-similarities in the low-dimensional map $q_{ij}$ are given by
-
-$$
-q_{ij} = \frac{\exp(-\|x_i - x_j\|^2)}{\sum_{k\neq l} \exp(-\|x_k -
-x_l\|^2)}\,.
-$$ {#eq-pairwise_similarities}
-
-The obvious way to define the pairwise similarities in the high-dimensional
-space $p_{ij}$ is
-
-$$
-p_{ij} = \frac{\exp(-\|x_i - x_j\|^2/2\sigma^2)}{\sum_{k\neq l} \exp(-\|x_k -
-x_l\|^2/2\sigma^2)}\,
-$$
-
-but this causes problems when a high-dimensional datapoint $x_i$ is an outlier
-(i.e., all pairwise distances $\|x_i - x_j\|^2$ are large for $x_i$). For such
-an outlier, the values of $p_{ij}$ are extremely small for all $j$, so the
-location of its low-dimensional map point $y_i$ has very little effect on the
-cost function. As a result, the position of the map point is not well
-determined by the positions of the other map points. We circumvent this
-problem by defining the joint probabilities $p_{ij}$ in the high dimensional
-space to be symmetrized conditional probabilities, that is, we set $p_{ij} =
-\frac{p_{j|i} + p_{i|j}}{2n}$. This ensures that $\sum_j p_{ij} >
-\frac{1}{2n}$ for all datapoints $x_i$, as a result of which each datapoint
-$x_i$ makes a significant contribution to the cost function. In the
-low-dimensional space, symmetric SNE simply uses @eq-pairwise_similarities. 
-The main advantage of the symmetric version of
-SNE is the simpler form of its gradient, which is faster to compute. The
-gradient of symmetric SNE is fairly similar to that of asymmetric SNE, and is
-given by
-
-$$
-\frac{\partial C}{\partial y_i} = 4 \sum_j (p_{ij} - q_{ij})(y_i - y_j)\,.
-$$
-
-In preliminary experiments, we observed that symmetric SNE seems to produce
-maps that are just as good as asymmetric SNE, and sometimes even a little
-better.
-
-## The Crowding Problem {#sec-crowding}
-
-Consider a set of datapoints that lie on a two-dimensional curved manifold
-which is approximately linear on a small scale, and which is embedded within a
-higher-dimensional space. It is possible to model the small pairwise distances
-between datapoints fairly well in a two-dimensional map, which is often
-illustrated on toy examples such as the "Swiss roll" data set. Now suppose that
-the manifold has ten intrinsic dimensions[^dataset] and is embedded within a
-space of much higher dimensionality. There are several reasons why the
-pairwise distances in a two-dimensional map cannot faithfully model distances
-between points on the ten-dimensional manifold. For instance, in ten
-dimensions, it is possible to have 11 datapoints that are mutually
-equidistant and there is no way to model this faithfully in a two-dimensional
-map. A related problem is the very different distribution of pairwise
-distances in the two spaces. The volume of a sphere centered on datapoint $i$
-scales as $r^m$, where $r$ is the radius and $m$ the dimensionality of the
-sphere. So if the datapoints are approximately uniformly distributed in the
-region around $i$ on the ten-dimensional manifold, we get the following
-"crowding problem:" the area of the two-dimensional map that is available to
-accommodate moderately distant datapoints will not be nearly large enough
-compared with the area available to accommodate nearby datapoints. Hence, if we
-want to model the small distances accurately in the map, most of the points
-that are at a moderate distance from datapoint $i$ will have to be placed much
-too far away in the two-dimensional map. In SNE, the spring connecting
-datapoint $i$ to each of these too-distant map points will thus exert a very
-small attractive force. Although these attractive forces are very small, the
-very large number of such forces crushes together the points in the center of
-the map, which prevents gaps from forming between the natural clusters. Note
-that the crowding problem is not specific to SNE, but that it occurs in other
-local techniques for multidimensional scaling such as Sammon mapping.
-
-An attempt to address the crowding problem by adding a slight repulsion to all
-springs was presented by @cook:visualizing. The slight repulsion is
-created by introducing a uniform background model with a small mixing
-proportion, $\rho$. So however far apart two map points are, $q_{ij}$ can
-never fall below $\frac{2\rho}{n(n-1)}$ (because the uniform background
-distribution is over $n(n-1)/2$ pairs). As a result, for datapoints that are
-far apart in the high-dimensional space, $q_{ij}$ will always be larger than
-$p_{ij}$, leading to a slight repulsion. This technique is called UNI-SNE and
-although it usually outperforms standard SNE, the optimization of the UNI-SNE
-cost function is tedious. The best optimization method known is to start by
-setting the background mixing proportion to zero (i.e., by performing standard
-SNE). Once the SNE cost function has been optimized using simulated annealing,
-the background mixing proportion can be increased to allow some gaps to form
-between natural clusters as shown by @cook:visualizing. Optimizing the
-UNI-SNE cost function directly does not work because two map points that are
-far apart will get almost all of their $q_{i}$ from the uniform background. So
-even if their $p_{ij}$ is large, there will be no attractive force between
-them, because a small change in their separation will have a vanishingly small
-*proportional* effect on $q_{ij}$. This means that if two parts of a cluster
-get separated early on in the optimization, there is no force to pull them
-back together.
-
-## Mismatched tails can compensate for mismatched dimensionalities {#sec-heavy_tail}
-
-Since symmetric SNE is actually matching the joint probabilities of pairs of
-datapoints in the high-dimensional and the low-dimensional spaces rather than
-their distances, we have a natural way of alleviating the crowing problem that
-works as follows. In the high-dimensional space, we convert distances into
-probabilities using a Gaussian distribution. In the low-dimensional map, we
-can use a probability distribution that has a much heavier tails than a
-Gaussian to convert distances into probabilities. This allows a moderate
-distance in the high-dimensional space to be faithfully modeled by a much
-larger distance in the map and, as a result, it eliminates the unwanted
-attractive forces between map points that represent moderately dissimilar
-datapoints.
-
-In t-SNE, we employ a Student $t$-distribution with a single degree of
-freedom (which is the same as a Cauchy distribution) as the heavy-tailed
-distribution in the low-dimensional map.  Using this distribution, the joint
-probabilities $q_{ij}$ are defined as
-
-$$
-q_{ij} = \frac{(1+\|y_i - y_j\|^2)^{-1}}{\sum_{k \neq l}(1+\|y_k -
-y_t\|^2)^{-1}}
-$$ {#eq-joint_probabilities}
-
-We use a Student t-distribution with a single degree of freedom, because it
-has the particularly nice property that $\left(1+\|y_i - y_j\|^2\right)^{-1}$
-approaches an inverse square law for large pairwise distances $\|y_i - y_j\|$
-in the low-dimensional map. This makes the map's representation of joint
-probabilities (almost) invariant to changes in the scale of the map for map
-points that are far apart. It also means that large clusters of points that
-are far apart interact in just the same way as individual points, so the
-optimization operates in the same way at all but the finest scales. A
-theoretical justification for our selection of the Student $t$-distribution is
-that it is closely related to the Gaussian distribution, as the Student
-$t$-distribution is an infinite mixture of Gaussians. A computationally
-convenient property is that it is much faster to evaluate the density of a
-point under a Student $t$-distribution than under a Gaussian because it does
-not involve an exponential, even though the Student $t$-distribution is
-equivalent to an infinite mixture of Gaussians with different variances.
-
-The gradient of the Kullback-Leibler divergence between $P$ and the Student-$t$
-based joint probability distribution $Q$ (computed using @eq-joint_probabilities)
-is derived in Appendix A, and is given by
-
-$$
-\frac{\partial C}{\partial y_i} = 4 \sum_j (p_{ij} - q_{ij})(y_i -
-y_j)(1+\|y_i - y_j\|^2)^{-1}\,.
-$$ {#eq-gradient-tsne}
-
-
-In @fig-gradients, we show the gradients between the
-low-dimensional datapoints $y_i$ and $y_j$ as a function of their
-pairwise Euclidean distances in the high-dimensional and the
-low-dimensional space (i.e., as a function of $\|x_i-x_j\|$ and
-$\|y_i-y_j\|$) for the symmetric versions of SNE, UNI-SNE, and
-t-SNE. In the figures, positive values of the gradient represent an
-attraction between the low-dimensional datapoints $y_i$ and $y_j$,
-whereas negative values represent a repulsion between the two
-datapoints. From the figures, we observe two main advantages of the
-t-SNE gradient over the gradients of SNE and UNI-SNE.
-
-First, the t-SNE gradient strongly repels dissimilar datapoints that are
-modeled by a small pairwise distance in the low-dimensional representation.
-SNE has such repulsion as well, but its effect is minimal compared to the
-strong attractions elsewhere in the gradient (the largest attraction in our
-graphical representation of the gradient is approximately 19, whereas the
-largest repulsion is approximately 1). In UNI-SNE, the amount of repulsion
-between dissimilar datapoints is slightly larger, however, this repulsion is
-only strong when the pairwise distance between the points in the
-low-dimensional representation is already large (which is often not the case,
-since the low-dimensional representation is initialized by sampling from a
-Gaussian with a very small variance that is centered around the origin).
-
-Second, although t-SNE introduces strong repulsions between dissimilar
-datapoints that are modeled by small pairwise distances, these repulsions do
-not go to infinity. In this respect, t-SNE differs from UNI-SNE, in which the
-strength of the repulsion between very dissimilar datapoints is proportional
-to their pairwise distance in the low-dimensional map, which may cause
-dissimilar datapoints to move much too far away from each other.
-
-Taken together, t-SNE puts emphasis on (1) modeling dissimilar
-datapoints by means of large pairwise distances, and (2) modeling
-similar datapoints by means of small pairwise distances. Moreover, as
-a result of these characteristics of the t-SNE cost function (and as a
-result of the approximate scale invariance of the Student
-t-distribution), the optimization of the t-SNE cost function is much
-easier than the optimization of the cost functions of SNE and
-UNI-SNE. Specifically, t-SNE introduces long-range forces in the
-low-dimensional map that can pull back together two (clusters of)
-similar points that get separated early on in the optimization. SNE
-and UNI-SNE do not have such long-range forces, as a result of which
-SNE and UNI-SNE need to use simulated annealing to obtain reasonable
-solutions. Instead, the long-range forces in t-SNE facilitate the
-identification of good local optima without resorting to simulated
-annealing
-
-```{.pseudocode}
-\begin{algorithm}
-\caption{Simple version of t-Distributed Stochastic Neighbor Embeding}
-\begin{algorithmic}
-\State \textbf{Data}: high-dimensional representation $\mathcal{X} = \{x_1, \dots, x_n\}$
-\State cost function parameters: perplexity  $Perp$
-\State optimization parameters: number of iterations $T$, learning rate $\eta$, momentum $\alpha(t)$
-\State \textbf{Result}: low-dimensional data representation $\mathcal{Y}^{(T)} = \{y_1, \dots, y_n\}$
-\Procedure{t-sne}{$Perp, T, \eta, \alpha(t)$}
-    \State compute pairwise affinities $p_{j|i}$ with perplexity $Perp$ (using Equation 1)
-    \State set $p_{ij} = \frac{1}{2n} (p_{j|i} + p_{i|j})$
-    \State sample initial solution $\mathcal{Y}^{(0)} = \{y_1,\dots,y_n\}$ from $\mathcal{N}(0,1e^{-4} I)$
-    \For{$t = 0$\dots$T$}
-        \State compute low-dimensional affinities $q_{ij}$ (using Equation 4)
-        \State compute gradient $\frac{\partial C}{\partial \mathcal{Y}}$ (using Equation 5)
-        \State et $\mathcal{Y}^{t} = \mathcal{Y}^{t-1} + \eta \frac{\partial C}{\partial \mathcal{Y}} + \alpha(t) \left(\mathcal{Y}^{t-1} - \mathcal{Y}^{t-2}\right)$ 
-    \EndFor
-\EndProcedure
-\end{algorithmic}
-\end{algorithm}
+```{python}
+import numpy as np
+import scipy as sp
+import scipy.stats
+import matplotlib.pyplot as plt
+from CEIS_vMFNM import *
+from IPython.display import display, Math, Latex
+from IPython.display import Markdown
+from tabulate import tabulate
+np.random.seed(10)
 ```
+
+# Introduction	
+
+Importance Sampling (IS) is a widely considered stochastic method to estimate integrals of the form $E = \int \phi f$ with a black-box function $\phi$ and a probability density function (pdf) $f$. It rests upon the choice of an auxiliary density which, when suitably chosen, can significantly improve the situation compared to the naive Monte Carlo (MC) method [@AgapiouEtAl_ImportanceSamplingIntrinsic_2017], [@OwenZhou_SafeEffectiveImportance_2000]. The theoretical optimal IS density, also called zero-variance density, is defined by $\phi f / E$ when $\phi$ is a positive function. This density is not available in practice as it involves the unknown integral $E$, but a classical strategy consists in searching an optimal approximation in a parametric family of densities. By minimising a ''distance'' with the optimal IS density, such as the Kullback--Leibler divergence, one can find optimal parameters in this family to get an efficient sampling pdf. Adaptive Importance Sampling (AIS) algorithms, such as the Mixture Population Monte Carlo method [@CappeEtAl_AdaptiveImportanceSampling_2008], the Adaptive Multiple Importance Sampling method [@CornuetEtAl_AdaptiveMultipleImportance_2012], or the Cross Entropy method [@RubinsteinKroese_CrossentropyMethodUnified_2011], estimate the optimal parameters adaptively by updating intermediate parameters [@BugalloEtAl_AdaptiveImportanceSampling_2017].
+
+An intense research activity has made these techniques work very well, but only for moderate dimensions. In high dimension, most of these techniques actually fail to give efficient parameters for two reasons. The first one is the so-called weight degeneracy problem, which is that in high dimension, the weights appearing in the IS densities (which are self-normalized likelihood ratios) degenerate. More precisely, the largest weight takes all the mass, while all other weights are negligible so that the final estimation essentially uses only one sample, see for instance [@BengtssonEtAl_CurseofdimensionalityRevisitedCollapse_2008] for a theoretical analysis in the related context of particle filtering. But even without likelihood ratios, such techniques may fail if they need to estimate high-dimensional parameters such as covariance matrices, whose size increases quadratically in the dimension [@AshurbekovaEtAl_OptimalShrinkageRobust_], [@LedoitWolf_WellconditionedEstimatorLargedimensional_2004]. The conditions under which importance sampling is applicable in high dimension are notably investigated in a reliability context in [@AuBeck_ImportantSamplingHigh_2003]: it is remarked that the optimal covariance matrix should not deviate significantly from the identity matrix. [@El-LahamEtAl_RecursiveShrinkageCovariance_] tackle the weight degeneracy problem by applying a recursive shrinkage of the covariance matrix, which is constructed iteratively with a weighted sum of the sample covariance estimator and a biased, but more stable, estimator. Concerning the second problem of having to estimate high-dimensional parameters, the idea was recently put forth to reduce the effective dimension by only estimating these parameters (in particular the covariance matrix) in suitable directions [@MasriEtAl_ImprovementCrossentropyMethod_2020], [@UribeEtAl_CrossentropybasedImportanceSampling_2020]. In this paper we seek to delve deeper into this idea. The main contribution of the present paper is to identify the optimal directions in the fundamental case when the parametric family is Gaussian, and perform numerical simulations in order to understand how they behave in practice. In particular, we propose directions which, in contrast to the recent paper [@UribeEtAl_CrossentropybasedImportanceSampling_2020], does not require the objective function to be differentiable, and moreover optimizes the Kullback--Leibler distance with the optimal density instead of simply an upper bound on it, as in [@UribeEtAl_CrossentropybasedImportanceSampling_2020]. In @sec-proj we elaborate in more details on the differences between the two approaches.
+
+The paper is organised as follows: in @sec-IS we recall the foundations of IS. In @sec-main-result, we state our main theoretical result and we compare it with the current state-of-the-art. @sec-proof presents the proof of our theoretical result; @sec-num-results-framework introduces the numerical framework that we have adopted, and @sec-test-cases presents the numerical results obtained on five different test cases to assess the efficiency of the directions that we propose. We conclude in @sec-Ccl with a summary and research perspectives. 
+
+# Importance Sampling {#sec-IS}
+We consider the problem of estimating the following integral:
+	$$
+	E=\mathbb{E}_f(\phi(\mathbf{X}))=\int \phi(\mathbf{x})f(\mathbf{x})\textrm{d} \mathbf{x},
+	$$
+where $\mathbf{X}$ is a random vector in $\mathbb{R}^n$ with Gaussian standard pdf $f$, and $\phi: \mathbb{R}^n\rightarrow\mathbb{R}_+$ is a real-valued, non-negative function. If one were to relax this Gaussian standard assumption, one would need to look for covariance matrices in a different auxiliary set. The function $\phi$ is considered as a black-box function which is potentially expensive to evaluate, which means the number of calls to $\phi$ should be limited.
+
+IS is a widely considered approach to reduce the variance of the classical Monte Carlo estimator of $E$. The idea of IS is to generate a random sample $\mathbf{X}_1,\ldots,\mathbf{X}_N$ from an auxiliary density $g$, instead of $f$, and to compute the following estimator: 
+	$$
+	\widehat{E}_N=\frac{1}{N}\sum_{i=1}^N \phi(\mathbf{X}_i)L(\mathbf{X}_i),
+	$$ {#eq-hatE}
+	with $L=f/g$ the likelihood ratio, or importance weight, and the density $g$, called importance sampling density, is such that $g(\mathbf{x})=0$ implies $\phi(\mathbf{x}) f(\mathbf{x})=0$ for every $\mathbf{x}$ (which makes the product $\phi L$ well-defined). This estimator is consistent and unbiased but its accuracy strongly depends on the choice of the auxiliary density $g$. It is well known that the optimal choice for $g$ is [@bucklew2013introduction]
+	$$
+	g^*(\mathbf{x})=\dfrac{\phi(\mathbf{x})f(\mathbf{x})}{E}, \ \mathbf{x}\in\mathbb{R}^n.
+	$$
+Indeed, for this choice we have $\phi L = E$ and so $\widehat E_N$ is actually the deterministic estimator $E$. For this reason, $g^*$ is sometimes called zero-variance density, a terminology that we will adopt here. Of course, $g^*$ is only of theoretical interest as it depends on the unknown integral $E$. However, it gives an idea of good choices for the auxiliary density $g$, and we will seek to approximate $g^*$ by an auxiliary density that minimizes a distance between $g^*$ and a given parametric family of densities.
+	
+In this paper, the parametric family of densities is the Gaussian family $\{g_{\mathbf{m}, \Sigma}: \mathbf{m} \in \mathbb{R}^n, \Sigma \in \mathcal{S}^+_n\}$, where $g_{\mathbf{m}, \Sigma}$ denotes the Gaussian density with mean $\mathbf{m} \in \mathbb{R}^n$ and covariance matrix $\Sigma \in \mathcal{S}^+_n$ with $\mathcal{S}^+_n \subset \mathbb{R}^{n \times n}$ the set of symmetric, positive-definite matrices:
+	$$
+	g_{\mathbf{m},\Sigma}(\mathbf{x})=\dfrac{1}{ (2\pi)^{n/2} \lvert \Sigma \rvert^{1/2}} \exp\left(-\frac{1}{2}(\mathbf{x}-\mathbf{m})^\top\Sigma^{-1}(\mathbf{x}-\mathbf{m})\right), \ \mathbf{x} \in \mathbb{R}^n.
+	$$
+with $\lvert \Sigma \rvert$ the determinant of $\Sigma$. Moreover, we will consider the Kullback--Leibler (KL) divergence to measure a ''distance'' between $g^*$ and  $g_{\mathbf{m}, \Sigma}$. Recall that for two densities $f$ and $h$, with $f$ absolutely continuous with respect to $h$, the KL divergence $D(f,h)$ between $f$ and $h$ is defined by: 
+	$$
+	D(f,h)=\mathbb{E}_{f}\left[\log \left( \frac{f(\mathbf{X})}{h(\mathbf{X})} \right) \right] = \int \log \left( \frac{f(\mathbf{x})}{h(\mathbf{x})} \right)f(\mathbf{x}) \textrm{d} \mathbf{x}.
+	$$
+Thus, our goal is to approximate $g^*$ by $g_{\mathbf{m}^*, \Sigma^*}$ with the optimal mean vector $\mathbf{m}^*$ and the optimal covariance matrix $\Sigma^*$ given by:
+	$$
+	(\mathbf{m}^*,\Sigma^*) = \arg\min \left\{ D(g^*,g_{\mathbf{m},\Sigma}): \mathbf{m} \in \mathbb{R}^n, \Sigma \in \mathcal{S}_n^+ \right\}.
+	$$ {#eq-argminDkl}
+In the Gaussian case of the present setting, it is well-known that $\mathbf{m}^*$ and $\Sigma^*$ are simply the mean and variance of the zero-variance density [@RubinsteinKroese_CrossentropyMethodUnified_2011], [@RubinsteinKroese_SimulationMonteCarlo_2017]:
+	$$
+	\mathbf{m}^*=\mathbb{E}_{g^*}(\mathbf{X}) \hspace{0.5cm} \text{ and } \hspace{0.5cm} \Sigma^* = \textrm{Var}_{g^*} \left(\mathbf{X}\right).
+	$$ {#eq-mstar}
+
+
+
+# Main result and positioning of the paper {#sec-main-result} 
+	
+## Projecting on a low dimensional subspace {#sec-proj} 
+	
+As $g^*$ is unknown (although, as will be considered below, we can in principle sample from it since it is known up to a multiplicative constant), the optimal parameters $\mathbf{m}^*$ and $\Sigma^*$ given by @eq-mstar are not directly computable. Therefore, usual estimation schemes start with estimating $\mathbf{m}^*$ and $\Sigma^*$, say through $\widehat{\mathbf{m}}^*$ and $\widehat{\Sigma}^*$, respectively, and then use these approximations to estimate $E$ through @eq-hatE with the auxiliary density $g_{\widehat{\mathbf{m}}^*, \widehat{\Sigma}^*}$. Although the estimation of $E$ with the auxiliary density $g_{\mathbf{m}^*, \Sigma^*}$ usually provides very good results, it is well-known that in high dimension, the additional error induced by the estimations of $\mathbf{m}^*$ and $\Sigma^*$ severely degrades the accuracy of the final estimation [@PapaioannouEtAl_ImprovedCrossEntropybased_2019], [@UribeEtAl_CrossentropybasedImportanceSampling_2020]. The main problem lies in the estimation of $\Sigma^*$ which, in dimension $n$, involves the estimation of a quadratic (in the dimension) number of terms, namely $n(n+1)/2$.
+Recently, the idea to overcome this problem by only evaluating variance terms in a small number of influential directions was explored in [@MasriEtAl_ImprovementCrossentropyMethod_2020] and [@UribeEtAl_CrossentropybasedImportanceSampling_2020]. In these two papers, the auxiliary covariance matrix $\Sigma$ is modeled in the form
+	$$
+	\Sigma = \sum_{i=1}^k (v_i-1) \mathbf{d}_i \mathbf{d}_i^\top + I_n
+	$$ {#eq-Sigmak}
+where the $\mathbf{d}_i$'s are the $k$ orthonormal directions which are deemed influential. It is easy to check that $\Sigma$ is the covariance matrix of the Gaussian vector
+	$$ v^{1/2}_1 Y_1 \mathbf{d}_1 + \cdots + v^{1/2}_k Y_k \mathbf{d}_k + Y_{k+1} \mathbf{d}_{k+1} + \cdots + Y_n \mathbf{d}_n $$
+where the $Y_i$'s are i.i.d. standard normal random variables (one-dimensional), and the $n-k$ vectors $(\mathbf{d}_{k+1}, \ldots, \mathbf{d}_n)$ complete $(\mathbf{d}_1, \ldots, \mathbf{d}_k)$ into an orthonormal basis. In particular, $v_i$ is the variance in the direction of $\mathbf{d}_i$, i.e., $v_i = \mathbf{d}_i^\top \Sigma \mathbf{d}_i$. In @eq-Sigmak, $k$ can be considered as the effective dimension in which variance terms are estimated. In other words, in [@MasriEtAl_ImprovementCrossentropyMethod_2020] and [@UribeEtAl_CrossentropybasedImportanceSampling_2020], the optimal variance parameter is not sought in $\mathcal{S}^+_n$ as in @eq-argminDkl}, but rather in the subset of matrices of the form
+	$$ \mathcal{L}_{n,k} = \left\{ \sum_{i=1}^k (\alpha_i-1) \frac{\mathbf{d}_i \mathbf{d}_i^\top}{\lVert \mathbf{d}_i \rVert^2} + I_n: \alpha_1, \ldots, \alpha_k >0 \ \text{ and the $\mathbf{d}_i$'s are orthogonal} \right\}. $$
+The relevant minimization problem thus becomes
+	$$ 
+	(\mathbf{m}^*_k, \Sigma^*_k) = \arg\min \left\{ D(g^*,g_{\mathbf{m},\Sigma}): \mathbf{m} \in \mathbb{R}^n, \ \Sigma \in \mathcal{L}_{n,k} \right\}
+	$$ {#eq-argminDkl-k}
+instead of @eq-argminDkl, with the effective dimension $k$ being allowed to be adjusted dynamically. By restricting the space in which the variance is looked up, one seeks to limit the number of variance terms to be estimated. The idea is that if the directions are suitably chosen, then the improvement of the accuracy due to the smaller error in estimating the variance terms will compensate the fact that we consider less candidates for the covariance matrix.
+In [@MasriEtAl_ImprovementCrossentropyMethod_2020], the authors consider $k = 1$ and $\mathbf{d}_1 = \mathbf{m}^* / \lVert \mathbf{m}^* \rVert$. When $f$ is Gaussian, this choice is motivated by the fact that, due to the light tail of the Gaussian random variable and the reliability context, the variance should vary significantly in the direction of $\mathbf{m}^*$ and so estimating the variance in this direction can bring information. (In @sec-mm, we actually use the techniques of the present paper to provide a stronger theoretical justification of this choice, see @thm-thm2 and the discussion following it). The method in [@UribeEtAl_CrossentropybasedImportanceSampling_2020] is more involved: $k$ is adjusted dynamically, while the directions $\mathbf{d}_i$ are the eigenvectors associated to the largest eigenvalues of a certain matrix. They span a low-dimensional subspace called Failure-Informed Subspace, and the authors in [@UribeEtAl_CrossentropybasedImportanceSampling_2020] prove that this choice minimizes an upper bound on the minimal KL divergence. In practice, this algorithm yields very accurate results. However, we will not consider it further in the present paper for two reasons. First, this algorithm is tailored for the reliability case where $\phi = \mathbb{I}_{\{\varphi \geq 0\}}$, with a function $\varphi: \mathbb{R}^n \to \mathbb{R}$, whereas our method is more general and applies to the general problem of estimating an integral (see for instance our test case of @sec-sub:payoff). Second, the algorithm in [@UribeEtAl_CrossentropybasedImportanceSampling_2020] requires the evaluation of the gradient of the function $\varphi$. However, this gradient is not always known and can be expensive to evaluate in high dimension; in some cases, the function $\varphi$ is even not differentiable, as will be the case in our numerical example in @sec-sub:portfolio. 
+In contrast, our method makes no assumption on the form or smoothness of $\phi$: it does not need to assume that it is of the form $\mathbb{I}_{\{\varphi \geq 0\}}$, or to assume that $\nabla \varphi$ is tractable. For completeness, whenever  the algorithm of [@UribeEtAl_CrossentropybasedImportanceSampling_2020] was applicable and computing the gradient of $\varphi$ did not require any additional simulation budget, we have run it on the test cases considered here and found that it outperformed our algorithm. In more realistic settings, computing $\nabla \varphi$ would likely increase the simulation budget, and it would be interesting to compare the two algorithms in more details to understand when this extra computation cost is worthwhile. We reserve such a question for future research and will not consider the algorithm of [@UribeEtAl_CrossentropybasedImportanceSampling_2020] further, as our aim in this paper is to establish benchmark results for a general algorithm which works for any function $\phi$. 
+
+## Main result of the paper {#sec-main-result-positioning} 
+The main result of the present paper is to actually compute the exact value for $\Sigma^*_k$ in @eq-argminDkl-k, which therefore paves the way for efficient high-dimensional estimation schemes. The statement of our result involves the following function $\ell$, which is represented in @fig-l:
+	$$
+	\ell: x \in (0,\infty) \mapsto -\log(x) + x - 1.
+	$$ {#eq-l}
+In the following, $(\lambda, \mathbf{d}) \in \mathbb{R} \times \mathbb{R}^n$ is an eigenpair of a matrix $A$ if $A\mathbf{d} = \lambda \mathbf{d}$ and $\lVert \mathbf{d} \rVert = 1$. A diagonalizable matrix has $n$ distinct eigenpairs, say $((\lambda^*_i, \mathbf{d}^*_i), i = 1, \ldots, n)$, and we say that these eigenpairs are ranked in decreasing $\ell$-order if $\ell(\lambda^*_1) \geq \cdots \geq \ell(\lambda^*_n)$.
+
+```{python}
+#| label: fig-l
+#| fig-cap: Plot of the function $\ell=-\log(x) + x - 1$ given by @eq-l
+
+###############################################################################################################################
+# Figure 1. Plot of the function "l"
+###############################################################################################################################
+
+x = np.linspace(np.finfo(float).eps,4.0,100)
+y = -np.log(x) + x -1
+
+# plot
+fig, ax = plt.subplots()
+
+ax.plot(x, y, linewidth=2.0)
+
+ax.set(xlim=(0, 4), xticks=[0,1,2,3],
+       ylim=(0, 0.5), yticks=[0,0.5,1,1.5])
+plt.grid()
+plt.xlabel(r"$x$",fontsize=16)
+plt.ylabel(r"$\ell(x)$",fontsize=16)
+for tickLabel in plt.gca().get_xticklabels() + plt.gca().get_yticklabels():
+    tickLabel.set_fontsize(16)
+plt.show()
+```
+
+::: {#thm-thm1}
+Let $(\lambda^*_i, \mathbf{d}^*_i)$ be the eigenpairs of $\Sigma^*$ ranked in decreasing $\ell$-order. Then for $1 \leq k \leq n$, the solution $(\mathbf{m}^*_k, \Sigma^*_k)$ to @eq-argminDkl-k is given by
+$$
+\mathbf{m}^*_k = \mathbf{m}^* \ \text{ and } \ \Sigma^*_k = I_n + \sum_{i=1}^k \left( \lambda^*_i - 1 \right) \mathbf{d}^*_i (\mathbf{d}^*_i)^\top. 
+$$ {#eq-Sigma*k}
+:::
+
+For $k = 1$ for instance, the shape of the function $\ell$ depicted in @fig-l implies that $\Sigma^*_1 = I_n + (\lambda^*-1) \mathbf{d}^* (\mathbf{d}^*)^\top$ with $(\lambda^*, \mathbf{d}^*)$ the eigenpair of $\Sigma^*$ with $\lambda^*$ either the largest or the smallest eigenvalue of $\Sigma^*$, depending on which one maximizes $\ell$.
+
+This theoretical result therefore suggests to reduce dimension by estimating eigenpairs of $\Sigma^*$, rank them in decreasing $\ell$-order and then use the $k$ first eigenpairs $(({\widehat{\lambda}}^*_i, {\widehat{\mathbf{d}}}^*_i), i = 1, \ldots, k)$ to build the covariance matrix $\widehat \Sigma^*_k = \sum_{i=1}^k ({\widehat{\lambda}}^*_i-1) {\widehat{\mathbf{d}}}^*_i ({{\widehat{\mathbf{d}}}^*}_i)^\top + I_n$ and the corresponding auxiliary density. This scheme is summarized in Algorithm 1. The effective dimension $k$ is obtained by Algorithm 2, see @sec-choicek below.
 
 
 ```{.pseudocode}
@@ -553,146 +172,334 @@ annealing
 \caption{Algorithm suggested by Theorem 1.}
 \begin{algorithmic}
 \State \textbf{Data}: Sample sizes $N$ and $M$
-\State \textbf{Result: } Estimation $\widehat{E}_N$ of integral $E$
-\State- Generate a sample $\mathbf{X}_1,\ldots,\mathbf{X}_M$  on $\mathbb{R}^n$ independently according to $g^*$
-\State - Estimate $\widehat{\mathbf{m}}^*$ and $\widehat{\Sigma}^*$ defined in Equation 10 and Equation 11 with this sample
-\State - Compute the eigenpairs $(\widehat{\lambda}^*_i, \widehat{\mathbf{d}}^*_i)$ of $\widehat{\Sigma}^*$ ranked in decreasing $\ell$-order
-\State - Compute the matrix $\widehat{\Sigma}^*_k = \sum_{i=1}^k ({\widehat{\lambda}}^*_i-1) {\widehat{\mathbf{d}}}^*_i ({{\widehat{\mathbf{d}}}^*}_i)^\top + I_n$ with $k$ obtained by applying Algorithm 2 with input $({\widehat{\lambda}}^*_1, \ldots, {\widehat{\lambda}}^*_n)$
-\State - Generate a new sample $\mathbf{X}_1,\ldots,\mathbf{X}_N$ independently from $g' = g_{\widehat{\mathbf{m}}^*,\widehat{\Sigma}^*_k}$
-\State - Return $\displaystyle \widehat{E}_N=\frac{1}{N}\underset{i=1}{\overset{N}{\sum}} \phi(\mathbf{X}_i)\frac{f(\mathbf{X}_i)}{g'(\mathbf{X}_i)}$
+\State \textbf{Result}: Estimation $\widehat{E}_N$ of integral $E$
+\State Generate a sample $\mathbf{X}_1,\ldots,\mathbf{X}_M$  on $\mathbb{R}^n$ independently according to $g^*$
+\State  Estimate $\widehat{\mathbf{m}}^*$ and $\widehat{\Sigma}^*$ defined in Equation 10 and Equation 11 with this sample
+\State Compute the eigenpairs $(\widehat{\lambda}^*_i, \widehat{\mathbf{d}}^*_i)$ of $\widehat{\Sigma}^*$ ranked in decreasing $\ell$-order
+\State Compute the matrix $\widehat{\Sigma}^*_k = \sum_{i=1}^k ({\widehat{\lambda}}^*_i-1) {\widehat{\mathbf{d}}}^*_i ({{\widehat{\mathbf{d}}}^*}_i)^\top + I_n$ with $k$ obtained by applying Algorithm 2 with input $({\widehat{\lambda}}^*_1, \ldots, {\widehat{\lambda}}^*_n)$
+\State Generate a new sample $\mathbf{X}_1,\ldots,\mathbf{X}_N$ independently from $g' = g_{\widehat{\mathbf{m}}^*,\widehat{\Sigma}^*_k}$
+\State Return $\displaystyle \widehat{E}_N=\frac{1}{N}\underset{i=1}{\overset{N}{\sum}} \phi(\mathbf{X}_i)\frac{f(\mathbf{X}_i)}{g'(\mathbf{X}_i)}$
 \end{algorithmic}
 \end{algorithm}
 ```
 
-## Optimization methods for t-SNE {#sec-optimization_methods_for_tsne}
-
-We start by presenting a relatively simple, gradient descent procedure for
-optimizing the t-SNE cost function. This simple procedure uses a momentum term
-to reduce the number of iterations required and it works best if the momentum
-term is small until the map points have become moderately well organized.
-Pseudocode for this simple algorithm is presented in Algorithm 1 (FIXME: ref not working). The
-simple algorithm can be sped up using the adaptive learning rate scheme that
-is described by @jacobs:rates, which gradually increases the learning
-rate in directions in which the gradient is stable.
-
-Although the simple algorithm produces visualizations that are often much
-better than those produced by other non-parametric dimensionality reduction
-techniques, the results can be improved further by using either of two tricks.
-The first trick, which we call "early compression," is to force the map points
-to stay close together at the start of the optimization. When the distances
-between map points are small, it is easy for clusters to move through one
-another so it is much easier to explore the space of possible global
-organizations of the data. Early compression is implemented by adding an
-additional L2-penalty to the cost function that is proportional to the sum of
-squared distances of the map points from the origin. The magnitude of this
-penalty term and the iteration at which it is removed are set by hand, but the
-behavior is fairly robust across variations in these two additional
-optimization parameters.
-
-A less obvious way to improve the optimization, which we call "early
-exaggeration," is to multiply all of the $p_{ij}$'s by, for example, 4, in the
-initial stages of the optimization. This means that almost all of the
-$q_{ij}$'s, which still add up to 1, are much too small to model their
-corresponding $p_{ij}$'s. As a result, the optimization is encouraged to focus
-on modeling the large $p_{ij}$'s by fairly large $q {ij}$'s. The effect is
-that the natural clusters in the data tend to form tight widely separated
-clusters in the map. This creates a lot of relatively empty space in the map,
-which makes it much easier for the clusters to move around relative to one
-another in order to find a good global organization.
-
-In all the visualizations presented in this paper and in the
-supporting material, we used exactly the same optimization
-procedure. We used the early exaggeration method with an exaggeration
-of 4 for the first 50 iterations (note that early exaggeration is not
-included in the pseudocode in Algorithm 1). The number of
-gradient descent iterations $T$ was set 1000, and the momentum term
-was set to $\alpha^{(t)} = 0.5$ for $t<250$ and $\alpha^{(t)}=0.8$ for
-$t \geq 250$. The learning rate $\eta$ is initially set to 100 and it
-is updated after every iteration by means of the adaptive learning
-rate scheme described by @jacobs:rates. A Matlab implementation of the
-resulting algorithm is available at
-<https://lvdmaaten.github.io/tsne/>.
-
-# Experiments {#sec-experiments}
-
-To evaluate t-SNE, we present experiments in which t-SNE is compared to seven
-other non-parametric techniques for dimensionality reduction. Because of space
-limitations, in the paper, we only compare t-SNE with: (1) Sammon mapping, (2)
-Isomap, and (3) LLE. In the supporting material, we also compare t-SNE with:
-(4) CCA, (5) SNE, (6) MVU, and (7) Laplacian Eigenmaps. We performed
-experiments on five data sets that represent a variety of application domains.
-Again, because of space limitations, we restrict ourselves to three data sets
-in the paper. The results of our experiments on the remaining two data sets
-are presented in the supplementary material.
-
-In @sec-datasets, the data sets that we employed in our
-experiments are introduced. The setup of the experiments is presented in
-@sec-experimental_setup. In @sec-results, we
-present the results of our experiments.
-
-## Data Sets {#sec-datasets}
-
-The five data sets we employed in our experiments are: (1) the MNIST data set,
-(2) the Olivetti faces data set, (3) the COIL-20 data set, (4) the
-word-features data set, and (5) the Netflix data set. We only present results
-on the first three data sets in this section. The results on the remaining two
-data sets are presented in the supporting material. The first three data sets
-are introduced below.
-
-The MNIST data set[^MNIST] contains 60,000 grayscale images of
-handwritten digits. For our experiments, we randomly selected 6,000 of
-the images for computational reasons. The digit images have $28 \times
-28 = 784$ pixels (i.e., dimensions). The Olivetti faces data
-set[^Olivetti] consists of images of 40 individuals with small
-variations in viewpoint, large variations in expression, and
-occasional addition of glasses. The data set consists of 400 images
-(10 per individual) of size $92\times 112=10,304$ pixels, and is
-labeled according to identity. The COIL-20 data set
-@nene:coil20 contains images of 20 different objects viewed
-from 72 equally spaced orientations, yielding a total of 1,440
-images. The images contain $32 \times 32 = 1,024$ pixels.
-
-[^MNIST]: The MNIST data set is publicly available from <http://yann.lecun.com/exdb/mnist/index.html>.
-
-[^Olivetti]: The Olivetti data set is publicly available from <http://mambo.ucsc.edu/psl/olivetti.html>.
-
-## Experimental Setup {#sec-experimental_setup}
-
-In all of our experiments, we start by using PCA to reduce the dimensionality
-of the data to 30. This speeds up the computation of pairwise distances
-between the datapoints and suppresses some noise without severely distorting
-the interpoint distances. We then use each of the dimensionality reduction
-techniques to convert the 30-dimensional representation to a two-dimensional
-map and we show the resulting map as a scatterplot. For all of the data sets,
-there is information about the class of each datapoint, but the class
-information is only used to select a color and/or symbol for the map points.
-The class information is not used to determine the spatial coordinates of the
-map points. The coloring thus provides a way of evaluating how well the map
-preserves the similarities within each class.
-
-The cost function parameter settings we employed in our experiments are listed
-in @tbl-cost-function-parameters. In the table, $Perp$ represents the
-perplexity of the conditional probability distribution induced by a Gaussian
-kernel and $k$ represents the number of nearest neighbors employed in a
-neighborhood graph. In the experiments with Isomap and LLE, we only visualize
-datapoints that correspond to vertices in the largest connected component of
-the neighborhood graph. [^neighborhood_graph] For the Sammon mapping
-optimization, we performed Newton's method for 500 iterations.
-
-[^neighborhood_graph]: Isomap and LLE require data that gives rise to a
-  neighborhood graph that is connected.
-
-::: {.column-margin}
-
-| Technique      | Cost function parameters |
-|----------------|-------------------------:|
-| t-SNE          | $Perp = 40$              |
-| Sammon mapping | none                     |
-| Isomap         | $k=12$                   |
-| LLE            | $k=12$                   |
-
-: Cost function parameter settings for the experiments {#tbl-cost-function-parameters}
-
+::: {.remark}
+ The value $1$ plays a particular role in @thm-thm1, in that, as $\ell$ is minimized in $1$, eigenvectors with eigenvalues $1$ will only be selected once all other eigenvalues will have been picked: in other words, if $\lambda^*_i = 1$ then $\lambda^*_j = 1$ for all $j \geq i$. The reason why $1$ plays this special role is due to the form of the covariance matrix that we impose. More precisely, looking for covariance matrices in the set $\mathcal{L}_{n,k}$ amounts to looking for covariance matrices which, once diagonalized, have one's on the diagonal except possibly for $k$ values (the $\alpha_i$'s). As $k$ will be small, typically $k = 1$ or $2$, this amounts to looking for covariance matrices which are perturbation of the identity. This is particularly relevant as we assume $f$ is a standard Gaussian density. What @thm-thm1 tells is that, when trying to approximate $\Sigma^*$ by such matrices, we should first consider eigenvectors with eigenvalues as different as possible from $1$, the ''distance'' to $1$ being measured by $\ell$. If one was imposing a different form on $\Sigma^*_k$ (which can be interesting if the distribution $f$ is not standardized), then a different result would arise. For instance, if one was looking for matrices where the ''default'' choice would be some $\lambda > 0$ for the diagonal entries that are not estimated, i.e., a matrix of the form $\sum_i (\alpha_i-\lambda) \mathbf{d}_i \mathbf{d}_i^\top + \lambda I_n$, then eigenpairs would be ranked according to the function $\ell(\cdot/\lambda)$, meaning that one would look for eigenvectors associated to eigenvalues as different as possible from $\lambda$.
 :::
 
-## Results {#sec-results}
+As mentioned above, we assume in the first step of Algorithm 1 that we can sample according to $g^*$. Since $g^*$ is known up to a multiplicative constant, this is a reasonable assumption as classical techniques such as importance sampling with self-normalized weights or Markov Chain Monte--Carlo (MCMC) can be applied in this case (see for instance [@ChanKroese_ImprovedCrossentropyMethod_2012], [@GraceEtAl_AutomatedStateDependentImportance_2014]). In this paper, we choose to apply a basic rejection method that yields perfect independent samples from $g^*$, possibly at the price of a high computational cost. As the primary goal of this paper is to understand whether the $\mathbf{d}^*_i$'s are indeed good projection directions, this computational cost to generate from $g^*$ is not relevant for us and therefore not taken into account. Possible improvements to relax this assumption are discussed in the conclusion of the paper.
+
+
+## Choice of the number of dimensions $k$ {#sec-choicek} 
+The choice of the effective dimension $k$, i.e., the number of projection directions considered, is important. If it is close to $n$, then the matrix $\widehat{\Sigma}^*_k$ will be close to $\widehat{\Sigma}^*$ which is the situation we want to avoid in the first place. On the other hand, setting $k=1$ in all cases may be too simple and lead to suboptimal results. In practice however, this is often a good choice. In order to adapt $k$ dynamically, we consider a simple method based on the value of the KL divergence. Given the eigenvalues $\lambda_1, \ldots, \lambda_n$ ranked in decreasing $\ell$-order, we look for the maximal gap in the sequence $(\ell(\lambda_1), \ldots, \ell(\lambda_n))$. This allows to choose $k$ such that $\sum_{i=1}^k \ell(\lambda_i)$ is close to $\sum_{i=1}^n \ell(\lambda_i)$ which is equal, up to an additive constant, to the minimal KL divergence (see @eq-Dell below). The precise method is described in Algorithm 2. 
+
+```{.pseudocode}
+\begin{algorithm}
+\caption{Choice of the number of dimensions}
+\begin{algorithmic}
+\State \textbf{Data}: Sequence of positive numbers $\lambda_1, \ldots, \lambda_n$ in decreasing $\ell$-order
+\State \textbf{Result}: Number of selected dimensions $k$
+\State Compute the increments $\delta_i = \ell(\lambda_{i+1}) - \ell(\lambda_i)$ for $i=1\ldots n-1$
+\State Return $k=\arg\max \delta_i$, the index of the maximum of the differences.
+\end{algorithmic}
+\end{algorithm}
+```
+
+## Theoretical result concerning the projection on $\mathbf{m}^*$ {#sec-mm} 
+In [@MasriEtAl_ImprovementCrossentropyMethod_2020], the authors propose to project on the mean $\mathbf{m}^*$ of the optimal auxiliary density $g^*$. Numerically, this algorithm is shown to perform well, but only a very heuristic explanation based on the light tail of the Gaussian distribution is provided to motivate this choice. It turns out that the techniques used in the proof of @thm-thm1 can shed light on why projecting on $\mathbf{m}^*$ may indeed be a good idea. Let us first state our theoretical result, and then explain why it justifies the idea of projecting on $\mathbf{m}^*$.
+    
+::: {#thm-thm2}
+Consider $\Sigma \in \mathcal{L}_{n,1}$ of the form $\Sigma = I_n + (\alpha - 1) \mathbf{d} \mathbf{d}^\top$ with $\alpha > 0$ and $\lVert \mathbf{d} \rVert = 1$. Then the minimizer in $(\alpha, \mathbf{d})$ of the KL divergence between $f$ and $g_{\mathbf{m}^*, \Sigma}$ is $(1+\lVert m^*\rVert^2, \mathbf{m}^* / \lVert \mathbf{m}^* \rVert)$:
+		$$\left( 1+\lVert \mathbf{m}^*\rVert^2, \mathbf{m}^* / \lVert \mathbf{m}^* \rVert \right) = \arg \min_{\alpha, \mathbf{d}} \left\{ D(f, g_{\mathbf{m}^*, I_n + (\alpha - 1) \mathbf{d} \mathbf{d}^\top}): \alpha > 0, \ \lVert \mathbf{d} \rVert = 1 \right\}. $$
+:::
+In other words, $\mathbf{m}^*$ appears as an optimal projection direction when one seeks to minimize the KL divergence between $f$ and the Gaussian density with mean $\mathbf{m}^*$ and covariance of the form $I_n + (\alpha - 1) \mathbf{d} \mathbf{d}^\top$. Let us now explain why this minimization problem is indeed relevant, and why choosing an auxiliary density which minimizes this KL divergence may indeed lead to an accurate estimation. The justification deeply relies on the recent results by Chatterjee and Diaconis [@Chatterjee18:0].
+	
+As mentioned above, in a reliability context where one seeks to estimate a small probability $p = \mathbb{P}(\mathbf{X} \in A),$ Theorem $1.3$ in [@Chatterjee18:0] shows that $D(g^*, g)$ governs the sample size required for an accurate estimation of $p$: more precisely, the estimation is accurate if the sample size is larger than $e^{D(g^*, g)}$, and inaccurate otherwise. This motivates the rationale for minimizing the KL divergence with $g^*$.
+	
+However, in high dimension, importance sampling is known to fail because of the weight degeneracy problem whereby $\max_i L_i / \sum_i L_i \approx 1$, with the $L_i$'s the unnormalized importance weights, or likelihood ratios: $L_i = f(\mathbf{X}_i) / g(\mathbf{X}_i)$ with the $\mathbf{X}_i$'s i.i.d. drawn according to $g$. Theorem $2.3$ in [@Chatterjee18:0] shows that the weight degeneracy problem is avoided if the empirical mean of the likelihood ratios is close to $1$, and for this, Theorem $1.1$ in [@Chatterjee18:0] shows that the sample size should be larger than $e^{D(f, g)}$. In other words, these results suggest that the KL divergence with $g^*$ governs the sample size for an accurate estimation of $p$, while the KL divergence with $f$ governs the weight degeneracy problem.
+	
+In light of these results, it becomes natural to consider the KL divergence with $f$ and not only $g^*$. Of course, minimizing $D(f, g_{\mathbf{m}, \Sigma})$ without constraints on $\mathbf{m}$ and $\Sigma$ is trivial since $g_{\mathbf{m}, \Sigma} = f$ for $\mathbf{m} = 0$ and $\Sigma = I_n$. However, these choices are the ones we want to avoid in the first place, and so it makes sense to impose some constraints on $\mathbf{m}$ and $\Sigma$. If one keeps in mind the other objective of getting close to $g^*$, then the choice $\mathbf{m} = \mathbf{m}^*$ becomes very natural, and we are led, when $\Sigma \in \mathcal{L}_{n,1}$ is sought as a rank-$1$ perturbation of the identity, to considering the optimization problem of @thm-thm2.
+
+# Proof of Theorems @thm-thm1 and @thm-thm2 {#sec-proof} 
+We begin with a preliminary lemma.
+
+::: {#lem-D}
+Let $f$ be the density of the standard Gaussian vector in dimension $n$, $\phi: \mathbb{R}^n \to \mathbb{R}_+$ and $g_* = f \phi / E$ with $E = \int f \phi$. Then for any $\mathbf{m}$ and any $\Sigma$ of the form $\Sigma = I_n + \sum_i (\alpha_i - 1) \mathbf{d}_i \mathbf{d}_i^\top$ with $\alpha_i > 0$ and the $\mathbf{d}_i$'s orthonormal, we have
+$$
+ D(g^*, g_{\mathbf{m}, \Sigma}) =  \frac{1}{2} \sum_i \left( \log \alpha_i - \left(1 - \frac{1}{\alpha_i} \right) \mathbf{d}_i^\top \Sigma^* \mathbf{d}_i \right) + \frac{1}{2} (\mathbf{m} - \mathbf{m}^*)^\top \Sigma^{-1} (\mathbf{m} - \mathbf{m}^*)\\
+- \frac{1}{2} \lVert \mathbf{m}^* \rVert^2 - \log E + \mathbb{E}_{g^*}(\log \phi(\mathbf{X})).
+$$ {#eq-D}
+:::
+::: {.proof}
+## of @lem-D
+For any $\mathbf{m} \in \mathbb{R}^n$ and $\Sigma \in \mathcal{S}^+_n$, we have by definition
+$$ D(g^*, g_{\mathbf{m}, \Sigma}) = \mathbb{E}_{g^*} \left( \log \left( \frac{g^*(\mathbf{X})}{g_{\mathbf{m}, \Sigma}(\mathbf{X})} \right) \right) = \mathbb{E}_{g^*} \left( \log \left( \frac{\frac{\phi(\mathbf{X}) e^{-\frac{1}{2} \lVert \mathbf{X} \rVert^2}}{E(2\pi)^{d/2}}}{ \frac{e^{-\frac{1}{2} (\mathbf{X} - \mathbf{m})^\top \Sigma^{-1} (\mathbf{X} - \mathbf{m})}}{(2\pi)^{d/2} \lvert \Sigma \rvert^{1/2}} } \right) \right) $$
+and so
+$$
+D(g^*, g_{\mathbf{m}, \Sigma}) = - \frac{1}{2} \mathbb{E}_{g^*}(\lVert \mathbf{X} \rVert^2) + \frac{1}{2} \mathbb{E}_{g^*} \left( (\mathbf{X} - \mathbf{m})^\top \Sigma^{-1} (\mathbf{X} - \mathbf{m}) \right) + \frac{1}{2} \log \lvert \Sigma \rvert\\
+- \log E + \mathbb{E}_{g^*}(\log \phi(\mathbf{X})).
+$$
+Because $\mathbb{E}_{g^*}(\mathbf{X}) = \mathbf{m}^*$, we have $\mathbb{E}_{g^*}(\lVert \mathbf{X} \rVert^2) = \mathbb{E}_{g^*}(\lVert \mathbf{X} - \mathbf{m}^* \rVert^2) + \lVert \mathbf{m}^* \rVert^2$ and
+$$
+\mathbb{E}_{g^*} \left( (\mathbf{X} - \mathbf{m})^\top \Sigma^{-1} (\mathbf{X} - \mathbf{m}) \right) = \mathbb{E}_{g^*} \left( (\mathbf{X} - \mathbf{m}^*)^\top \Sigma^{-1} (\mathbf{X} - \mathbf{m}^*) \right)\\
++ (\mathbf{m} - \mathbf{m}^*)^\top \Sigma^{-1} (\mathbf{m} - \mathbf{m}^*).
+$$
+In the following derivations, we use the linearity of the trace and of the expectation, which make these two operators commute, as well as the identity $a^\top b = \textrm{tr}(a b^\top)$ for any two vectors $a$ and $b$. With this caveat, we obtain
+$$
+\mathbb{E}_{g^*}\left[ \lVert \mathbf{X} - \mathbf{m}^* \rVert^2 \right] = \mathbb{E}_{g^*} \left[ \textrm{tr}((\mathbf{X} - \mathbf{m}^*) (\mathbf{X} - \mathbf{m}^*)^\top) \right] = \textrm{tr} (\Sigma^*) 
+$$
+and we obtain with similar arguments $\mathbb{E}_{g^*}( (\mathbf{X} - \mathbf{m}^*)^\top \Sigma^{-1} (\mathbf{X} - \mathbf{m}^*) ) = \textrm{tr} ( \Sigma^{-1} \Sigma^*)$. Consider now $\Sigma = I_n + \sum_i (\alpha_i - 1) \mathbf{d}_i \mathbf{d}_i^\top$ with $\alpha_i > 0$ and the $\mathbf{d}_i$'s orthonormal. Then the eigenvalues of $\Sigma$ potentially different from $1$ are the $\alpha_i$'s ($\alpha_i$ is the eigenvalue associated with $\mathbf{d}_i$), so that
+$$\log \lvert \Sigma \rvert = \sum_i \log \alpha_i. 
+$$
+Moreover, we have $\Sigma^{-1} = I_n - \sum_i \beta_i \mathbf{d}_i \mathbf{d}_i^\top$ with $\beta_i = 1 - 1/\alpha_i$ and so
+$$
+\textrm{tr}(\Sigma^{-1} \Sigma^*) = \textrm{tr}(\Sigma^*) - \sum_i \beta_i \mathbf{d}_i^\top \Sigma^* \mathbf{d}_i. 
+$$
+Gathering the previous relation, we finally obtain the desired result.
+:::
+
+::: {.proof}
+## of @thm-thm1
+From @eq-D we see that the only dependency of $D(g^*, g_{\mathbf{m}, \Sigma})$ in $\mathbf{m}$ is in the quadratic term $(\mathbf{m} - \mathbf{m}^*)^\top \Sigma^{-1} (\mathbf{m} - \mathbf{m}^*)$. As $\Sigma$ is definite positive, this term is $\geq 0$, and so it is minimized for $\mathbf{m} = \mathbf{m}^*$. Next, we see that the derivative in $\alpha_i$ is given by (here and in the sequel, we see $D(g^*, g_{\mathbf{m}, \Sigma})$ as a function of $\mathbf{v} = (\alpha_i)_i$ and $\mathbf{d} = (\mathbf{d}_i)_i$)
+	$$ \dfrac{\partial D}{\partial \alpha_i}(\mathbf{v}, \mathbf{d}) = \dfrac{1}{\alpha_i} - \frac{1}{\alpha_i^2} \mathbf{d}_i^\top \Sigma^* \mathbf{d}_i = \frac{1}{\alpha_i^2} \left( \alpha_i - \mathbf{d}_i^\top \Sigma^* \mathbf{d}_i \right). $$
+Thus, for fixed $\mathbf{d}$, $D$ is decreasing in $\alpha_i$ for $\alpha_i < \mathbf{d}_i^\top \Sigma^* \mathbf{d}_i$ and then increasing for $\alpha_i > \mathbf{d}_i^\top \Sigma^* \mathbf{d}_i$, which shows that, for fixed $\mathbf{d}$, it is minimized for $\alpha_i = \mathbf{d}_i^\top \Sigma^* \mathbf{d}_i$. For this value (and $\mathbf{m} = \mathbf{m}^*$) we have
+$$ 
+D(g^*, g_{\mathbf{m}^*, \Sigma}) = \sum_{i=1}^k \left[ \log(\mathbf{d}_i^\top \Sigma^* \mathbf{d}_i) + 1 - \mathbf{d}_i^\top \Sigma^* \mathbf{d}_i \right] + C = -\sum_{i=1}^k \ell(\mathbf{d}_i^\top \Sigma^* \mathbf{d}_i) + C
+$$ {#eq-Dell}
+with $C = - \frac{1}{2} \lVert \mathbf{m}^* \rVert^2 - \log E + \mathbb{E}_{g^*}(\log \phi(\mathbf{X}))$ independent from the $\mathbf{d}_i$'s. Since $\ell$ is decreasing and then increasing, it is clear from this expression that in order to minimize $D$, one must choose the $\mathbf{d}_i$'s in order to either maximize or minimize $\mathbf{d}_i^\top \Sigma^* \mathbf{d}_i$, whichever maximizes $\ell$. Since the variational characterization of eigenvalues shows that eigenvectors precisely solve this problem, we get the desired result.
+:::
+
+::: {.proof}
+## of @thm-thm2
+In @eq-D, the $\mathbf{m}^*$ and the $\Sigma^*$ that appear in the right-hand side are the mean and variance of the density $g^*$ considered in the first argument of the Kullback--Leibler divergence. In particular, if we apply @eq-D with $\phi \equiv 1$, we have $g^* = f$, and the $\mathbf{m}^*$ and $\Sigma^*$ of the right-hand side become $0$ and $I_n$, respectively, so that
+$$ 
+ D(f, g_{\mathbf{m}, \Sigma}) =  \frac{1}{2} \sum_i \left( \log \alpha_i - \left(1 - \frac{1}{\alpha_i} \right) \right) + \frac{1}{2} \mathbf{m}^\top \Sigma^{-1} \mathbf{m}. 
+$$
+Now, if we consider $\mathbf{m} = \mathbf{m}^*$ and $\Sigma = I + (\alpha - 1) \mathbf{d} \mathbf{d}^\top$, we obtain (using $\Sigma^{-1} = I - (1-1/\alpha) \mathbf{d} \mathbf{d}^\top$ as mentioned in the proof of @lem-D)
+$$
+D(f, g_{\mathbf{m}^*, \Sigma}) =  \frac{1}{2} \left( \log \alpha - \left(1 - \frac{1}{\alpha} \right) \left( 1 + (\mathbf{d}^\top \mathbf{m}^*)^2 \right) \right) + \frac{1}{2} \lVert \mathbf{m}^* \rVert^2.
+$$
+We have seen in the proof of @thm-thm1 that the function $x \mapsto \log x + (1/x-1)\gamma$ is minimized for $x = \gamma$ where it takes the value $-\ell(\gamma)$: $D(f, g_{\mathbf{m}^*, \Sigma})$ is therefore minimized for $\alpha = 1 + (\mathbf{d}^\top \mathbf{m}^*)^2$ and for this value, we have
+$$
+D(f, g_{\mathbf{m}^*, \Sigma}) =  - \frac{1}{2} \ell(1 + (\mathbf{d}^\top \mathbf{m}^*)^2) + \frac{1}{2} \lVert \mathbf{m}^* \rVert^2. 
+$$
+As $\ell$ is increasing in $[1, \infty)$, this last quantity is minimized by maximizing $(\mathbf{d}^\top \mathbf{m}^*)^2$, which is obtained for $\mathbf{d} = \mathbf{m}^* / \lVert \mathbf{m}^* \rVert$. The result is proved.
+:::
+
+# Framework for the numerical results {#sec-num-results-framework} 
+
+## General framework
+
+The objective of the numerical simulations is to evaluate the impact of the choice of the covariance matrix on the estimation accuracy of a high dimensional integral $E$. We compare in this section the estimation results for different choices of the auxiliary covariance matrix when the IS auxiliary density is Gaussian. To extend this comparison, we also compute the results when the IS auxiliary density is chosen with the von Mises–Fisher– Nakagami (vMFN) model recently proposed in [@PapaioannouEtAl_ImprovedCrossEntropybased_2019] for high dimensional probability estimation.
+
+In the following section we test these different models of auxiliary densities on five test cases, where $f$ is a standard Gaussian density. This choice is not a theoretical limitation as we can in principle always come back to this case by transforming the vector $\mathbf{X}$ with isoprobabilistic transformations (see for instance [@HohenbichlerRackwitz_NonNormalDependentVectors_1981], [@LiuDerKiureghian_MultivariateDistributionModels_1986]).
+
+The precise numerical framework that we will consider to assess the efficiency of the different auxiliary models is as follows. We assume first that $M$ i.i.d.\ random samples $\mathbf{X}_1,\ldots,\mathbf{X}_M$ distributed from $g^*$ are available from rejection sampling. From these samples, the parameters of the Gaussian and of the vMFN auxiliary density are computed to get an auxiliary density $g'$. Finally, $N$ samples are generated from $g'$ to provide an estimation of $E$ with IS. This procedure is summarized by the following stages: 
+
+1. Generate a sample $\mathbf{X}_1,\ldots,\mathbf{X}_M$ independently according to $g^*$;
+2. From $\mathbf{X}_1,\ldots,\mathbf{X}_M$, compute the parameters of the auxiliary parametric density $g'$;
+3. Generate a new sample $\mathbf{X}_1,\ldots,\mathbf{X}_N$ independently from $g'$;
+4. Estimate $E$ with $\widehat{E}_N=\frac{1}{N}\underset{i=1}{\overset{N}{\sum}} \phi(\mathbf{X}_i)\frac{f(\mathbf{X}_i)}{g'(\mathbf{X}_i)}$.
+
+The number of samples $M$ and $N$ are respectively set to $M=500$ and $N=2000$. This procedure is then repeated $50$ times to provide a mean estimation $\widehat{E}$ of $E$. In the result tables, for each auxiliary density $g'$ we report the corresponding value for the relative error $\widehat{E}/ E-1$ and the coefficient of variation of the $50$ iterations (the empirical standard deviation divided by $E$). As was established in the proof of @thm-thm1, the KL divergence is, up to an additive constant, equal to $D'(\Sigma) = \log \lvert \Sigma \rvert + \textrm{tr}(\Sigma^* \Sigma^{-1})$ which we will refer to as partial KL divergence. In the result tables, we also report thus the mean value of $D'(\Sigma)$ to analyse the relevancy of the auxiliary density $g_{\widehat{\mathbf{m}}^*, \Sigma}$ for these six choices of covariance matrix $\Sigma$. The next sections specify the different parameters of $g'$ for the Gaussian model and for the vMFN model we have considered in the simulations. 
+
+## Choice of the auxiliary density $g'$ for the Gaussian model  {#sec-def_cov} 
+The goal is to get benchmark results to assess whether one can improve estimations of Gaussian IS auxiliary density by projecting the covariance matrix $\Sigma^*$ in the proposed directions $\mathbf{d}^*_i$. The algorithm that we study here (Algorithms 1+2) aims more precisely at understanding whether:
+
+- projecting can improve the situation with respect to the empirical covariance matrix;
+- the $\mathbf{d}^*_i$'s are good candidates, in particular compared to the choice $\mathbf{m}^*$ suggested in [@MasriEtAl_ImprovementCrossentropyMethod_2020];
+- what is the impact in making errors in estimating the eigenpairs $(\lambda^*_i, \mathbf{d}^*_i)$.
+
+Let us define the estimate  $\widehat{\mathbf{m}}^*$ of $\mathbf{m}^*$	from the $M$ i.i.d. random samples $\mathbf{X}_1,\ldots,\mathbf{X}_M$ distributed from $g^*$ with
+$$
+	\widehat{\mathbf{m}}^* = \frac{1}{M}\sum_{i=1}^M \mathbf{X}_i.
+$$ {#eq-hatm}
+In our numerical test cases, we will compare six different choices of Gaussian auxiliary distributions $g'$ with mean $\widehat{\mathbf{m}}^*$ and the following covariance matrices (see @tbl-sigma):
+
+1. $\Sigma^*$: the optimal covariance matrix given by @eq-mstar;
+
+2. $\widehat{\Sigma}^*$: the empirical estimation of $\Sigma^*$ given by
+$$
+	\widehat{\Sigma}^* = \frac{1}{M}\sum_{i=1}^M (\mathbf{X}_i-\widehat{\mathbf{m}}^*)(\mathbf{X}_i-\widehat{\mathbf{m}}^*)^\top.
+$$ {#eq-hatSigma}
+
+The four other covariance matrices considered in the numerical simulations are of the form 
+	 $\sum_{i=1}^k (v_i-1) \mathbf{d}_i \mathbf{d}^\top_i + I_n$ where $v_i$ is the variance of $\widehat{\Sigma}^*$ in the direction $\mathbf{d}_i$, $v_i = \mathbf{d}_i^\top \widehat{\Sigma}^* \mathbf{d}_i$. The considered choice of $k$ and $\mathbf{d}_i$ gives the following covariance matrices:   
+     
+3. ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ is obtained by choosing $\mathbf{d}_i = \mathbf{d}^*_i$ of @thm-thm1, which is supposed to be perfectly known from $\Sigma^*$ and $k$ is computed with Algorithm 2;
+
+4. ${\widehat{\Sigma}^{\text{+d}}_\text{opt}}$ is obtained by choosing $\mathbf{d}_i = {\widehat{\mathbf{d}}}^*_i$ the $i$-th eigenvector of $\widehat{\Sigma}^*$ (in $\ell$-order), which is an estimation of $\mathbf{d}^*_i$, and $k$ is computed with Algorithm 2;
+
+5. ${\widehat{\Sigma}^{\text{}}_\text{mean}}$ is obtained by choosing $k = 1$ and $\mathbf{d}_1 = \mathbf{m}^* / \lVert \mathbf{m}^* \rVert$;	
+
+6. ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$ is obtained by choosing $k = 1$ and $\mathbf{d}_1 = {\widehat{\mathbf{m}}}^* / \lVert {\widehat{\mathbf{m}}}^* \rVert$, where $\widehat{\mathbf{m}}^*$ given by @eq-hatm.  
+
+The matrices ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ and ${\widehat{\Sigma}^{\text{}}_\text{mean}}$ use the estimation $\widehat{\Sigma}^*$ but the actual directions $\mathbf{d}^*_i$ or $\mathbf{m}^*$, while the matrices ${\widehat{\Sigma}^{\text{+d}}_\text{opt}}$ and ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$ involve an additional estimation of the directions. By definition, $\Sigma^*$ will give optimal results, while results for $\widehat{\Sigma}^*$ will deteriorate as the dimension increases, which is the well-known behavior which we try to improve. Moreover, for ${\widehat{\Sigma}^{\text{}}_\text{mean}}$ and ${\widehat{\Sigma}^{\text{}}_\text{opt}}$, the projection directions, if not known analytically, are obtained by a brute force Monte Carlo scheme with a very high simulation budget. Finally, we emphasize that Algorithm 1 corresponds to estimating and projecting on the $\mathbf{d}^*_i$'s, and so the matrix $\widehat{\Sigma}^*_k$ of Algorithm 1 is equal to the matrix ${\widehat{\Sigma}^{\text{+d}}_\text{opt}}$, i.e., $\widehat{\Sigma}^*_k = {\widehat{\Sigma}^{\text{+d}}_\text{opt}}$.
+
+|   |$\Sigma^*$|$\widehat{\Sigma}^*$|${\widehat{\Sigma}^{\text{}}_\text{opt}}$|${\widehat{\Sigma}^{\text{}}_\text{mean}}$|${\widehat{\Sigma}^{\text{+d}}_\text{opt}}$|${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$|
+|-------|---|---|---|---|---|---|---|
+|Initial covariance matrix|$\Sigma^*$|$\widehat \Sigma^*$|$\widehat \Sigma^*$|$\widehat \Sigma^*$|$\widehat \Sigma^*$|$\widehat \Sigma^*$|
+|Projection directions (exact or estimated)|-|-|Exact|Exact|Estimated|Estimated|
+|Choice for the projection direction|None|None|Opt|Mean|Opt|Mean|
+:  Presentation of the six covariance matrices considered in the numerical examples. Except $\Sigma^*$, the five other matrices involve one or two estimations: $\widehat \Sigma^*$ is the empirical estimation of $\Sigma^*$ given by @eq-hatSigma. The four others are obtained by projecting $\widehat \Sigma^*$ on: (i) the optimal directions $\mathbf{d}^*_i$ for ${\widehat{\Sigma}^{\text{}}_\text{opt}}$; (ii) estimations $\widehat{\mathbf{d}}^*_i$ of the optimal directions $\mathbf{d}^*_i$ for ${\widehat{\Sigma}^{\text{+d}}_\text{opt}}$; (iii) $\mathbf{m}^*$ for ${\widehat{\Sigma}^{\text{}}_\text{mean}}$; (iv) the estimation $\widehat{\mathbf{m}}^*$ in @eq-mstar of $\mathbf{m}^*$ for ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$. The subscript therefore indicates the choice for the projection direction, while the superscript +d indicates whether these directions are estimated or not. {#tbl-sigma}
+
+## Choice of the auxiliary density $g'$ for the von Mises–Fisher–Nakagami model
+Von Mises–Fisher–Nakagami (vMFN) distributions were proposed in [@PapaioannouEtAl_ImprovedCrossEntropybased_2019] as an alternative to the Gaussian parametric family to perform IS for high dimensional probability estimation. A random vector $\mathbf{X}$ drawn according to the vMFN distribution can be written as $\mathbf{X}=R {\bf A}$ where ${\bf A}=\frac{\mathbf{X}}{\lVert\mathbf{X}\rVert}$ is a unit random vector following the von Mises-Fisher distribution, and $R=\lVert\mathbf{X}\rVert$ is a positive random variable with a Nakagami distribution; further, $R$ and $\bf A$ are independent. The vMFN pdf can be written as
+$$
+g_\text{vMFN}({\bf x})= g_\text{N}(\lVert{\bf x}\rVert, p, \omega) \times g_\text{vMF} \left( \frac{{\bf x}}{\lVert{\bf x}\rVert}, {\boldsymbol{\mu}}, \kappa \right).
+$${#eq-vMFN}
+The density $g_\text{N}(\lVert {\bf x}\rVert, p, \omega)$ is the Nakagami distribution with shape parameter $p \geq 0.5$ and a spread parameter $\omega>0$ defined by
+$$ 
+g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \lVert {\bf x}\rVert^{2p-1} \exp\left( - \frac{p}{\omega}\lVert {\bf x}\rVert^2\right) 
+$$
+and the density $g_\text{vMF}(\frac{{\bf x}}{\lVert{\bf x}\rVert}, {\boldsymbol{\mu}}, \kappa)$ is the von Mises-Fisher distribution, given by
+$$g_\text{vMF} \left( \frac{{\bf x}}{\lVert{\bf x}\rVert}, {\boldsymbol{\mu}}, \kappa \right) = C_n(\kappa) \exp\left(\kappa {\boldsymbol{\mu}}^T \frac{{\bf x}}{\lVert{\bf x}\rvert\rvert} \right),
+$$
+where $C_n(\kappa)$ is a normalizing constant, $\boldsymbol{\mu}$ is a mean direction $\boldsymbol{\mu}$ (with $\lvert\lvert\boldsymbol{\mu}\rvert\rvert=1$) and $\kappa > 0$ is a concentration parameter $\kappa>0$.
+
+Choosing a vMFN distribution therefore amounts to choosing the parameters $p, \omega, {\boldsymbol{\mu}},$ and $\kappa$. There are therefore $n+3$ parameters to estimate, which is a significant reduction compared to the $\frac{n(n+3)}{2}$ required parameters of the Gaussian model with full covariance matrix.
+
+Following [@PapaioannouEtAl_ImprovedCrossEntropybased_2019], given a sample $\mathbf{X}_1,\ldots,\mathbf{X}_M$ distributed from $g^*$, the parameters $\omega$, $p$, $\boldsymbol{\mu}$ and $\kappa$ are set in the following way in order to define $g'$:
+$$ \widehat{\omega}=\frac{1}{M}\sum_{i=1}^M \lVert\mathbf{X}_i\rVert^2 \ \text{ and } \ \widehat{p}=\frac{\widehat{\omega}^2}{\widehat{\tau}-\widehat{\omega}^2} \text{ with } \widehat{\tau}=\frac{1}{M}\sum_{i=1}^M \lVert\mathbf{X}_i\rVert^4 
+$$
+and
+$$ \widehat{\boldsymbol{\mu}}=\frac{\sum_{i=1}^M \frac{\mathbf{X}_i}{\lvert\lvert\mathbf{X}_i\rvert\rvert}}{\lvert\lvert\sum_{i=1}^M \frac{\mathbf{X}_i}{\lvert\lvert\mathbf{X}_i\rvert\rvert} \rvert\rvert} \ \text{ and } \  \widehat{\kappa}=\dfrac{n\widehat{\chi}-\widehat{\chi}^3}{1-\widehat{\chi}^2} \text{ with } \widehat{\chi} = \min \left( \left \lVert \frac{1}{M}\sum_{i=1}^M \frac{\mathbf{X}_i}{\lVert \mathbf{X}_i \rVert} \right \rVert, 0.95 \right). 
+$$
+ 	
+
+#  Numerical results on five test cases   {#sec-test-cases} 
+ The proposed numerical framework is applied on three examples that are often considered to assess the performance of importance sampling algorithms and also two test cases  from the area of financial mathematics. Extended simulation results are given in the supplementary material associated with this article.
+ 	
+##  Test case 1: one-dimensional optimal projection   {#sec-sub:sum} 
+We consider a test case where all computations can be made exactly. This is a classical example of rare event probability estimation, often used to test the robustness of a method in high dimension. It is given by $\phi(\mathbf{x})=\mathbb{I}_{\{\varphi(\mathbf{x})\geq 0\}}$ with $\varphi$ the following affine function:
+$$
+	\varphi: \mathbf{x}=(x_1,\ldots,x_n)\in\mathbb{R}^n \mapsto\underset{j=1}{\overset{n}{\sum}} x_j-3\sqrt{n}.
+$${#eq-sum}
+The quantity of interest $E$ is defined as $E=\int_{\mathbb{R}^n} \phi(\mathbf{x}) f(\mathbf{x}) \textrm{d}\mathbf{x} = \mathbb{P}_f(\varphi(\mathbf{X})\geq 0)\simeq 1.35\cdot 10^{-3}$ for all $n$ where the density $f$ is the standard $n$-dimensional Gaussian distribution. Here, the zero-variance density is $g^*(\mathbf{x})=\dfrac{f(\mathbf{x})\mathbb{I}_{\{\varphi(\mathbf{x})\geq 0\}}}{E}$, and the optimal parameters $\mathbf{m}^*$ and $\Sigma^*$ in @eq-mstar can be computed exactly, namely $\mathbf{m}^* = \alpha \textbf{1}$ with $\alpha = e^{-9/2}/(E(2\pi)^{1/2})$ and $\textbf{1} = \frac{1}{\sqrt n} (1,\ldots,1) \in \mathbb{R}^n$ the normalized constant vector, and $\Sigma^* =(v-1) \mathbf{1} \mathbf{1}^\top + I_n$ with $v=3\alpha-\alpha^2+1$.
+
+###  Evolution of the partial KL divergence and spectrum
+@fig-eigsum-1 represents the evolution as the dimension varies between $5$ and $100$ of the partial KL divergence $D'$ for three different choices of covariance matrix: the optimal matrix $\Sigma^*$, its empirical estimation $\widehat{\Sigma}^*$ and the estimation $\widehat{\Sigma}^*_k$ of the optimal lower-dimensional covariance matrix. We can notice that the partial KL divergence for $\widehat{\Sigma}^*$ grows much faster than the other two, and that the partial KL divergence for $\widehat{\Sigma}^*_k$ remains very close to the optimal value $D'(\Sigma^*)$. As the KL divergence is a proxy for the efficiency of the auxiliary density (it is for instance closely related to the number of samples required for a given precision [@Chatterjee18:0]), this suggests that using $\widehat{\Sigma}^*_k$ will provide results close to optimal.
+
+We now check this claim. As $\Sigma^* = (v-1) \textbf{1} \textbf{1}^\top + I_n$, its eigenpairs are $(v, \textbf{1})$ and $(1,\mathbf{d}_i)$ where the $\mathbf{d}_i$'s form an orthonormal basis of the space orthogonal to the space spanned by $\textbf{1}$. In particular, $(v, \textbf{1})$ is the largest (in $\ell$-order) eigenpair of $\Sigma^*$ and $\Sigma^*_k = \Sigma^*$ for any $k \geq 1$.
+
+In practice, we do not use this theoretical knowledge and $\Sigma^*$, $\Sigma^*_k$ and the eigenpairs are estimated. The six covariance matrices introduced in @sec-def_cov and in which we are interested are as follows:
+
+- $\Sigma^* = (v-1) \textbf{1} \textbf{1}^\top + I_n$;
+- $\widehat{\Sigma}^*$ given by @eq-hatSigma;
+- ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ and ${\widehat{\Sigma}^{\text{}}_\text{mean}}$ are equal and given by $(\widehat \lambda-1) \textbf{1} \textbf{1}^\top + I_n$ with $\widehat{\lambda} = \textbf{1}^\top \widehat{\Sigma}^* \textbf{1}$. This amounts to assuming that the projection direction $\textbf{1}$ is perfectly known, whereas the variance in this direction is estimated;
+- ${\widehat{\Sigma}^{\text{+d}}_\text{opt}} = (\widehat{\lambda} - 1) \widehat{\mathbf{d}} {\widehat{\mathbf{d}}}^\top + I_n$ with $(\widehat{\lambda}, \widehat{\mathbf{d}})$ the smallest eigenpair of $\widehat{\Sigma}^*$. The difference with the previous case is that we do not assume anymore that the optimal projection direction $\textbf{1}$ is known, and so it needs to be estimated;
+- ${\widehat{\Sigma}^{\text{+d}}_\text{mean}} = (\widehat{\lambda} - 1) \frac{\widehat{\mathbf{m}}^* {(\widehat{\mathbf{m}}^*)}^\top}{\lVert \widehat{\mathbf{m}}^* \rVert^2} + I_n$ with $\widehat{\mathbf{m}}^*$ given by @eq-hatm and $\widehat{\lambda} = \frac{{(\widehat{\mathbf{m}}^*)}^\top \widehat{\Sigma}^* \widehat{\mathbf{m}}^*}{\lVert \widehat{\mathbf{m}}^* \rVert^2}$. Here we assume that $\mathbf{m}^*$ is a good projection direction, but is unknown and therefore needs to be estimated.
+
+Note that in the particularly simple case considered here, both $\widehat{\mathbf{m}}^* / \lVert \widehat{\mathbf{m}}^* \rVert$ and $\widehat{\mathbf{d}}$ are estimators of $\textbf{1}$ but they are obtained by different methods. In the next example we will consider a case where $\mathbf{m}^*$ is not an optimal projection direction as given by @thm-thm1.
+
+@fig-eigsum-2 represents the images by $\ell$ of the eigenvalues of $\Sigma^*$ and $\widehat{\Sigma}^*$. This picture carries a very important insight. We notice that the estimation of most eigenvalues is poor: indeed, all the blue crosses except the leftmost one are meant to be estimator of $1$, whereas we see that they are more or less uniformly spread between $0.4$ and $1.8$. This means that the variance terms in the corresponding directions are poorly estimated, which could be the explanation on why the use of $\widehat{\Sigma}^*$ gives an inaccurate estimation. But what we remark also is that the function $\ell$ is quite flat around one: as a consequence, although the eigenvalues offer significant variability, this variability is smoothed by the action of $\ell$. Indeed, the images of the eigenvalues by $\ell$ take values between $0$ and $0.4$ and have smaller variability. Moreover, $\ell(x)$ increases sharply as $x$ approaches $0$ and thus efficiently distinguishes between the two leftmost estimated eigenvalues and is able to separate them.
+
+```{python}
+#| label: fig-eigsum
+#| fig-cap: 'Partial KL divergence and spectrum for the function $\phi = \mathbb{I}_{\varphi \geq 0}$ with $\varphi$ the linear function given by @eq-sum.'
+#| fig-subcap:
+#|   - 'Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix $\Sigma^*$ (blue circles), the sample covariance $\widehat{\Sigma}^*$ (red squares), and the projected covariance $\widehat{\Sigma}^*_k$ (black triangles).'
+#|   - 'Computation of $\ell(\lambda_i)$ for the eigenvalues of $\Sigma^*$ (red squares) and $\widehat{\Sigma}^*$ (blue crosses) in dimension $n = 100$.'
+#| layout-ncol: 2
+###############################################################################################################################
+# Figure 2. Evolution of the partial KL divergence and spectrum of the eigenvalues for the test case 1
+###############################################################################################################################
+
+def Somme(x):
+    n=np.shape(x)[1]
+    return(np.sum(x,axis=1)-3*np.sqrt(n))
+
+n=100         # dimension
+phi=Somme
+E=sp.stats.norm.cdf(-3)   # exact value of the integral
+
+DKL=np.zeros(20)
+DKLp=np.zeros(20)
+DKLm=np.zeros(20)
+DKLstar=np.zeros(20)
+
+M=300
+
+for d in range(5,n+1,5):
+    # Mstar
+    alpha=np.exp(-3**2/2)/(E*np.sqrt(2*np.pi))
+    Mstar=alpha*np.ones(d)/np.sqrt(d)
+    # Sigmastar
+    vstar=3*alpha-alpha**2+1
+    Sigstar= (vstar-1)*np.ones((d,d))/d+np.eye(d)
+
+    ## g*-sample
+    VA0=sp.stats.multivariate_normal(mean=np.zeros(d),cov=np.eye(d))
+    X0=VA0.rvs(size=M*1000)
+
+    ind=(phi(X0)>0)
+    X=X0[ind,:]
+    X=X[:M,:]            # g*-sample of size M
+
+    ## estimated mean and covariance
+    mm=np.mean(X,axis=0)
+    
+    Xc=(X-mm).T
+    sigma =Xc @ Xc.T/np.shape(Xc)[1]
+    
+    ## projection with the eigenvalues of sigma
+    Eig=np.linalg.eigh(sigma)
+    logeig=np.sort(np.log(Eig[0])-Eig[0])
+    delta=np.zeros(len(logeig)-1)
+    for j in range(len(logeig)-1):
+        delta[j]=abs(logeig[j]-logeig[j+1])
+
+    k=np.argmax(delta)+1         # biggest gap between the l(lambda_i)
+    
+    indi=[]
+    for l in range(k):
+        indi.append(np.where(np.log(Eig[0])-Eig[0]==logeig[l])[0][0])
+
+    P1=np.array(Eig[1][:,indi[0]],ndmin=2).T                  
+    for l in range(1,k):
+        P1=np.concatenate((P1,np.array(Eig[1][:,indi[l]],ndmin=2).T),axis=1)   # matrix of inflential directions of projection
+
+    diagsi=np.diag(Eig[0][indi])
+    sig_opt_d=P1.dot((diagsi-np.eye(k))).dot(P1.T)+np.eye(d)  
+    
+    DKL[int((d-5)/5)]=np.log(np.linalg.det(sigma))+np.sum(np.diag(Sigstar.dot(np.linalg.inv(sigma))))
+    DKLp[int((d-5)/5)]=np.log(np.linalg.det(sig_opt_d))+np.sum(np.diag(Sigstar.dot(np.linalg.inv(sig_opt_d))))
+    DKLstar[int((d-5)/5)]=np.log(np.linalg.det(Sigstar))+d
+
+#### plot of partial KL divergence
+plt.plot(range(5,105,5),DKL,'rs',label=r"$D'(\hat{\Sigma}^*)$")
+plt.plot(range(5,105,5),DKLp,'k^',label=r"$D'(\hat{\Sigma}^*_k)$")
+plt.plot(range(5,105,5),DKLstar,'bo',label=r"$D'(\Sigma^*)$")
+
+plt.grid()
+plt.xlabel('Dimension',fontsize=16)
+plt.ylabel(r"Partial KL divergence $D'$",fontsize=16)
+plt.legend(fontsize=16)
+for tickLabel in plt.gca().get_xticklabels() + plt.gca().get_yticklabels():
+    tickLabel.set_fontsize(16)
+plt.show()
+
+#### plot of the eigenvalues
+Eig1=np.linalg.eigh(sigma)
+logeig1=np.log(Eig1[0])-Eig1[0]+1
+Table_eigv=np.zeros((n,2))
+Table_eigv[:,0]=Eig1[0]
+Table_eigv[:,1]=-logeig1
+
+Eigst=np.linalg.eigh(Sigstar)
+logeigst=np.log(Eigst[0])-Eigst[0]+1
+Table_eigv_st=np.zeros((n,2))
+Table_eigv_st[:,0]=Eigst[0]
+Table_eigv_st[:,1]=-logeigst
+
+plt.grid()
+plt.xlabel(r"Eigenvalues $\lambda_i$",fontsize=16)
+plt.ylabel(r"$\ell(\lambda_i)$",fontsize=16)
+for tickLabel in plt.gca().get_xticklabels() + plt.gca().get_yticklabels():
+    tickLabel.set_fontsize(16)
+
+plt.plot(Table_eigv[:,0],Table_eigv[:,1],'bx',label=r"Eigenvalues of $\hat{\Sigma}^*$")
+plt.plot(Table_eigv_st[:,0],Table_eigv_st[:,1],'rs',label=r"Eigenvalues of $\Sigma^*$")
+plt.legend(fontsize=16)
+plt.show()
+```

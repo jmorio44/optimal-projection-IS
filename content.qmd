@@ -350,24 +350,24 @@ The matrices ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ and ${\widehat{\Sigma}^{\
 ## Choice of the auxiliary density $g'$ for the von Mises–Fisher–Nakagami model
 Von Mises–Fisher–Nakagami (vMFN) distributions were proposed in [@PapaioannouEtAl_ImprovedCrossEntropybased_2019] as an alternative to the Gaussian parametric family to perform IS for high dimensional probability estimation. A random vector $\mathbf{X}$ drawn according to the vMFN distribution can be written as $\mathbf{X}=R {\bf A}$ where ${\bf A}=\frac{\mathbf{X}}{\lVert\mathbf{X}\rVert}$ is a unit random vector following the von Mises-Fisher distribution, and $R=\lVert\mathbf{X}\rVert$ is a positive random variable with a Nakagami distribution; further, $R$ and $\bf A$ are independent. The vMFN pdf can be written as
 $$
-g_\text{vMFN}({\bf x})= g_\text{N}(\lVert{\bf x}\rVert, p, \omega) \times g_\text{vMF} \left( \frac{{\bf x}}{\lVert{\bf x}\rVert}, {\bm\mu}, \kappa \right).
+g_\text{vMFN}({\bf x})= g_\text{N}(\lVert{\bf x}\rVert, p, \omega) \times g_\text{vMF} \left( \frac{{\bf x}}{\lVert{\bf x}\rVert}, {\boldsymbol{\mu}}, \kappa \right).
 $${#eq-vMFN}
 The density $g_\text{N}(\lVert {\bf x}\rVert, p, \omega)$ is the Nakagami distribution with shape parameter $p \geq 0.5$ and a spread parameter $\omega>0$ defined by
 $$ 
 g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \lVert {\bf x}\rVert^{2p-1} \exp\left( - \frac{p}{\omega}\lVert {\bf x}\rVert^2\right) 
 $$
-and the density $g_\text{vMF}(\frac{{\bf x}}{\lVert{\bf x}\rVert}, {\bm\mu}, \kappa)$ is the von Mises-Fisher distribution, given by
-$$g_\text{vMF} \left( \frac{{\bf x}}{\lVert{\bf x}\rVert}, {\bm\mu}, \kappa \right) = C_n(\kappa) \exp\left(\kappa {\bm\mu}^T \frac{{\bf x}}{\lVert{\bf x}\rvert\rvert} \right),
+and the density $g_\text{vMF}(\frac{{\bf x}}{\lVert{\bf x}\rVert}, {\boldsymbol{\mu}}, \kappa)$ is the von Mises-Fisher distribution, given by
+$$g_\text{vMF} \left( \frac{{\bf x}}{\lVert{\bf x}\rVert}, {\boldsymbol{\mu}}, \kappa \right) = C_n(\kappa) \exp\left(\kappa {\boldsymbol{\mu}}^T \frac{{\bf x}}{\lVert{\bf x}\rvert\rvert} \right),
 $$
-where $C_n(\kappa)$ is a normalizing constant, $\bm \mu$ is a mean direction $\bm\mu$ (with $\lvert\lvert\bm\mu\rvert\rvert=1$) and $\kappa > 0$ is a concentration parameter $\kappa>0$.
+where $C_n(\kappa)$ is a normalizing constant, $\boldsymbol{\mu}$ is a mean direction $\boldsymbol{\mu}$ (with $\lvert\lvert\boldsymbol{\mu}\rvert\rvert=1$) and $\kappa > 0$ is a concentration parameter $\kappa>0$.
 
-Choosing a vMFN distribution therefore amounts to choosing the parameters $p, \omega, {\bm \mu},$ and $\kappa$. There are therefore $n+3$ parameters to estimate, which is a significant reduction compared to the $\frac{n(n+3)}{2}$ required parameters of the Gaussian model with full covariance matrix.
+Choosing a vMFN distribution therefore amounts to choosing the parameters $p, \omega, {\boldsymbol{\mu}},$ and $\kappa$. There are therefore $n+3$ parameters to estimate, which is a significant reduction compared to the $\frac{n(n+3)}{2}$ required parameters of the Gaussian model with full covariance matrix.
 
-Following [@PapaioannouEtAl_ImprovedCrossEntropybased_2019], given a sample $\mathbf{X}_1,\ldots,\mathbf{X}_M$ distributed from $g^*$, the parameters $\omega$, $p$, $\bm \mu$ and $\kappa$ are set in the following way in order to define $g'$:
+Following [@PapaioannouEtAl_ImprovedCrossEntropybased_2019], given a sample $\mathbf{X}_1,\ldots,\mathbf{X}_M$ distributed from $g^*$, the parameters $\omega$, $p$, $\boldsymbol{\mu}$ and $\kappa$ are set in the following way in order to define $g'$:
 $$ \widehat{\omega}=\frac{1}{M}\sum_{i=1}^M \lVert\mathbf{X}_i\rVert^2 \ \text{ and } \ \widehat{p}=\frac{\widehat{\omega}^2}{\widehat{\tau}-\widehat{\omega}^2} \text{ with } \widehat{\tau}=\frac{1}{M}\sum_{i=1}^M \lVert\mathbf{X}_i\rVert^4 
 $$
 and
-$$ \widehat{\bm\mu}=\frac{\sum_{i=1}^M \frac{\mathbf{X}_i}{\lvert\lvert\mathbf{X}_i\rvert\rvert}}{\lvert\lvert\sum_{i=1}^M \frac{\mathbf{X}_i}{\lvert\lvert\mathbf{X}_i\rvert\rvert} \rvert\rvert} \ \text{ and } \  \widehat{\kappa}=\dfrac{n\widehat{\chi}-\widehat{\chi}^3}{1-\widehat{\chi}^2} \text{ with } \widehat{\chi} = \min \left( \left \lVert \frac{1}{M}\sum_{i=1}^M \frac{\mathbf{X}_i}{\lVert \mathbf{X}_i \rVert} \right \rVert, 0.95 \right). 
+$$ \widehat{\boldsymbol{\mu}}=\frac{\sum_{i=1}^M \frac{\mathbf{X}_i}{\lvert\lvert\mathbf{X}_i\rvert\rvert}}{\lvert\lvert\sum_{i=1}^M \frac{\mathbf{X}_i}{\lvert\lvert\mathbf{X}_i\rvert\rvert} \rvert\rvert} \ \text{ and } \  \widehat{\kappa}=\dfrac{n\widehat{\chi}-\widehat{\chi}^3}{1-\widehat{\chi}^2} \text{ with } \widehat{\chi} = \min \left( \left \lVert \frac{1}{M}\sum_{i=1}^M \frac{\mathbf{X}_i}{\lVert \mathbf{X}_i \rVert} \right \rVert, 0.95 \right). 
 $$
  	
 

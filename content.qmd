@@ -1529,3 +1529,161 @@ $$ {#eq-portfolio}
 where $F_\Gamma$ and $F_{\mathcal{N}}$ are the cumulative distribution functions of $\text{Gamma}(6,6)$ and $\mathcal{N}(0,1)$ random variables respectively.
 
 The reference value of this probability $E$ is reported in @tbl-portfolio for dimension $n=100$. The optimal parameters $\mathbf{m}^*$ and $\Sigma^*$ cannot be computed analytically, but they are accurately estimated by Monte Carlo with a large sample. It turns out that $\mathbf{m}^*$ and the first eigenvector $\mathbf{d}^*_1$ of $\Sigma^*$ are numerically indistinguishable and that Algorithm 2 selects $k=1$ projection direction, so that numerically, the choices ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ and ${\widehat{\Sigma}^{\text{}}_\text{mean}}$ are indistinguishable and gives the same estimation results. Actually, the fact that these two estimators behave similarly does not seem to come from the fact that $\mathbf{m}^*$ and $\mathbf{d}^*$ are close: this relation can be broken for instance by a simple translation argument, but even then they behave similarly. The KL partial divergence and the spectrum with the associated $\ell$-order are presented respectively in @fig-inefficiency-portfolio-1 and in  @fig-inefficiency-portfolio-2.
+
+```{python}
+#| label: fig-inefficiency-portfolio
+#| fig-cap: 'Partial KL divergence and spectrum for the function $\phi = \mathbb{I}_{\varphi \geq 0}$ with $\varphi$ the function given by @eq-portfolio.'
+#| fig-subcap:
+#|   - 'Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix $\Sigma^*$ (blue circles), the sample covariance $\widehat{\Sigma}^*$ (red squares), and the projected covariance $\widehat{\Sigma}^*_k$ (black triangles).'
+#|   - 'Computation of $\ell(\lambda_i)$ for the eigenvalues of $\Sigma^*$ (red squares) and $\widehat{\Sigma}^*$ (blue crosses) in dimension $n = 100$  for the large portfolio losses of @eq-portfolio.'
+#| layout-ncol: 2
+
+###############################################################################################################################
+# Figure 5. Evolution of the partial KL divergence and spectrum of the eigenvalues for the large portfolio loss application
+###############################################################################################################################
+
+def Portfolio(X):
+    N=np.shape(X)[0]
+    nn=np.shape(X)[1]
+    n=nn-2
+    lamb=np.array(sp.stats.gamma.ppf(sp.stats.norm.cdf(X[:,0]),6,scale=1/6),ndmin=2).T
+    eta=3*X[:,2:]
+    ZZ=np.array(X[:,1],ndmin=2).T
+    
+    XX=(1/4*ZZ+np.sqrt(1-1/4**2)*eta)/np.sqrt(lamb)
+    IndX=(XX>0.5*np.sqrt(n))*1
+    PF=np.sum(IndX,axis=1)
+    return(PF-0.25*n-0.1)
+
+def Portfolio_md(X):
+    N=np.shape(X)[0]
+    nn=np.shape(X)[1]
+    n=nn-2
+    lamb=np.array( sp.stats.gamma.ppf(sp.stats.norm.cdf(X[:,0]),6,scale=1/6),ndmin=2).T
+    eta=3*X[:,2:]
+    ZZ=np.array(X[:,1],ndmin=2).T
+    
+    XX=(1/4*ZZ+np.sqrt(1-1/4**2)*eta)/np.sqrt(lamb)
+    IndX=(XX>0.5*np.sqrt(n))*1
+    PF=np.sum(IndX,axis=1)
+    return(PF-0.3*n-0.1)
+
+def Portfolio_ld(X):
+    N=np.shape(X)[0]
+    nn=np.shape(X)[1]
+    n=nn-2
+    lamb=np.array(sp.stats.gamma.ppf(sp.stats.norm.cdf(X[:,0]),6,scale=1/6),ndmin=2).T
+    eta=3*X[:,2:]
+    ZZ=np.array(X[:,1],ndmin=2).T
+    
+    XX=(1/4*ZZ+np.sqrt(1-1/4**2)*eta)/np.sqrt(lamb)
+    IndX=(XX>0.5*np.sqrt(n))*1
+    PF=np.sum(IndX,axis=1)
+    return(PF-0.45*n-0.1)
+
+
+DKL=np.zeros(20)
+DKLp=np.zeros(20)
+DKLm=np.zeros(20)
+DKLstar=np.zeros(20)
+
+n=100
+bigsample=20*10**5
+M=300
+
+for d in range(5,n+1,5):
+    
+    if d<=30:            
+        phi=Portfolio_ld
+    if d>70:
+        phi=Portfolio
+    else:
+        phi=Portfolio_md
+
+    VA=sp.stats.multivariate_normal(mean=np.zeros(d+2),cov=np.eye(d+2))
+    X01=VA.rvs(size=bigsample)                           
+    ind1=(phi(X01)>0)
+    X1=X01[ind1,:]                                                               
+    X1=X1[:M*10,:]
+    #Mstar
+    Mstar=np.mean(X1.T,axis=1)                
+    #Sigmastar
+    X1c=(X1-Mstar).T
+    Sigstar=X1c.dot(X1c.T)/np.shape(X1c)[1]               
+
+
+    ## g*-sample
+    VA0=sp.stats.multivariate_normal(mean=np.zeros(d+2),cov=np.eye(d+2))
+    X0=VA0.rvs(size=M*1000)
+
+    ind=(phi(X0)>0)
+    X=X0[ind,:]
+    X=X[:M,:]            # g*-sample of size M
+
+    ## estimated mean and covariance
+    mm=np.mean(X,axis=0)
+    
+    Xc=(X-mm).T
+    sigma =Xc @ Xc.T/np.shape(Xc)[1]
+    
+    ## projection with the eigenvalues of sigma
+    Eig=np.linalg.eigh(sigma)
+    logeig=np.sort(np.log(Eig[0])-Eig[0])
+    delta=np.zeros(len(logeig)-1)
+    for j in range(len(logeig)-1):
+        delta[j]=abs(logeig[j]-logeig[j+1])
+
+    k=np.argmax(delta)+1         # biggest gap between the l(lambda_i)
+    
+    indi=[]
+    for l in range(k):
+        indi.append(np.where(np.log(Eig[0])-Eig[0]==logeig[l])[0][0])
+
+    P1=np.array(Eig[1][:,indi[0]],ndmin=2).T                  # projection matrix
+    for l in range(1,k):
+        P1=np.concatenate((P1,np.array(Eig[1][:,indi[l]],ndmin=2).T),axis=1)
+
+    diagsi=np.diag(Eig[0][indi])
+    sig_opt_d=P1.dot((diagsi-np.eye(k))).dot(P1.T)+np.eye(d+2)  
+    
+    DKL[int((d-5)/5)]=np.log(np.linalg.det(sigma))+np.sum(np.diag(Sigstar.dot(np.linalg.inv(sigma))))
+    DKLp[int((d-5)/5)]=np.log(np.linalg.det(sig_opt_d))+np.sum(np.diag(Sigstar.dot(np.linalg.inv(sig_opt_d))))
+    DKLstar[int((d-5)/5)]=np.log(np.linalg.det(Sigstar))+d+2
+
+#### plot of partial KL divergence
+plt.plot(range(5,n+1,5),DKL,'rs',label=r"$D'(\hat{\Sigma}^*)$")
+plt.plot(range(5,n+1,5),DKLp,'k^',label=r"$D'(\hat{\Sigma}^*_k)$")
+plt.plot(range(5,n+1,5),DKLstar,'bo',label=r"$D'(\Sigma^*)$")
+
+plt.grid()
+plt.xlabel('Dimension',fontsize=16)
+plt.ylabel(r"Partial KL divergence $D'$",fontsize=16)
+plt.legend(fontsize=16)
+for tickLabel in plt.gca().get_xticklabels() + plt.gca().get_yticklabels():
+    tickLabel.set_fontsize(16)
+plt.show()
+
+#### plot of the eigenvalues
+Eig1=np.linalg.eigh(sigma)
+logeig1=np.log(Eig1[0])-Eig1[0]+1
+Table_eigv=np.zeros((n+2,2))
+Table_eigv[:,0]=Eig1[0]
+Table_eigv[:,1]=-logeig1
+
+Eigst=np.linalg.eigh(Sigstar)
+logeigst=np.log(Eigst[0])-Eigst[0]+1
+Table_eigv_st=np.zeros((n+2,2))
+Table_eigv_st[:,0]=Eigst[0]
+Table_eigv_st[:,1]=-logeigst
+
+plt.grid()
+plt.xlabel(r"Eigenvalues $\lambda_i$",fontsize=16)
+plt.ylabel(r"$\ell(\lambda_i)$",fontsize=16)
+for tickLabel in plt.gca().get_xticklabels() + plt.gca().get_yticklabels():
+    tickLabel.set_fontsize(16)
+
+plt.plot(Table_eigv[:,0],Table_eigv[:,1],'bx',label=r"Eigenvalues of $\hat{\Sigma}^*$")
+plt.plot(Table_eigv_st[:,0],Table_eigv_st[:,1],'rs',label=r"Eigenvalues of $\Sigma^*$")
+plt.legend(fontsize=16)
+plt.show()
+```

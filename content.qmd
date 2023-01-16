@@ -264,7 +264,7 @@ SIPst=[]
 SIM=[]
 SIMst=[]
 
-bigsample=1*10**5
+bigsample=1*10**6
 
 VA=sp.stats.multivariate_normal(mean=np.zeros(n+2),cov=np.eye(n+2))
 X01=VA.rvs(size=bigsample)                           

@@ -1525,7 +1525,7 @@ $$
 	\varphi(\mathbf{x}) = \underset{j=3}{\overset{n+2}{\sum}} \mathbb{I}_{\{\Psi(x_1, x_2, x_j) \geq 0.5\sqrt{n}\}}-0.25 n,
 $$ {#eq-portfolio}
 	with
-	$$ \Psi(x_1, x_2, x_j) = \left( q x_1 + 3 (1-q^2)^{1/2}x_j \right) \left[ F_\Gamma^{-1} \left( F_\mathcal{N}({x_2}) \right) \right]^{-1/2}, $$
+	$$ \Psi(x_1, x_2, x_j) = \left( q x_1 + 3 (1-q^2)^{1/2}x_j \right) \left[ F_\Gamma^{-1} \left( F_{\mathcal{N}}({x_2}) \right) \right]^{-1/2}, $$
 where $F_\Gamma$ and $F_\mathcal{N}$ are the cumulative distribution functions of $\text{Gamma}(6,6)$ and $\mathcal{N}(0,1)$ random variables respectively.
 
 The reference value of this probability $E$ is reported in @tbl-portfolio for dimension $n=100$. The optimal parameters $\mathbf{m}^*$ and $\Sigma^*$ cannot be computed analytically, but they are accurately estimated by Monte Carlo with a large sample. It turns out that $\mathbf{m}^*$ and the first eigenvector $\mathbf{d}^*_1$ of $\Sigma^*$ are numerically indistinguishable and that Algorithm 2 selects $k=1$ projection direction, so that numerically, the choices ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ and ${\widehat{\Sigma}^{\text{}}_\text{mean}}$ are indistinguishable and gives the same estimation results. Actually, the fact that these two estimators behave similarly does not seem to come from the fact that $\mathbf{m}^*$ and $\mathbf{d}^*$ are close: this relation can be broken for instance by a simple translation argument, but even then they behave similarly. The KL partial divergence and the spectrum with the associated $\ell$-order are presented respectively in @fig-inefficiency-portfolio-1 and in  @fig-inefficiency-portfolio-2.

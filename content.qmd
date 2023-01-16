@@ -1691,6 +1691,8 @@ plt.show()
 ```{python}
 #| label: tbl-portfolio
 #| tbl-cap: 'Numerical comparison of the estimation of $E \approx 1.82 \cdot 10^{-3}$ considering the Gaussian density with the six covariance matrices defined in @sec-def_cov and the vFMN model,$\phi = \mathbb{I}_{\{\varphi \geq 0\}}$ with $\varphi$ given by @eq-portfolio.'
+
+
 ###############################################################################################################################
 # Table 5. Numerical comparison on the large portfolio loss application
 ###############################################################################################################################

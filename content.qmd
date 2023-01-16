@@ -34,6 +34,8 @@ published: false
 format:
   computo-html: default
   computo-pdf: default
+execute:
+  keep-ipynb: true
 jupyter:
   jupytext:
     text_representation:

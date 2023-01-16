@@ -1526,7 +1526,7 @@ $$
 $$ {#eq-portfolio}
 	with
 	$$ \Psi(x_1, x_2, x_j) = \left( q x_1 + 3 (1-q^2)^{1/2}x_j \right) \left[ F_\Gamma^{-1} \left( F_{\mathcal{N}}({x_2}) \right) \right]^{-1/2}, $$
-where $F_\Gamma$ and $F_\mathcal{N}$ are the cumulative distribution functions of $\text{Gamma}(6,6)$ and $\mathcal{N}(0,1)$ random variables respectively.
+where $F_\Gamma$ and $F_{\mathcal{N}}$ are the cumulative distribution functions of $\text{Gamma}(6,6)$ and $\mathcal{N}(0,1)$ random variables respectively.
 
 The reference value of this probability $E$ is reported in @tbl-portfolio for dimension $n=100$. The optimal parameters $\mathbf{m}^*$ and $\Sigma^*$ cannot be computed analytically, but they are accurately estimated by Monte Carlo with a large sample. It turns out that $\mathbf{m}^*$ and the first eigenvector $\mathbf{d}^*_1$ of $\Sigma^*$ are numerically indistinguishable and that Algorithm 2 selects $k=1$ projection direction, so that numerically, the choices ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ and ${\widehat{\Sigma}^{\text{}}_\text{mean}}$ are indistinguishable and gives the same estimation results. Actually, the fact that these two estimators behave similarly does not seem to come from the fact that $\mathbf{m}^*$ and $\mathbf{d}^*$ are close: this relation can be broken for instance by a simple translation argument, but even then they behave similarly. The KL partial divergence and the spectrum with the associated $\ell$-order are presented respectively in @fig-inefficiency-portfolio-1 and in  @fig-inefficiency-portfolio-2.
 
@@ -1687,3 +1687,242 @@ plt.plot(Table_eigv_st[:,0],Table_eigv_st[:,1],'rs',label=r"Eigenvalues of $\Sig
 plt.legend(fontsize=16)
 plt.show()
 ```
+
+```{python}
+#| label: tbl-portfolio
+#| tbl-cap: 'Numerical comparison of the estimation of $E \approx 1.82 \cdot 10^{-3}$ considering the Gaussian density with the six covariance matrices defined in @sec-def_cov and the vFMN model,$\phi = \mathbb{I}_{\{\varphi \geq 0\}}$ with $\varphi$ given by @eq-portfolio.'
+###############################################################################################################################
+# Table 5. Numerical comparison on the large portfolio loss application
+###############################################################################################################################
+
+n=100         # dimension
+phi=Portfolio
+E=1.82*10**(-3)
+
+def mypi(X):                   
+    nn=np.shape(X)[1]
+    n=nn-2
+    f0=sp.stats.multivariate_normal.pdf(X,mean=np.zeros(nn),cov=np.eye(nn))
+    return((phi(X)>0)*f0)
+
+
+N=2000   
+M=500   
+B=50    # number of runs
+
+Eopt=np.zeros(B)
+EIS=np.zeros(B)
+Eprj=np.zeros(B)
+Eprm=np.zeros(B)
+Eprjst=np.zeros(B)
+Eprmst=np.zeros(B)
+Evmfn=np.zeros(B)
+
+SI=[]
+SIP=[]
+SIPst=[]
+SIM=[]
+SIMst=[]
+
+bigsample=6*10**6
+
+VA=sp.stats.multivariate_normal(mean=np.zeros(n+2),cov=np.eye(n+2))
+X01=VA.rvs(size=bigsample)                           
+ind1=(phi(X01)>0)
+X1=X01[ind1,:]                                                               
+
+#Mstar
+Mstar=np.mean(X1.T,axis=1)                
+#Sigmastar
+X1c=(X1-Mstar).T
+Sigstar=X1c.dot(X1c.T)/np.shape(X1c)[1]  
+    
+Eigst=np.linalg.eigh(Sigstar)                        
+logeigst=np.sort(np.log(Eigst[0])-Eigst[0])         
+deltast=np.zeros(len(logeigst)-1)
+
+for i in range(len(logeigst)-1):
+    deltast[i]=abs(logeigst[i]-logeigst[i+1])         
+    
+## choice of the number of dimension
+k_st=np.argmax(deltast)+1     
+
+indist=[]
+for i in range(k_st):
+    indist.append(np.where(np.log(Eigst[0])-Eigst[0]==logeigst[i])[0][0])           
+
+P1st=np.array(Eigst[1][:,indist[0]],ndmin=2).T                          
+for i in range(1,k_st):
+    P1st=np.concatenate((P1st,np.array(Eigst[1][:,indist[i]],ndmin=2).T),axis=1)       # matrix of influential directions
+
+#np.random.seed(0)
+for i in range(B):
+############################# Estimation of the matrices
+    
+   ## g*-sample of size M
+    VA=sp.stats.multivariate_normal(np.zeros(n+2),np.eye(n+2))      
+    X0=VA.rvs(size=M*1000)                   
+    ind=(phi(X0)>0)          
+    X=X0[ind,:]                             
+    X=X[:M,:]           
+    
+    R=np.sqrt(np.sum(X**2,axis=1))   
+    Xu=(X.T/R).T                
+    
+   ## estimated gaussian mean and covariance 
+    mm=np.mean(X,axis=0)
+    Xc=(X-mm).T
+    sigma =Xc @ Xc.T/np.shape(Xc)[1]  
+    SI.append(sigma)
+    
+   ## von Mises Fisher parameters
+    normu=np.sqrt(np.mean(Xu,axis=0).dot(np.mean(Xu,axis=0).T))
+    mu=np.mean(Xu,axis=0)/normu
+    mu=np.array(mu,ndmin=2)
+    chi=min(normu,0.95)
+    kappa=(chi*n-chi**3)/(1-chi**2)
+
+   ## Nakagami parameters
+    omega=np.mean(R**2)
+    tau4=np.mean(R**4)
+    pp=omega**2/(tau4-omega**2)
+    
+   ### 
+    Eig=np.linalg.eigh(sigma)                     
+    logeig=np.sort(np.log(Eig[0])-Eig[0])     
+    delta=np.zeros(len(logeig)-1)
+    for j in range(len(logeig)-1):
+        delta[j]=abs(logeig[j]-logeig[j+1])    
+
+    k=np.argmax(delta)+1         
+    
+    indi=[]
+    for l in range(k):
+        indi.append(np.where(np.log(Eig[0])-Eig[0]==logeig[l])[0][0])
+
+    P1=np.array(Eig[1][:,indi[0]],ndmin=2).T
+    for l in range(1,k):
+        P1=np.concatenate((P1,np.array(Eig[1][:,indi[l]],ndmin=2).T),axis=1)     
+        
+    diagsi=np.diag(Eig[0][indi])                           
+    sig_opt_d=P1.dot((diagsi-np.eye(k))).dot(P1.T)+np.eye(n+2)
+    SIP.append(sig_opt_d)
+    
+   ### 
+    diagsist=P1st.T.dot(sigma).dot(P1st)                   
+    sig_opt=P1st.dot(diagsist-np.eye(k_st)).dot(P1st.T)+np.eye(n+2)
+    SIPst.append(sig_opt)
+    
+   ### 
+    Norm_mm=np.linalg.norm(mm)               
+    normalised_mm=np.array(mm,ndmin=2).T/Norm_mm        
+    vhat=normalised_mm.T.dot(sigma).dot(normalised_mm)          
+    sig_mean_d=(vhat-1)*normalised_mm.dot(normalised_mm.T)+np.eye(n+2) 
+    SIM.append(sig_mean_d)
+    
+   ### 
+    Norm_Mstar=np.linalg.norm(Mstar)               
+    normalised_Mstar=np.array(Mstar,ndmin=2).T/Norm_Mstar   
+    vhatst=normalised_Mstar.T.dot(sigma).dot(normalised_Mstar)      
+
+    sig_mean=(vhatst-1)*normalised_Mstar.dot(normalised_Mstar.T)+np.eye(n+2) 
+    SIMst.append(sig_mean)
+    
+############################################# Estimation of the integral
+   ### 
+    Xop=sp.stats.multivariate_normal.rvs(mean=mm, cov=Sigstar,size=N)              
+    wop=mypi(Xop)/sp.stats.multivariate_normal.pdf(Xop,mean=mm, cov=Sigstar)       
+    Eopt[i]=np.mean(wop)                                                     
+    
+   ### 
+    Xis=sp.stats.multivariate_normal.rvs(mean=mm, cov=sigma,size=N)
+    wis=mypi(Xis)/sp.stats.multivariate_normal.pdf(Xis,mean=mm, cov=sigma)
+    EIS[i]=np.mean(wis)
+    
+   ### 
+    Xpr=sp.stats.multivariate_normal.rvs(mean=mm, cov=sig_opt_d,size=N)
+    wpr=mypi(Xpr)/sp.stats.multivariate_normal.pdf(Xpr,mean=mm, cov=sig_opt_d)
+    Eprj[i]=np.mean(wpr)
+    
+   ###   
+    Xpm=sp.stats.multivariate_normal.rvs(mean=mm, cov=sig_mean_d,size=N)
+    wpm=mypi(Xpm)/sp.stats.multivariate_normal.pdf(Xpm,mean=mm, cov=sig_mean_d)
+    Eprm[i]=np.mean(wpm)
+    
+   ### 
+    Xprst=sp.stats.multivariate_normal.rvs(mean=mm, cov=sig_opt,size=N)
+    wprst=mypi(Xprst)/sp.stats.multivariate_normal.pdf(Xprst,mean=mm, cov=sig_opt)
+    Eprjst[i]=np.mean(wprst)
+    
+   ###    
+    Xpmst=sp.stats.multivariate_normal.rvs(mean=mm, cov=sig_mean,size=N)
+    wpmst=mypi(Xpmst)/sp.stats.multivariate_normal.pdf(Xpmst,mean=mm, cov=sig_mean)
+    Eprmst[i]=np.mean(wpmst)
+
+   ###
+    Xvmfn = vMFNM_sample(mu, kappa, omega, pp, 1, N)
+    Rvn=np.sqrt(np.sum(Xvmfn**2,axis=1))
+    Xvnu=Xvmfn.T/Rvn
+   
+    h_log=vMF_logpdf(Xvnu,mu.T,kappa)+nakagami_logpdf(Rvn,pp,omega)
+    A = np.log(n+2) + np.log(np.pi ** ((n+2) / 2)) - sp.special.gammaln((n+2) / 2 + 1)
+    f_u = -A       
+    f_chi = (np.log(2) * (1 - (n+2) / 2) + np.log(Rvn) * ((n+2) - 1) - 0.5 * Rvn ** 2 - sp.special.gammaln((n+2) / 2)) 
+    f_log = f_u + f_chi
+    W_log = f_log - h_log
+    
+    wvmfn=(phi(Xvmfn)>0)*np.exp(W_log)          
+    Evmfn[i]=np.mean(wvmfn)
+    
+### KL divergences    
+dkli=np.zeros(B)
+dklp=np.zeros(B)
+dklm=np.zeros(B)
+dklpst=np.zeros(B)
+dklmst=np.zeros(B)
+dklpca=np.zeros(B)
+
+for i in range(B):
+    dkli[i]=np.log(np.linalg.det(SI[i]))+sum(np.diag(Sigstar.dot(np.linalg.inv(SI[i]))))      
+    dklp[i]=np.log(np.linalg.det(SIP[i]))+sum(np.diag(Sigstar.dot(np.linalg.inv(SIP[i]))))        
+    dklm[i]=np.log(np.linalg.det(SIM[i]))+sum(np.diag(Sigstar.dot(np.linalg.inv(SIM[i]))))
+    dklpst[i]=np.log(np.linalg.det(SIPst[i]))+sum(np.diag(Sigstar.dot(np.linalg.inv(SIPst[i]))))
+    dklmst[i]=np.log(np.linalg.det(SIMst[i]))+sum(np.diag(Sigstar.dot(np.linalg.inv(SIMst[i]))))
+
+Tabresult=np.zeros((3,7)) # table of results
+
+Tabresult[0,0]=np.log(np.linalg.det(Sigstar))+n+2
+Tabresult[0,1]=np.mean(dkli)
+Tabresult[0,2]=np.mean(dklpst)
+Tabresult[0,3]=np.mean(dklmst)
+Tabresult[0,4]=np.mean(dklp)
+Tabresult[0,5]=np.mean(dklm)
+Tabresult[0,6]=None
+
+Tabresult[1,0]=np.mean(Eopt-E)/E*100
+Tabresult[1,1]=np.mean(EIS-E)/E*100
+Tabresult[1,2]=np.mean(Eprjst-E)/E*100
+Tabresult[1,3]=np.mean(Eprmst-E)/E*100
+Tabresult[1,4]=np.mean(Eprj-E)/E*100
+Tabresult[1,5]=np.mean(Eprm-E)/E*100
+Tabresult[1,6]=np.mean(Evmfn-E)/E*100
+
+Tabresult[2,0]=np.sqrt(np.mean((Eopt-E)**2))/E*100
+Tabresult[2,1]=np.sqrt(np.mean((EIS-E)**2))/E*100
+Tabresult[2,2]=np.sqrt(np.mean((Eprjst-E)**2))/E*100
+Tabresult[2,3]=np.sqrt(np.mean((Eprmst-E)**2))/E*100
+Tabresult[2,4]=np.sqrt(np.mean((Eprj-E)**2))/E*100
+Tabresult[2,5]=np.sqrt(np.mean((Eprm-E)**2))/E*100
+Tabresult[2,6]=np.sqrt(np.mean((Evmfn-E)**2))/E*100
+
+Tabresult=np.round(Tabresult,1)
+
+table=[["D'",Tabresult[0,0],Tabresult[0,1],Tabresult[0,2],Tabresult[0,3],Tabresult[0,4],Tabresult[0,5],Tabresult[0,6]],
+      ["Relative error (\%)",Tabresult[1,0],Tabresult[1,1],Tabresult[1,2],Tabresult[1,3],Tabresult[1,4],Tabresult[1,5],Tabresult[1,6]],
+    ["Coefficient of variation (\%)",Tabresult[2,0],Tabresult[2,1],Tabresult[2,2],Tabresult[2,3],Tabresult[2,4],Tabresult[2,5],Tabresult[2,6]]]
+Markdown(tabulate(
+  table, 
+  headers=["","$\Sigma^*$", "$\hat{\Sigma}^*$", "$\hat{\Sigma}_{opt}$", "$\hat{\Sigma}_{mean}$", "${\hat{\Sigma}^{+d}_{opt}}$", "$\hat{\Sigma}^{+d}_{mean}$", "vMFN"],
+    tablefmt="pipe"))
+```
+

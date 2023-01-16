@@ -1150,3 +1150,370 @@ Markdown(tabulate(
   headers=["","$\Sigma^*$", "$\hat{\Sigma}^*$", "$\hat{\Sigma}_{opt}$", "$\hat{\Sigma}_{mean}$", "${\hat{\Sigma}^{+d}_{opt}}$", "$\hat{\Sigma}^{+d}_{mean}$", "vMFN"],
     tablefmt="pipe"))
 ```
+
+::: {.remark}
+For the two test cases studied so far, projecting $\widehat{\Sigma}^*$ in the Failure-Informed Subspace (FIS) of [@UribeEtAl_CrossentropybasedImportanceSampling_2020] (see the introduction) would outperform our method with $\widehat{\Sigma}^*_k$, leading to results close to those obtained with $\Sigma^*$. However, computing the FIS relies on the knowledge of the gradient of the function $\varphi$, which is straightforward to compute in these two test cases, and the method of [@UribeEtAl_CrossentropybasedImportanceSampling_2020] can be applied because they are rare-event problems (i.e., $\phi$ is of the form $\phi = \mathbb{I}_{\{\varphi \geq 0\}}$). In the next section we present other applications where the evaluation of the FIS is not feasible since either the function is not differentiable (test case of @sec-sub:portfolio) or the example is not a rare event simulation problem (test cases of @sec-sub:banana and @sec-sub:payoff).
+:::
+
+## Test case 3: Banana shape distribution}    {#sec-sub:banana}
+The third test case we consider is the integration of the banana shape distribution $h$, which is a classical test case in importance sampling [@CornuetEtAl_AdaptiveMultipleImportance_2012], [@ElviraEtAl_GeneralizedMultipleImportance_2019]. The banana shape distribution is the following pdf
+$$
+	h(\mathbf{x}) = g_{{\bf 0},C}(x_1,x_2+b(x_1^2-\sigma^2),x_3,\dots,x_n).
+$$ {#eq-banana}
+ The term $g_{{\bf 0},C}$ represents the pdf of a Gaussian distribution of mean ${\bf 0}$ and diagaonal covariance matrix $C=\text{diag}(\sigma^2,1,\dots,1)$. The value of $b$ and $\sigma^2$ are respectively set to $b=800$ and $\sigma^2=0.0025$. We choose $\phi$ such that the optimal IS density $g^*$ is equal to $h$, i.e., we choose $\phi = h/f$ so that the integral $E$ that we are trying to estimate is equal to $E = \int \phi f = 1$. This choice is made in order to have an optimal covariance matrix $\Sigma^*$ whose two largest eigenvalues (in $\ell$-order) correspond to the smallest and largest eigenvalues, as can be seen in @fig-inefficiency-banana-2. More formally, the optimal value of the Gaussian parameters are given by $\mathbf{m}^*={\bf 0}$ and $\Sigma^*$ is diagonal with
+$$ \Sigma^* =
+	\begin{pmatrix}
+	0.0025 & 0 & 0 & 0 & \cdots & 0 \\
+	0 & 9 & 0 & 0 & \cdots & 0 \\
+	0 & 0 & 1 & 0 & \cdots & 0 \\
+	0 & 0 & 0 & 1 & \cdots & 0 \\
+	\vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
+	0 & 0 & 0 & 0 & \cdots & 1 \\
+	\end{pmatrix}.
+$$
+The evolution of the KL partial divergence is given in @fig-inefficiency-banana-1. As the optimal mean $\mathbf{m}^*$ is equal to ${\bf 0}$, we cannot project on $\mathbf{m}^*$ and so the matrix ${\widehat{\Sigma}^{\text{}}_\text{mean}}$ is not defined. However, the numerical estimation $\widehat{\mathbf{m}}^*$ will not be equal to $0$ and so the approach proposed in [@MasriEtAl_ImprovementCrossentropyMethod_2020] with ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$ is still applicable numerically.
+
+The simulation results for the different covariance matrices and the vMFN density are given in @tbl-banana. The matrices ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ and ${\widehat{\Sigma}^{\text{+d}}_\text{opt}}$ perform very well for the estimation of $E$ with an accuracy of the same order as the optimal covariance matrix $\Sigma^*$. The effect of estimating the $k=2$ main projection directions does not affect much the estimation performance as ${\widehat{\Sigma}^{\text{+d}}_\text{opt}}$ is still efficient compared to ${\widehat{\Sigma}^{\text{}}_\text{opt}}$. The estimation results with ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$ are not really accurate and this choice is in fact roughly equivalent to choosing a random projection direction. The vMFN parametric model is not adapted to this test case as the vMFN estimate is not close to 1.
+
+```{python}
+#| label: fig-inefficiency-banana
+#| fig-cap: Partial KL divergence and spectrum for the banana shape example.
+#| fig-subcap:
+#|   - 'Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix $\Sigma^*$ (blue circles), the sample covariance $\widehat{\Sigma}^*$ (red squares), and the projected covariance $\widehat{\Sigma}^*_k$ (black triangles).'
+#|   - 'Computation of $\ell(\lambda_i)$ for the eigenvalues of $\Sigma^*$ (red squares) and $\widehat{\Sigma}^*$ (blue crosses) in dimension $n = 100$ for the banana shape example of @eq-banana.'
+#| layout-ncol: 2
+
+###############################################################################################################################
+# Figure 4. Evolution of the partial KL divergence and spectrum of the eigenvalues for the test case 3
+###############################################################################################################################
+
+b=800
+s2=0.0025
+def bananapdf(X):
+    XX=np.copy(X)
+    n=np.shape(XX)[1]
+    I=np.eye(n)
+    I[0,0]=s2
+    XX[:,1]=XX[:,1]+b*(XX[:,0]**2-s2)
+    f=sp.stats.multivariate_normal.pdf(XX,mean=np.zeros(n),cov=I)
+    return(f)
+
+
+DKL=np.zeros(20)
+DKLp=np.zeros(20)
+DKLm=np.zeros(20)
+DKLstar=np.zeros(20)
+
+n=100
+M=300
+
+for d in range(5,n+1,5):
+    
+    I=np.eye(d)
+    I[0,0]=s2
+
+    #Mstar
+    Mstar = np.zeros(d)
+    #Sigmastar
+    Sigstar=np.copy(I)
+    Sigstar[1,1]=9       #1+2*b^2*s2^2         
+
+
+    ## g*-sample
+    X=sp.stats.multivariate_normal.rvs(mean=np.zeros(d),cov=I,size=M)
+    X[:,1]=X[:,1]-b*(X[:,0]**2-s2)
+
+    ## estimated mean and covariance
+    mm=np.mean(X,axis=0)
+    
+    Xc=(X-mm).T
+    sigma=Xc @ Xc.T/np.shape(Xc)[1]
+    
+    ## projection with the eigenvalues of sigma
+    Eig=np.linalg.eigh(sigma)
+    logeig=np.sort(np.log(Eig[0])-Eig[0])
+    delta=np.zeros(len(logeig)-1)
+    for j in range(len(logeig)-1):
+        delta[j]=abs(logeig[j]-logeig[j+1])
+
+    k=np.argmax(delta)+1         # biggest gap between the l(lambda_i)
+    
+    indi=[]
+    for l in range(k):
+        indi.append(np.where(np.log(Eig[0])-Eig[0]==logeig[l])[0][0])
+
+    P1=np.array(Eig[1][:,indi[0]],ndmin=2).T                  # projection matrix
+    for l in range(1,k):
+        P1=np.concatenate((P1,np.array(Eig[1][:,indi[l]],ndmin=2).T),axis=1)
+
+    diagsi=np.diag(Eig[0][indi])
+    sig_opt_d=P1.dot((diagsi-np.eye(k))).dot(P1.T)+np.eye(d)  
+    
+    DKL[int((d-5)/5)]=np.log(np.linalg.det(sigma))+np.sum(np.diag(Sigstar.dot(np.linalg.inv(sigma))))
+    DKLp[int((d-5)/5)]=np.log(np.linalg.det(sig_opt_d))+np.sum(np.diag(Sigstar.dot(np.linalg.inv(sig_opt_d))))
+    DKLstar[int((d-5)/5)]=np.log(np.linalg.det(Sigstar))+d
+
+#### plot of partial KL divergence
+plt.plot(range(5,n+1,5),DKL,'rs',label=r"$D'(\hat{\Sigma}^*)$")
+plt.plot(range(5,n+1,5),DKLp,'k^',label=r"$D'(\hat{\Sigma}^*_k)$")
+plt.plot(range(5,n+1,5),DKLstar,'bo',label=r"$D'(\Sigma^*)$")
+
+plt.grid()
+plt.xlabel('Dimension',fontsize=16)
+plt.ylabel(r"Partial KL divergence $D'$",fontsize=16)
+plt.legend(fontsize=16)
+for tickLabel in plt.gca().get_xticklabels() + plt.gca().get_yticklabels():
+    tickLabel.set_fontsize(16)
+plt.show()
+
+#### plot of the eigenvalues
+Eig1=np.linalg.eigh(sigma)
+logeig1=np.log(Eig1[0])-Eig1[0]+1
+Table_eigv=np.zeros((n,2))
+Table_eigv[:,0]=Eig1[0]
+Table_eigv[:,1]=-logeig1
+
+Eigst=np.linalg.eigh(Sigstar)
+logeigst=np.log(Eigst[0])-Eigst[0]+1
+Table_eigv_st=np.zeros((n,2))
+Table_eigv_st[:,0]=Eigst[0]
+Table_eigv_st[:,1]=-logeigst
+
+plt.grid()
+plt.xlabel(r"Eigenvalues $\lambda_i$",fontsize=16)
+plt.ylabel(r"$\ell(\lambda_i)$",fontsize=16)
+for tickLabel in plt.gca().get_xticklabels() + plt.gca().get_yticklabels():
+    tickLabel.set_fontsize(16)
+
+plt.plot(Table_eigv[:,0],Table_eigv[:,1],'bx',label=r"Eigenvalues of $\hat{\Sigma}^*$")
+plt.plot(Table_eigv_st[:,0],Table_eigv_st[:,1],'rs',label=r"Eigenvalues of $\Sigma^*$")
+plt.legend(fontsize=16)
+plt.show()
+```
+
+```{python}
+#| label: tbl-banana
+#| tbl-cap: 'Numerical comparison of the estimation of $E=1$ considering the Gaussian density with the six covariance matrices defined in @sec-def_cov and the vFMN model, $\phi = h/f$. NA stands for non applicable, as explained in the text.'
+
+###############################################################################################################################
+# Table 4. Numerical comparison on test case 3
+###############################################################################################################################
+
+n=100         # dimension
+phi=bananapdf
+E=1
+
+mypi=bananapdf
+
+N=2000   
+M=500   
+B=50    # number of runs
+
+Eopt=np.zeros(B)
+EIS=np.zeros(B)
+Eprj=np.zeros(B)
+Eprm=np.zeros(B)
+Eprjst=np.zeros(B)
+Eprmst=np.zeros(B)
+Evmfn=np.zeros(B)
+
+SI=[]
+SIP=[]
+SIPst=[]
+SIM=[]
+SIMst=[]
+
+I=np.eye(d)
+I[0,0]=s2
+
+#Mstar
+Mstar = np.zeros(d)
+#Sigmastar
+Sigstar=np.copy(I)
+Sigstar[1,1]=9       #1+2*b^2*s2^2         
+    
+Eigst=np.linalg.eigh(Sigstar)                        
+logeigst=np.sort(np.log(Eigst[0])-Eigst[0])         
+deltast=np.zeros(len(logeigst)-1)
+
+for i in range(len(logeigst)-1):
+    deltast[i]=abs(logeigst[i]-logeigst[i+1])         
+    
+## choice of the number of dimension
+k_st=np.argmax(deltast)+1     
+
+indist=[]
+for i in range(k_st):
+    indist.append(np.where(np.log(Eigst[0])-Eigst[0]==logeigst[i])[0][0])           
+
+P1st=np.array(Eigst[1][:,indist[0]],ndmin=2).T                          
+for i in range(1,k_st):
+    P1st=np.concatenate((P1st,np.array(Eigst[1][:,indist[i]],ndmin=2).T),axis=1)       # matrix of influential directions
+
+#np.random.seed(0)
+for i in range(B):
+############################# Estimation of the matrices
+    
+   ## g*-sample of size M
+    X=sp.stats.multivariate_normal.rvs(mean=np.zeros(d),cov=I,size=M)
+    X[:,1]=X[:,1]-b*(X[:,0]**2-s2)
+    
+   ## estimated mean and covariance
+    mm=np.mean(X,axis=0)
+    Xc=(X-mm).T
+    sigma=Xc @ Xc.T/np.shape(Xc)[1]          
+    SI.append(sigma)
+    
+    R=np.sqrt(np.sum(X**2,axis=1))   
+    Xu=(X.T/R).T                
+    
+   ## von Mises Fisher parameters
+    normu=np.sqrt(np.mean(Xu,axis=0).dot(np.mean(Xu,axis=0).T))
+    mu=np.mean(Xu,axis=0)/normu
+    mu=np.array(mu,ndmin=2)
+    chi=min(normu,0.95)
+    kappa=(chi*n-chi**3)/(1-chi**2)
+
+   ## Nakagami parameters
+    omega=np.mean(R**2)
+    tau4=np.mean(R**4)
+    pp=omega**2/(tau4-omega**2)
+    
+   ### 
+    Eig=np.linalg.eigh(sigma)                     
+    logeig=np.sort(np.log(Eig[0])-Eig[0])     
+    delta=np.zeros(len(logeig)-1)
+    for j in range(len(logeig)-1):
+        delta[j]=abs(logeig[j]-logeig[j+1])    
+
+    k=np.argmax(delta)+1         
+    
+    indi=[]
+    for l in range(k):
+        indi.append(np.where(np.log(Eig[0])-Eig[0]==logeig[l])[0][0])
+
+    P1=np.array(Eig[1][:,indi[0]],ndmin=2).T
+    for l in range(1,k):
+        P1=np.concatenate((P1,np.array(Eig[1][:,indi[l]],ndmin=2).T),axis=1)     
+        
+    diagsi=np.diag(Eig[0][indi])                           
+    sig_opt_d=P1.dot((diagsi-np.eye(k))).dot(P1.T)+np.eye(n)
+    SIP.append(sig_opt_d)
+    
+   ### 
+    diagsist=P1st.T.dot(sigma).dot(P1st)                   
+    sig_opt=P1st.dot(diagsist-np.eye(k_st)).dot(P1st.T)+np.eye(n)
+    SIPst.append(sig_opt)
+    
+   ### 
+    Norm_mm=np.linalg.norm(mm)               
+    normalised_mm=np.array(mm,ndmin=2).T/Norm_mm        
+    vhat=normalised_mm.T.dot(sigma).dot(normalised_mm)          
+    sig_mean_d=(vhat-1)*normalised_mm.dot(normalised_mm.T)+np.eye(n) 
+    SIM.append(sig_mean_d)
+    
+#    ### 
+#     Norm_Mstar=np.linalg.norm(Mstar)               
+#     normalised_Mstar=np.array(Mstar,ndmin=2).T/Norm_Mstar   
+#     vhatst=normalised_Mstar.T.dot(sigma).dot(normalised_Mstar)      
+
+#     sig_mean=(vhatst-1)*normalised_Mstar.dot(normalised_Mstar.T)+np.eye(n) 
+#     SIMst.append(sig_mean)
+    
+############################################# Estimation of the integral
+   ### 
+    Xop=sp.stats.multivariate_normal.rvs(mean=mm, cov=Sigstar,size=N)              
+    wop=mypi(Xop)/sp.stats.multivariate_normal.pdf(Xop,mean=mm, cov=Sigstar)       
+    Eopt[i]=np.mean(wop)                                                     
+    
+   ### 
+    Xis=sp.stats.multivariate_normal.rvs(mean=mm, cov=sigma,size=N)
+    wis=mypi(Xis)/sp.stats.multivariate_normal.pdf(Xis,mean=mm, cov=sigma)
+    EIS[i]=np.mean(wis)
+    
+   ### 
+    Xpr=sp.stats.multivariate_normal.rvs(mean=mm, cov=sig_opt_d,size=N)
+    wpr=mypi(Xpr)/sp.stats.multivariate_normal.pdf(Xpr,mean=mm, cov=sig_opt_d)
+    Eprj[i]=np.mean(wpr)
+    
+   ###   
+    Xpm=sp.stats.multivariate_normal.rvs(mean=mm, cov=sig_mean_d,size=N)
+    wpm=mypi(Xpm)/sp.stats.multivariate_normal.pdf(Xpm,mean=mm, cov=sig_mean_d)
+    Eprm[i]=np.mean(wpm)
+    
+   ### 
+    Xprst=sp.stats.multivariate_normal.rvs(mean=mm, cov=sig_opt,size=N)
+    wprst=mypi(Xprst)/sp.stats.multivariate_normal.pdf(Xprst,mean=mm, cov=sig_opt)
+    Eprjst[i]=np.mean(wprst)
+    
+#    ###    
+#     Xpmst=sp.stats.multivariate_normal.rvs(mean=mm, cov=sig_mean,size=N)
+#     wpmst=mypi(Xpmst)/sp.stats.multivariate_normal.pdf(Xpmst,mean=mm, cov=sig_mean)
+#     Eprmst[i]=np.mean(wpmst)
+
+   ###
+    Xvmfn = vMFNM_sample(mu, kappa, omega, pp, 1, N)
+    Rvn=np.sqrt(np.sum(Xvmfn**2,axis=1))
+    Xvnu=Xvmfn.T/Rvn
+   
+    h_log=vMF_logpdf(Xvnu,mu.T,kappa)+nakagami_logpdf(Rvn,pp,omega)
+    A = np.log(n) + np.log(np.pi ** (n / 2)) - sp.special.gammaln(n / 2 + 1)
+    f_u = -A       
+    f_chi = (np.log(2) * (1 - n / 2) + np.log(Rvn) * (n - 1) - 0.5 * Rvn ** 2 - sp.special.gammaln(n / 2)) 
+    f_log = f_u + f_chi
+    W_log = f_log - h_log
+    
+    wvmfn=(phi(Xvmfn)>0)*np.exp(W_log)          
+    Evmfn[i]=np.mean(wvmfn)
+    
+### KL divergences    
+dkli=np.zeros(B)
+dklp=np.zeros(B)
+dklm=np.zeros(B)
+dklpst=np.zeros(B)
+#dklmst=np.zeros(B)
+dklpca=np.zeros(B)
+
+for i in range(B):
+    dkli[i]=np.log(np.linalg.det(SI[i]))+sum(np.diag(Sigstar.dot(np.linalg.inv(SI[i]))))      
+    dklp[i]=np.log(np.linalg.det(SIP[i]))+sum(np.diag(Sigstar.dot(np.linalg.inv(SIP[i]))))        
+    dklm[i]=np.log(np.linalg.det(SIM[i]))+sum(np.diag(Sigstar.dot(np.linalg.inv(SIM[i]))))
+    dklpst[i]=np.log(np.linalg.det(SIPst[i]))+sum(np.diag(Sigstar.dot(np.linalg.inv(SIPst[i]))))
+    #dklmst[i]=np.log(np.linalg.det(SIMst[i]))+sum(np.diag(Sigstar.dot(np.linalg.inv(SIMst[i]))))
+
+Tabresult=np.zeros((3,7)) # table of results
+
+Tabresult[0,0]=np.log(np.linalg.det(Sigstar))+n
+Tabresult[0,1]=np.mean(dkli)
+Tabresult[0,2]=np.mean(dklpst)
+Tabresult[0,3]=None
+Tabresult[0,4]=np.mean(dklp)
+Tabresult[0,5]=np.mean(dklm)
+Tabresult[0,6]=None
+
+Tabresult[1,0]=np.mean(Eopt-E)/E*100
+Tabresult[1,1]=np.mean(EIS-E)/E*100
+Tabresult[1,2]=np.mean(Eprjst-E)/E*100
+Tabresult[1,3]=None
+Tabresult[1,4]=np.mean(Eprj-E)/E*100
+Tabresult[1,5]=np.mean(Eprm-E)/E*100
+Tabresult[1,6]=np.mean(Evmfn-E)/E*100
+
+Tabresult[2,0]=np.sqrt(np.mean((Eopt-E)**2))/E*100
+Tabresult[2,1]=np.sqrt(np.mean((EIS-E)**2))/E*100
+Tabresult[2,2]=np.sqrt(np.mean((Eprjst-E)**2))/E*100
+Tabresult[2,3]=None
+Tabresult[2,4]=np.sqrt(np.mean((Eprj-E)**2))/E*100
+Tabresult[2,5]=np.sqrt(np.mean((Eprm-E)**2))/E*100
+Tabresult[2,6]=np.sqrt(np.mean((Evmfn-E)**2))/E*100
+
+Tabresult=np.round(Tabresult,1)
+
+table=[["D'",Tabresult[0,0],Tabresult[0,1],Tabresult[0,2],Tabresult[0,3],Tabresult[0,4],Tabresult[0,5],Tabresult[0,6]],
+      ["Relative error (\%)",Tabresult[1,0],Tabresult[1,1],Tabresult[1,2],Tabresult[1,3],Tabresult[1,4],Tabresult[1,5],Tabresult[1,6]],
+    ["Coefficient of variation (\%)",Tabresult[2,0],Tabresult[2,1],Tabresult[2,2],Tabresult[2,3],Tabresult[2,4],Tabresult[2,5],Tabresult[2,6]]]
+Markdown(tabulate(
+  table, 
+  headers=["","$\Sigma^*$", "$\hat{\Sigma}^*$", "$\hat{\Sigma}_{opt}$", "$\hat{\Sigma}_{mean}$", "${\hat{\Sigma}^{+d}_{opt}}$", "$\hat{\Sigma}^{+d}_{mean}$", "vMFN"],
+    tablefmt="pipe"))
+```

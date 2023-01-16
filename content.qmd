@@ -547,6 +547,23 @@ annealing
 \end{algorithm}
 ```
 
+
+```{.pseudocode}
+\begin{algorithm}
+\caption{Algorithm suggested by Theorem 1.}
+\begin{algorithmic}
+\STATE \textbf{Data: } Sample sizes $N$ and $M$
+\STATE \textbf{Result: } Estimation $\widehat{E}_N$ of integral $E$
+\STATE - Generate a sample $\mathbf{X}_1,\ldots,\mathbf{X}_M$  on $\mathbb{R}^n$ independently according to $g^*$
+\STATE - Estimate $\widehat{\mathbf{m}}^*$ and $\widehat{\Sigma}^*$ defined in Equation 10 and Equation 11 with this sample
+\STATE - Compute the eigenpairs $(\widehat{\lambda}^*_i, \widehat{\mathbf{d}}^*_i)$ of $\widehat{\Sigma}^*$ ranked in decreasing $\ell$-order
+\STATE - Compute the matrix $\widehat{\Sigma}^*_k = \sum_{i=1}^k ({\widehat{\lambda}}^*_i-1) {\widehat{\mathbf{d}}}^*_i ({{\widehat{\mathbf{d}}}^*}_i)^\top + I_n$ with $k$ obtained by applying Algorithm 2 with input $({\widehat{\lambda}}^*_1, \ldots, {\widehat{\lambda}}^*_n)$
+\STATE - Generate a new sample $\mathbf{X}_1,\ldots,\mathbf{X}_N$ independently from $g' = g_{\widehat{\mathbf{m}}^*,\widehat{\Sigma}^*_k}$
+\STATE - Return $\displaystyle \widehat{E}_N=\frac{1}{N}\underset{i=1}{\overset{N}{\sum}} \phi(\mathbf{X}_i)\frac{f(\mathbf{X}_i)}{g'(\mathbf{X}_i)}$
+\end{algorithmic}
+\end{algorithm}
+```
+
 ## Optimization methods for t-SNE {#sec-optimization_methods_for_tsne}
 
 We start by presenting a relatively simple, gradient descent procedure for

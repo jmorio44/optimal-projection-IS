@@ -121,9 +121,9 @@ In the following, $(\lambda, \mathbf{d}) \in \mathbb{R} \times \mathbb{R}^n$ is 
 #| label: fig-l
 #| fig-cap: Plot of the function $\ell=-\log(x) + x - 1$ given by @eq-l
 
-###############################################################################################################################
+#######################################################################
 # Figure 1. Plot of the function "l"
-###############################################################################################################################
+#######################################################################
 import numpy as np
 import scipy as sp
 import scipy.stats
@@ -139,9 +139,7 @@ y = -np.log(x) + x -1
 
 # plot
 fig, ax = plt.subplots()
-
 ax.plot(x, y, linewidth=2.0)
-
 ax.set(xlim=(0, 4), xticks=[0,1,2,3],
        ylim=(0, 0.5), yticks=[0,0.5,1,1.5])
 plt.grid()
@@ -170,18 +168,18 @@ This theoretical result therefore suggests to reduce dimension by estimating eig
 \begin{algorithmic}
 \State \textbf{Data}: Sample sizes $N$ and $M$
 \State \textbf{Result}: Estimation $\widehat{E}_N$ of integral $E$
-\State Generate a sample $\mathbf{X}_1,\ldots,\mathbf{X}_M$  on $\mathbb{R}^n$ independently according to $g^*$
-\State  Estimate $\widehat{\mathbf{m}}^*$ and $\widehat{\Sigma}^*$ defined in Equation 10 and Equation 11 with this sample
-\State Compute the eigenpairs $(\widehat{\lambda}^*_i, \widehat{\mathbf{d}}^*_i)$ of $\widehat{\Sigma}^*$ ranked in decreasing $\ell$-order
-\State Compute the matrix $\widehat{\Sigma}^*_k = \sum_{i=1}^k ({\widehat{\lambda}}^*_i-1) {\widehat{\mathbf{d}}}^*_i ({{\widehat{\mathbf{d}}}^*}_i)^\top + I_n$ with $k$ obtained by applying Algorithm 2 with input $({\widehat{\lambda}}^*_1, \ldots, {\widehat{\lambda}}^*_n)$
-\State Generate a new sample $\mathbf{X}_1,\ldots,\mathbf{X}_N$ independently from $g' = g_{\widehat{\mathbf{m}}^*,\widehat{\Sigma}^*_k}$
-\State Return $\displaystyle \widehat{E}_N=\frac{1}{N}\underset{i=1}{\overset{N}{\sum}} \phi(\mathbf{X}_i)\frac{f(\mathbf{X}_i)}{g'(\mathbf{X}_i)}$
+\State - Generate a sample $\mathbf{X}_1,\ldots,\mathbf{X}_M$  on $\mathbb{R}^n$ independently according to $g^*$
+\State  - Estimate $\widehat{\mathbf{m}}^*$ and $\widehat{\Sigma}^*$ defined in Equation 10 and Equation 11 with this sample
+\State - Compute the eigenpairs $(\widehat{\lambda}^*_i, \widehat{\mathbf{d}}^*_i)$ of $\widehat{\Sigma}^*$ ranked in decreasing $\ell$-order
+\State - Compute the matrix $\widehat{\Sigma}^*_k = \sum_{i=1}^k ({\widehat{\lambda}}^*_i-1) {\widehat{\mathbf{d}}}^*_i ({{\widehat{\mathbf{d}}}^*}_i)^\top + I_n$ with $k$ obtained by applying Algorithm 2 with input $({\widehat{\lambda}}^*_1, \ldots, {\widehat{\lambda}}^*_n)$
+\State - Generate a new sample $\mathbf{X}_1,\ldots,\mathbf{X}_N$ independently from $g' = g_{\widehat{\mathbf{m}}^*,\widehat{\Sigma}^*_k}$
+\State - Return $\displaystyle \widehat{E}_N=\frac{1}{N}\underset{i=1}{\overset{N}{\sum}} \phi(\mathbf{X}_i)\frac{f(\mathbf{X}_i)}{g'(\mathbf{X}_i)}$
 \end{algorithmic}
 \end{algorithm}
 ```
 
 ::: {.remark}
- The value $1$ plays a particular role in @thm-thm1, in that, as $\ell$ is minimized in $1$, eigenvectors with eigenvalues $1$ will only be selected once all other eigenvalues will have been picked: in other words, if $\lambda^*_i = 1$ then $\lambda^*_j = 1$ for all $j \geq i$. The reason why $1$ plays this special role is due to the form of the covariance matrix that we impose. More precisely, looking for covariance matrices in the set $\mathcal{L}_{n,k}$ amounts to looking for covariance matrices which, once diagonalized, have one's on the diagonal except possibly for $k$ values (the $\alpha_i$'s). As $k$ will be small, typically $k = 1$ or $2$, this amounts to looking for covariance matrices which are perturbation of the identity. This is particularly relevant as we assume $f$ is a standard Gaussian density. What @thm-thm1 tells is that, when trying to approximate $\Sigma^*$ by such matrices, we should first consider eigenvectors with eigenvalues as different as possible from $1$, the ''distance'' to $1$ being measured by $\ell$. If one was imposing a different form on $\Sigma^*_k$ (which can be interesting if the distribution $f$ is not standardized), then a different result would arise. For instance, if one was looking for matrices where the ''default'' choice would be some $\lambda > 0$ for the diagonal entries that are not estimated, i.e., a matrix of the form $\sum_i (\alpha_i-\lambda) \mathbf{d}_i \mathbf{d}_i^\top + \lambda I_n$, then eigenpairs would be ranked according to the function $\ell(\cdot/\lambda)$, meaning that one would look for eigenvectors associated to eigenvalues as different as possible from $\lambda$.
+ The value $1$ plays a particular role in @thm-thm1, in that, as $\ell$ is minimized in $1$, eigenvectors with eigenvalues $1$ will only be selected once all other eigenvalues will have been picked: in other words, if $\lambda^*_i = 1$ then $\lambda^*_j = 1$ for all $j \geq i$. The reason why $1$ plays this special role is due to the form of the covariance matrix that we impose. More precisely, looking for covariance matrices in the set $\mathcal{L}_{n,k}$ amounts to looking for covariance matrices which, once diagonalized, have one's on the diagonal except possibly for $k$ values (the $\alpha_i$'s). As $k$ will be small, typically $k = 1$ or $2$, this amounts to looking for covariance matrices which are perturbation of the identity. This is particularly relevant as we assume $f$ is a standard Gaussian density. What @thm-thm1 tells is that, when trying to approximate $\Sigma^*$ by such matrices, we should first consider eigenvectors with eigenvalues as different as possible from $1$, the "distance" to $1$ being measured by $\ell$. If one was imposing a different form on $\Sigma^*_k$ (which can be interesting if the distribution $f$ is not standardized), then a different result would arise. For instance, if one was looking for matrices where the "default" choice would be some $\lambda > 0$ for the diagonal entries that are not estimated, i.e., a matrix of the form $\sum_i (\alpha_i-\lambda) \mathbf{d}_i \mathbf{d}_i^\top + \lambda I_n$, then eigenpairs would be ranked according to the function $\ell(\cdot/\lambda)$, meaning that one would look for eigenvectors associated to eigenvalues as different as possible from $\lambda$.
 :::
 
 As mentioned above, we assume in the first step of Algorithm 1 that we can sample according to $g^*$. Since $g^*$ is known up to a multiplicative constant, this is a reasonable assumption as classical techniques such as importance sampling with self-normalized weights or Markov Chain Monte--Carlo (MCMC) can be applied in this case (see for instance [@ChanKroese_ImprovedCrossentropyMethod_2012], [@GraceEtAl_AutomatedStateDependentImportance_2014]). In this paper, we choose to apply a basic rejection method that yields perfect independent samples from $g^*$, possibly at the price of a high computational cost. As the primary goal of this paper is to understand whether the $\mathbf{d}^*_i$'s are indeed good projection directions, this computational cost to generate from $g^*$ is not relevant for us and therefore not taken into account. Possible improvements to relax this assumption are discussed in the conclusion of the paper.
@@ -196,8 +194,8 @@ The choice of the effective dimension $k$, i.e., the number of projection direct
 \begin{algorithmic}
 \State \textbf{Data}: Sequence of positive numbers $\lambda_1, \ldots, \lambda_n$ in decreasing $\ell$-order
 \State \textbf{Result}: Number of selected dimensions $k$
-\State Compute the increments $\delta_i = \ell(\lambda_{i+1}) - \ell(\lambda_i)$ for $i=1\ldots n-1$
-\State Return $k=\arg\max \delta_i$, the index of the maximum of the differences.
+\State - Compute the increments $\delta_i = \ell(\lambda_{i+1}) - \ell(\lambda_i)$ for $i=1\ldots n-1$
+\State - Return $k=\arg\max \delta_i$, the index of the maximum of the differences.
 \end{algorithmic}
 \end{algorithm}
 ```
@@ -209,7 +207,7 @@ In [@MasriEtAl_ImprovementCrossentropyMethod_2020], the authors propose to proje
 Consider $\Sigma \in \mathcal{L}_{n,1}$ of the form $\Sigma = I_n + (\alpha - 1) \mathbf{d} \mathbf{d}^\top$ with $\alpha > 0$ and $\lVert \mathbf{d} \rVert = 1$. Then the minimizer in $(\alpha, \mathbf{d})$ of the KL divergence between $f$ and $g_{\mathbf{m}^*, \Sigma}$ is $(1+\lVert m^*\rVert^2, \mathbf{m}^* / \lVert \mathbf{m}^* \rVert)$:
 		$$\left( 1+\lVert \mathbf{m}^*\rVert^2, \mathbf{m}^* / \lVert \mathbf{m}^* \rVert \right) = \arg \min_{\alpha, \mathbf{d}} \left\{ D(f, g_{\mathbf{m}^*, I_n + (\alpha - 1) \mathbf{d} \mathbf{d}^\top}): \alpha > 0, \ \lVert \mathbf{d} \rVert = 1 \right\}. $$
 :::
-In other words, $\mathbf{m}^*$ appears as an optimal projection direction when one seeks to minimize the KL divergence between $f$ and the Gaussian density with mean $\mathbf{m}^*$ and covariance of the form $I_n + (\alpha - 1) \mathbf{d} \mathbf{d}^\top$. Let us now explain why this minimization problem is indeed relevant, and why choosing an auxiliary density which minimizes this KL divergence may indeed lead to an accurate estimation. The justification deeply relies on the recent results by Chatterjee and Diaconis [@Chatterjee18:0].
+In other words, $\mathbf{m}^*$ appears as an optimal projection direction when one seeks to minimize the KL divergence between $f$ and the Gaussian density with mean $\mathbf{m}^*$ and covariance of the form $I_n + (\alpha - 1) \mathbf{d} \mathbf{d}^\top$. Let us now explain why this minimization problem is indeed relevant, and why choosing an auxiliary density which minimizes this KL divergence may indeed lead to an accurate estimation. The justification deeply relies on the recent results by [@Chatterjee18:0].
 	
 As mentioned above, in a reliability context where one seeks to estimate a small probability $p = \mathbb{P}(\mathbf{X} \in A),$ Theorem $1.3$ in [@Chatterjee18:0] shows that $D(g^*, g)$ governs the sample size required for an accurate estimation of $p$: more precisely, the estimation is accurate if the sample size is larger than $e^{D(g^*, g)}$, and inaccurate otherwise. This motivates the rationale for minimizing the KL divergence with $g^*$.
 	
@@ -219,7 +217,6 @@ In light of these results, it becomes natural to consider the KL divergence with
 
 # Proof of Theorems @thm-thm1 and @thm-thm2 {#sec-proof} 
 We begin with a preliminary lemma.
-
 ::: {#lem-D}
 Let $f$ be the density of the standard Gaussian vector in dimension $n$, $\phi: \mathbb{R}^n \to \mathbb{R}_+$ and $g_* = f \phi / E$ with $E = \int f \phi$. Then for any $\mathbf{m}$ and any $\Sigma$ of the form $\Sigma = I_n + \sum_i (\alpha_i - 1) \mathbf{d}_i \mathbf{d}_i^\top$ with $\alpha_i > 0$ and the $\mathbf{d}_i$'s orthonormal, we have
 $$

@@ -45,21 +45,9 @@ jupyter:
     name: python3
 ---
 
-```{python}
-import numpy as np
-import scipy as sp
-import scipy.stats
-import matplotlib.pyplot as plt
-from CEIS_vMFNM import *
-from IPython.display import display, Math, Latex
-from IPython.display import Markdown
-from tabulate import tabulate
-np.random.seed(10)
-```
-
 # Introduction	
 
-Importance Sampling (IS) is a widely considered stochastic method to estimate integrals of the form $E = \int \phi f$ with a black-box function $\phi$ and a probability density function (pdf) $f$. It rests upon the choice of an auxiliary density which, when suitably chosen, can significantly improve the situation compared to the naive Monte Carlo (MC) method [@AgapiouEtAl_ImportanceSamplingIntrinsic_2017], [@OwenZhou_SafeEffectiveImportance_2000]. The theoretical optimal IS density, also called zero-variance density, is defined by $\phi f / E$ when $\phi$ is a positive function. This density is not available in practice as it involves the unknown integral $E$, but a classical strategy consists in searching an optimal approximation in a parametric family of densities. By minimising a ''distance'' with the optimal IS density, such as the Kullback--Leibler divergence, one can find optimal parameters in this family to get an efficient sampling pdf. Adaptive Importance Sampling (AIS) algorithms, such as the Mixture Population Monte Carlo method [@CappeEtAl_AdaptiveImportanceSampling_2008], the Adaptive Multiple Importance Sampling method [@CornuetEtAl_AdaptiveMultipleImportance_2012], or the Cross Entropy method [@RubinsteinKroese_CrossentropyMethodUnified_2011], estimate the optimal parameters adaptively by updating intermediate parameters [@BugalloEtAl_AdaptiveImportanceSampling_2017].
+Importance Sampling (IS) is a widely considered stochastic method to estimate integrals of the form $E = \int \phi f$ with a black-box function $\phi$ and a probability density function (pdf) $f$. It rests upon the choice of an auxiliary density which, when suitably chosen, can significantly improve the situation compared to the naive Monte Carlo (MC) method [@AgapiouEtAl_ImportanceSamplingIntrinsic_2017], [@OwenZhou_SafeEffectiveImportance_2000]. The theoretical optimal IS density, also called zero-variance density, is defined by $\phi f / E$ when $\phi$ is a positive function. This density is not available in practice as it involves the unknown integral $E$, but a classical strategy consists in searching an optimal approximation in a parametric family of densities. By minimising a "distance" with the optimal IS density, such as the Kullback--Leibler divergence, one can find optimal parameters in this family to get an efficient sampling pdf. Adaptive Importance Sampling (AIS) algorithms, such as the Mixture Population Monte Carlo method [@CappeEtAl_AdaptiveImportanceSampling_2008], the Adaptive Multiple Importance Sampling method [@CornuetEtAl_AdaptiveMultipleImportance_2012], or the Cross Entropy method [@RubinsteinKroese_CrossentropyMethodUnified_2011], estimate the optimal parameters adaptively by updating intermediate parameters [@BugalloEtAl_AdaptiveImportanceSampling_2017].
 
 An intense research activity has made these techniques work very well, but only for moderate dimensions. In high dimension, most of these techniques actually fail to give efficient parameters for two reasons. The first one is the so-called weight degeneracy problem, which is that in high dimension, the weights appearing in the IS densities (which are self-normalized likelihood ratios) degenerate. More precisely, the largest weight takes all the mass, while all other weights are negligible so that the final estimation essentially uses only one sample, see for instance [@BengtssonEtAl_CurseofdimensionalityRevisitedCollapse_2008] for a theoretical analysis in the related context of particle filtering. But even without likelihood ratios, such techniques may fail if they need to estimate high-dimensional parameters such as covariance matrices, whose size increases quadratically in the dimension [@AshurbekovaEtAl_OptimalShrinkageRobust_], [@LedoitWolf_WellconditionedEstimatorLargedimensional_2004]. The conditions under which importance sampling is applicable in high dimension are notably investigated in a reliability context in [@AuBeck_ImportantSamplingHigh_2003]: it is remarked that the optimal covariance matrix should not deviate significantly from the identity matrix. [@El-LahamEtAl_RecursiveShrinkageCovariance_] tackle the weight degeneracy problem by applying a recursive shrinkage of the covariance matrix, which is constructed iteratively with a weighted sum of the sample covariance estimator and a biased, but more stable, estimator. Concerning the second problem of having to estimate high-dimensional parameters, the idea was recently put forth to reduce the effective dimension by only estimating these parameters (in particular the covariance matrix) in suitable directions [@MasriEtAl_ImprovementCrossentropyMethod_2020], [@UribeEtAl_CrossentropybasedImportanceSampling_2020]. In this paper we seek to delve deeper into this idea. The main contribution of the present paper is to identify the optimal directions in the fundamental case when the parametric family is Gaussian, and perform numerical simulations in order to understand how they behave in practice. In particular, we propose directions which, in contrast to the recent paper [@UribeEtAl_CrossentropybasedImportanceSampling_2020], does not require the objective function to be differentiable, and moreover optimizes the Kullback--Leibler distance with the optimal density instead of simply an upper bound on it, as in [@UribeEtAl_CrossentropybasedImportanceSampling_2020]. In @sec-proj we elaborate in more details on the differences between the two approaches.
 
@@ -112,7 +100,7 @@ Recently, the idea to overcome this problem by only evaluating variance terms in
 	$$ {#eq-Sigmak}
 where the $\mathbf{d}_i$'s are the $k$ orthonormal directions which are deemed influential. It is easy to check that $\Sigma$ is the covariance matrix of the Gaussian vector
 	$$ v^{1/2}_1 Y_1 \mathbf{d}_1 + \cdots + v^{1/2}_k Y_k \mathbf{d}_k + Y_{k+1} \mathbf{d}_{k+1} + \cdots + Y_n \mathbf{d}_n $$
-where the $Y_i$'s are i.i.d. standard normal random variables (one-dimensional), and the $n-k$ vectors $(\mathbf{d}_{k+1}, \ldots, \mathbf{d}_n)$ complete $(\mathbf{d}_1, \ldots, \mathbf{d}_k)$ into an orthonormal basis. In particular, $v_i$ is the variance in the direction of $\mathbf{d}_i$, i.e., $v_i = \mathbf{d}_i^\top \Sigma \mathbf{d}_i$. In @eq-Sigmak, $k$ can be considered as the effective dimension in which variance terms are estimated. In other words, in [@MasriEtAl_ImprovementCrossentropyMethod_2020] and [@UribeEtAl_CrossentropybasedImportanceSampling_2020], the optimal variance parameter is not sought in $\mathcal{S}^+_n$ as in @eq-argminDkl}, but rather in the subset of matrices of the form
+where the $Y_i$'s are i.i.d. standard normal random variables (one-dimensional), and the $n-k$ vectors $(\mathbf{d}_{k+1}, \ldots, \mathbf{d}_n)$ complete $(\mathbf{d}_1, \ldots, \mathbf{d}_k)$ into an orthonormal basis. In particular, $v_i$ is the variance in the direction of $\mathbf{d}_i$, i.e., $v_i = \mathbf{d}_i^\top \Sigma \mathbf{d}_i$. In @eq-Sigmak, $k$ can be considered as the effective dimension in which variance terms are estimated. In other words, in [@MasriEtAl_ImprovementCrossentropyMethod_2020] and [@UribeEtAl_CrossentropybasedImportanceSampling_2020], the optimal variance parameter is not sought in $\mathcal{S}^+_n$ as in @eq-argminDkl, but rather in the subset of matrices of the form
 	$$ \mathcal{L}_{n,k} = \left\{ \sum_{i=1}^k (\alpha_i-1) \frac{\mathbf{d}_i \mathbf{d}_i^\top}{\lVert \mathbf{d}_i \rVert^2} + I_n: \alpha_1, \ldots, \alpha_k >0 \ \text{ and the $\mathbf{d}_i$'s are orthogonal} \right\}. $$
 The relevant minimization problem thus becomes
 	$$ 
@@ -136,6 +124,15 @@ In the following, $(\lambda, \mathbf{d}) \in \mathbb{R} \times \mathbb{R}^n$ is 
 ###############################################################################################################################
 # Figure 1. Plot of the function "l"
 ###############################################################################################################################
+import numpy as np
+import scipy as sp
+import scipy.stats
+import matplotlib.pyplot as plt
+from CEIS_vMFNM import *
+from IPython.display import display, Math, Latex
+from IPython.display import Markdown
+from tabulate import tabulate
+np.random.seed(10)
 
 x = np.linspace(np.finfo(float).eps,4.0,100)
 y = -np.log(x) + x -1
@@ -467,8 +464,8 @@ for d in range(5,n+1,5):
     DKLstar[int((d-5)/5)]=np.log(np.linalg.det(Sigstar))+d
 
 #### plot of partial KL divergence
-plt.plot(range(5,105,5),DKL,'rs',label=r"$D'(\hat{\Sigma}^*)$")
-plt.plot(range(5,105,5),DKLp,'k^',label=r"$D'(\hat{\Sigma}^*_k)$")
+plt.plot(range(5,105,5),DKL,'rs',label=r"$D'(\widehat{\Sigma}^*)$")
+plt.plot(range(5,105,5),DKLp,'k^',label=r"$D'(\widehat{\Sigma}^*_k)$")
 plt.plot(range(5,105,5),DKLstar,'bo',label=r"$D'(\Sigma^*)$")
 
 plt.grid()
@@ -498,7 +495,7 @@ plt.ylabel(r"$\ell(\lambda_i)$",fontsize=16)
 for tickLabel in plt.gca().get_xticklabels() + plt.gca().get_yticklabels():
     tickLabel.set_fontsize(16)
 
-plt.plot(Table_eigv[:,0],Table_eigv[:,1],'bx',label=r"Eigenvalues of $\hat{\Sigma}^*$")
+plt.plot(Table_eigv[:,0],Table_eigv[:,1],'bx',label=r"Eigenvalues of $\widehat{\Sigma}^*$")
 plt.plot(Table_eigv_st[:,0],Table_eigv_st[:,1],'rs',label=r"Eigenvalues of $\Sigma^*$")
 plt.legend(fontsize=16)
 plt.show()
@@ -529,6 +526,8 @@ def mypi(X):
     f0=sp.stats.multivariate_normal.pdf(X,mean=np.zeros(n),cov=np.eye(n))
     return((phi(X)>0)*f0)
 
+
+start_time = time.time()
 N=2000   
 M=500   
 B=50    # number of runs
@@ -637,13 +636,14 @@ for i in range(B):
     sig_mean_d=(vhat-1)*normalised_mm.dot(normalised_mm.T)+np.eye(n) 
     SIM.append(sig_mean_d)
     
-   ### 
-    Norm_Mstar=np.linalg.norm(Mstar)               
-    normalised_Mstar=np.array(Mstar,ndmin=2).T/Norm_Mstar   
-    vhatst=normalised_Mstar.T.dot(sigma).dot(normalised_Mstar)      
+   ### MODIF : Sigma_opt=Sigma_mean donc inutile de recalculer
 
-    sig_mean=(vhatst-1)*normalised_Mstar.dot(normalised_Mstar.T)+np.eye(n) 
-    SIMst.append(sig_mean)
+#     Norm_Mstar=np.linalg.norm(Mstar)               
+#     normalised_Mstar=np.array(Mstar,ndmin=2).T/Norm_Mstar   
+#     vhatst=normalised_Mstar.T.dot(sigma).dot(normalised_Mstar)      
+
+#     sig_mean=(vhatst-1)*normalised_Mstar.dot(normalised_Mstar.T)+np.eye(n) 
+#     SIMst.append(sig_mean)
     
 ############################################# Estimation of the integral
    ### 
@@ -671,10 +671,14 @@ for i in range(B):
     wprst=mypi(Xprst)/sp.stats.multivariate_normal.pdf(Xprst,mean=mm, cov=sig_opt)
     Eprjst[i]=np.mean(wprst)
     
+   ######### MODIF : Sigma_opt=Sigma_mean donc l'estimation est la même.
+
    ###    
-    Xpmst=sp.stats.multivariate_normal.rvs(mean=mm, cov=sig_mean,size=N)
-    wpmst=mypi(Xpmst)/sp.stats.multivariate_normal.pdf(Xpmst,mean=mm, cov=sig_mean)
-    Eprmst[i]=np.mean(wpmst)
+#     Xpmst=sp.stats.multivariate_normal.rvs(mean=mm, cov=sig_mean,size=N)
+#     wpmst=mypi(Xpmst)/sp.stats.multivariate_normal.pdf(Xpmst,mean=mm, cov=sig_mean)
+#     Eprmst[i]=np.mean(wpmst)
+
+##############
 
    ###
     Xvmfn = vMFNM_sample(mu, kappa, omega, pp, 1, N)
@@ -696,7 +700,7 @@ dkli=np.zeros(B)
 dklp=np.zeros(B)
 dklm=np.zeros(B)
 dklpst=np.zeros(B)
-dklmst=np.zeros(B)
+#dklmst=np.zeros(B)
 dklpca=np.zeros(B)
 
 for i in range(B):
@@ -704,14 +708,14 @@ for i in range(B):
     dklp[i]=np.log(np.linalg.det(SIP[i]))+sum(np.diag(Sigstar.dot(np.linalg.inv(SIP[i]))))        
     dklm[i]=np.log(np.linalg.det(SIM[i]))+sum(np.diag(Sigstar.dot(np.linalg.inv(SIM[i]))))
     dklpst[i]=np.log(np.linalg.det(SIPst[i]))+sum(np.diag(Sigstar.dot(np.linalg.inv(SIPst[i]))))
-    dklmst[i]=np.log(np.linalg.det(SIMst[i]))+sum(np.diag(Sigstar.dot(np.linalg.inv(SIMst[i]))))
+    #dklmst[i]=np.log(np.linalg.det(SIMst[i]))+sum(np.diag(Sigstar.dot(np.linalg.inv(SIMst[i]))))
 
 Tabresult=np.zeros((3,7)) # table of results
 
 Tabresult[0,0]=np.log(np.linalg.det(Sigstar))+n
 Tabresult[0,1]=np.mean(dkli)
 Tabresult[0,2]=np.mean(dklpst)
-Tabresult[0,3]=np.mean(dklmst)
+Tabresult[0,3]=np.mean(dklpst)
 Tabresult[0,4]=np.mean(dklp)
 Tabresult[0,5]=np.mean(dklm)
 Tabresult[0,6]=None
@@ -719,7 +723,7 @@ Tabresult[0,6]=None
 Tabresult[1,0]=np.mean(Eopt-E)/E*100
 Tabresult[1,1]=np.mean(EIS-E)/E*100
 Tabresult[1,2]=np.mean(Eprjst-E)/E*100
-Tabresult[1,3]=np.mean(Eprmst-E)/E*100
+Tabresult[1,3]=np.mean(Eprjst-E)/E*100
 Tabresult[1,4]=np.mean(Eprj-E)/E*100
 Tabresult[1,5]=np.mean(Eprm-E)/E*100
 Tabresult[1,6]=np.mean(Evmfn-E)/E*100
@@ -727,20 +731,21 @@ Tabresult[1,6]=np.mean(Evmfn-E)/E*100
 Tabresult[2,0]=np.sqrt(np.mean((Eopt-E)**2))/E*100
 Tabresult[2,1]=np.sqrt(np.mean((EIS-E)**2))/E*100
 Tabresult[2,2]=np.sqrt(np.mean((Eprjst-E)**2))/E*100
-Tabresult[2,3]=np.sqrt(np.mean((Eprmst-E)**2))/E*100
+Tabresult[2,3]=np.sqrt(np.mean((Eprjst-E)**2))/E*100
 Tabresult[2,4]=np.sqrt(np.mean((Eprj-E)**2))/E*100
 Tabresult[2,5]=np.sqrt(np.mean((Eprm-E)**2))/E*100
 Tabresult[2,6]=np.sqrt(np.mean((Evmfn-E)**2))/E*100
 
 Tabresult=np.round(Tabresult,1)
 
+print("Dimension",n ,"Runtime : %s seconds -" % (time.time() - start_time))
 
 table=[["D'",Tabresult[0,0],Tabresult[0,1],Tabresult[0,2],Tabresult[0,3],Tabresult[0,4],Tabresult[0,5],Tabresult[0,6]],
       ["Relative error (\%)",Tabresult[1,0],Tabresult[1,1],Tabresult[1,2],Tabresult[1,3],Tabresult[1,4],Tabresult[1,5],Tabresult[1,6]],
     ["Coefficient of variation (\%)",Tabresult[2,0],Tabresult[2,1],Tabresult[2,2],Tabresult[2,3],Tabresult[2,4],Tabresult[2,5],Tabresult[2,6]]]
 Markdown(tabulate(
   table, 
-  headers=["","$\Sigma^*$", "$\hat{\Sigma}^*$", "$\hat{\Sigma}_{\text{opt}}$", "$\hat{\Sigma}_{\text{mean}}$", "${\hat{\Sigma}^{+d}_{opt}}$", "$\hat{\Sigma}^{+d}_{mean}$", "vMFN"],
+  headers=["","$\Sigma^*$", "$\widehat{\Sigma}^*$", "$\widehat{\Sigma}_{opt}$", "$\widehat{\Sigma}_{mean}$", "${\widehat{\Sigma}^{+d}_{opt}}$", "$\widehat{\Sigma}^{+d}_{mean}$", "vMFN"],
     tablefmt="pipe"))
 ```
 
@@ -862,8 +867,8 @@ for d in range(5,n+1,5):
     DKLstar[int((d-5)/5)]=np.log(np.linalg.det(Sigstar))+d
 
 #### plot of partial KL divergence
-plt.plot(range(5,105,5),DKL,'rs',label=r"$D'(\hat{\Sigma}^*)$")
-plt.plot(range(5,105,5),DKLp,'k^',label=r"$D'(\hat{\Sigma}^*_k)$")
+plt.plot(range(5,105,5),DKL,'rs',label=r"$D'(\widehat{\Sigma}^*)$")
+plt.plot(range(5,105,5),DKLp,'k^',label=r"$D'(\widehat{\Sigma}^*_k)$")
 plt.plot(range(5,105,5),DKLstar,'bo',label=r"$D'(\Sigma^*)$")
 
 plt.grid()
@@ -893,7 +898,7 @@ plt.ylabel(r"$\ell(\lambda_i)$",fontsize=16)
 for tickLabel in plt.gca().get_xticklabels() + plt.gca().get_yticklabels():
     tickLabel.set_fontsize(16)
 
-plt.plot(Table_eigv[:,0],Table_eigv[:,1],'bx',label=r"Eigenvalues of $\hat{\Sigma}^*$")
+plt.plot(Table_eigv[:,0],Table_eigv[:,1],'bx',label=r"Eigenvalues of $\widehat{\Sigma}^*$")
 plt.plot(Table_eigv_st[:,0],Table_eigv_st[:,1],'rs',label=r"Eigenvalues of $\Sigma^*$")
 plt.legend(fontsize=16)
 plt.show()
@@ -1147,7 +1152,7 @@ table=[["D'",Tabresult[0,0],Tabresult[0,1],Tabresult[0,2],Tabresult[0,3],Tabresu
     ["Coefficient of variation (\%)",Tabresult[2,0],Tabresult[2,1],Tabresult[2,2],Tabresult[2,3],Tabresult[2,4],Tabresult[2,5],Tabresult[2,6]]]
 Markdown(tabulate(
   table, 
-  headers=["","$\Sigma^*$", "$\hat{\Sigma}^*$", "$\hat{\Sigma}_{opt}$", "$\hat{\Sigma}_{mean}$", "${\hat{\Sigma}^{+d}_{opt}}$", "$\hat{\Sigma}^{+d}_{mean}$", "vMFN"],
+  headers=["","$\Sigma^*$", "$\widehat{\Sigma}^*$", "$\widehat{\Sigma}_{opt}$", "$\widehat{\Sigma}_{mean}$", "${\widehat{\Sigma}^{+d}_{opt}}$", "$\widehat{\Sigma}^{+d}_{mean}$", "vMFN"],
     tablefmt="pipe"))
 ```
 
@@ -1155,7 +1160,7 @@ Markdown(tabulate(
 For the two test cases studied so far, projecting $\widehat{\Sigma}^*$ in the Failure-Informed Subspace (FIS) of [@UribeEtAl_CrossentropybasedImportanceSampling_2020] (see the introduction) would outperform our method with $\widehat{\Sigma}^*_k$, leading to results close to those obtained with $\Sigma^*$. However, computing the FIS relies on the knowledge of the gradient of the function $\varphi$, which is straightforward to compute in these two test cases, and the method of [@UribeEtAl_CrossentropybasedImportanceSampling_2020] can be applied because they are rare-event problems (i.e., $\phi$ is of the form $\phi = \mathbb{I}_{\{\varphi \geq 0\}}$). In the next section we present other applications where the evaluation of the FIS is not feasible since either the function is not differentiable (test case of @sec-sub:portfolio) or the example is not a rare event simulation problem (test cases of @sec-sub:banana and @sec-sub:payoff).
 :::
 
-## Test case 3: Banana shape distribution}    {#sec-sub:banana}
+## Test case 3: banana shape distribution   {#sec-sub:banana}
 The third test case we consider is the integration of the banana shape distribution $h$, which is a classical test case in importance sampling [@CornuetEtAl_AdaptiveMultipleImportance_2012], [@ElviraEtAl_GeneralizedMultipleImportance_2019]. The banana shape distribution is the following pdf
 $$
 	h(\mathbf{x}) = g_{{\bf 0},C}(x_1,x_2+b(x_1^2-\sigma^2),x_3,\dots,x_n).
@@ -1254,8 +1259,8 @@ for d in range(5,n+1,5):
     DKLstar[int((d-5)/5)]=np.log(np.linalg.det(Sigstar))+d
 
 #### plot of partial KL divergence
-plt.plot(range(5,n+1,5),DKL,'rs',label=r"$D'(\hat{\Sigma}^*)$")
-plt.plot(range(5,n+1,5),DKLp,'k^',label=r"$D'(\hat{\Sigma}^*_k)$")
+plt.plot(range(5,n+1,5),DKL,'rs',label=r"$D'(\widehat{\Sigma}^*)$")
+plt.plot(range(5,n+1,5),DKLp,'k^',label=r"$D'(\widehat{\Sigma}^*_k)$")
 plt.plot(range(5,n+1,5),DKLstar,'bo',label=r"$D'(\Sigma^*)$")
 
 plt.grid()
@@ -1285,7 +1290,7 @@ plt.ylabel(r"$\ell(\lambda_i)$",fontsize=16)
 for tickLabel in plt.gca().get_xticklabels() + plt.gca().get_yticklabels():
     tickLabel.set_fontsize(16)
 
-plt.plot(Table_eigv[:,0],Table_eigv[:,1],'bx',label=r"Eigenvalues of $\hat{\Sigma}^*$")
+plt.plot(Table_eigv[:,0],Table_eigv[:,1],'bx',label=r"Eigenvalues of $\widehat{\Sigma}^*$")
 plt.plot(Table_eigv_st[:,0],Table_eigv_st[:,1],'rs',label=r"Eigenvalues of $\Sigma^*$")
 plt.legend(fontsize=16)
 plt.show()
@@ -1514,11 +1519,11 @@ table=[["D'",Tabresult[0,0],Tabresult[0,1],Tabresult[0,2],Tabresult[0,3],Tabresu
     ["Coefficient of variation (\%)",Tabresult[2,0],Tabresult[2,1],Tabresult[2,2],Tabresult[2,3],Tabresult[2,4],Tabresult[2,5],Tabresult[2,6]]]
 Markdown(tabulate(
   table, 
-  headers=["","$\Sigma^*$", "$\hat{\Sigma}^*$", "$\hat{\Sigma}_{opt}$", "$\hat{\Sigma}_{mean}$", "${\hat{\Sigma}^{+d}_{opt}}$", "$\hat{\Sigma}^{+d}_{mean}$", "vMFN"],
+  headers=["","$\Sigma^*$", "$\widehat{\Sigma}^*$", "$\widehat{\Sigma}_{opt}$", "$\widehat{\Sigma}_{mean}$", "${\widehat{\Sigma}^{+d}_{opt}}$", "$\widehat{\Sigma}^{+d}_{mean}$", "vMFN"],
     tablefmt="pipe"))
 ```
 
-## Application: large portfolio losses {#sec-sub:portfolio}
+## Application 1 : large portfolio losses {#sec-sub:portfolio}
 The next example is a rare event application in finance, taken from [@BassambooEtAl_PortfolioCreditRisk_2008], [@ChanKroese_ImprovedCrossentropyMethod_2012}]. 
 	The unknown integral is $E=\int_{\mathbb{R}^{n+2}} \phi(\mathbf{x}) f(\mathbf{x}) \textrm{d}\mathbf{x} = \mathbb{P}_f(\varphi(\mathbf{X})\geq 0)$, with $\phi = \mathbb{I}_{\{\varphi \geq 0\}}$ and $f$ is the standard $n+2$-dimensional Gaussian distribution. The function $\varphi$ is the portfolio loss function defined as:
 $$
@@ -1651,8 +1656,8 @@ for d in range(5,n+1,5):
     DKLstar[int((d-5)/5)]=np.log(np.linalg.det(Sigstar))+d+2
 
 #### plot of partial KL divergence
-plt.plot(range(5,n+1,5),DKL,'rs',label=r"$D'(\hat{\Sigma}^*)$")
-plt.plot(range(5,n+1,5),DKLp,'k^',label=r"$D'(\hat{\Sigma}^*_k)$")
+plt.plot(range(5,n+1,5),DKL,'rs',label=r"$D'(\widehat{\Sigma}^*)$")
+plt.plot(range(5,n+1,5),DKLp,'k^',label=r"$D'(\widehat{\Sigma}^*_k)$")
 plt.plot(range(5,n+1,5),DKLstar,'bo',label=r"$D'(\Sigma^*)$")
 
 plt.grid()
@@ -1682,7 +1687,7 @@ plt.ylabel(r"$\ell(\lambda_i)$",fontsize=16)
 for tickLabel in plt.gca().get_xticklabels() + plt.gca().get_yticklabels():
     tickLabel.set_fontsize(16)
 
-plt.plot(Table_eigv[:,0],Table_eigv[:,1],'bx',label=r"Eigenvalues of $\hat{\Sigma}^*$")
+plt.plot(Table_eigv[:,0],Table_eigv[:,1],'bx',label=r"Eigenvalues of $\widehat{\Sigma}^*$")
 plt.plot(Table_eigv_st[:,0],Table_eigv_st[:,1],'rs',label=r"Eigenvalues of $\Sigma^*$")
 plt.legend(fontsize=16)
 plt.show()
@@ -1923,13 +1928,13 @@ table=[["D'",Tabresult[0,0],Tabresult[0,1],Tabresult[0,2],Tabresult[0,3],Tabresu
     ["Coefficient of variation (\%)",Tabresult[2,0],Tabresult[2,1],Tabresult[2,2],Tabresult[2,3],Tabresult[2,4],Tabresult[2,5],Tabresult[2,6]]]
 Markdown(tabulate(
   table, 
-  headers=["","$\Sigma^*$", "$\hat{\Sigma}^*$", "$\hat{\Sigma}_{opt}$", "$\hat{\Sigma}_{mean}$", "${\hat{\Sigma}^{+d}_{opt}}$", "$\hat{\Sigma}^{+d}_{mean}$", "vMFN"],
+  headers=["","$\Sigma^*$", "$\widehat{\Sigma}^*$", "$\widehat{\Sigma}_{opt}$", "$\widehat{\Sigma}_{mean}$", "${\widehat{\Sigma}^{+d}_{opt}}$", "$\widehat{\Sigma}^{+d}_{mean}$", "vMFN"],
     tablefmt="pipe"))
 ```
 
 The results of Table @tbl-portfolio show similar trends as for the first test case of @sec-sub:sum. First, projecting seems indeed a relevant idea, as using ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ or ${\widehat{\Sigma}^{\text{}}_\text{mean}}$ greatly improves the situation compared to $\widehat{\Sigma}^*$. This is particularly salient as $\widehat{\Sigma}^*$ yields an important bias and a coefficient of variation of $94\%$, whereas projecting on $\mathbf{d}^*_1$ or $\mathbf{m}^*$ yields a coefficient of variation of $11 \%$. This improvement is still true even when the projection directions are estimated: compared to ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ and ${\widehat{\Sigma}^{\text{}}_\text{mean}}$, ${\widehat{\Sigma}^{\text{+d}}_\text{opt}}$ and ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$ give coefficients of variation between $16$ and $13\%$. Finally, ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$ seems to behave better than ${\widehat{\Sigma}^{\text{+d}}_\text{opt}}$. 
 
-## Application: discretized Asian payoff {#sec-sub:payoff}
+## Application 2: discretized Asian payoff {#sec-sub:payoff}
 
 Our last numerical experiment is a mathematical finance example coming from [@Kawai_OptimizingAdaptiveImportance_2018], representing a discrete approximation of a standard Asian payoff under the Black--Scholes model.
 	The goal is to estimate the integral $E=\int_{\mathbb{R}^n} \phi(\mathbf{x}) f(\mathbf{x}) \textrm{d}\mathbf{x}$  with $f$ the standard $n$-dimensional Gaussian distribution and the following function $\phi$: 
@@ -2032,8 +2037,8 @@ for d in range(5,n+1,5):
     DKLstar[int((d-5)/5)]=np.log(np.linalg.det(Sigstar))+d
 
 #### plot of partial KL divergence
-plt.plot(range(5,n+1,5),DKL,'rs',label=r"$D'(\hat{\Sigma}^*)$")
-plt.plot(range(5,n+1,5),DKLp,'k^',label=r"$D'(\hat{\Sigma}^*_k)$")
+plt.plot(range(5,n+1,5),DKL,'rs',label=r"$D'(\widehat{\Sigma}^*)$")
+plt.plot(range(5,n+1,5),DKLp,'k^',label=r"$D'(\widehat{\Sigma}^*_k)$")
 plt.plot(range(5,n+1,5),DKLstar,'bo',label=r"$D'(\Sigma^*)$")
 
 plt.grid()
@@ -2063,7 +2068,7 @@ plt.ylabel(r"$\ell(\lambda_i)$",fontsize=16)
 for tickLabel in plt.gca().get_xticklabels() + plt.gca().get_yticklabels():
     tickLabel.set_fontsize(16)
 
-plt.plot(Table_eigv[:,0],Table_eigv[:,1],'bx',label=r"Eigenvalues of $\hat{\Sigma}^*$")
+plt.plot(Table_eigv[:,0],Table_eigv[:,1],'bx',label=r"Eigenvalues of $\widehat{\Sigma}^*$")
 plt.plot(Table_eigv_st[:,0],Table_eigv_st[:,1],'rs',label=r"Eigenvalues of $\Sigma^*$")
 plt.legend(fontsize=16)
 plt.show()
@@ -2305,7 +2310,7 @@ table=[["D'",Tabresult[0,0],Tabresult[0,1],Tabresult[0,2],Tabresult[0,3],Tabresu
     ["Coefficient of variation (\%)",Tabresult[2,0],Tabresult[2,1],Tabresult[2,2],Tabresult[2,3],Tabresult[2,4],Tabresult[2,5],Tabresult[2,6]]]
 Markdown(tabulate(
   table, 
-  headers=["","$\Sigma^*$", "$\hat{\Sigma}^*$", "$\hat{\Sigma}_{opt}$", "$\hat{\Sigma}_{mean}$", "${\hat{\Sigma}^{+d}_{opt}}$", "$\hat{\Sigma}^{+d}_{mean}$", "vMFN"],
+  headers=["","$\Sigma^*$", "$\widehat{\Sigma}^*$", "$\widehat{\Sigma}_{opt}$", "$\widehat{\Sigma}_{mean}$", "${\widehat{\Sigma}^{+d}_{opt}}$", "$\widehat{\Sigma}^{+d}_{mean}$", "vMFN"],
     tablefmt="pipe"))
 ```
 

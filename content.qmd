@@ -220,12 +220,11 @@ We begin with a preliminary lemma.
 ::: {#lem-D}
 Let $f$ be the density of the standard Gaussian vector in dimension $n$, $\phi: \mathbb{R}^n \to \mathbb{R}_+$ and $g_* = f \phi / E$ with $E = \int f \phi$. Then for any $\mathbf{m}$ and any $\Sigma$ of the form $\Sigma = I_n + \sum_i (\alpha_i - 1) \mathbf{d}_i \mathbf{d}_i^\top$ with $\alpha_i > 0$ and the $\mathbf{d}_i$'s orthonormal, we have
 $$
- D(g^*, g_{\mathbf{m}, \Sigma}) =  \frac{1}{2} \sum_i \left( \log \alpha_i - \left(1 - \frac{1}{\alpha_i} \right) \mathbf{d}_i^\top \Sigma^* \mathbf{d}_i \right) + \frac{1}{2} (\mathbf{m} - \mathbf{m}^*)^\top \Sigma^{-1} (\mathbf{m} - \mathbf{m}^*)\\
-- \frac{1}{2} \lVert \mathbf{m}^* \rVert^2 - \log E + \mathbb{E}_{g^*}(\log \phi(\mathbf{X})).
+ D(g^*, g_{\mathbf{m}, \Sigma}) =  \frac{1}{2} \sum_i \left( \log \alpha_i - \left(1 - \frac{1}{\alpha_i} \right) \mathbf{d}_i^\top \Sigma^* \mathbf{d}_i \right) + \frac{1}{2} (\mathbf{m} - \mathbf{m}^*)^\top \Sigma^{-1} (\mathbf{m} - \mathbf{m}^*)\\ - \frac{1}{2} \lVert \mathbf{m}^* \rVert^2 - \log E + \mathbb{E}_{g^*}(\log \phi(\mathbf{X})).
 $$ {#eq-D}
 :::
 ::: {.proof}
-## of @lem-D
+(of @lem-D)
 For any $\mathbf{m} \in \mathbb{R}^n$ and $\Sigma \in \mathcal{S}^+_n$, we have by definition
 $$ D(g^*, g_{\mathbf{m}, \Sigma}) = \mathbb{E}_{g^*} \left( \log \left( \frac{g^*(\mathbf{X})}{g_{\mathbf{m}, \Sigma}(\mathbf{X})} \right) \right) = \mathbb{E}_{g^*} \left( \log \left( \frac{\frac{\phi(\mathbf{X}) e^{-\frac{1}{2} \lVert \mathbf{X} \rVert^2}}{E(2\pi)^{d/2}}}{ \frac{e^{-\frac{1}{2} (\mathbf{X} - \mathbf{m})^\top \Sigma^{-1} (\mathbf{X} - \mathbf{m})}}{(2\pi)^{d/2} \lvert \Sigma \rvert^{1/2}} } \right) \right) $$
 and so
@@ -253,7 +252,7 @@ Gathering the previous relation, we finally obtain the desired result.
 :::
 
 ::: {.proof}
-## of @thm-thm1
+(of @thm-thm1)
 From @eq-D we see that the only dependency of $D(g^*, g_{\mathbf{m}, \Sigma})$ in $\mathbf{m}$ is in the quadratic term $(\mathbf{m} - \mathbf{m}^*)^\top \Sigma^{-1} (\mathbf{m} - \mathbf{m}^*)$. As $\Sigma$ is definite positive, this term is $\geq 0$, and so it is minimized for $\mathbf{m} = \mathbf{m}^*$. Next, we see that the derivative in $\alpha_i$ is given by (here and in the sequel, we see $D(g^*, g_{\mathbf{m}, \Sigma})$ as a function of $\mathbf{v} = (\alpha_i)_i$ and $\mathbf{d} = (\mathbf{d}_i)_i$)
 	$$ \dfrac{\partial D}{\partial \alpha_i}(\mathbf{v}, \mathbf{d}) = \dfrac{1}{\alpha_i} - \frac{1}{\alpha_i^2} \mathbf{d}_i^\top \Sigma^* \mathbf{d}_i = \frac{1}{\alpha_i^2} \left( \alpha_i - \mathbf{d}_i^\top \Sigma^* \mathbf{d}_i \right). $$
 Thus, for fixed $\mathbf{d}$, $D$ is decreasing in $\alpha_i$ for $\alpha_i < \mathbf{d}_i^\top \Sigma^* \mathbf{d}_i$ and then increasing for $\alpha_i > \mathbf{d}_i^\top \Sigma^* \mathbf{d}_i$, which shows that, for fixed $\mathbf{d}$, it is minimized for $\alpha_i = \mathbf{d}_i^\top \Sigma^* \mathbf{d}_i$. For this value (and $\mathbf{m} = \mathbf{m}^*$) we have
@@ -264,7 +263,7 @@ with $C = - \frac{1}{2} \lVert \mathbf{m}^* \rVert^2 - \log E + \mathbb{E}_{g^*}
 :::
 
 ::: {.proof}
-## of @thm-thm2
+(of @thm-thm2)
 In @eq-D, the $\mathbf{m}^*$ and the $\Sigma^*$ that appear in the right-hand side are the mean and variance of the density $g^*$ considered in the first argument of the Kullback--Leibler divergence. In particular, if we apply @eq-D with $\phi \equiv 1$, we have $g^* = f$, and the $\mathbf{m}^*$ and $\Sigma^*$ of the right-hand side become $0$ and $I_n$, respectively, so that
 $$ 
  D(f, g_{\mathbf{m}, \Sigma}) =  \frac{1}{2} \sum_i \left( \log \alpha_i - \left(1 - \frac{1}{\alpha_i} \right) \right) + \frac{1}{2} \mathbf{m}^\top \Sigma^{-1} \mathbf{m}. 
@@ -295,7 +294,7 @@ The precise numerical framework that we will consider to assess the efficiency o
 3. Generate a new sample $\mathbf{X}_1,\ldots,\mathbf{X}_N$ independently from $g'$;
 4. Estimate $E$ with $\widehat{E}_N=\frac{1}{N}\underset{i=1}{\overset{N}{\sum}} \phi(\mathbf{X}_i)\frac{f(\mathbf{X}_i)}{g'(\mathbf{X}_i)}$.
 
-The number of samples $M$ and $N$ are respectively set to $M=500$ and $N=2000$. This procedure is then repeated $50$ times to provide a mean estimation $\widehat{E}$ of $E$. In the result tables, for each auxiliary density $g'$ we report the corresponding value for the relative error $\widehat{E}/ E-1$ and the coefficient of variation of the $50$ iterations (the empirical standard deviation divided by $E$). As was established in the proof of @thm-thm1, the KL divergence is, up to an additive constant, equal to $D'(\Sigma) = \log \lvert \Sigma \rvert + \textrm{tr}(\Sigma^* \Sigma^{-1})$ which we will refer to as partial KL divergence. In the result tables, we also report thus the mean value of $D'(\Sigma)$ to analyse the relevancy of the auxiliary density $g_{\widehat{\mathbf{m}}^*, \Sigma}$ for these six choices of covariance matrix $\Sigma$. The next sections specify the different parameters of $g'$ for the Gaussian model and for the vMFN model we have considered in the simulations. 
+The number of samples $M$ and $N$ are respectively set to $M=500$ and $N=2000$. This procedure is then repeated $100$ times to provide a mean estimation $\widehat{E}$ of $E$. In the result tables, for each auxiliary density $g'$ we report the corresponding value for the relative error $\widehat{E}/ E-1$ and the coefficient of variation of the $100$ iterations (the empirical standard deviation divided by $E$). As was established in the proof of @thm-thm1, the KL divergence is, up to an additive constant, equal to $D'(\Sigma) = \log \lvert \Sigma \rvert + \textrm{tr}(\Sigma^* \Sigma^{-1})$ which we will refer to as partial KL divergence. In the result tables, we also report thus the mean value of $D'(\Sigma)$ to analyse the relevancy of the auxiliary density $g_{\widehat{\mathbf{m}}^*, \Sigma}$ for these six choices of covariance matrix $\Sigma$. The next sections specify the different parameters of $g'$ for the Gaussian model and for the vMFN model we have considered in the simulations. 
 
 ## Choice of the auxiliary density $g'$ for the Gaussian model  {#sec-def_cov} 
 The goal is to get benchmark results to assess whether one can improve estimations of Gaussian IS auxiliary density by projecting the covariance matrix $\Sigma^*$ in the proposed directions $\mathbf{d}^*_i$. The algorithm that we study here (Algorithms 1+2) aims more precisely at understanding whether:
@@ -525,7 +524,7 @@ def mypi(X):
 
 N=2000   
 M=500   
-B=50    # number of runs
+B=100    # number of runs
 
 Eopt=np.zeros(B)
 EIS=np.zeros(B)
@@ -922,7 +921,7 @@ def mypi(X):
 
 N=2000   
 M=500   
-B=50    # number of runs
+B=100    # number of runs
 
 Eopt=np.zeros(B)
 EIS=np.zeros(B)
@@ -1305,7 +1304,7 @@ mypi=bananapdf
 
 N=2000   
 M=500   
-B=50    # number of runs
+B=100    # number of runs
 
 Eopt=np.zeros(B)
 EIS=np.zeros(B)
@@ -1707,7 +1706,7 @@ def mypi(X):
 
 N=2000   
 M=500   
-B=50    # number of runs
+B=100    # number of runs
 
 Eopt=np.zeros(B)
 EIS=np.zeros(B)
@@ -2087,7 +2086,7 @@ def mypi(X):
 
 N=2000   
 M=500   
-B=50    # number of runs
+B=100    # number of runs
 
 VA=sp.stats.multivariate_normal(mean=np.zeros(n),cov=np.eye(n))
 X1=VA.rvs(size=bigsample)                                

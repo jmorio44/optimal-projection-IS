@@ -740,7 +740,7 @@ table=[["D'",Tabresult[0,0],Tabresult[0,1],Tabresult[0,2],Tabresult[0,3],Tabresu
     ["Coefficient of variation (\%)",Tabresult[2,0],Tabresult[2,1],Tabresult[2,2],Tabresult[2,3],Tabresult[2,4],Tabresult[2,5],Tabresult[2,6]]]
 Markdown(tabulate(
   table, 
-  headers=["","$\Sigma^*$", "$\hat{\Sigma}^*$", "$\hat{\Sigma}_{opt}$", "$\hat{\Sigma}_{mean}$", "${\hat{\Sigma}^{+d}_{opt}}$", "$\hat{\Sigma}^{+d}_{mean}$", "vMFN"],
+  headers=["","$\Sigma^*$", "$\hat{\Sigma}^*$", "$\hat{\Sigma}_{\text{opt}}$", "$\hat{\Sigma}_{\text{mean}}$", "${\hat{\Sigma}^{+d}_{opt}}$", "$\hat{\Sigma}^{+d}_{mean}$", "vMFN"],
     tablefmt="pipe"))
 ```
 

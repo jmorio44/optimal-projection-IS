@@ -217,12 +217,14 @@ In light of these results, it becomes natural to consider the KL divergence with
 
 # Proof of Theorems @thm-thm1 and @thm-thm2 {#sec-proof} 
 We begin with a preliminary lemma.
+
 ::: {#lem-D}
 Let $f$ be the density of the standard Gaussian vector in dimension $n$, $\phi: \mathbb{R}^n \to \mathbb{R}_+$ and $g_* = f \phi / E$ with $E = \int f \phi$. Then for any $\mathbf{m}$ and any $\Sigma$ of the form $\Sigma = I_n + \sum_i (\alpha_i - 1) \mathbf{d}_i \mathbf{d}_i^\top$ with $\alpha_i > 0$ and the $\mathbf{d}_i$'s orthonormal, we have
 $$
  D(g^*, g_{\mathbf{m}, \Sigma}) =  \frac{1}{2} \sum_i \left( \log \alpha_i - \left(1 - \frac{1}{\alpha_i} \right) \mathbf{d}_i^\top \Sigma^* \mathbf{d}_i \right) + \frac{1}{2} (\mathbf{m} - \mathbf{m}^*)^\top \Sigma^{-1} (\mathbf{m} - \mathbf{m}^*)\\ - \frac{1}{2} \lVert \mathbf{m}^* \rVert^2 - \log E + \mathbb{E}_{g^*}(\log \phi(\mathbf{X})).
 $$ {#eq-D}
 :::
+
 ::: {.proof}
 (of @lem-D)
 For any $\mathbf{m} \in \mathbb{R}^n$ and $\Sigma \in \mathcal{S}^+_n$, we have by definition
@@ -361,7 +363,7 @@ $$
  	
 
 #  Numerical results on five test cases   {#sec-test-cases} 
- The proposed numerical framework is applied on three examples that are often considered to assess the performance of importance sampling algorithms and also two test cases  from the area of financial mathematics. Extended simulation results are given in the supplementary material associated with this article.
+ The proposed numerical framework is applied on three examples that are often considered to assess the performance of importance sampling algorithms and also two test cases  from the area of financial mathematics. 
  	
 ##  Test case 1: one-dimensional optimal projection   {#sec-sub:sum} 
 We consider a test case where all computations can be made exactly. This is a classical example of rare event probability estimation, often used to test the robustness of a method in high dimension. It is given by $\phi(\mathbf{x})=\mathbb{I}_{\{\varphi(\mathbf{x})\geq 0\}}$ with $\varphi$ the following affine function:
@@ -385,7 +387,7 @@ In practice, we do not use this theoretical knowledge and $\Sigma^*$, $\Sigma^*_
 
 Note that in the particularly simple case considered here, both $\widehat{\mathbf{m}}^* / \lVert \widehat{\mathbf{m}}^* \rVert$ and $\widehat{\mathbf{d}}$ are estimators of $\textbf{1}$ but they are obtained by different methods. In the next example we will consider a case where $\mathbf{m}^*$ is not an optimal projection direction as given by @thm-thm1.
 
-@fig-eigsum-2 represents the images by $\ell$ of the eigenvalues of $\Sigma^*$ and $\widehat{\Sigma}^*$. This picture carries a very important insight. We notice that the estimation of most eigenvalues is poor: indeed, all the blue crosses except the leftmost one are meant to be estimator of $1$, whereas we see that they are more or less uniformly spread between $0.4$ and $2.5$. This means that the variance terms in the corresponding directions are poorly estimated, which could be the explanation on why the use of $\widehat{\Sigma}^*$ gives an inaccurate estimation. But what we remark also is that the function $\ell$ is quite flat around one: as a consequence, although the eigenvalues offer significant variability, this variability is smoothed by the action of $\ell$. Indeed, the images of the eigenvalues by $\ell$ take values between $0$ and $0.4$ and have smaller variability. Moreover, $\ell(x)$ increases sharply as $x$ approaches $0$ and thus efficiently distinguishes between the two leftmost estimated eigenvalues and is able to separate them.
+@fig-eigsum-2 represents the images by $\ell$ of the eigenvalues of $\Sigma^*$ and $\widehat{\Sigma}^*$. This picture carries a very important insight. We notice that the estimation of most eigenvalues is poor: indeed, all the blue crosses except the leftmost one are meant to be estimator of $1$, whereas we see that they are more or less uniformly spread between $0.2$ and $2.5$. This means that the variance terms in the corresponding directions are poorly estimated, which could be the explanation on why the use of $\widehat{\Sigma}^*$ gives an inaccurate estimation. But what we remark also is that the function $\ell$ is quite flat around one: as a consequence, although the eigenvalues offer significant variability, this variability is smoothed by the action of $\ell$. Indeed, the images of the eigenvalues by $\ell$ take values between $0$ and $0.8$ and have smaller variability. Moreover, $\ell(x)$ increases sharply as $x$ approaches $0$ and thus efficiently distinguishes between the two leftmost estimated eigenvalues and is able to separate them.
 
 ```{python}
 #| label: fig-eigsum
@@ -394,9 +396,10 @@ Note that in the particularly simple case considered here, both $\widehat{\mathb
 #|   - 'Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix $\Sigma^*$ (blue circles), the sample covariance $\widehat{\Sigma}^*$ (red squares), and the projected covariance $\widehat{\Sigma}^*_k$ (black triangles).'
 #|   - 'Computation of $\ell(\lambda_i)$ for the eigenvalues of $\Sigma^*$ (red squares) and $\widehat{\Sigma}^*$ (blue crosses) in dimension $n = 100$.'
 #| layout-ncol: 2
-###############################################################################################################################
-# Figure 2. Evolution of the partial KL divergence and spectrum of the eigenvalues for the test case 1
-###############################################################################################################################
+#############################################################################
+# Figure 2. Evolution of the partial KL divergence and spectrum of the
+# eigenvalues for the test case 1
+#############################################################################
 
 def Somme(x):
     n=np.shape(x)[1]
@@ -450,13 +453,16 @@ for d in range(5,n+1,5):
 
     P1=np.array(Eig[1][:,indi[0]],ndmin=2).T                  
     for l in range(1,k):
-        P1=np.concatenate((P1,np.array(Eig[1][:,indi[l]],ndmin=2).T),axis=1)   # matrix of inflential directions of projection
+        # matrix of inflential directions of projection
+        P1=np.concatenate((P1,np.array(Eig[1][:,indi[l]],ndmin=2).T),axis=1)   
 
     diagsi=np.diag(Eig[0][indi])
     sig_opt_d=P1.dot((diagsi-np.eye(k))).dot(P1.T)+np.eye(d)  
     
-    DKL[int((d-5)/5)]=np.log(np.linalg.det(sigma))+np.sum(np.diag(Sigstar.dot(np.linalg.inv(sigma))))
-    DKLp[int((d-5)/5)]=np.log(np.linalg.det(sig_opt_d))+np.sum(np.diag(Sigstar.dot(np.linalg.inv(sig_opt_d))))
+    DKL[int((d-5)/5)]=np.log(np.linalg.det(sigma))+np.sum(np.diag(\
+                    Sigstar.dot(np.linalg.inv(sigma))))
+    DKLp[int((d-5)/5)]=np.log(np.linalg.det(sig_opt_d))+np.sum(\
+                    np.diag(Sigstar.dot(np.linalg.inv(sig_opt_d))))
     DKLstar[int((d-5)/5)]=np.log(np.linalg.det(Sigstar))+d
 
 #### plot of partial KL divergence
@@ -491,16 +497,18 @@ plt.ylabel(r"$\ell(\lambda_i)$",fontsize=16)
 for tickLabel in plt.gca().get_xticklabels() + plt.gca().get_yticklabels():
     tickLabel.set_fontsize(16)
 
-plt.plot(Table_eigv[:,0],Table_eigv[:,1],'bx',label=r"Eigenvalues of $\widehat{\Sigma}^*$")
-plt.plot(Table_eigv_st[:,0],Table_eigv_st[:,1],'rs',label=r"Eigenvalues of $\Sigma^*$")
+plt.plot(Table_eigv[:,0],Table_eigv[:,1],'bx',\
+        label=r"Eigenvalues of $\widehat{\Sigma}^*$")
+plt.plot(Table_eigv_st[:,0],Table_eigv_st[:,1],'rs',\
+         label=r"Eigenvalues of $\Sigma^*$")
 plt.legend(fontsize=16)
 plt.show()
 ```
 
 ###  Numerical results
-We report in @tbl-sum the numerical results for the six different matrices and the vMFN model for the dimension $n=100$. The column $\Sigma^*$ gives the optimal results, while the column $\widehat{\Sigma}^*$ corresponds to the results that we are trying to improve. Comparing these two columns, we notice as expected that the estimation of $E$ with $\widehat{\Sigma}^*$ is significantly degraded. Compared to the first column $\Sigma^*$, the third and fourth column with ${\widehat{\Sigma}^{\text{}}_\text{opt}} =  {\widehat{\Sigma}^{\text{}}_\text{mean}}$ correspond to the best projection direction $\textbf{1}$ (as for $\Sigma^*$) but estimating the variance in this direction (instead of the true variance) with $\textbf{1}^\top \widehat{\Sigma}^* \textbf{1}$. This choice performs very well, with numerical results similar to the optimal ones. This can be understood since in this case, both ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ and $\Sigma^*$ are of the form $\alpha \textbf{1} \textbf{1}^\top + I_n$ and so estimating ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ requires only a one-dimensional estimation (namely, the estimation of $\alpha$). Next, the last two columns ${\widehat{\Sigma}^{\text{+d}}_\text{opt}}$ and ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$ highlight the impact of having to estimate the projection directions in addition to the variance since these two matrices are of the form $\widehat \alpha \widehat{\textbf{1}} {\widehat{\textbf{1}}}^\top + I_n$ with both $\widehat{\alpha}$ (the variance term) and $\widehat{\textbf{1}}$ (the direction) being estimated. We observe that these matrices yield results which are close to optimal and greatly improve the estimation obtained using $\widehat{\Sigma}^*$. In dimension $100$, the coefficient of variation is around $4.7$\% for ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$, and around $5$\% for $\widehat{\Sigma}^{\text{+d}}_{\text{opt}}$, compared to $2.5$\% for $\widehat{\Sigma}^*$. 
+We report in @tbl-sum the numerical results for the six different matrices and the vMFN model for the dimension $n=100$. The column $\Sigma^*$ gives the optimal results, while the column $\widehat{\Sigma}^*$ corresponds to the results that we are trying to improve. Comparing these two columns, we notice as expected that the estimation of $E$ with $\widehat{\Sigma}^*$ is significantly degraded. Compared to the first column $\Sigma^*$, the third and fourth column with ${\widehat{\Sigma}^{\text{}}_\text{opt}} =  {\widehat{\Sigma}^{\text{}}_\text{mean}}$ correspond to the best projection direction $\textbf{1}$ (as for $\Sigma^*$) but estimating the variance in this direction (instead of the true variance) with $\textbf{1}^\top \widehat{\Sigma}^* \textbf{1}$. This choice performs very well, with numerical results similar to the optimal ones. This can be understood since in this case, both ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ and $\Sigma^*$ are of the form $\alpha \textbf{1} \textbf{1}^\top + I_n$ and so estimating ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ requires only a one-dimensional estimation (namely, the estimation of $\alpha$). Next, the last two columns ${\widehat{\Sigma}^{\text{+d}}_\text{opt}}$ and ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$ highlight the impact of having to estimate the projection directions in addition to the variance since these two matrices are of the form $\widehat \alpha \widehat{\textbf{1}} {\widehat{\textbf{1}}}^\top + I_n$ with both $\widehat{\alpha}$ (the variance term) and $\widehat{\textbf{1}}$ (the direction) being estimated. We observe that these matrices yield results which are close to optimal and greatly improve the estimation obtained using $\widehat{\Sigma}^*$. In dimension $100$, the coefficient of variation is around $3.2$\% for ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$, and around $21$\% for $\widehat{\Sigma}^{\text{+d}}_{\text{opt}}$, compared to $2.6$\% for $\widehat{\Sigma}^*$. 
 
-Moreover, we observe that ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$ gives slightly better results than ${\widehat{\Sigma}^{\text{+d}}_\text{opt}}$. We suggest that this is because $\widehat{\mathbf{m}}^* / \lVert \widehat{\mathbf{m}}^* \rVert$ is a better estimator of $\textbf{1}$ than the eigenvector of $\widehat{\Sigma}^*$. Indeed, evaluating $\widehat{\mathbf{m}}^*$ requires the estimation of $n$ parameters, whereas $\widehat{\Sigma}^*$ needs around $n^2/2$ parameters to estimate, so the eigenvector is finally more noisy than the mean vector.  In the last column, we present the vMFN results that are similar to the estimation obtained with ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$.
+Moreover, we observe that ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$ gives better results than ${\widehat{\Sigma}^{\text{+d}}_\text{opt}}$. We suggest that this is because $\widehat{\mathbf{m}}^* / \lVert \widehat{\mathbf{m}}^* \rVert$ is a better estimator of $\textbf{1}$ than the eigenvector of $\widehat{\Sigma}^*$. Indeed, evaluating $\widehat{\mathbf{m}}^*$ requires the estimation of $n$ parameters, whereas $\widehat{\Sigma}^*$ needs around $n^2/2$ parameters to estimate, so the eigenvector is finally more noisy than the mean vector.  In the last column, we present the vMFN estimation that is slightly less efficicent thatn the estimation obtained with ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$.
 	
 Thus, the proposed idea improves significantly the probability estimation in high dimension. But we see that the method taken in [@MasriEtAl_ImprovementCrossentropyMethod_2020] with the projection $\mathbf{m}^*$ is at least as much efficient in this example where we need only a one-dimensional projection. The next case shows that the projection on more than one direction can outperform the one-dimensional projection on $\mathbf{m}^*$. 
 
@@ -524,7 +532,7 @@ def mypi(X):
 
 N=2000   
 M=500   
-B=100    # number of runs
+B=500    # number of runs
 
 Eopt=np.zeros(B)
 EIS=np.zeros(B)
@@ -563,7 +571,8 @@ for i in range(k_st):
 
 P1st=np.array(Eigst[1][:,indist[0]],ndmin=2).T
 for i in range(1,k_st):
-    P1st=np.concatenate((P1st,np.array(Eigst[1][:,indist[i]],ndmin=2).T),axis=1)    # matrix of influential directions   
+    P1st=np.concatenate((P1st,np.array(Eigst[1][:,indist[i]],ndmin=2).T)\
+                        ,axis=1)    # matrix of influential directions   
 
 #np.random.seed(0)
 for i in range(B):
@@ -612,7 +621,8 @@ for i in range(B):
 
     P1=np.array(Eig[1][:,indi[0]],ndmin=2).T
     for l in range(1,k):
-        P1=np.concatenate((P1,np.array(Eig[1][:,indi[l]],ndmin=2).T),axis=1)     
+        P1=np.concatenate((P1,np.array(Eig[1][:,indi[l]],ndmin=2).T)\
+                          ,axis=1)     
         
     diagsi=np.diag(Eig[0][indi])                           
     sig_opt_d=P1.dot((diagsi-np.eye(k))).dot(P1.T)+np.eye(n)
@@ -652,27 +662,21 @@ for i in range(B):
     
    ### 
     Xpr=sp.stats.multivariate_normal.rvs(mean=mm, cov=sig_opt_d,size=N)
-    wpr=mypi(Xpr)/sp.stats.multivariate_normal.pdf(Xpr,mean=mm, cov=sig_opt_d)
+    wpr=mypi(Xpr)/sp.stats.multivariate_normal.pdf(Xpr,mean=mm,\
+                                                   cov=sig_opt_d)
     Eprj[i]=np.mean(wpr)
     
    ###   
     Xpm=sp.stats.multivariate_normal.rvs(mean=mm, cov=sig_mean_d,size=N)
-    wpm=mypi(Xpm)/sp.stats.multivariate_normal.pdf(Xpm,mean=mm, cov=sig_mean_d)
+    wpm=mypi(Xpm)/sp.stats.multivariate_normal.pdf(Xpm,mean=mm,\
+                                                   cov=sig_mean_d)
     Eprm[i]=np.mean(wpm)
     
    ### 
     Xprst=sp.stats.multivariate_normal.rvs(mean=mm, cov=sig_opt,size=N)
-    wprst=mypi(Xprst)/sp.stats.multivariate_normal.pdf(Xprst,mean=mm, cov=sig_opt)
+    wprst=mypi(Xprst)/sp.stats.multivariate_normal.pdf(Xprst,mean=mm, \
+                                                       cov=sig_opt)
     Eprjst[i]=np.mean(wprst)
-    
-   ######### MODIF : Sigma_opt=Sigma_mean donc l'estimation est la même.
-
-   ###    
-#     Xpmst=sp.stats.multivariate_normal.rvs(mean=mm, cov=sig_mean,size=N)
-#     wpmst=mypi(Xpmst)/sp.stats.multivariate_normal.pdf(Xpmst,mean=mm, cov=sig_mean)
-#     Eprmst[i]=np.mean(wpmst)
-
-##############
 
    ###
     Xvmfn = vMFNM_sample(mu, kappa, omega, pp, 1, N)
@@ -682,7 +686,8 @@ for i in range(B):
     h_log=vMF_logpdf(Xvnu,mu.T,kappa)+nakagami_logpdf(Rvn,pp,omega)
     A = np.log(n) + np.log(np.pi ** (n / 2)) - sp.special.gammaln(n / 2 + 1)
     f_u = -A       
-    f_chi = (np.log(2) * (1 - n / 2) + np.log(Rvn) * (n - 1) - 0.5 * Rvn ** 2 - sp.special.gammaln(n / 2)) 
+    f_chi = (np.log(2) * (1 - n / 2) + np.log(Rvn) * (n - 1) - 0.5 * \
+             Rvn ** 2 - sp.special.gammaln(n / 2)) 
     f_log = f_u + f_chi
     W_log = f_log - h_log
     
@@ -698,11 +703,14 @@ dklpst=np.zeros(B)
 dklpca=np.zeros(B)
 
 for i in range(B):
-    dkli[i]=np.log(np.linalg.det(SI[i]))+sum(np.diag(Sigstar.dot(np.linalg.inv(SI[i]))))      
-    dklp[i]=np.log(np.linalg.det(SIP[i]))+sum(np.diag(Sigstar.dot(np.linalg.inv(SIP[i]))))        
-    dklm[i]=np.log(np.linalg.det(SIM[i]))+sum(np.diag(Sigstar.dot(np.linalg.inv(SIM[i]))))
-    dklpst[i]=np.log(np.linalg.det(SIPst[i]))+sum(np.diag(Sigstar.dot(np.linalg.inv(SIPst[i]))))
-    #dklmst[i]=np.log(np.linalg.det(SIMst[i]))+sum(np.diag(Sigstar.dot(np.linalg.inv(SIMst[i]))))
+    dkli[i]=np.log(np.linalg.det(SI[i]))+sum(np.diag(Sigstar.dot\
+                                            (np.linalg.inv(SI[i]))))      
+    dklp[i]=np.log(np.linalg.det(SIP[i]))+sum(np.diag(Sigstar.dot\
+                                            (np.linalg.inv(SIP[i]))))        
+    dklm[i]=np.log(np.linalg.det(SIM[i]))+sum(np.diag(Sigstar.dot\
+                                            (np.linalg.inv(SIM[i]))))
+    dklpst[i]=np.log(np.linalg.det(SIPst[i]))+sum(np.diag(Sigstar.dot\
+                                            (np.linalg.inv(SIPst[i]))))
 
 Tabresult=np.zeros((3,7)) # table of results
 
@@ -732,12 +740,17 @@ Tabresult[2,6]=np.sqrt(np.mean((Evmfn-E)**2))/E*100
 
 Tabresult=np.round(Tabresult,1)
 
-table=[["D'",Tabresult[0,0],Tabresult[0,1],Tabresult[0,2],Tabresult[0,3],Tabresult[0,4],Tabresult[0,5],Tabresult[0,6]],
-      ["Relative error (\%)",Tabresult[1,0],Tabresult[1,1],Tabresult[1,2],Tabresult[1,3],Tabresult[1,4],Tabresult[1,5],Tabresult[1,6]],
-    ["Coefficient of variation (\%)",Tabresult[2,0],Tabresult[2,1],Tabresult[2,2],Tabresult[2,3],Tabresult[2,4],Tabresult[2,5],Tabresult[2,6]]]
+table=[["D'",Tabresult[0,0],Tabresult[0,1],Tabresult[0,2],Tabresult[0,3],\
+        Tabresult[0,4],Tabresult[0,5],"\\",
+      ["Relative error (\%)",Tabresult[1,0],Tabresult[1,1],Tabresult[1,2],\
+       Tabresult[1,3],Tabresult[1,4],Tabresult[1,5],Tabresult[1,6]],
+    ["Coefficient of variation (\%)",Tabresult[2,0],Tabresult[2,1],\
+     Tabresult[2,2],Tabresult[2,3],Tabresult[2,4],Tabresult[2,5],Tabresult[2,6]]]
 Markdown(tabulate(
   table, 
-  headers=["","$\Sigma^*$", "$\widehat{\Sigma}^*$", "$\widehat{\Sigma}_{opt}$", "$\widehat{\Sigma}_{mean}$", "${\widehat{\Sigma}^{+d}_{opt}}$", "$\widehat{\Sigma}^{+d}_{mean}$", "vMFN"],
+  headers=["","$\Sigma^*$", "$\widehat{\Sigma}^*$", "$\widehat{\Sigma}_{opt}$",\
+           "$\widehat{\Sigma}_{mean}$", "${\widehat{\Sigma}^{+d}_{opt}}$",\
+           "$\widehat{\Sigma}^{+d}_{mean}$", "vMFN"],
     tablefmt="pipe"))
 ```
 
@@ -779,10 +792,10 @@ We can numerically compute $\lambda_1 \approx 0.278$, $\lambda_2 \approx 0.009$ 
 #|   - 'Computation of $\ell(\lambda_i)$ for the eigenvalues of $\Sigma^*$ (red squares) and $\widehat{\Sigma}^*$ (blue crosses) in dimension $n = 100$.'
 #| layout-ncol: 2
 
-###############################################################################################################################
-# Figure 3. Evolution of the partial KL divergence and spectrum of the eigenvalues for the test case 2
-###############################################################################################################################
-
+############################################################################
+# Figure 3. Evolution of the partial KL divergence and spectrum of the 
+# eigenvalues for the test case 2
+############################################################################
 #E=1.51*10**-3
 def parabol(X):
     n=np.shape(X)[1]
@@ -800,9 +813,11 @@ X=X0[ind,:]
 E=1.51*10**-3   # reference value of the integral
 
 Mstar_dim3=np.zeros(3)
-Mstar_dim3[0]=np.mean(X,axis=0)[0]   # accurate value of optimal mean in dimension 3
+# accurate value of optimal mean in dimension 3
+Mstar_dim3[0]=np.mean(X,axis=0)[0]   
 Xc=(X-Mstar_dim3).T
-Sigstar_dim3=Xc @ Xc.T/np.shape(Xc)[1]    # accurate value of optimal covariance in dimension 3
+# accurate value of optimal covariance in dimension 3
+Sigstar_dim3=Xc @ Xc.T/np.shape(Xc)[1]    
 
 DKL=np.zeros(20)
 DKLp=np.zeros(20)
@@ -849,13 +864,16 @@ for d in range(5,n+1,5):
 
     P1=np.array(Eig[1][:,indi[0]],ndmin=2).T                  
     for l in range(1,k):
-        P1=np.concatenate((P1,np.array(Eig[1][:,indi[l]],ndmin=2).T),axis=1)    # matrix od influential directions of projections
+        # matrix od influential directions of projections
+        P1=np.concatenate((P1,np.array(Eig[1][:,indi[l]],ndmin=2).T),axis=1)    
 
     diagsi=np.diag(Eig[0][indi])
     sig_opt_d=P1.dot((diagsi-np.eye(k))).dot(P1.T)+np.eye(d)  
     
-    DKL[int((d-5)/5)]=np.log(np.linalg.det(sigma))+np.sum(np.diag(Sigstar.dot(np.linalg.inv(sigma))))
-    DKLp[int((d-5)/5)]=np.log(np.linalg.det(sig_opt_d))+np.sum(np.diag(Sigstar.dot(np.linalg.inv(sig_opt_d))))
+    DKL[int((d-5)/5)]=np.log(np.linalg.det(sigma))+np.sum(np.diag(Sigstar.dot\
+                                                    (np.linalg.inv(sigma))))
+    DKLp[int((d-5)/5)]=np.log(np.linalg.det(sig_opt_d))+np.sum(np.diag(\
+                                    Sigstar.dot(np.linalg.inv(sig_opt_d))))
     DKLstar[int((d-5)/5)]=np.log(np.linalg.det(Sigstar))+d
 
 #### plot of partial KL divergence
@@ -890,18 +908,20 @@ plt.ylabel(r"$\ell(\lambda_i)$",fontsize=16)
 for tickLabel in plt.gca().get_xticklabels() + plt.gca().get_yticklabels():
     tickLabel.set_fontsize(16)
 
-plt.plot(Table_eigv[:,0],Table_eigv[:,1],'bx',label=r"Eigenvalues of $\widehat{\Sigma}^*$")
-plt.plot(Table_eigv_st[:,0],Table_eigv_st[:,1],'rs',label=r"Eigenvalues of $\Sigma^*$")
+plt.plot(Table_eigv[:,0],Table_eigv[:,1],'bx',\
+         label=r"Eigenvalues of $\widehat{\Sigma}^*$")
+plt.plot(Table_eigv_st[:,0],Table_eigv_st[:,1],'rs',\
+         label=r"Eigenvalues of $\Sigma^*$")
 plt.legend(fontsize=16)
 plt.show()
 ```
 
 ###  Numerical results
-The numerical results of our simulations are presented in @tbl-parabol. We remark as before that, when using $\widehat{\Sigma}^*$, the accuracy quickly deteriorates as the dimension increases as shows the coefficient of variation of $84 \%$ in dimension $n = 100$. In contrast, ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ leads to very accurate results, which remain close to optimal up to the same dimension $n = 100$. This behavior is to compare with the evolution of the relative KL divergence: contrary to $\widehat{\Sigma}^*$, ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ gives a partial KL divergence close to optimal in dimension $n = 100$. This confirms that the KL divergence is indeed a good proxy to assess the relevance of an auxiliary density.
+The numerical results of our simulations are presented in @tbl-parabol. We remark as before that, when using $\widehat{\Sigma}^*$, the accuracy quickly deteriorates as the dimension increases as shows the coefficient of variation of $121 \%$ in dimension $n = 100$. In contrast, ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ leads to very accurate results, which remain close to optimal up to the same dimension $n = 100$. This behavior is to compare with the evolution of the relative KL divergence: contrary to $\widehat{\Sigma}^*$, ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ gives a partial KL divergence close to optimal in dimension $n = 100$. This confirms that the KL divergence is indeed a good proxy to assess the relevance of an auxiliary density.
 
-It is also interesting to note that the direction $\mathbf{m}^*$ improves the situation compared to not projecting (column ${\widehat{\Sigma}^{\text{}}_\text{mean}}$ compared to $\widehat{\Sigma}^*$), but using ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ gives significantly better results, with for instance a coefficient of variation around $3 \%$ for ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ and around $25 \%$ for ${\widehat{\Sigma}^{\text{}}_\text{mean}}$ in dimension $n = 100$. Thus, this confirms our theoretical result that the $\mathbf{d}^*_i$'s are good directions on which to project. 
+It is also interesting to note that the direction $\mathbf{m}^*$ improves the situation compared to not projecting (column ${\widehat{\Sigma}^{\text{}}_\text{mean}}$ compared to $\widehat{\Sigma}^*$), but using ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ gives significantly better results, with for instance a coefficient of variation around $3 \%$ for ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ and around $27 \%$ for ${\widehat{\Sigma}^{\text{}}_\text{mean}}$ in dimension $n = 100$. Thus, this confirms our theoretical result that the $\mathbf{d}^*_i$'s are good directions on which to project. 
 	
-Finally, we notice that performing estimations of the projection directions instead of taking the true ones (columns ${\widehat{\Sigma}^{\text{+d}}_\text{opt}}$ vs ${\widehat{\Sigma}^{\text{}}_\text{opt}}$) slightly degrades the situation, making the coefficient of variation increase from $3$ to $7 \%$ even if the accuracy remains satisfactory.
+Finally, we notice that performing estimations of the projection directions instead of taking the true ones (columns ${\widehat{\Sigma}^{\text{+d}}_\text{opt}}$ vs ${\widehat{\Sigma}^{\text{}}_\text{opt}}$) slightly degrades the situation, making the coefficient of variation increase from $3$ to $9 \%$ even if the accuracy remains satisfactory.
 	The vMFN model is also not really adapted to this example as it gives results similar to ${\widehat{\Sigma}^{\text{}}_\text{mean}}$. Gaussian density family are more able to fit $g^*$ than vMFN parametric model in this test case.
 
 ```{python}
@@ -921,7 +941,7 @@ def mypi(X):
 
 N=2000   
 M=500   
-B=100    # number of runs
+B=500    # number of runs
 
 Eopt=np.zeros(B)
 EIS=np.zeros(B)
@@ -1304,7 +1324,7 @@ mypi=bananapdf
 
 N=2000   
 M=500   
-B=100    # number of runs
+B=500    # number of runs
 
 Eopt=np.zeros(B)
 EIS=np.zeros(B)
@@ -1706,7 +1726,7 @@ def mypi(X):
 
 N=2000   
 M=500   
-B=100    # number of runs
+B=500    # number of runs
 
 Eopt=np.zeros(B)
 EIS=np.zeros(B)
@@ -1924,7 +1944,7 @@ Markdown(tabulate(
     tablefmt="pipe"))
 ```
 
-The results of Table @tbl-portfolio show similar trends as for the first test case of @sec-sub:sum. First, projecting seems indeed a relevant idea, as using ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ or ${\widehat{\Sigma}^{\text{}}_\text{mean}}$ greatly improves the situation compared to $\widehat{\Sigma}^*$. This is particularly salient as $\widehat{\Sigma}^*$ yields an important bias and a coefficient of variation of $94\%$, whereas projecting on $\mathbf{d}^*_1$ or $\mathbf{m}^*$ yields a coefficient of variation of $11 \%$. This improvement is still true even when the projection directions are estimated: compared to ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ and ${\widehat{\Sigma}^{\text{}}_\text{mean}}$, ${\widehat{\Sigma}^{\text{+d}}_\text{opt}}$ and ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$ give coefficients of variation between $16$ and $13\%$. Finally, ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$ seems to behave better than ${\widehat{\Sigma}^{\text{+d}}_\text{opt}}$. 
+The results of @tbl-portfolio show similar trends as for the first test case of @sec-sub:sum. First, projecting seems indeed a relevant idea, as using ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ or ${\widehat{\Sigma}^{\text{}}_\text{mean}}$ greatly improves the situation compared to $\widehat{\Sigma}^*$. This is particularly salient as $\widehat{\Sigma}^*$ yields an important bias and a coefficient of variation of $94\%$, whereas projecting on $\mathbf{d}^*_1$ or $\mathbf{m}^*$ yields a coefficient of variation of $11 \%$. This improvement is still true even when the projection directions are estimated: compared to ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ and ${\widehat{\Sigma}^{\text{}}_\text{mean}}$, ${\widehat{\Sigma}^{\text{+d}}_\text{opt}}$ and ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$ give coefficients of variation between $16$ and $13\%$. Finally, ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$ seems to behave better than ${\widehat{\Sigma}^{\text{+d}}_\text{opt}}$. 
 
 ## Application 2: discretized Asian payoff {#sec-sub:payoff}
 
@@ -2086,7 +2106,7 @@ def mypi(X):
 
 N=2000   
 M=500   
-B=100    # number of runs
+B=500    # number of runs
 
 VA=sp.stats.multivariate_normal(mean=np.zeros(n),cov=np.eye(n))
 X1=VA.rvs(size=bigsample)                                
@@ -2326,3 +2346,4 @@ We note finally that it would be interesting to consider multimodal failure func
 	
 # Acknowledgement {.unnumbered}
 The first author was enrolled in a PhD program co-funded by ISAE-SUPAERO and ONERA—The French Aerospace Lab. Their financial support is gratefully acknowledged. This work is part of the activities of ONERA - ISAE - ENAC joint research group.
+

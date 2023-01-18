@@ -265,7 +265,7 @@ def mypi(X):
 
 N=2000   
 M=500   
-B=2    # number of runs
+B=500   # number of runs
 
 Eopt=np.zeros(B)
 EIS=np.zeros(B)
@@ -656,7 +656,7 @@ def mypi(X):
 
 N=2000   
 M=500   
-B=2    # number of runs
+B=500    # number of runs
 
 VA=sp.stats.multivariate_normal(mean=np.zeros(n),cov=np.eye(n))
 X1=VA.rvs(size=bigsample)                                

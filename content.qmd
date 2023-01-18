@@ -140,7 +140,7 @@ DKLm=np.zeros(20)
 DKLstar=np.zeros(20)
 
 n=100
-bigsample=20*10**6
+bigsample=20*10**5
 M=300
 
 for d in range(5,n+1,5):
@@ -281,7 +281,7 @@ SIPst=[]
 SIM=[]
 SIMst=[]
 
-bigsample=20*10**6
+bigsample=5*10**6
 
 VA=sp.stats.multivariate_normal(mean=np.zeros(n+2),cov=np.eye(n+2))
 X01=VA.rvs(size=bigsample)                           
@@ -535,7 +535,7 @@ DKLstar=np.zeros(20)
 
 n=100
 M=300
-bigsample=20*10**6
+bigsample=10*10**5
 phi=payoff
 
 for d in range(5,n+1,5):
@@ -645,7 +645,7 @@ plt.show()
 
 n=100         # dimension
 
-bigsample=20*10**6
+bigsample=5*10**6
 phi=payoff
 E=0.0187
 

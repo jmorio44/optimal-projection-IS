@@ -54,6 +54,7 @@ jupyter:
 #######################################################################
 import numpy as np
 import scipy as sp
+import pickle
 import scipy.stats
 import matplotlib.pyplot as plt
 from CEIS_vMFNM import *
@@ -265,7 +266,7 @@ def mypi(X):
 
 N=2000   
 M=500   
-B=500   # number of runs
+B=10   # number of runs
 
 Eopt=np.zeros(B)
 EIS=np.zeros(B)
@@ -281,18 +282,12 @@ SIPst=[]
 SIM=[]
 SIMst=[]
 
-bigsample=2*10**6
-
-VA=sp.stats.multivariate_normal(mean=np.zeros(n+2),cov=np.eye(n+2))
-X01=VA.rvs(size=bigsample)                           
-ind1=(phi(X01)>0)
-X1=X01[ind1,:]                                                               
+                                                             
 
 #Mstar
-Mstar=np.mean(X1.T,axis=1)                
+Mstar=pickle.load( open( "Mstar_portfolio.p", "rb" ) )             
 #Sigmastar
-X1c=(X1-Mstar).T
-Sigstar=X1c.dot(X1c.T)/np.shape(X1c)[1]  
+Sigstar=pickle.load( open( "Sigstar_portfolio.p", "rb" ) )
     
 Eigst=np.linalg.eigh(Sigstar)                        
 logeigst=np.sort(np.log(Eigst[0])-Eigst[0])         
@@ -656,19 +651,12 @@ def mypi(X):
 
 N=2000   
 M=500   
-B=500    # number of runs
+B=10    # number of runs
 
-VA=sp.stats.multivariate_normal(mean=np.zeros(n),cov=np.eye(n))
-X1=VA.rvs(size=bigsample)                                
-W1=phi(X1) 
-W=np.copy(W1[(W1>0)])
-X=np.copy(X1[(W1>0),:])
-
-## Mstar
-Mstar = np.divide((W.T @ X), sum(W))                
-## Sigmastar
-Xc = np.multiply((X - Mstar).T, np.sqrt(W))
-Sigstar = np.divide((Xc @ Xc.T), sum(W))           
+#Mstar
+Mstar=pickle.load( open( "Mstar_asian.p", "rb" ) )             
+#Sigmastar
+Sigstar=pickle.load( open( "Sigstar_asian.p", "rb" ) )         
 
 Eigst=np.linalg.eigh(Sigstar)                        
 logeigst=np.sort(np.log(Eigst[0])-Eigst[0])         
@@ -892,3 +880,5 @@ Markdown(tabulate(
            "$\widehat{\Sigma}^{+d}_{mean}$", "vMFN"],
     tablefmt="pipe"))
 ```
+
+

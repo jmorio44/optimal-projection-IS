@@ -85,7 +85,13 @@ plt.show()
 #| fig-subcap:
 #|   - 'Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix $\Sigma^*$ (blue circles), the sample covariance $\widehat{\Sigma}^*$ (red squares), and the projected covariance $\widehat{\Sigma}^*_k$ (black triangles).'
 #|   - 'Computation of $\ell(\lambda_i)$ for the eigenvalues of $\Sigma^*$ (red squares) and $\widehat{\Sigma}^*$ (blue crosses) in dimension $n = 100$  for the large portfolio losses of @eq-portfolio.'
-#| layout-ncol: 2
+#| layout:
+#|   - - 45
+#|     - -10
+#|     - 45
+#|   - - 45
+#|     - -10
+#|     - 45
 
 ###########################################################################
 # Figure 5. Evolution of the partial KL divergence and spectrum of the 
@@ -266,7 +272,7 @@ def mypi(X):
 
 N=2000   
 M=500   
-B=10   # number of runs
+B=2   # number of runs
 
 Eopt=np.zeros(B)
 EIS=np.zeros(B)
@@ -502,7 +508,13 @@ Markdown(tabulate(
 #| fig-subcap:
 #|   - 'Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix $\Sigma^*$ (blue circles), the sample covariance $\widehat{\Sigma}^*$ (red squares), and the projected covariance $\widehat{\Sigma}^*_k$ (black triangles).'
 #|   - 'Computation of $\ell(\lambda_i)$ for the eigenvalues of $\Sigma^*$ (red squares) and $\widehat{\Sigma}^*$ (blue crosses) in dimension $n = 100$ for the Asian payoff example of @eq-payoff'
-#| layout-ncol: 2
+#| layout:
+#|   - - 45
+#|     - -10
+#|     - 45
+#|   - - 45
+#|     - -10
+#|     - 45
 
 ##########################################################################
 # Figure 6. Evolution of the partial KL divergence and spectrum of the 
@@ -651,7 +663,7 @@ def mypi(X):
 
 N=2000   
 M=500   
-B=10    # number of runs
+B=2    # number of runs
 
 #Mstar
 Mstar=pickle.load( open( "Mstar_asian.p", "rb" ) )             

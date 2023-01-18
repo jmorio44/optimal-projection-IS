@@ -150,7 +150,10 @@ We begin with a preliminary lemma.
 ::: {#lem-D}
 Let $f$ be the density of the standard Gaussian vector in dimension $n$, $\phi: \mathbb{R}^n \to \mathbb{R}_+$ and $g_* = f \phi / E$ with $E = \int f \phi$. Then for any $\mathbf{m}$ and any $\Sigma$ of the form $\Sigma = I_n + \sum_i (\alpha_i - 1) \mathbf{d}_i \mathbf{d}_i^\top$ with $\alpha_i > 0$ and the $\mathbf{d}_i$'s orthonormal, we have
 $$
- D(g^*, g_{\mathbf{m}, \Sigma}) =  \frac{1}{2} \sum_i \left( \log \alpha_i - \left(1 - \frac{1}{\alpha_i} \right) \mathbf{d}_i^\top \Sigma^* \mathbf{d}_i \right) + \frac{1}{2} (\mathbf{m} - \mathbf{m}^*)^\top \Sigma^{-1} (\mathbf{m} - \mathbf{m}^*)\\ - \frac{1}{2} \lVert \mathbf{m}^* \rVert^2 - \log E + \mathbb{E}_{g^*}(\log \phi(\mathbf{X})).
+\begin{aligned}
+ D(g^*, g_{\mathbf{m}, \Sigma}) =&  \frac{1}{2} \sum_i \left( \log \alpha_i - \left(1 - \frac{1}{\alpha_i} \right) \mathbf{d}_i^\top \Sigma^* \mathbf{d}_i \right) + \frac{1}{2} (\mathbf{m} - \mathbf{m}^*)^\top \Sigma^{-1} (\mathbf{m} - \mathbf{m}^*)\\
+ &- \frac{1}{2} \lVert \mathbf{m}^* \rVert^2 - \log E + \mathbb{E}_{g^*}(\log \phi(\mathbf{X})).
+\end{aligned}
 $$ {#eq-D}
 :::
 

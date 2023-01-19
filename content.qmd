@@ -216,7 +216,7 @@ However, in high dimension, importance sampling is known to fail because of the 
 	
 In light of these results, it becomes natural to consider the KL divergence with $f$ and not only $g^*$. Of course, minimizing $D(f, g_{\mathbf{m}, \Sigma})$ without constraints on $\mathbf{m}$ and $\Sigma$ is trivial since $g_{\mathbf{m}, \Sigma} = f$ for $\mathbf{m} = 0$ and $\Sigma = I_n$. However, these choices are the ones we want to avoid in the first place, and so it makes sense to impose some constraints on $\mathbf{m}$ and $\Sigma$. If one keeps in mind the other objective of getting close to $g^*$, then the choice $\mathbf{m} = \mathbf{m}^*$ becomes very natural, and we are led, when $\Sigma \in \mathcal{L}_{n,1}$ is sought as a rank-$1$ perturbation of the identity, to considering the optimization problem of @thm-thm2.
 
-# Proof of Theorems @thm-thm1 and @thm-thm2 {#sec-proof} 
+# Proof of @thm-thm1 and @thm-thm2 {#sec-proof} 
 We begin with a preliminary lemma.
 
 ::: {#lem-D}
@@ -235,8 +235,10 @@ For any $\mathbf{m} \in \mathbb{R}^n$ and $\Sigma \in \mathcal{S}^+_n$, we have 
 $$ D(g^*, g_{\mathbf{m}, \Sigma}) = \mathbb{E}_{g^*} \left( \log \left( \frac{g^*(\mathbf{X})}{g_{\mathbf{m}, \Sigma}(\mathbf{X})} \right) \right) = \mathbb{E}_{g^*} \left( \log \left( \frac{\frac{\phi(\mathbf{X}) e^{-\frac{1}{2} \lVert \mathbf{X} \rVert^2}}{E(2\pi)^{d/2}}}{ \frac{e^{-\frac{1}{2} (\mathbf{X} - \mathbf{m})^\top \Sigma^{-1} (\mathbf{X} - \mathbf{m})}}{(2\pi)^{d/2} \lvert \Sigma \rvert^{1/2}} } \right) \right) $$
 and so
 $$
-D(g^*, g_{\mathbf{m}, \Sigma}) = - \frac{1}{2} \mathbb{E}_{g^*}(\lVert \mathbf{X} \rVert^2) + \frac{1}{2} \mathbb{E}_{g^*} \left( (\mathbf{X} - \mathbf{m})^\top \Sigma^{-1} (\mathbf{X} - \mathbf{m}) \right) + \frac{1}{2} \log \lvert \Sigma \rvert\\
-- \log E + \mathbb{E}_{g^*}(\log \phi(\mathbf{X})).
+\begin{aligned}
+D(g^*, g_{\mathbf{m}, \Sigma}) = &- \frac{1}{2} \mathbb{E}_{g^*}(\lVert \mathbf{X} \rVert^2) + \frac{1}{2} \mathbb{E}_{g^*} \left( (\mathbf{X} - \mathbf{m})^\top \Sigma^{-1} (\mathbf{X} - \mathbf{m}) \right)\\
+& + \frac{1}{2} \log \lvert \Sigma \rvert - \log E + \mathbb{E}_{g^*}(\log \phi(\mathbf{X})).
+\end{aligned}
 $$
 Because $\mathbb{E}_{g^*}(\mathbf{X}) = \mathbf{m}^*$, we have $\mathbb{E}_{g^*}(\lVert \mathbf{X} \rVert^2) = \mathbb{E}_{g^*}(\lVert \mathbf{X} - \mathbf{m}^* \rVert^2) + \lVert \mathbf{m}^* \rVert^2$ and
 $$
@@ -518,19 +520,16 @@ plt.show()
 ###  Numerical results
 We report in @tbl-sum the numerical results for the six different matrices and the vMFN model for the dimension $n=100$. The column $\Sigma^*$ gives the optimal results, while the column $\widehat{\Sigma}^*$ corresponds to the results that we are trying to improve. Comparing these two columns, we notice as expected that the estimation of $E$ with $\widehat{\Sigma}^*$ is significantly degraded. Compared to the first column $\Sigma^*$, the third and fourth column with ${\widehat{\Sigma}^{\text{}}_\text{opt}} =  {\widehat{\Sigma}^{\text{}}_\text{mean}}$ correspond to the best projection direction $\textbf{1}$ (as for $\Sigma^*$) but estimating the variance in this direction (instead of the true variance) with $\textbf{1}^\top \widehat{\Sigma}^* \textbf{1}$. This choice performs very well, with numerical results similar to the optimal ones. This can be understood since in this case, both ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ and $\Sigma^*$ are of the form $\alpha \textbf{1} \textbf{1}^\top + I_n$ and so estimating ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ requires only a one-dimensional estimation (namely, the estimation of $\alpha$). Next, the last two columns ${\widehat{\Sigma}^{\text{+d}}_\text{opt}}$ and ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$ highlight the impact of having to estimate the projection directions in addition to the variance since these two matrices are of the form $\widehat \alpha \widehat{\textbf{1}} {\widehat{\textbf{1}}}^\top + I_n$ with both $\widehat{\alpha}$ (the variance term) and $\widehat{\textbf{1}}$ (the direction) being estimated. We observe that these matrices yield results which are close to optimal and greatly improve the estimation obtained using $\widehat{\Sigma}^*$. In dimension $100$, the coefficient of variation is around $3.2$\% for ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$, and around $21$\% for $\widehat{\Sigma}^{\text{+d}}_{\text{opt}}$, compared to $2.6$\% for $\widehat{\Sigma}^*$. 
 
-Moreover, we observe that ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$ gives better results than ${\widehat{\Sigma}^{\text{+d}}_\text{opt}}$. We suggest that this is because $\widehat{\mathbf{m}}^* / \lVert \widehat{\mathbf{m}}^* \rVert$ is a better estimator of $\textbf{1}$ than the eigenvector of $\widehat{\Sigma}^*$. Indeed, evaluating $\widehat{\mathbf{m}}^*$ requires the estimation of $n$ parameters, whereas $\widehat{\Sigma}^*$ needs around $n^2/2$ parameters to estimate, so the eigenvector is finally more noisy than the mean vector.  In the last column, we present the vMFN estimation that is slightly less efficicent thatn the estimation obtained with ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$.
+Moreover, we observe that ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$ gives better results than ${\widehat{\Sigma}^{\text{+d}}_\text{opt}}$. We suggest that this is because $\widehat{\mathbf{m}}^* / \lVert \widehat{\mathbf{m}}^* \rVert$ is a better estimator of $\textbf{1}$ than the eigenvector of $\widehat{\Sigma}^*$. Indeed, evaluating $\widehat{\mathbf{m}}^*$ requires the estimation of $n$ parameters, whereas $\widehat{\Sigma}^*$ needs around $n^2/2$ parameters to estimate, so the eigenvector is finally more noisy than the mean vector.  In the last column, we present the vMFN estimation that is slightly less efficicent than the estimation obtained with ${\widehat{\Sigma}^{\text{+d}}_\text{mean}}$.
 	
 Thus, the proposed idea improves significantly the probability estimation in high dimension. But we see that the method taken in [@MasriEtAl_ImprovementCrossentropyMethod_2020] with the projection $\mathbf{m}^*$ is at least as much efficient in this example where we need only a one-dimensional projection. The next case shows that the projection on more than one direction can outperform the one-dimensional projection on $\mathbf{m}^*$. 
 
 ```{python}
 #| label: tbl-sum
 #| tbl-cap: 'Numerical comparison of the estimation of $E \approx 1.35\cdot 10^{-3}$ considering the Gaussian model with the six covariance matrices defined in @sec-def_cov and the vFMN model, when $\phi = \mathbb{I}_{\{\varphi\geq 0\}}$ with $\varphi$ the linear function given by @eq-sum. As explained in the text, ${\widehat{\Sigma}^{\text{}}_\text{mean}}$ and ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ are actually equal in this case.'
-###############################################################################################################################
+###########################################################################
 # Table 2. Numerical comparison on test case 1
-###############################################################################################################################
-from IPython.display import display, Math, Latex
-from IPython.display import Markdown
-from tabulate import tabulate
+###########################################################################
 
 n=100         # dimension
 phi=Somme
@@ -1586,8 +1585,8 @@ Markdown(tabulate(
     tablefmt="pipe"))
 ```
 
-## Application 1 : large portfolio losses {#sec-sub:portfolio}
-The next example is a rare event application in finance, taken from [@BassambooEtAl_PortfolioCreditRisk_2008], [@ChanKroese_ImprovedCrossentropyMethod_2012}]. 
+## Application 1: large portfolio losses {#sec-sub:portfolio}
+The next example is a rare event application in finance, taken from [@BassambooEtAl_PortfolioCreditRisk_2008], [@ChanKroese_ImprovedCrossentropyMethod_2012]. 
 	The unknown integral is $E=\int_{\mathbb{R}^{n+2}} \phi(\mathbf{x}) f(\mathbf{x}) \textrm{d}\mathbf{x} = \mathbb{P}_f(\varphi(\mathbf{X})\geq 0)$, with $\phi = \mathbb{I}_{\{\varphi \geq 0\}}$ and $f$ is the standard $n+2$-dimensional Gaussian distribution. The function $\varphi$ is the portfolio loss function defined as:
 $$
 	\varphi(\mathbf{x}) = \underset{j=3}{\overset{n+2}{\sum}} \mathbb{I}_{\{\Psi(x_1, x_2, x_j) \geq 0.5\sqrt{n}\}}-0.25 n,
@@ -2445,4 +2444,4 @@ We note finally that it would be interesting to consider multimodal failure func
 # Acknowledgement {.unnumbered}
 The first author was enrolled in a PhD program co-funded by ISAE-SUPAERO and ONERA—The French Aerospace Lab. Their financial support is gratefully acknowledged. This work is part of the activities of ONERA - ISAE - ENAC joint research group.
 
-
+# Bibliography {.unnumbered}

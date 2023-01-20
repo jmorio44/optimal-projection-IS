@@ -79,7 +79,7 @@ def mypi(X):
 
 N=2000   
 M=500   
-B=500   # number of runs
+B=10   # number of runs
 
 Eopt=np.zeros(B)
 EIS=np.zeros(B)

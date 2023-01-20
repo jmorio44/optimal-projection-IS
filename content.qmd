@@ -69,7 +69,9 @@ def Somme(x):
     return(np.sum(x,axis=1)-3*np.sqrt(n))
 
 E=sp.stats.norm.cdf(-3)  
-n=100         # dimension
+n=100
+d=n
+# dimension
 phi=Somme
 
 def mypi(X):                   
@@ -94,7 +96,7 @@ SIP=[]
 SIPst=[]
 SIM=[]
 SIMst=[]
-
+print(np.random.rand(1,1))
 # Mstar
 alpha=np.exp(-3**2/2)/(E*np.sqrt(2*np.pi))
 Mstar=alpha*np.ones(d)/np.sqrt(d)
@@ -300,5 +302,9 @@ Markdown(tabulate(
            "$\widehat{\Sigma}_{mean}$", "${\widehat{\Sigma}^{+d}_{opt}}$",\
            "$\widehat{\Sigma}^{+d}_{mean}$", "vMFN"],
     tablefmt="pipe"))
+```
+
+```{python}
+np.random.rand(1,1)
 ```
 

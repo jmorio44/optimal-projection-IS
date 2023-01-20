@@ -68,7 +68,7 @@ def Somme(x):
     n=np.shape(x)[1]
     return(np.sum(x,axis=1)-3*np.sqrt(n))
 
-
+E=sp.stats.norm.cdf(-3)  
 n=100         # dimension
 phi=Somme
 

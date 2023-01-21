@@ -59,6 +59,10 @@ np.random.seed(10)
 ```
 
 ```{python}
+np.random.rand(1,1)
+```
+
+```{python}
 #| label: tbl-sum
 #| tbl-cap: 'Numerical comparison of the estimation of $E \approx 1.35\cdot 10^{-3}$ considering the Gaussian model with the six covariance matrices defined in @sec-def_cov and the vFMN model, when $\phi = \mathbb{I}_{\{\varphi\geq 0\}}$ with $\varphi$ the linear function given by @eq-sum. As explained in the text, ${\widehat{\Sigma}^{\text{}}_\text{mean}}$ and ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ are actually equal in this case.'
 ###########################################################################

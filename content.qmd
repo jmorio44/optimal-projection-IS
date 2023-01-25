@@ -364,3 +364,20 @@ print(wprst)
 ```{python}
 print(EprjstT)
 ```
+
+```{python}
+n = 1.23456789012345678901234567890 
+```
+
+```{python}
+n
+```
+
+```{python}
+np.float64(n)
+```
+
+```{python}
+np.float32(n)
+```
+

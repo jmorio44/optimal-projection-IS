@@ -226,6 +226,7 @@ for i in range(B):
     Eprm[i]=np.mean(wpm)
     
    ### 
+    np.random.seed(10)
     Xprst=sp.stats.multivariate_normal.rvs(mean=mm, cov=sig_opt,size=N)
     wprst=mypi(Xprst)/sp.stats.multivariate_normal.pdf(Xprst,mean=mm, \
                                                        cov=sig_opt)
@@ -326,6 +327,21 @@ print(mm)
 ```
 
 ```{python}
-print(sig_opt)
+    np.random.seed(10)
+    Xprst=sp.stats.multivariate_normal.rvs(mean=mm, cov=sig_opt,size=N)
+    wprst=mypi(Xprst)/sp.stats.multivariate_normal.pdf(Xprst,mean=mm, \
+                                                       cov=sig_opt)
+    EprjstT=np.mean(wprst)
 ```
 
+```{python}
+print(Xprst)
+```
+
+```{python}
+print(wprst)
+```
+
+```{python}
+print(EprjstT)
+```

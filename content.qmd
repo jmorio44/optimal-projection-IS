@@ -313,4 +313,11 @@ Markdown(tabulate(
 np.random.rand(1,1)
 ```
 
+```{python}
+print(Eprjst)
+```
+
+```{python}
+print(Xprst)
+```
 

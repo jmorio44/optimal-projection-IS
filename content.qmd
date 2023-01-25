@@ -137,7 +137,6 @@ for i in range(B):
     ind=(phi(X0)>0)          
     X1=X0[ind,:]                             
     X=X1[:M,:]           
-    print(X0)
     R=np.sqrt(np.sum(X**2,axis=1))   
     Xu=(X.T/R).T                
     
@@ -328,7 +327,7 @@ print(mm)
 
 ```{python}
     np.random.seed(10)
-    Xprst=sp.stats.multivariate_normal.rvs(mean=mm, cov=sig_opt,size=N)
+    Xprst=sp.stats.multivariate_normal.rvs(mean=mm, cov=sig_opt,size=N,random_state=2)
     wprst=mypi(Xprst)/sp.stats.multivariate_normal.pdf(Xprst,mean=mm, \
                                                        cov=sig_opt)
     EprjstT=np.mean(wprst)
@@ -345,3 +344,5 @@ print(wprst)
 ```{python}
 print(EprjstT)
 ```
+
+

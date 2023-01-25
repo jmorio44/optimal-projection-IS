@@ -321,7 +321,7 @@ ISSN 2824-7795</p>
 <span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>    ind<span class="op">=</span>(phi(X0)<span class="op">&gt;</span><span class="dv">0</span>)          </span>
 <span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>    X1<span class="op">=</span>X0[ind,:]                             </span>
 <span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>    X<span class="op">=</span>X1[:M,:]           </span>
-<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(X0)</span>
 <span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>    R<span class="op">=</span>np.sqrt(np.<span class="bu">sum</span>(X<span class="op">**</span><span class="dv">2</span>,axis<span class="op">=</span><span class="dv">1</span>))   </span>
 <span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>    Xu<span class="op">=</span>(X.T<span class="op">/</span>R).T                </span>
 <span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -496,8 +496,158 @@ ISSN 2824-7795</p>
 <pre><code>[[0.02075195]]</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[0.00135941 0.00131237 0.00135304 0.00132617 0.00134297 0.00132184
- 0.00130641 0.00136345 0.00132502 0.00128812]</code></pre>
+<pre><code>[[ 1.3315865   0.71527897 -1.54540029 ...  0.08958761  0.82699862
+  -1.95451212]
+ [ 0.11747566 -1.90745689 -0.92290926 ... -1.02231069  1.16716837
+  -0.57197681]
+ [ 0.1331375   1.20274387 -1.02475297 ... -0.14506454  0.16390425
+   0.82951248]
+ ...
+ [-1.36490966  0.26831817  0.5872933  ...  1.16623709  1.09401326
+   0.04611849]
+ [-0.99353365 -1.90424355 -1.64775869 ... -1.8102473   0.30959111
+  -0.20204251]
+ [-0.85629076  0.83572697  0.36123833 ... -0.79158645  0.09499007
+   0.66401917]]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[ 1.74122341  0.45845158 -0.8990948  ...  1.06924967 -0.80208489
+  -0.2810656 ]
+ [-0.58868202  1.59835225 -0.95747028 ... -1.05715976 -1.6271955
+   1.01402641]
+ [-0.05726865  1.80098333 -0.74598639 ... -1.16719215  2.59379521
+   1.21404074]
+ ...
+ [ 0.23226228 -0.11240467  0.6808949  ...  0.00340933 -1.32347006
+  -0.8685836 ]
+ [ 1.33625269  0.95394692 -0.46363942 ...  0.34901905 -1.06576462
+  -0.22712651]
+ [-0.06397746 -0.72854081 -1.18168695 ...  0.26443241 -1.1090396
+  -0.80740398]]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[ 0.2384792   0.62528519 -1.00606999 ...  1.04325711  0.45334589
+   0.78236274]
+ [-0.09219593  0.10359214 -0.1050691  ... -0.08588365  0.82661818
+   1.70430477]
+ [ 0.14585648  0.35802633 -1.08889203 ... -0.95417771  0.72771924
+  -2.67366456]
+ ...
+ [-0.79956159  0.39814376 -0.08714112 ... -0.90126383  0.05554707
+  -1.42626653]
+ [ 0.32863429 -0.62424486  0.06244488 ...  0.4522502  -0.66636254
+   0.38503561]
+ [ 0.48817881  1.12342557  0.29932045 ... -0.80167523  0.03640308
+   1.18009609]]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[-1.36859181 -1.16034918 -0.30672094 ...  0.26935016 -1.37452982
+  -1.77497407]
+ [ 0.17035946  1.2992979   0.33286816 ...  0.85411594 -0.65424494
+  -0.8311113 ]
+ [ 1.31760276 -0.65710059 -0.32748882 ...  1.68767673 -0.45691837
+  -0.15717127]
+ ...
+ [-0.57473987  2.00773949  1.25747823 ... -0.51736536 -0.48797089
+   2.17688697]
+ [-0.06177458 -0.19681969  0.36260144 ... -1.3517947   0.19420328
+   0.6912691 ]
+ [-1.03010438  1.45992142  0.24642216 ... -1.09144124  1.4138472
+  -1.91320202]]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[-0.210737   -0.50585685  1.59851986 ... -0.38898863 -0.53181498
+  -0.32803158]
+ [-0.21477794  1.26713588  1.12977037 ... -0.03864896 -1.31816597
+   2.05454078]
+ [-0.56308765 -0.11050778 -0.53095986 ...  0.42376647  1.117424
+   0.43467768]
+ ...
+ [ 0.42365747 -0.56989471  1.66113876 ...  0.20752307  1.15835391
+  -0.12349376]
+ [ 0.59084308 -1.02971747  1.16585948 ...  1.38912922  1.46376731
+   1.55895116]
+ [ 0.47516468 -0.27687183 -1.29235559 ... -0.46431404  0.40217227
+  -0.04429587]]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[ 0.78604798  0.31730231  1.21057778 ... -0.75797109 -1.75248824
+   0.65648464]
+ [-1.81478019 -0.25963771  0.86251049 ...  0.51292757 -1.22006751
+   1.16295958]
+ [ 1.02629095  1.43015917  2.32446034 ...  1.31336938 -0.74435567
+  -1.77886465]
+ ...
+ [ 0.74041095  0.06654057 -0.24632185 ...  0.45542811 -2.67340752
+  -0.18939153]
+ [-0.14000818 -1.43776529 -0.41182965 ... -1.80467192  1.22571153
+   0.20411078]
+ [-0.85450646 -0.68214379  0.65653612 ... -0.41176185  1.24186764
+  -0.49943295]]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[ 1.00390274 -0.90400217  0.30483124 ... -0.86216361 -0.78324689
+   0.92667559]
+ [-0.61958311 -1.31043845  0.57735956 ...  0.65779442 -0.75124617
+  -1.55164535]
+ [ 1.32940069  0.89543886  0.49999678 ... -1.93848511 -1.09609149
+  -1.27378419]
+ ...
+ [-1.31132578  1.00652477  0.17492869 ... -0.55137331 -0.36862008
+   0.10569626]
+ [-1.06652413 -0.62054871 -0.38715442 ... -0.46166119  1.01245794
+  -0.76642225]
+ [ 0.26286693  0.52249213  0.14617207 ... -0.28792189 -0.93480938
+   0.3685946 ]]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[-0.50554297 -0.16184221 -0.77311833 ... -0.5391072   0.31854792
+   0.07127152]
+ [-0.97518915  1.33739594  0.97828209 ... -0.07505009  1.04106716
+   1.01045409]
+ [ 0.22268667  0.8200417   0.6126058  ... -0.37216957  1.1618359
+  -0.61972255]
+ ...
+ [-0.49653762  0.04409408  0.89495914 ... -1.00288426 -0.93757125
+  -0.18325895]
+ [-2.33507492 -0.19807591 -1.45216749 ... -1.27864335  1.36840031
+  -1.88190477]
+ [ 0.36862043  1.09818681 -0.08944145 ... -1.26217264  0.17444114
+   0.25077072]]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[-0.31121995  0.39781357 -0.30634288 ...  0.85242484  0.72536271
+  -1.05106293]
+ [-1.31777009 -1.12103865  0.31778331 ... -0.66761473 -1.36627763
+  -0.29105749]
+ [ 0.20914699 -0.11663957  0.45550564 ... -0.03917304 -0.5190387
+  -0.34320119]
+ ...
+ [-0.40448128 -1.0415444   1.30857452 ...  0.50751383  0.20893585
+   0.26457008]
+ [ 0.85456209  0.40765412  0.54935105 ...  0.77670983  0.05010411
+  -1.00455808]
+ [-0.18797749  0.52065453 -1.92959224 ... -0.89087389  0.8582836
+   1.47195834]]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[ 1.01567673e+00 -1.84945448e-01 -5.43642329e-01 ... -1.02502881e+00
+  -1.06812640e+00  4.60390808e-02]
+ [-7.46562705e-01 -1.20413279e+00 -1.26133912e+00 ...  4.84552827e-01
+   9.46163240e-01  1.22695911e+00]
+ [ 1.50385944e+00  1.25604386e-01 -8.56751332e-01 ... -9.05066308e-01
+  -6.69343113e-01  6.95662374e-01]
+ ...
+ [ 1.51542731e-01  1.84038725e+00 -3.62148762e-01 ... -7.32021835e-01
+   5.37971469e-01 -1.62736344e+00]
+ [-2.04103472e-01  9.66417481e-01  7.28296958e-01 ...  1.84013433e+00
+  -3.81914005e-02 -2.06844019e-01]
+ [-1.94823484e-04 -8.94463708e-01  1.71677390e+00 ...  4.99795684e-01
+  -3.82250387e-01 -2.33643974e-01]]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[0.00134816 0.00135659 0.00131114 0.00131835 0.00134756 0.00133696
+ 0.00133489 0.00135191 0.0013421  0.0012827 ]</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <div id="tbl-sum" class="anchored">
@@ -538,21 +688,21 @@ ISSN 2824-7795</p>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Relative error (%)</td>
-<td style="text-align: right;">0.3</td>
+<td style="text-align: right;">0.4</td>
 <td style="text-align: right;">157.6</td>
-<td style="text-align: right;">-1.5</td>
-<td style="text-align: right;">-1.5</td>
-<td style="text-align: right;">1.1</td>
-<td style="text-align: right;">-0.6</td>
+<td style="text-align: right;">-1.2</td>
+<td style="text-align: right;">-1.2</td>
+<td style="text-align: right;">-1.7</td>
+<td style="text-align: right;">0.8</td>
 <td style="text-align: left;">-0.4</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Coefficient of variation (%)</td>
-<td style="text-align: right;">6.9</td>
+<td style="text-align: right;">5.2</td>
 <td style="text-align: right;">548</td>
-<td style="text-align: right;">2.3</td>
-<td style="text-align: right;">2.3</td>
-<td style="text-align: right;">4.8</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2.6</td>
 <td style="text-align: right;">5</td>
 <td style="text-align: left;">3.6</td>
 </tr>
@@ -564,7 +714,7 @@ ISSN 2824-7795</p>
 <div class="cell" data-execution_count="4">
 <details>
 <summary>Hide/Show the code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>np.random.rand(<span class="dv">1</span>,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>np.random.rand(<span class="dv">1</span>,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>array([[0.89818344]])</code></pre>
@@ -573,32 +723,78 @@ ISSN 2824-7795</p>
 <div class="cell" data-execution_count="5">
 <details>
 <summary>Hide/Show the code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Eprjst)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Eprjst)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[0.00135941 0.00131237 0.00135304 0.00132617 0.00134297 0.00132184
- 0.00130641 0.00136345 0.00132502 0.00128812]</code></pre>
+<pre><code>[0.00134816 0.00135659 0.00131114 0.00131835 0.00134756 0.00133696
+ 0.00133489 0.00135191 0.0013421  0.0012827 ]</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="6">
 <details>
 <summary>Hide/Show the code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Xprst)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Xprst)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[[-0.43272888  0.09376677 -0.65219695 ...  1.01579617  0.88061905
-   1.75352237]
- [ 0.47245898  0.80022307 -0.81738174 ...  0.89274014 -0.10661319
-   0.16245997]
- [ 0.35430465 -0.71609443  0.50533048 ... -1.76147123  0.46268125
-  -0.18656227]
+<pre><code>[[ 1.91979769e-01 -8.72814317e-01  6.98506828e-01 ...  2.73777766e+00
+   2.30622738e-01  4.76741184e-01]
+ [ 4.24725973e-01  4.82189892e-01 -7.89703489e-01 ...  6.26323967e-02
+  -7.87992613e-02  1.66113722e+00]
+ [ 5.24454958e-01 -8.92877825e-01  2.72069290e-01 ...  4.83284982e-01
+  -2.43506531e-02  2.09391520e-01]
  ...
- [-0.90569479 -0.26007369 -0.18966318 ... -1.56934695  1.43743989
-   0.57924978]
- [-0.44426985 -0.75869155 -0.59388024 ...  0.78310581 -0.00939714
-   0.48048547]
- [ 1.69366003  0.25978148 -0.09938635 ...  0.55937804 -0.23908269
-   0.8076733 ]]</code></pre>
+ [ 3.33873917e+00 -1.77882456e-01 -1.37409729e+00 ... -1.08672029e+00
+  -6.44849425e-01 -1.07854204e+00]
+ [ 1.24425962e+00 -6.10308296e-01 -8.09532410e-01 ...  2.09010132e+00
+   4.25616552e-01  1.62340004e-03]
+ [ 8.08388876e-01 -1.25602021e-02  6.78096131e-01 ... -2.50092770e-01
+   1.31457124e+00 -9.07721179e-01]]</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="7">
+<details>
+<summary>Hide/Show the code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(mm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[0.32823767 0.23103633 0.38000616 0.38271397 0.26046435 0.29580173
+ 0.28092902 0.15906172 0.30065305 0.24495879 0.36085047 0.30679062
+ 0.28813348 0.33397634 0.32322846 0.34102741 0.28575634 0.30097675
+ 0.30363377 0.31880786 0.40744012 0.31968433 0.35515384 0.31814768
+ 0.29869    0.34440441 0.28579809 0.31968241 0.36486589 0.41092388
+ 0.39259883 0.42512127 0.29246904 0.30973694 0.36090021 0.30205441
+ 0.34449704 0.30123313 0.28798275 0.28619151 0.28944405 0.30271555
+ 0.32772458 0.23176427 0.35104164 0.29078584 0.2967432  0.35180295
+ 0.33867174 0.26844921 0.27792345 0.41172703 0.43617372 0.3626051
+ 0.34910372 0.33970149 0.26079148 0.35496141 0.42131413 0.3277473
+ 0.32452201 0.38288258 0.31486723 0.37269852 0.29589974 0.29571601
+ 0.3700551  0.41844114 0.36098507 0.38807169 0.34570948 0.39347199
+ 0.31201642 0.29497201 0.30145911 0.30258238 0.33085011 0.35074072
+ 0.35331277 0.22981443 0.38775952 0.37249562 0.35397505 0.37582584
+ 0.30245825 0.4107995  0.34824195 0.36867388 0.35401093 0.30695446
+ 0.37884614 0.29918195 0.28328601 0.24970002 0.40479139 0.40060514
+ 0.24661999 0.29561072 0.320124   0.2414395 ]</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="8">
+<details>
+<summary>Hide/Show the code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sig_opt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[ 0.99064778 -0.00935222 -0.00935222 ... -0.00935222 -0.00935222
+  -0.00935222]
+ [-0.00935222  0.99064778 -0.00935222 ... -0.00935222 -0.00935222
+  -0.00935222]
+ [-0.00935222 -0.00935222  0.99064778 ... -0.00935222 -0.00935222
+  -0.00935222]
+ ...
+ [-0.00935222 -0.00935222 -0.00935222 ...  0.99064778 -0.00935222
+  -0.00935222]
+ [-0.00935222 -0.00935222 -0.00935222 ... -0.00935222  0.99064778
+  -0.00935222]
+ [-0.00935222 -0.00935222 -0.00935222 ... -0.00935222 -0.00935222
+   0.99064778]]</code></pre>
 </div>
 </div>
 <!-- -->
@@ -804,328 +1000,336 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb13" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> Optimal projection for parametric importance sampling in high dimension</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Maxime El Masri</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation: '[ONERA/DTIS](https://www.onera.fr/), [ISAE-SUPAERO](https://www.isae-supaero.fr/), [Université de Toulouse](https://www.univ-toulouse.fr/)'</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co">    orcid: 0000-0002-9127-4503</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Jérôme Morio</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co">    url: 'https://www.onera.fr/en/staff/jerome-morio?destination=node/981'</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation: '[ONERA/DTIS](https://www.onera.fr/), [Université de Toulouse](https://www.univ-toulouse.fr/)'</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co">    orcid: 0000-0002-8811-8956</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Florian Simatos</span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co">    url: 'https://pagespro.isae-supaero.fr/florian-simatos/'</span></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation: '[ISAE-SUPAERO](https://www.isae-supaero.fr/), [Université de Toulouse](https://www.univ-toulouse.fr/)'</span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> last-modified</span></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> |</span></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co">  This document provides a dimension-reduction strategy in order to improve the performance of importance sampling in high dimension.</span></span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="an">abstract:</span><span class="co"> |</span></span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co">  In this paper we propose a dimension-reduction strategy in order to improve the performance of importance sampling in high dimension. The idea is to estimate variance terms in a small number of suitably chosen directions. We first prove that the optimal directions, i.e., the ones that minimize the Kullback--Leibler divergence with the optimal auxiliary density, are the eigenvectors associated to extreme (small or large) eigenvalues of the optimal covariance matrix. We then perform extensive numerical experiments that show that as dimension increases, these directions give estimations which are very close to optimal. Moreover, we show that the estimation remains accurate even when a simple empirical estimator of the covariance matrix is used to estimate these directions. These theoretical and numerical results open the way for different generalizations, in particular the incorporation of such ideas in adaptive importance sampling schemes.</span></span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="an">keywords:</span></span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="co">  - Importance sampling</span></span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="co">  - High dimension</span></span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="co">  - Gaussian covariance matrix</span></span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="co">  - Kullback-Leibler divergence</span></span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="co">  - Projection</span></span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> references.bib</span></span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="an">github-user:</span><span class="co"> jmorio44</span></span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="an">repo:</span><span class="co"> optimal-projection-IS</span></span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a><span class="an">draft:</span><span class="co"> true</span></span>
-<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="an">published:</span><span class="co"> false</span></span>
-<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
-<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a><span class="co">  computo-html: default</span></span>
-<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a><span class="co">  computo-pdf: default</span></span>
-<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
-<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a><span class="co">  keep-ipynb: true</span></span>
-<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a><span class="an">jupyter:</span></span>
-<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a><span class="co">  jupytext:</span></span>
-<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a><span class="co">    text_representation:</span></span>
-<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a><span class="co">      extension: .qmd</span></span>
-<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a><span class="co">      format_name: quarto</span></span>
-<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a><span class="co">      format_version: '1.0'</span></span>
-<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a><span class="co">      jupytext_version: 1.14.2</span></span>
-<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a><span class="co">  kernelspec:</span></span>
-<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a><span class="co">    display_name: Python 3 (ipykernel)</span></span>
-<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a><span class="co">    language: python</span></span>
-<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a><span class="co">    name: python3</span></span>
-<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy <span class="im">as</span> sp</span>
-<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pickle</span>
-<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.stats</span>
-<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> CEIS_vMFNM <span class="im">import</span> <span class="op">*</span></span>
-<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display, Math, Latex</span>
-<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
-<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tabulate <span class="im">import</span> tabulate</span>
-<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">10</span>)</span>
-<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a>np.random.rand(<span class="dv">1</span>,<span class="dv">1</span>)</span>
-<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-71"><a href="#cb13-71" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb13-72"><a href="#cb13-72" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sum</span></span>
-<span id="cb13-73"><a href="#cb13-73" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: 'Numerical comparison of the estimation of $E \approx 1.35\cdot 10^{-3}$ considering the Gaussian model with the six covariance matrices defined in @sec-def_cov and the vFMN model, when $\phi = \mathbb{I}_{\{\varphi\geq 0\}}$ with $\varphi$ the linear function given by @eq-sum. As explained in the text, ${\widehat{\Sigma}^{\text{}}_\text{mean}}$ and ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ are actually equal in this case.'</span></span>
-<span id="cb13-74"><a href="#cb13-74" aria-hidden="true" tabindex="-1"></a><span class="co">###########################################################################</span></span>
-<span id="cb13-75"><a href="#cb13-75" aria-hidden="true" tabindex="-1"></a><span class="co"># Table 2. Numerical comparison on test case 1</span></span>
-<span id="cb13-76"><a href="#cb13-76" aria-hidden="true" tabindex="-1"></a><span class="co">###########################################################################</span></span>
-<span id="cb13-77"><a href="#cb13-77" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> Somme(x):</span>
-<span id="cb13-78"><a href="#cb13-78" aria-hidden="true" tabindex="-1"></a>    n<span class="op">=</span>np.shape(x)[<span class="dv">1</span>]</span>
-<span id="cb13-79"><a href="#cb13-79" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span>(np.<span class="bu">sum</span>(x,axis<span class="op">=</span><span class="dv">1</span>)<span class="op">-</span><span class="dv">3</span><span class="op">*</span>np.sqrt(n))</span>
-<span id="cb13-80"><a href="#cb13-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-81"><a href="#cb13-81" aria-hidden="true" tabindex="-1"></a>E<span class="op">=</span>sp.stats.norm.cdf(<span class="op">-</span><span class="dv">3</span>)  </span>
-<span id="cb13-82"><a href="#cb13-82" aria-hidden="true" tabindex="-1"></a>n<span class="op">=</span><span class="dv">100</span></span>
-<span id="cb13-83"><a href="#cb13-83" aria-hidden="true" tabindex="-1"></a>d<span class="op">=</span>n</span>
-<span id="cb13-84"><a href="#cb13-84" aria-hidden="true" tabindex="-1"></a><span class="co"># dimension</span></span>
-<span id="cb13-85"><a href="#cb13-85" aria-hidden="true" tabindex="-1"></a>phi<span class="op">=</span>Somme</span>
-<span id="cb13-86"><a href="#cb13-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-87"><a href="#cb13-87" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mypi(X):                   </span>
-<span id="cb13-88"><a href="#cb13-88" aria-hidden="true" tabindex="-1"></a>    n<span class="op">=</span>np.shape(X)[<span class="dv">1</span>]</span>
-<span id="cb13-89"><a href="#cb13-89" aria-hidden="true" tabindex="-1"></a>    f0<span class="op">=</span>sp.stats.multivariate_normal.pdf(X,mean<span class="op">=</span>np.zeros(n),cov<span class="op">=</span>np.eye(n))</span>
-<span id="cb13-90"><a href="#cb13-90" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span>((phi(X)<span class="op">&gt;</span><span class="dv">0</span>)<span class="op">*</span>f0)</span>
-<span id="cb13-91"><a href="#cb13-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-92"><a href="#cb13-92" aria-hidden="true" tabindex="-1"></a>N<span class="op">=</span><span class="dv">2000</span>   </span>
-<span id="cb13-93"><a href="#cb13-93" aria-hidden="true" tabindex="-1"></a>M<span class="op">=</span><span class="dv">500</span>   </span>
-<span id="cb13-94"><a href="#cb13-94" aria-hidden="true" tabindex="-1"></a>B<span class="op">=</span><span class="dv">10</span>   <span class="co"># number of runs</span></span>
-<span id="cb13-95"><a href="#cb13-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-96"><a href="#cb13-96" aria-hidden="true" tabindex="-1"></a>Eopt<span class="op">=</span>np.zeros(B)</span>
-<span id="cb13-97"><a href="#cb13-97" aria-hidden="true" tabindex="-1"></a>EIS<span class="op">=</span>np.zeros(B)</span>
-<span id="cb13-98"><a href="#cb13-98" aria-hidden="true" tabindex="-1"></a>Eprj<span class="op">=</span>np.zeros(B)</span>
-<span id="cb13-99"><a href="#cb13-99" aria-hidden="true" tabindex="-1"></a>Eprm<span class="op">=</span>np.zeros(B)</span>
-<span id="cb13-100"><a href="#cb13-100" aria-hidden="true" tabindex="-1"></a>Eprjst<span class="op">=</span>np.zeros(B)</span>
-<span id="cb13-101"><a href="#cb13-101" aria-hidden="true" tabindex="-1"></a>Eprmst<span class="op">=</span>np.zeros(B)</span>
-<span id="cb13-102"><a href="#cb13-102" aria-hidden="true" tabindex="-1"></a>Evmfn<span class="op">=</span>np.zeros(B)</span>
-<span id="cb13-103"><a href="#cb13-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-104"><a href="#cb13-104" aria-hidden="true" tabindex="-1"></a>SI<span class="op">=</span>[]</span>
-<span id="cb13-105"><a href="#cb13-105" aria-hidden="true" tabindex="-1"></a>SIP<span class="op">=</span>[]</span>
-<span id="cb13-106"><a href="#cb13-106" aria-hidden="true" tabindex="-1"></a>SIPst<span class="op">=</span>[]</span>
-<span id="cb13-107"><a href="#cb13-107" aria-hidden="true" tabindex="-1"></a>SIM<span class="op">=</span>[]</span>
-<span id="cb13-108"><a href="#cb13-108" aria-hidden="true" tabindex="-1"></a>SIMst<span class="op">=</span>[]</span>
-<span id="cb13-109"><a href="#cb13-109" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.random.rand(<span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb13-110"><a href="#cb13-110" aria-hidden="true" tabindex="-1"></a><span class="co"># Mstar</span></span>
-<span id="cb13-111"><a href="#cb13-111" aria-hidden="true" tabindex="-1"></a>alpha<span class="op">=</span>np.exp(<span class="op">-</span><span class="dv">3</span><span class="op">**</span><span class="dv">2</span><span class="op">/</span><span class="dv">2</span>)<span class="op">/</span>(E<span class="op">*</span>np.sqrt(<span class="dv">2</span><span class="op">*</span>np.pi))</span>
-<span id="cb13-112"><a href="#cb13-112" aria-hidden="true" tabindex="-1"></a>Mstar<span class="op">=</span>alpha<span class="op">*</span>np.ones(d)<span class="op">/</span>np.sqrt(d)</span>
-<span id="cb13-113"><a href="#cb13-113" aria-hidden="true" tabindex="-1"></a><span class="co"># Sigmastar</span></span>
-<span id="cb13-114"><a href="#cb13-114" aria-hidden="true" tabindex="-1"></a>vstar<span class="op">=</span><span class="dv">3</span><span class="op">*</span>alpha<span class="op">-</span>alpha<span class="op">**</span><span class="dv">2</span><span class="op">+</span><span class="dv">1</span></span>
-<span id="cb13-115"><a href="#cb13-115" aria-hidden="true" tabindex="-1"></a>Sigstar<span class="op">=</span> (vstar<span class="op">-</span><span class="dv">1</span>)<span class="op">*</span>np.ones((d,d))<span class="op">/</span>d<span class="op">+</span>np.eye(d)</span>
-<span id="cb13-116"><a href="#cb13-116" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-117"><a href="#cb13-117" aria-hidden="true" tabindex="-1"></a>Eigst<span class="op">=</span>np.linalg.eigh(Sigstar)                        </span>
-<span id="cb13-118"><a href="#cb13-118" aria-hidden="true" tabindex="-1"></a>logeigst<span class="op">=</span>np.sort(np.log(Eigst[<span class="dv">0</span>])<span class="op">-</span>Eigst[<span class="dv">0</span>])         </span>
-<span id="cb13-119"><a href="#cb13-119" aria-hidden="true" tabindex="-1"></a>deltast<span class="op">=</span>np.zeros(<span class="bu">len</span>(logeigst)<span class="op">-</span><span class="dv">1</span>)</span>
-<span id="cb13-120"><a href="#cb13-120" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-121"><a href="#cb13-121" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(logeigst)<span class="op">-</span><span class="dv">1</span>):</span>
-<span id="cb13-122"><a href="#cb13-122" aria-hidden="true" tabindex="-1"></a>    deltast[i]<span class="op">=</span><span class="bu">abs</span>(logeigst[i]<span class="op">-</span>logeigst[i<span class="op">+</span><span class="dv">1</span>])         </span>
-<span id="cb13-123"><a href="#cb13-123" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-124"><a href="#cb13-124" aria-hidden="true" tabindex="-1"></a><span class="co">## choice of the number of dimension</span></span>
-<span id="cb13-125"><a href="#cb13-125" aria-hidden="true" tabindex="-1"></a>k_st<span class="op">=</span>np.argmax(deltast)<span class="op">+</span><span class="dv">1</span>     </span>
-<span id="cb13-126"><a href="#cb13-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-127"><a href="#cb13-127" aria-hidden="true" tabindex="-1"></a>indist<span class="op">=</span>[]</span>
-<span id="cb13-128"><a href="#cb13-128" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(k_st):</span>
-<span id="cb13-129"><a href="#cb13-129" aria-hidden="true" tabindex="-1"></a>    indist.append(np.where(np.log(Eigst[<span class="dv">0</span>])<span class="op">-</span>Eigst[<span class="dv">0</span>]<span class="op">==</span>logeigst[i])[<span class="dv">0</span>][<span class="dv">0</span>])           </span>
-<span id="cb13-130"><a href="#cb13-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-131"><a href="#cb13-131" aria-hidden="true" tabindex="-1"></a>P1st<span class="op">=</span>np.array(Eigst[<span class="dv">1</span>][:,indist[<span class="dv">0</span>]],ndmin<span class="op">=</span><span class="dv">2</span>).T</span>
-<span id="cb13-132"><a href="#cb13-132" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>,k_st):</span>
-<span id="cb13-133"><a href="#cb13-133" aria-hidden="true" tabindex="-1"></a>    P1st<span class="op">=</span>np.concatenate((P1st,np.array(Eigst[<span class="dv">1</span>][:,indist[i]],ndmin<span class="op">=</span><span class="dv">2</span>).T)<span class="op">\</span></span>
-<span id="cb13-134"><a href="#cb13-134" aria-hidden="true" tabindex="-1"></a>                        ,axis<span class="op">=</span><span class="dv">1</span>)    <span class="co"># matrix of influential directions   </span></span>
-<span id="cb13-135"><a href="#cb13-135" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-136"><a href="#cb13-136" aria-hidden="true" tabindex="-1"></a><span class="co">#np.random.seed(0)</span></span>
-<span id="cb13-137"><a href="#cb13-137" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(B):</span>
-<span id="cb13-138"><a href="#cb13-138" aria-hidden="true" tabindex="-1"></a><span class="co">############################# Estimation of the matrices</span></span>
-<span id="cb13-139"><a href="#cb13-139" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-140"><a href="#cb13-140" aria-hidden="true" tabindex="-1"></a>   <span class="co">## g*-sample of size M</span></span>
-<span id="cb13-141"><a href="#cb13-141" aria-hidden="true" tabindex="-1"></a>    VA<span class="op">=</span>sp.stats.multivariate_normal(np.zeros(n),np.eye(n))      </span>
-<span id="cb13-142"><a href="#cb13-142" aria-hidden="true" tabindex="-1"></a>    X0<span class="op">=</span>VA.rvs(size<span class="op">=</span>M<span class="op">*</span><span class="dv">1000</span>)                   </span>
-<span id="cb13-143"><a href="#cb13-143" aria-hidden="true" tabindex="-1"></a>    ind<span class="op">=</span>(phi(X0)<span class="op">&gt;</span><span class="dv">0</span>)          </span>
-<span id="cb13-144"><a href="#cb13-144" aria-hidden="true" tabindex="-1"></a>    X1<span class="op">=</span>X0[ind,:]                             </span>
-<span id="cb13-145"><a href="#cb13-145" aria-hidden="true" tabindex="-1"></a>    X<span class="op">=</span>X1[:M,:]           </span>
-<span id="cb13-146"><a href="#cb13-146" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-147"><a href="#cb13-147" aria-hidden="true" tabindex="-1"></a>    R<span class="op">=</span>np.sqrt(np.<span class="bu">sum</span>(X<span class="op">**</span><span class="dv">2</span>,axis<span class="op">=</span><span class="dv">1</span>))   </span>
-<span id="cb13-148"><a href="#cb13-148" aria-hidden="true" tabindex="-1"></a>    Xu<span class="op">=</span>(X.T<span class="op">/</span>R).T                </span>
-<span id="cb13-149"><a href="#cb13-149" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-150"><a href="#cb13-150" aria-hidden="true" tabindex="-1"></a>   <span class="co">## estimated gaussian mean and covariance </span></span>
-<span id="cb13-151"><a href="#cb13-151" aria-hidden="true" tabindex="-1"></a>    mm<span class="op">=</span>np.mean(X,axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb13-152"><a href="#cb13-152" aria-hidden="true" tabindex="-1"></a>    Xc<span class="op">=</span>(X<span class="op">-</span>mm).T</span>
-<span id="cb13-153"><a href="#cb13-153" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span>Xc <span class="op">@</span> Xc.T<span class="op">/</span>np.shape(Xc)[<span class="dv">1</span>]  </span>
-<span id="cb13-154"><a href="#cb13-154" aria-hidden="true" tabindex="-1"></a>    SI.append(sigma)</span>
-<span id="cb13-155"><a href="#cb13-155" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-156"><a href="#cb13-156" aria-hidden="true" tabindex="-1"></a>   <span class="co">## von Mises Fisher parameters</span></span>
-<span id="cb13-157"><a href="#cb13-157" aria-hidden="true" tabindex="-1"></a>    normu<span class="op">=</span>np.sqrt(np.mean(Xu,axis<span class="op">=</span><span class="dv">0</span>).dot(np.mean(Xu,axis<span class="op">=</span><span class="dv">0</span>).T))</span>
-<span id="cb13-158"><a href="#cb13-158" aria-hidden="true" tabindex="-1"></a>    mu<span class="op">=</span>np.mean(Xu,axis<span class="op">=</span><span class="dv">0</span>)<span class="op">/</span>normu</span>
-<span id="cb13-159"><a href="#cb13-159" aria-hidden="true" tabindex="-1"></a>    mu<span class="op">=</span>np.array(mu,ndmin<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb13-160"><a href="#cb13-160" aria-hidden="true" tabindex="-1"></a>    chi<span class="op">=</span><span class="bu">min</span>(normu,<span class="fl">0.95</span>)</span>
-<span id="cb13-161"><a href="#cb13-161" aria-hidden="true" tabindex="-1"></a>    kappa<span class="op">=</span>(chi<span class="op">*</span>n<span class="op">-</span>chi<span class="op">**</span><span class="dv">3</span>)<span class="op">/</span>(<span class="dv">1</span><span class="op">-</span>chi<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb13-162"><a href="#cb13-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-163"><a href="#cb13-163" aria-hidden="true" tabindex="-1"></a>   <span class="co">## Nakagami parameters</span></span>
-<span id="cb13-164"><a href="#cb13-164" aria-hidden="true" tabindex="-1"></a>    omega<span class="op">=</span>np.mean(R<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb13-165"><a href="#cb13-165" aria-hidden="true" tabindex="-1"></a>    tau4<span class="op">=</span>np.mean(R<span class="op">**</span><span class="dv">4</span>)</span>
-<span id="cb13-166"><a href="#cb13-166" aria-hidden="true" tabindex="-1"></a>    pp<span class="op">=</span>omega<span class="op">**</span><span class="dv">2</span><span class="op">/</span>(tau4<span class="op">-</span>omega<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb13-167"><a href="#cb13-167" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-168"><a href="#cb13-168" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
-<span id="cb13-169"><a href="#cb13-169" aria-hidden="true" tabindex="-1"></a>    Eig<span class="op">=</span>np.linalg.eigh(sigma)                     </span>
-<span id="cb13-170"><a href="#cb13-170" aria-hidden="true" tabindex="-1"></a>    logeig<span class="op">=</span>np.sort(np.log(Eig[<span class="dv">0</span>])<span class="op">-</span>Eig[<span class="dv">0</span>])     </span>
-<span id="cb13-171"><a href="#cb13-171" aria-hidden="true" tabindex="-1"></a>    delta<span class="op">=</span>np.zeros(<span class="bu">len</span>(logeig)<span class="op">-</span><span class="dv">1</span>)</span>
-<span id="cb13-172"><a href="#cb13-172" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(logeig)<span class="op">-</span><span class="dv">1</span>):</span>
-<span id="cb13-173"><a href="#cb13-173" aria-hidden="true" tabindex="-1"></a>        delta[j]<span class="op">=</span><span class="bu">abs</span>(logeig[j]<span class="op">-</span>logeig[j<span class="op">+</span><span class="dv">1</span>])    </span>
-<span id="cb13-174"><a href="#cb13-174" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-175"><a href="#cb13-175" aria-hidden="true" tabindex="-1"></a>    k<span class="op">=</span>np.argmax(delta)<span class="op">+</span><span class="dv">1</span>         </span>
-<span id="cb13-176"><a href="#cb13-176" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-177"><a href="#cb13-177" aria-hidden="true" tabindex="-1"></a>    indi<span class="op">=</span>[]</span>
-<span id="cb13-178"><a href="#cb13-178" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> l <span class="kw">in</span> <span class="bu">range</span>(k):</span>
-<span id="cb13-179"><a href="#cb13-179" aria-hidden="true" tabindex="-1"></a>        indi.append(np.where(np.log(Eig[<span class="dv">0</span>])<span class="op">-</span>Eig[<span class="dv">0</span>]<span class="op">==</span>logeig[l])[<span class="dv">0</span>][<span class="dv">0</span>])</span>
-<span id="cb13-180"><a href="#cb13-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-181"><a href="#cb13-181" aria-hidden="true" tabindex="-1"></a>    P1<span class="op">=</span>np.array(Eig[<span class="dv">1</span>][:,indi[<span class="dv">0</span>]],ndmin<span class="op">=</span><span class="dv">2</span>).T</span>
-<span id="cb13-182"><a href="#cb13-182" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> l <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>,k):</span>
-<span id="cb13-183"><a href="#cb13-183" aria-hidden="true" tabindex="-1"></a>        P1<span class="op">=</span>np.concatenate((P1,np.array(Eig[<span class="dv">1</span>][:,indi[l]],ndmin<span class="op">=</span><span class="dv">2</span>).T)<span class="op">\</span></span>
-<span id="cb13-184"><a href="#cb13-184" aria-hidden="true" tabindex="-1"></a>                          ,axis<span class="op">=</span><span class="dv">1</span>)     </span>
-<span id="cb13-185"><a href="#cb13-185" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb13-186"><a href="#cb13-186" aria-hidden="true" tabindex="-1"></a>    diagsi<span class="op">=</span>np.diag(Eig[<span class="dv">0</span>][indi])                           </span>
-<span id="cb13-187"><a href="#cb13-187" aria-hidden="true" tabindex="-1"></a>    sig_opt_d<span class="op">=</span>P1.dot((diagsi<span class="op">-</span>np.eye(k))).dot(P1.T)<span class="op">+</span>np.eye(n)</span>
-<span id="cb13-188"><a href="#cb13-188" aria-hidden="true" tabindex="-1"></a>    SIP.append(sig_opt_d)</span>
-<span id="cb13-189"><a href="#cb13-189" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-190"><a href="#cb13-190" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
-<span id="cb13-191"><a href="#cb13-191" aria-hidden="true" tabindex="-1"></a>    diagsist<span class="op">=</span>P1st.T.dot(sigma).dot(P1st)                   </span>
-<span id="cb13-192"><a href="#cb13-192" aria-hidden="true" tabindex="-1"></a>    sig_opt<span class="op">=</span>P1st.dot(diagsist<span class="op">-</span>np.eye(k_st)).dot(P1st.T)<span class="op">+</span>np.eye(n)</span>
-<span id="cb13-193"><a href="#cb13-193" aria-hidden="true" tabindex="-1"></a>    SIPst.append(sig_opt)</span>
-<span id="cb13-194"><a href="#cb13-194" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-195"><a href="#cb13-195" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
-<span id="cb13-196"><a href="#cb13-196" aria-hidden="true" tabindex="-1"></a>    Norm_mm<span class="op">=</span>np.linalg.norm(mm)               </span>
-<span id="cb13-197"><a href="#cb13-197" aria-hidden="true" tabindex="-1"></a>    normalised_mm<span class="op">=</span>np.array(mm,ndmin<span class="op">=</span><span class="dv">2</span>).T<span class="op">/</span>Norm_mm        </span>
-<span id="cb13-198"><a href="#cb13-198" aria-hidden="true" tabindex="-1"></a>    vhat<span class="op">=</span>normalised_mm.T.dot(sigma).dot(normalised_mm)          </span>
-<span id="cb13-199"><a href="#cb13-199" aria-hidden="true" tabindex="-1"></a>    sig_mean_d<span class="op">=</span>(vhat<span class="op">-</span><span class="dv">1</span>)<span class="op">*</span>normalised_mm.dot(normalised_mm.T)<span class="op">+</span>np.eye(n) </span>
-<span id="cb13-200"><a href="#cb13-200" aria-hidden="true" tabindex="-1"></a>    SIM.append(sig_mean_d)</span>
-<span id="cb13-201"><a href="#cb13-201" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-202"><a href="#cb13-202" aria-hidden="true" tabindex="-1"></a>   <span class="co">### MODIF : Sigma_opt=Sigma_mean donc inutile de recalculer</span></span>
-<span id="cb13-203"><a href="#cb13-203" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-204"><a href="#cb13-204" aria-hidden="true" tabindex="-1"></a><span class="co">#     Norm_Mstar=np.linalg.norm(Mstar)               </span></span>
-<span id="cb13-205"><a href="#cb13-205" aria-hidden="true" tabindex="-1"></a><span class="co">#     normalised_Mstar=np.array(Mstar,ndmin=2).T/Norm_Mstar   </span></span>
-<span id="cb13-206"><a href="#cb13-206" aria-hidden="true" tabindex="-1"></a><span class="co">#     vhatst=normalised_Mstar.T.dot(sigma).dot(normalised_Mstar)      </span></span>
-<span id="cb13-207"><a href="#cb13-207" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-208"><a href="#cb13-208" aria-hidden="true" tabindex="-1"></a><span class="co">#     sig_mean=(vhatst-1)*normalised_Mstar.dot(normalised_Mstar.T)+np.eye(n) </span></span>
-<span id="cb13-209"><a href="#cb13-209" aria-hidden="true" tabindex="-1"></a><span class="co">#     SIMst.append(sig_mean)</span></span>
-<span id="cb13-210"><a href="#cb13-210" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-211"><a href="#cb13-211" aria-hidden="true" tabindex="-1"></a><span class="co">############################################# Estimation of the integral</span></span>
-<span id="cb13-212"><a href="#cb13-212" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
-<span id="cb13-213"><a href="#cb13-213" aria-hidden="true" tabindex="-1"></a>    Xop<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>Sigstar,size<span class="op">=</span>N)              </span>
-<span id="cb13-214"><a href="#cb13-214" aria-hidden="true" tabindex="-1"></a>    wop<span class="op">=</span>mypi(Xop)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xop,mean<span class="op">=</span>mm, cov<span class="op">=</span>Sigstar)       </span>
-<span id="cb13-215"><a href="#cb13-215" aria-hidden="true" tabindex="-1"></a>    Eopt[i]<span class="op">=</span>np.mean(wop)                                                     </span>
-<span id="cb13-216"><a href="#cb13-216" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-217"><a href="#cb13-217" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
-<span id="cb13-218"><a href="#cb13-218" aria-hidden="true" tabindex="-1"></a>    Xis<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>sigma,size<span class="op">=</span>N)</span>
-<span id="cb13-219"><a href="#cb13-219" aria-hidden="true" tabindex="-1"></a>    wis<span class="op">=</span>mypi(Xis)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xis,mean<span class="op">=</span>mm, cov<span class="op">=</span>sigma)</span>
-<span id="cb13-220"><a href="#cb13-220" aria-hidden="true" tabindex="-1"></a>    EIS[i]<span class="op">=</span>np.mean(wis)</span>
-<span id="cb13-221"><a href="#cb13-221" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-222"><a href="#cb13-222" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
-<span id="cb13-223"><a href="#cb13-223" aria-hidden="true" tabindex="-1"></a>    Xpr<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>sig_opt_d,size<span class="op">=</span>N)</span>
-<span id="cb13-224"><a href="#cb13-224" aria-hidden="true" tabindex="-1"></a>    wpr<span class="op">=</span>mypi(Xpr)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xpr,mean<span class="op">=</span>mm,<span class="op">\</span></span>
-<span id="cb13-225"><a href="#cb13-225" aria-hidden="true" tabindex="-1"></a>                                                   cov<span class="op">=</span>sig_opt_d)</span>
-<span id="cb13-226"><a href="#cb13-226" aria-hidden="true" tabindex="-1"></a>    Eprj[i]<span class="op">=</span>np.mean(wpr)</span>
-<span id="cb13-227"><a href="#cb13-227" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-228"><a href="#cb13-228" aria-hidden="true" tabindex="-1"></a>   <span class="co">###   </span></span>
-<span id="cb13-229"><a href="#cb13-229" aria-hidden="true" tabindex="-1"></a>    Xpm<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>sig_mean_d,size<span class="op">=</span>N)</span>
-<span id="cb13-230"><a href="#cb13-230" aria-hidden="true" tabindex="-1"></a>    wpm<span class="op">=</span>mypi(Xpm)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xpm,mean<span class="op">=</span>mm,<span class="op">\</span></span>
-<span id="cb13-231"><a href="#cb13-231" aria-hidden="true" tabindex="-1"></a>                                                   cov<span class="op">=</span>sig_mean_d)</span>
-<span id="cb13-232"><a href="#cb13-232" aria-hidden="true" tabindex="-1"></a>    Eprm[i]<span class="op">=</span>np.mean(wpm)</span>
-<span id="cb13-233"><a href="#cb13-233" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-234"><a href="#cb13-234" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
-<span id="cb13-235"><a href="#cb13-235" aria-hidden="true" tabindex="-1"></a>    Xprst<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>sig_opt,size<span class="op">=</span>N)</span>
-<span id="cb13-236"><a href="#cb13-236" aria-hidden="true" tabindex="-1"></a>    wprst<span class="op">=</span>mypi(Xprst)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xprst,mean<span class="op">=</span>mm, <span class="op">\</span></span>
-<span id="cb13-237"><a href="#cb13-237" aria-hidden="true" tabindex="-1"></a>                                                       cov<span class="op">=</span>sig_opt)</span>
-<span id="cb13-238"><a href="#cb13-238" aria-hidden="true" tabindex="-1"></a>    Eprjst[i]<span class="op">=</span>np.mean(wprst)</span>
-<span id="cb13-239"><a href="#cb13-239" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-240"><a href="#cb13-240" aria-hidden="true" tabindex="-1"></a>   <span class="co">###</span></span>
-<span id="cb13-241"><a href="#cb13-241" aria-hidden="true" tabindex="-1"></a>    Xvmfn <span class="op">=</span> vMFNM_sample(mu, kappa, omega, pp, <span class="dv">1</span>, N)</span>
-<span id="cb13-242"><a href="#cb13-242" aria-hidden="true" tabindex="-1"></a>    Rvn<span class="op">=</span>np.sqrt(np.<span class="bu">sum</span>(Xvmfn<span class="op">**</span><span class="dv">2</span>,axis<span class="op">=</span><span class="dv">1</span>))</span>
-<span id="cb13-243"><a href="#cb13-243" aria-hidden="true" tabindex="-1"></a>    Xvnu<span class="op">=</span>Xvmfn.T<span class="op">/</span>Rvn</span>
-<span id="cb13-244"><a href="#cb13-244" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb13-245"><a href="#cb13-245" aria-hidden="true" tabindex="-1"></a>    h_log<span class="op">=</span>vMF_logpdf(Xvnu,mu.T,kappa)<span class="op">+</span>nakagami_logpdf(Rvn,pp,omega)</span>
-<span id="cb13-246"><a href="#cb13-246" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> np.log(n) <span class="op">+</span> np.log(np.pi <span class="op">**</span> (n <span class="op">/</span> <span class="dv">2</span>)) <span class="op">-</span> sp.special.gammaln(n <span class="op">/</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb13-247"><a href="#cb13-247" aria-hidden="true" tabindex="-1"></a>    f_u <span class="op">=</span> <span class="op">-</span>A       </span>
-<span id="cb13-248"><a href="#cb13-248" aria-hidden="true" tabindex="-1"></a>    f_chi <span class="op">=</span> (np.log(<span class="dv">2</span>) <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> n <span class="op">/</span> <span class="dv">2</span>) <span class="op">+</span> np.log(Rvn) <span class="op">*</span> (n <span class="op">-</span> <span class="dv">1</span>) <span class="op">-</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="op">\</span></span>
-<span id="cb13-249"><a href="#cb13-249" aria-hidden="true" tabindex="-1"></a>             Rvn <span class="op">**</span> <span class="dv">2</span> <span class="op">-</span> sp.special.gammaln(n <span class="op">/</span> <span class="dv">2</span>)) </span>
-<span id="cb13-250"><a href="#cb13-250" aria-hidden="true" tabindex="-1"></a>    f_log <span class="op">=</span> f_u <span class="op">+</span> f_chi</span>
-<span id="cb13-251"><a href="#cb13-251" aria-hidden="true" tabindex="-1"></a>    W_log <span class="op">=</span> f_log <span class="op">-</span> h_log</span>
-<span id="cb13-252"><a href="#cb13-252" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-253"><a href="#cb13-253" aria-hidden="true" tabindex="-1"></a>    wvmfn<span class="op">=</span>(phi(Xvmfn)<span class="op">&gt;</span><span class="dv">0</span>)<span class="op">*</span>np.exp(W_log)          </span>
-<span id="cb13-254"><a href="#cb13-254" aria-hidden="true" tabindex="-1"></a>    Evmfn[i]<span class="op">=</span>np.mean(wvmfn)</span>
-<span id="cb13-255"><a href="#cb13-255" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-256"><a href="#cb13-256" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Eprjst)</span>
-<span id="cb13-257"><a href="#cb13-257" aria-hidden="true" tabindex="-1"></a><span class="co">### KL divergences    </span></span>
-<span id="cb13-258"><a href="#cb13-258" aria-hidden="true" tabindex="-1"></a>dkli<span class="op">=</span>np.zeros(B)</span>
-<span id="cb13-259"><a href="#cb13-259" aria-hidden="true" tabindex="-1"></a>dklp<span class="op">=</span>np.zeros(B)</span>
-<span id="cb13-260"><a href="#cb13-260" aria-hidden="true" tabindex="-1"></a>dklm<span class="op">=</span>np.zeros(B)</span>
-<span id="cb13-261"><a href="#cb13-261" aria-hidden="true" tabindex="-1"></a>dklpst<span class="op">=</span>np.zeros(B)</span>
-<span id="cb13-262"><a href="#cb13-262" aria-hidden="true" tabindex="-1"></a><span class="co">#dklmst=np.zeros(B)</span></span>
-<span id="cb13-263"><a href="#cb13-263" aria-hidden="true" tabindex="-1"></a>dklpca<span class="op">=</span>np.zeros(B)</span>
-<span id="cb13-264"><a href="#cb13-264" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-265"><a href="#cb13-265" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(B):</span>
-<span id="cb13-266"><a href="#cb13-266" aria-hidden="true" tabindex="-1"></a>    dkli[i]<span class="op">=</span>np.log(np.linalg.det(SI[i]))<span class="op">+</span><span class="bu">sum</span>(np.diag(Sigstar.dot<span class="op">\</span></span>
-<span id="cb13-267"><a href="#cb13-267" aria-hidden="true" tabindex="-1"></a>                                            (np.linalg.inv(SI[i]))))      </span>
-<span id="cb13-268"><a href="#cb13-268" aria-hidden="true" tabindex="-1"></a>    dklp[i]<span class="op">=</span>np.log(np.linalg.det(SIP[i]))<span class="op">+</span><span class="bu">sum</span>(np.diag(Sigstar.dot<span class="op">\</span></span>
-<span id="cb13-269"><a href="#cb13-269" aria-hidden="true" tabindex="-1"></a>                                            (np.linalg.inv(SIP[i]))))        </span>
-<span id="cb13-270"><a href="#cb13-270" aria-hidden="true" tabindex="-1"></a>    dklm[i]<span class="op">=</span>np.log(np.linalg.det(SIM[i]))<span class="op">+</span><span class="bu">sum</span>(np.diag(Sigstar.dot<span class="op">\</span></span>
-<span id="cb13-271"><a href="#cb13-271" aria-hidden="true" tabindex="-1"></a>                                            (np.linalg.inv(SIM[i]))))</span>
-<span id="cb13-272"><a href="#cb13-272" aria-hidden="true" tabindex="-1"></a>    dklpst[i]<span class="op">=</span>np.log(np.linalg.det(SIPst[i]))<span class="op">+</span><span class="bu">sum</span>(np.diag(Sigstar.dot<span class="op">\</span></span>
-<span id="cb13-273"><a href="#cb13-273" aria-hidden="true" tabindex="-1"></a>                                            (np.linalg.inv(SIPst[i]))))</span>
-<span id="cb13-274"><a href="#cb13-274" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-275"><a href="#cb13-275" aria-hidden="true" tabindex="-1"></a>Tabresult<span class="op">=</span>np.zeros((<span class="dv">3</span>,<span class="dv">7</span>)) <span class="co"># table of results</span></span>
-<span id="cb13-276"><a href="#cb13-276" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-277"><a href="#cb13-277" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">0</span>]<span class="op">=</span>np.log(np.linalg.det(Sigstar))<span class="op">+</span>n</span>
-<span id="cb13-278"><a href="#cb13-278" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">1</span>]<span class="op">=</span>np.mean(dkli)</span>
-<span id="cb13-279"><a href="#cb13-279" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">2</span>]<span class="op">=</span>np.mean(dklpst)</span>
-<span id="cb13-280"><a href="#cb13-280" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">3</span>]<span class="op">=</span>np.mean(dklpst)</span>
-<span id="cb13-281"><a href="#cb13-281" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">4</span>]<span class="op">=</span>np.mean(dklp)</span>
-<span id="cb13-282"><a href="#cb13-282" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">5</span>]<span class="op">=</span>np.mean(dklm)</span>
-<span id="cb13-283"><a href="#cb13-283" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">6</span>]<span class="op">=</span><span class="va">None</span></span>
-<span id="cb13-284"><a href="#cb13-284" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-285"><a href="#cb13-285" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">0</span>]<span class="op">=</span>np.mean(Eopt<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb13-286"><a href="#cb13-286" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">=</span>np.mean(EIS<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb13-287"><a href="#cb13-287" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">2</span>]<span class="op">=</span>np.mean(Eprjst<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb13-288"><a href="#cb13-288" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">3</span>]<span class="op">=</span>np.mean(Eprjst<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb13-289"><a href="#cb13-289" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">4</span>]<span class="op">=</span>np.mean(Eprj<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb13-290"><a href="#cb13-290" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">5</span>]<span class="op">=</span>np.mean(Eprm<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb13-291"><a href="#cb13-291" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">6</span>]<span class="op">=</span>np.mean(Evmfn<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb13-292"><a href="#cb13-292" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-293"><a href="#cb13-293" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">0</span>]<span class="op">=</span>np.sqrt(np.mean((Eopt<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb13-294"><a href="#cb13-294" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">1</span>]<span class="op">=</span>np.sqrt(np.mean((EIS<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb13-295"><a href="#cb13-295" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">2</span>]<span class="op">=</span>np.sqrt(np.mean((Eprjst<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb13-296"><a href="#cb13-296" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">3</span>]<span class="op">=</span>np.sqrt(np.mean((Eprjst<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb13-297"><a href="#cb13-297" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">4</span>]<span class="op">=</span>np.sqrt(np.mean((Eprj<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb13-298"><a href="#cb13-298" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">5</span>]<span class="op">=</span>np.sqrt(np.mean((Eprm<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb13-299"><a href="#cb13-299" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">6</span>]<span class="op">=</span>np.sqrt(np.mean((Evmfn<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb13-300"><a href="#cb13-300" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-301"><a href="#cb13-301" aria-hidden="true" tabindex="-1"></a>Tabresult<span class="op">=</span>np.<span class="bu">round</span>(Tabresult,<span class="dv">1</span>)</span>
-<span id="cb13-302"><a href="#cb13-302" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-303"><a href="#cb13-303" aria-hidden="true" tabindex="-1"></a>table<span class="op">=</span>[[<span class="st">"D'"</span>,Tabresult[<span class="dv">0</span>,<span class="dv">0</span>],Tabresult[<span class="dv">0</span>,<span class="dv">1</span>],Tabresult[<span class="dv">0</span>,<span class="dv">2</span>],Tabresult[<span class="dv">0</span>,<span class="dv">3</span>],</span>
-<span id="cb13-304"><a href="#cb13-304" aria-hidden="true" tabindex="-1"></a>        Tabresult[<span class="dv">0</span>,<span class="dv">4</span>],Tabresult[<span class="dv">0</span>,<span class="dv">5</span>],<span class="st">"/"</span>],</span>
-<span id="cb13-305"><a href="#cb13-305" aria-hidden="true" tabindex="-1"></a>      [<span class="st">"Relative error (\%)"</span>,Tabresult[<span class="dv">1</span>,<span class="dv">0</span>],Tabresult[<span class="dv">1</span>,<span class="dv">1</span>],</span>
-<span id="cb13-306"><a href="#cb13-306" aria-hidden="true" tabindex="-1"></a>       Tabresult[<span class="dv">1</span>,<span class="dv">2</span>],Tabresult[<span class="dv">1</span>,<span class="dv">3</span>],Tabresult[<span class="dv">1</span>,<span class="dv">4</span>],Tabresult[<span class="dv">1</span>,<span class="dv">5</span>],Tabresult[<span class="dv">1</span>,<span class="dv">6</span>]],</span>
-<span id="cb13-307"><a href="#cb13-307" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"Coefficient of variation (\%)"</span>,Tabresult[<span class="dv">2</span>,<span class="dv">0</span>],Tabresult[<span class="dv">2</span>,<span class="dv">1</span>],</span>
-<span id="cb13-308"><a href="#cb13-308" aria-hidden="true" tabindex="-1"></a>     Tabresult[<span class="dv">2</span>,<span class="dv">2</span>],Tabresult[<span class="dv">2</span>,<span class="dv">3</span>],Tabresult[<span class="dv">2</span>,<span class="dv">4</span>],Tabresult[<span class="dv">2</span>,<span class="dv">5</span>],Tabresult[<span class="dv">2</span>,<span class="dv">6</span>]]]</span>
-<span id="cb13-309"><a href="#cb13-309" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-310"><a href="#cb13-310" aria-hidden="true" tabindex="-1"></a>Markdown(tabulate(</span>
-<span id="cb13-311"><a href="#cb13-311" aria-hidden="true" tabindex="-1"></a>  table, </span>
-<span id="cb13-312"><a href="#cb13-312" aria-hidden="true" tabindex="-1"></a>  headers<span class="op">=</span>[<span class="st">""</span>,<span class="st">"$\Sigma^*$"</span>, <span class="st">"$\widehat{\Sigma}^*$"</span>, <span class="st">"$\widehat{\Sigma}_</span><span class="sc">{opt}</span><span class="st">$"</span>,<span class="op">\</span></span>
-<span id="cb13-313"><a href="#cb13-313" aria-hidden="true" tabindex="-1"></a>           <span class="st">"$\widehat{\Sigma}_</span><span class="sc">{mean}</span><span class="st">$"</span>, <span class="st">"${\widehat{\Sigma}^{+d}_</span><span class="sc">{opt}</span><span class="st">}$"</span>,<span class="op">\</span></span>
-<span id="cb13-314"><a href="#cb13-314" aria-hidden="true" tabindex="-1"></a>           <span class="st">"$\widehat{\Sigma}^{+d}_</span><span class="sc">{mean}</span><span class="st">$"</span>, <span class="st">"vMFN"</span>],</span>
-<span id="cb13-315"><a href="#cb13-315" aria-hidden="true" tabindex="-1"></a>    tablefmt<span class="op">=</span><span class="st">"pipe"</span>))</span>
-<span id="cb13-316"><a href="#cb13-316" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb13-317"><a href="#cb13-317" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-320"><a href="#cb13-320" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb13-321"><a href="#cb13-321" aria-hidden="true" tabindex="-1"></a>np.random.rand(<span class="dv">1</span>,<span class="dv">1</span>)</span>
-<span id="cb13-322"><a href="#cb13-322" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb13-323"><a href="#cb13-323" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-326"><a href="#cb13-326" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb13-327"><a href="#cb13-327" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Eprjst)</span>
-<span id="cb13-328"><a href="#cb13-328" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb13-329"><a href="#cb13-329" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-332"><a href="#cb13-332" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb13-333"><a href="#cb13-333" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Xprst)</span>
-<span id="cb13-334"><a href="#cb13-334" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<div class="sourceCode" id="cb27" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> Optimal projection for parametric importance sampling in high dimension</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Maxime El Masri</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation: '[ONERA/DTIS](https://www.onera.fr/), [ISAE-SUPAERO](https://www.isae-supaero.fr/), [Université de Toulouse](https://www.univ-toulouse.fr/)'</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co">    orcid: 0000-0002-9127-4503</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Jérôme Morio</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co">    url: 'https://www.onera.fr/en/staff/jerome-morio?destination=node/981'</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation: '[ONERA/DTIS](https://www.onera.fr/), [Université de Toulouse](https://www.univ-toulouse.fr/)'</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="co">    orcid: 0000-0002-8811-8956</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Florian Simatos</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="co">    url: 'https://pagespro.isae-supaero.fr/florian-simatos/'</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation: '[ISAE-SUPAERO](https://www.isae-supaero.fr/), [Université de Toulouse](https://www.univ-toulouse.fr/)'</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> last-modified</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> |</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="co">  This document provides a dimension-reduction strategy in order to improve the performance of importance sampling in high dimension.</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="an">abstract:</span><span class="co"> |</span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a><span class="co">  In this paper we propose a dimension-reduction strategy in order to improve the performance of importance sampling in high dimension. The idea is to estimate variance terms in a small number of suitably chosen directions. We first prove that the optimal directions, i.e., the ones that minimize the Kullback--Leibler divergence with the optimal auxiliary density, are the eigenvectors associated to extreme (small or large) eigenvalues of the optimal covariance matrix. We then perform extensive numerical experiments that show that as dimension increases, these directions give estimations which are very close to optimal. Moreover, we show that the estimation remains accurate even when a simple empirical estimator of the covariance matrix is used to estimate these directions. These theoretical and numerical results open the way for different generalizations, in particular the incorporation of such ideas in adaptive importance sampling schemes.</span></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a><span class="an">keywords:</span></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a><span class="co">  - Importance sampling</span></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a><span class="co">  - High dimension</span></span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a><span class="co">  - Gaussian covariance matrix</span></span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a><span class="co">  - Kullback-Leibler divergence</span></span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a><span class="co">  - Projection</span></span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> references.bib</span></span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a><span class="an">github-user:</span><span class="co"> jmorio44</span></span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a><span class="an">repo:</span><span class="co"> optimal-projection-IS</span></span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a><span class="an">draft:</span><span class="co"> true</span></span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a><span class="an">published:</span><span class="co"> false</span></span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a><span class="co">  computo-html: default</span></span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a><span class="co">  computo-pdf: default</span></span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a><span class="co">  keep-ipynb: true</span></span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a><span class="an">jupyter:</span></span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a><span class="co">  jupytext:</span></span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a><span class="co">    text_representation:</span></span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a><span class="co">      extension: .qmd</span></span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a><span class="co">      format_name: quarto</span></span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a><span class="co">      format_version: '1.0'</span></span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a><span class="co">      jupytext_version: 1.14.2</span></span>
+<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a><span class="co">  kernelspec:</span></span>
+<span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a><span class="co">    display_name: Python 3 (ipykernel)</span></span>
+<span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a><span class="co">    language: python</span></span>
+<span id="cb27-45"><a href="#cb27-45" aria-hidden="true" tabindex="-1"></a><span class="co">    name: python3</span></span>
+<span id="cb27-46"><a href="#cb27-46" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb27-47"><a href="#cb27-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-50"><a href="#cb27-50" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb27-51"><a href="#cb27-51" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb27-52"><a href="#cb27-52" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy <span class="im">as</span> sp</span>
+<span id="cb27-53"><a href="#cb27-53" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pickle</span>
+<span id="cb27-54"><a href="#cb27-54" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.stats</span>
+<span id="cb27-55"><a href="#cb27-55" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb27-56"><a href="#cb27-56" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> CEIS_vMFNM <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb27-57"><a href="#cb27-57" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display, Math, Latex</span>
+<span id="cb27-58"><a href="#cb27-58" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
+<span id="cb27-59"><a href="#cb27-59" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tabulate <span class="im">import</span> tabulate</span>
+<span id="cb27-60"><a href="#cb27-60" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">10</span>)</span>
+<span id="cb27-61"><a href="#cb27-61" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-62"><a href="#cb27-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-65"><a href="#cb27-65" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb27-66"><a href="#cb27-66" aria-hidden="true" tabindex="-1"></a>np.random.rand(<span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb27-67"><a href="#cb27-67" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-68"><a href="#cb27-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-71"><a href="#cb27-71" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb27-72"><a href="#cb27-72" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sum</span></span>
+<span id="cb27-73"><a href="#cb27-73" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: 'Numerical comparison of the estimation of $E \approx 1.35\cdot 10^{-3}$ considering the Gaussian model with the six covariance matrices defined in @sec-def_cov and the vFMN model, when $\phi = \mathbb{I}_{\{\varphi\geq 0\}}$ with $\varphi$ the linear function given by @eq-sum. As explained in the text, ${\widehat{\Sigma}^{\text{}}_\text{mean}}$ and ${\widehat{\Sigma}^{\text{}}_\text{opt}}$ are actually equal in this case.'</span></span>
+<span id="cb27-74"><a href="#cb27-74" aria-hidden="true" tabindex="-1"></a><span class="co">###########################################################################</span></span>
+<span id="cb27-75"><a href="#cb27-75" aria-hidden="true" tabindex="-1"></a><span class="co"># Table 2. Numerical comparison on test case 1</span></span>
+<span id="cb27-76"><a href="#cb27-76" aria-hidden="true" tabindex="-1"></a><span class="co">###########################################################################</span></span>
+<span id="cb27-77"><a href="#cb27-77" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> Somme(x):</span>
+<span id="cb27-78"><a href="#cb27-78" aria-hidden="true" tabindex="-1"></a>    n<span class="op">=</span>np.shape(x)[<span class="dv">1</span>]</span>
+<span id="cb27-79"><a href="#cb27-79" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span>(np.<span class="bu">sum</span>(x,axis<span class="op">=</span><span class="dv">1</span>)<span class="op">-</span><span class="dv">3</span><span class="op">*</span>np.sqrt(n))</span>
+<span id="cb27-80"><a href="#cb27-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-81"><a href="#cb27-81" aria-hidden="true" tabindex="-1"></a>E<span class="op">=</span>sp.stats.norm.cdf(<span class="op">-</span><span class="dv">3</span>)  </span>
+<span id="cb27-82"><a href="#cb27-82" aria-hidden="true" tabindex="-1"></a>n<span class="op">=</span><span class="dv">100</span></span>
+<span id="cb27-83"><a href="#cb27-83" aria-hidden="true" tabindex="-1"></a>d<span class="op">=</span>n</span>
+<span id="cb27-84"><a href="#cb27-84" aria-hidden="true" tabindex="-1"></a><span class="co"># dimension</span></span>
+<span id="cb27-85"><a href="#cb27-85" aria-hidden="true" tabindex="-1"></a>phi<span class="op">=</span>Somme</span>
+<span id="cb27-86"><a href="#cb27-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-87"><a href="#cb27-87" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mypi(X):                   </span>
+<span id="cb27-88"><a href="#cb27-88" aria-hidden="true" tabindex="-1"></a>    n<span class="op">=</span>np.shape(X)[<span class="dv">1</span>]</span>
+<span id="cb27-89"><a href="#cb27-89" aria-hidden="true" tabindex="-1"></a>    f0<span class="op">=</span>sp.stats.multivariate_normal.pdf(X,mean<span class="op">=</span>np.zeros(n),cov<span class="op">=</span>np.eye(n))</span>
+<span id="cb27-90"><a href="#cb27-90" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span>((phi(X)<span class="op">&gt;</span><span class="dv">0</span>)<span class="op">*</span>f0)</span>
+<span id="cb27-91"><a href="#cb27-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-92"><a href="#cb27-92" aria-hidden="true" tabindex="-1"></a>N<span class="op">=</span><span class="dv">2000</span>   </span>
+<span id="cb27-93"><a href="#cb27-93" aria-hidden="true" tabindex="-1"></a>M<span class="op">=</span><span class="dv">500</span>   </span>
+<span id="cb27-94"><a href="#cb27-94" aria-hidden="true" tabindex="-1"></a>B<span class="op">=</span><span class="dv">10</span>   <span class="co"># number of runs</span></span>
+<span id="cb27-95"><a href="#cb27-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-96"><a href="#cb27-96" aria-hidden="true" tabindex="-1"></a>Eopt<span class="op">=</span>np.zeros(B)</span>
+<span id="cb27-97"><a href="#cb27-97" aria-hidden="true" tabindex="-1"></a>EIS<span class="op">=</span>np.zeros(B)</span>
+<span id="cb27-98"><a href="#cb27-98" aria-hidden="true" tabindex="-1"></a>Eprj<span class="op">=</span>np.zeros(B)</span>
+<span id="cb27-99"><a href="#cb27-99" aria-hidden="true" tabindex="-1"></a>Eprm<span class="op">=</span>np.zeros(B)</span>
+<span id="cb27-100"><a href="#cb27-100" aria-hidden="true" tabindex="-1"></a>Eprjst<span class="op">=</span>np.zeros(B)</span>
+<span id="cb27-101"><a href="#cb27-101" aria-hidden="true" tabindex="-1"></a>Eprmst<span class="op">=</span>np.zeros(B)</span>
+<span id="cb27-102"><a href="#cb27-102" aria-hidden="true" tabindex="-1"></a>Evmfn<span class="op">=</span>np.zeros(B)</span>
+<span id="cb27-103"><a href="#cb27-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-104"><a href="#cb27-104" aria-hidden="true" tabindex="-1"></a>SI<span class="op">=</span>[]</span>
+<span id="cb27-105"><a href="#cb27-105" aria-hidden="true" tabindex="-1"></a>SIP<span class="op">=</span>[]</span>
+<span id="cb27-106"><a href="#cb27-106" aria-hidden="true" tabindex="-1"></a>SIPst<span class="op">=</span>[]</span>
+<span id="cb27-107"><a href="#cb27-107" aria-hidden="true" tabindex="-1"></a>SIM<span class="op">=</span>[]</span>
+<span id="cb27-108"><a href="#cb27-108" aria-hidden="true" tabindex="-1"></a>SIMst<span class="op">=</span>[]</span>
+<span id="cb27-109"><a href="#cb27-109" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.random.rand(<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb27-110"><a href="#cb27-110" aria-hidden="true" tabindex="-1"></a><span class="co"># Mstar</span></span>
+<span id="cb27-111"><a href="#cb27-111" aria-hidden="true" tabindex="-1"></a>alpha<span class="op">=</span>np.exp(<span class="op">-</span><span class="dv">3</span><span class="op">**</span><span class="dv">2</span><span class="op">/</span><span class="dv">2</span>)<span class="op">/</span>(E<span class="op">*</span>np.sqrt(<span class="dv">2</span><span class="op">*</span>np.pi))</span>
+<span id="cb27-112"><a href="#cb27-112" aria-hidden="true" tabindex="-1"></a>Mstar<span class="op">=</span>alpha<span class="op">*</span>np.ones(d)<span class="op">/</span>np.sqrt(d)</span>
+<span id="cb27-113"><a href="#cb27-113" aria-hidden="true" tabindex="-1"></a><span class="co"># Sigmastar</span></span>
+<span id="cb27-114"><a href="#cb27-114" aria-hidden="true" tabindex="-1"></a>vstar<span class="op">=</span><span class="dv">3</span><span class="op">*</span>alpha<span class="op">-</span>alpha<span class="op">**</span><span class="dv">2</span><span class="op">+</span><span class="dv">1</span></span>
+<span id="cb27-115"><a href="#cb27-115" aria-hidden="true" tabindex="-1"></a>Sigstar<span class="op">=</span> (vstar<span class="op">-</span><span class="dv">1</span>)<span class="op">*</span>np.ones((d,d))<span class="op">/</span>d<span class="op">+</span>np.eye(d)</span>
+<span id="cb27-116"><a href="#cb27-116" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-117"><a href="#cb27-117" aria-hidden="true" tabindex="-1"></a>Eigst<span class="op">=</span>np.linalg.eigh(Sigstar)                        </span>
+<span id="cb27-118"><a href="#cb27-118" aria-hidden="true" tabindex="-1"></a>logeigst<span class="op">=</span>np.sort(np.log(Eigst[<span class="dv">0</span>])<span class="op">-</span>Eigst[<span class="dv">0</span>])         </span>
+<span id="cb27-119"><a href="#cb27-119" aria-hidden="true" tabindex="-1"></a>deltast<span class="op">=</span>np.zeros(<span class="bu">len</span>(logeigst)<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb27-120"><a href="#cb27-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-121"><a href="#cb27-121" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(logeigst)<span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb27-122"><a href="#cb27-122" aria-hidden="true" tabindex="-1"></a>    deltast[i]<span class="op">=</span><span class="bu">abs</span>(logeigst[i]<span class="op">-</span>logeigst[i<span class="op">+</span><span class="dv">1</span>])         </span>
+<span id="cb27-123"><a href="#cb27-123" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-124"><a href="#cb27-124" aria-hidden="true" tabindex="-1"></a><span class="co">## choice of the number of dimension</span></span>
+<span id="cb27-125"><a href="#cb27-125" aria-hidden="true" tabindex="-1"></a>k_st<span class="op">=</span>np.argmax(deltast)<span class="op">+</span><span class="dv">1</span>     </span>
+<span id="cb27-126"><a href="#cb27-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-127"><a href="#cb27-127" aria-hidden="true" tabindex="-1"></a>indist<span class="op">=</span>[]</span>
+<span id="cb27-128"><a href="#cb27-128" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(k_st):</span>
+<span id="cb27-129"><a href="#cb27-129" aria-hidden="true" tabindex="-1"></a>    indist.append(np.where(np.log(Eigst[<span class="dv">0</span>])<span class="op">-</span>Eigst[<span class="dv">0</span>]<span class="op">==</span>logeigst[i])[<span class="dv">0</span>][<span class="dv">0</span>])           </span>
+<span id="cb27-130"><a href="#cb27-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-131"><a href="#cb27-131" aria-hidden="true" tabindex="-1"></a>P1st<span class="op">=</span>np.array(Eigst[<span class="dv">1</span>][:,indist[<span class="dv">0</span>]],ndmin<span class="op">=</span><span class="dv">2</span>).T</span>
+<span id="cb27-132"><a href="#cb27-132" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>,k_st):</span>
+<span id="cb27-133"><a href="#cb27-133" aria-hidden="true" tabindex="-1"></a>    P1st<span class="op">=</span>np.concatenate((P1st,np.array(Eigst[<span class="dv">1</span>][:,indist[i]],ndmin<span class="op">=</span><span class="dv">2</span>).T)<span class="op">\</span></span>
+<span id="cb27-134"><a href="#cb27-134" aria-hidden="true" tabindex="-1"></a>                        ,axis<span class="op">=</span><span class="dv">1</span>)    <span class="co"># matrix of influential directions   </span></span>
+<span id="cb27-135"><a href="#cb27-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-136"><a href="#cb27-136" aria-hidden="true" tabindex="-1"></a><span class="co">#np.random.seed(0)</span></span>
+<span id="cb27-137"><a href="#cb27-137" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(B):</span>
+<span id="cb27-138"><a href="#cb27-138" aria-hidden="true" tabindex="-1"></a><span class="co">############################# Estimation of the matrices</span></span>
+<span id="cb27-139"><a href="#cb27-139" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-140"><a href="#cb27-140" aria-hidden="true" tabindex="-1"></a>   <span class="co">## g*-sample of size M</span></span>
+<span id="cb27-141"><a href="#cb27-141" aria-hidden="true" tabindex="-1"></a>    VA<span class="op">=</span>sp.stats.multivariate_normal(np.zeros(n),np.eye(n))      </span>
+<span id="cb27-142"><a href="#cb27-142" aria-hidden="true" tabindex="-1"></a>    X0<span class="op">=</span>VA.rvs(size<span class="op">=</span>M<span class="op">*</span><span class="dv">1000</span>)                   </span>
+<span id="cb27-143"><a href="#cb27-143" aria-hidden="true" tabindex="-1"></a>    ind<span class="op">=</span>(phi(X0)<span class="op">&gt;</span><span class="dv">0</span>)          </span>
+<span id="cb27-144"><a href="#cb27-144" aria-hidden="true" tabindex="-1"></a>    X1<span class="op">=</span>X0[ind,:]                             </span>
+<span id="cb27-145"><a href="#cb27-145" aria-hidden="true" tabindex="-1"></a>    X<span class="op">=</span>X1[:M,:]           </span>
+<span id="cb27-146"><a href="#cb27-146" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(X0)</span>
+<span id="cb27-147"><a href="#cb27-147" aria-hidden="true" tabindex="-1"></a>    R<span class="op">=</span>np.sqrt(np.<span class="bu">sum</span>(X<span class="op">**</span><span class="dv">2</span>,axis<span class="op">=</span><span class="dv">1</span>))   </span>
+<span id="cb27-148"><a href="#cb27-148" aria-hidden="true" tabindex="-1"></a>    Xu<span class="op">=</span>(X.T<span class="op">/</span>R).T                </span>
+<span id="cb27-149"><a href="#cb27-149" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-150"><a href="#cb27-150" aria-hidden="true" tabindex="-1"></a>   <span class="co">## estimated gaussian mean and covariance </span></span>
+<span id="cb27-151"><a href="#cb27-151" aria-hidden="true" tabindex="-1"></a>    mm<span class="op">=</span>np.mean(X,axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb27-152"><a href="#cb27-152" aria-hidden="true" tabindex="-1"></a>    Xc<span class="op">=</span>(X<span class="op">-</span>mm).T</span>
+<span id="cb27-153"><a href="#cb27-153" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span>Xc <span class="op">@</span> Xc.T<span class="op">/</span>np.shape(Xc)[<span class="dv">1</span>]  </span>
+<span id="cb27-154"><a href="#cb27-154" aria-hidden="true" tabindex="-1"></a>    SI.append(sigma)</span>
+<span id="cb27-155"><a href="#cb27-155" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-156"><a href="#cb27-156" aria-hidden="true" tabindex="-1"></a>   <span class="co">## von Mises Fisher parameters</span></span>
+<span id="cb27-157"><a href="#cb27-157" aria-hidden="true" tabindex="-1"></a>    normu<span class="op">=</span>np.sqrt(np.mean(Xu,axis<span class="op">=</span><span class="dv">0</span>).dot(np.mean(Xu,axis<span class="op">=</span><span class="dv">0</span>).T))</span>
+<span id="cb27-158"><a href="#cb27-158" aria-hidden="true" tabindex="-1"></a>    mu<span class="op">=</span>np.mean(Xu,axis<span class="op">=</span><span class="dv">0</span>)<span class="op">/</span>normu</span>
+<span id="cb27-159"><a href="#cb27-159" aria-hidden="true" tabindex="-1"></a>    mu<span class="op">=</span>np.array(mu,ndmin<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb27-160"><a href="#cb27-160" aria-hidden="true" tabindex="-1"></a>    chi<span class="op">=</span><span class="bu">min</span>(normu,<span class="fl">0.95</span>)</span>
+<span id="cb27-161"><a href="#cb27-161" aria-hidden="true" tabindex="-1"></a>    kappa<span class="op">=</span>(chi<span class="op">*</span>n<span class="op">-</span>chi<span class="op">**</span><span class="dv">3</span>)<span class="op">/</span>(<span class="dv">1</span><span class="op">-</span>chi<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb27-162"><a href="#cb27-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-163"><a href="#cb27-163" aria-hidden="true" tabindex="-1"></a>   <span class="co">## Nakagami parameters</span></span>
+<span id="cb27-164"><a href="#cb27-164" aria-hidden="true" tabindex="-1"></a>    omega<span class="op">=</span>np.mean(R<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb27-165"><a href="#cb27-165" aria-hidden="true" tabindex="-1"></a>    tau4<span class="op">=</span>np.mean(R<span class="op">**</span><span class="dv">4</span>)</span>
+<span id="cb27-166"><a href="#cb27-166" aria-hidden="true" tabindex="-1"></a>    pp<span class="op">=</span>omega<span class="op">**</span><span class="dv">2</span><span class="op">/</span>(tau4<span class="op">-</span>omega<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb27-167"><a href="#cb27-167" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-168"><a href="#cb27-168" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
+<span id="cb27-169"><a href="#cb27-169" aria-hidden="true" tabindex="-1"></a>    Eig<span class="op">=</span>np.linalg.eigh(sigma)                     </span>
+<span id="cb27-170"><a href="#cb27-170" aria-hidden="true" tabindex="-1"></a>    logeig<span class="op">=</span>np.sort(np.log(Eig[<span class="dv">0</span>])<span class="op">-</span>Eig[<span class="dv">0</span>])     </span>
+<span id="cb27-171"><a href="#cb27-171" aria-hidden="true" tabindex="-1"></a>    delta<span class="op">=</span>np.zeros(<span class="bu">len</span>(logeig)<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb27-172"><a href="#cb27-172" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(logeig)<span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb27-173"><a href="#cb27-173" aria-hidden="true" tabindex="-1"></a>        delta[j]<span class="op">=</span><span class="bu">abs</span>(logeig[j]<span class="op">-</span>logeig[j<span class="op">+</span><span class="dv">1</span>])    </span>
+<span id="cb27-174"><a href="#cb27-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-175"><a href="#cb27-175" aria-hidden="true" tabindex="-1"></a>    k<span class="op">=</span>np.argmax(delta)<span class="op">+</span><span class="dv">1</span>         </span>
+<span id="cb27-176"><a href="#cb27-176" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-177"><a href="#cb27-177" aria-hidden="true" tabindex="-1"></a>    indi<span class="op">=</span>[]</span>
+<span id="cb27-178"><a href="#cb27-178" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> l <span class="kw">in</span> <span class="bu">range</span>(k):</span>
+<span id="cb27-179"><a href="#cb27-179" aria-hidden="true" tabindex="-1"></a>        indi.append(np.where(np.log(Eig[<span class="dv">0</span>])<span class="op">-</span>Eig[<span class="dv">0</span>]<span class="op">==</span>logeig[l])[<span class="dv">0</span>][<span class="dv">0</span>])</span>
+<span id="cb27-180"><a href="#cb27-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-181"><a href="#cb27-181" aria-hidden="true" tabindex="-1"></a>    P1<span class="op">=</span>np.array(Eig[<span class="dv">1</span>][:,indi[<span class="dv">0</span>]],ndmin<span class="op">=</span><span class="dv">2</span>).T</span>
+<span id="cb27-182"><a href="#cb27-182" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> l <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>,k):</span>
+<span id="cb27-183"><a href="#cb27-183" aria-hidden="true" tabindex="-1"></a>        P1<span class="op">=</span>np.concatenate((P1,np.array(Eig[<span class="dv">1</span>][:,indi[l]],ndmin<span class="op">=</span><span class="dv">2</span>).T)<span class="op">\</span></span>
+<span id="cb27-184"><a href="#cb27-184" aria-hidden="true" tabindex="-1"></a>                          ,axis<span class="op">=</span><span class="dv">1</span>)     </span>
+<span id="cb27-185"><a href="#cb27-185" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb27-186"><a href="#cb27-186" aria-hidden="true" tabindex="-1"></a>    diagsi<span class="op">=</span>np.diag(Eig[<span class="dv">0</span>][indi])                           </span>
+<span id="cb27-187"><a href="#cb27-187" aria-hidden="true" tabindex="-1"></a>    sig_opt_d<span class="op">=</span>P1.dot((diagsi<span class="op">-</span>np.eye(k))).dot(P1.T)<span class="op">+</span>np.eye(n)</span>
+<span id="cb27-188"><a href="#cb27-188" aria-hidden="true" tabindex="-1"></a>    SIP.append(sig_opt_d)</span>
+<span id="cb27-189"><a href="#cb27-189" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-190"><a href="#cb27-190" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
+<span id="cb27-191"><a href="#cb27-191" aria-hidden="true" tabindex="-1"></a>    diagsist<span class="op">=</span>P1st.T.dot(sigma).dot(P1st)                   </span>
+<span id="cb27-192"><a href="#cb27-192" aria-hidden="true" tabindex="-1"></a>    sig_opt<span class="op">=</span>P1st.dot(diagsist<span class="op">-</span>np.eye(k_st)).dot(P1st.T)<span class="op">+</span>np.eye(n)</span>
+<span id="cb27-193"><a href="#cb27-193" aria-hidden="true" tabindex="-1"></a>    SIPst.append(sig_opt)</span>
+<span id="cb27-194"><a href="#cb27-194" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-195"><a href="#cb27-195" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
+<span id="cb27-196"><a href="#cb27-196" aria-hidden="true" tabindex="-1"></a>    Norm_mm<span class="op">=</span>np.linalg.norm(mm)               </span>
+<span id="cb27-197"><a href="#cb27-197" aria-hidden="true" tabindex="-1"></a>    normalised_mm<span class="op">=</span>np.array(mm,ndmin<span class="op">=</span><span class="dv">2</span>).T<span class="op">/</span>Norm_mm        </span>
+<span id="cb27-198"><a href="#cb27-198" aria-hidden="true" tabindex="-1"></a>    vhat<span class="op">=</span>normalised_mm.T.dot(sigma).dot(normalised_mm)          </span>
+<span id="cb27-199"><a href="#cb27-199" aria-hidden="true" tabindex="-1"></a>    sig_mean_d<span class="op">=</span>(vhat<span class="op">-</span><span class="dv">1</span>)<span class="op">*</span>normalised_mm.dot(normalised_mm.T)<span class="op">+</span>np.eye(n) </span>
+<span id="cb27-200"><a href="#cb27-200" aria-hidden="true" tabindex="-1"></a>    SIM.append(sig_mean_d)</span>
+<span id="cb27-201"><a href="#cb27-201" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-202"><a href="#cb27-202" aria-hidden="true" tabindex="-1"></a>   <span class="co">### MODIF : Sigma_opt=Sigma_mean donc inutile de recalculer</span></span>
+<span id="cb27-203"><a href="#cb27-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-204"><a href="#cb27-204" aria-hidden="true" tabindex="-1"></a><span class="co">#     Norm_Mstar=np.linalg.norm(Mstar)               </span></span>
+<span id="cb27-205"><a href="#cb27-205" aria-hidden="true" tabindex="-1"></a><span class="co">#     normalised_Mstar=np.array(Mstar,ndmin=2).T/Norm_Mstar   </span></span>
+<span id="cb27-206"><a href="#cb27-206" aria-hidden="true" tabindex="-1"></a><span class="co">#     vhatst=normalised_Mstar.T.dot(sigma).dot(normalised_Mstar)      </span></span>
+<span id="cb27-207"><a href="#cb27-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-208"><a href="#cb27-208" aria-hidden="true" tabindex="-1"></a><span class="co">#     sig_mean=(vhatst-1)*normalised_Mstar.dot(normalised_Mstar.T)+np.eye(n) </span></span>
+<span id="cb27-209"><a href="#cb27-209" aria-hidden="true" tabindex="-1"></a><span class="co">#     SIMst.append(sig_mean)</span></span>
+<span id="cb27-210"><a href="#cb27-210" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-211"><a href="#cb27-211" aria-hidden="true" tabindex="-1"></a><span class="co">############################################# Estimation of the integral</span></span>
+<span id="cb27-212"><a href="#cb27-212" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
+<span id="cb27-213"><a href="#cb27-213" aria-hidden="true" tabindex="-1"></a>    Xop<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>Sigstar,size<span class="op">=</span>N)              </span>
+<span id="cb27-214"><a href="#cb27-214" aria-hidden="true" tabindex="-1"></a>    wop<span class="op">=</span>mypi(Xop)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xop,mean<span class="op">=</span>mm, cov<span class="op">=</span>Sigstar)       </span>
+<span id="cb27-215"><a href="#cb27-215" aria-hidden="true" tabindex="-1"></a>    Eopt[i]<span class="op">=</span>np.mean(wop)                                                     </span>
+<span id="cb27-216"><a href="#cb27-216" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-217"><a href="#cb27-217" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
+<span id="cb27-218"><a href="#cb27-218" aria-hidden="true" tabindex="-1"></a>    Xis<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>sigma,size<span class="op">=</span>N)</span>
+<span id="cb27-219"><a href="#cb27-219" aria-hidden="true" tabindex="-1"></a>    wis<span class="op">=</span>mypi(Xis)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xis,mean<span class="op">=</span>mm, cov<span class="op">=</span>sigma)</span>
+<span id="cb27-220"><a href="#cb27-220" aria-hidden="true" tabindex="-1"></a>    EIS[i]<span class="op">=</span>np.mean(wis)</span>
+<span id="cb27-221"><a href="#cb27-221" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-222"><a href="#cb27-222" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
+<span id="cb27-223"><a href="#cb27-223" aria-hidden="true" tabindex="-1"></a>    Xpr<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>sig_opt_d,size<span class="op">=</span>N)</span>
+<span id="cb27-224"><a href="#cb27-224" aria-hidden="true" tabindex="-1"></a>    wpr<span class="op">=</span>mypi(Xpr)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xpr,mean<span class="op">=</span>mm,<span class="op">\</span></span>
+<span id="cb27-225"><a href="#cb27-225" aria-hidden="true" tabindex="-1"></a>                                                   cov<span class="op">=</span>sig_opt_d)</span>
+<span id="cb27-226"><a href="#cb27-226" aria-hidden="true" tabindex="-1"></a>    Eprj[i]<span class="op">=</span>np.mean(wpr)</span>
+<span id="cb27-227"><a href="#cb27-227" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-228"><a href="#cb27-228" aria-hidden="true" tabindex="-1"></a>   <span class="co">###   </span></span>
+<span id="cb27-229"><a href="#cb27-229" aria-hidden="true" tabindex="-1"></a>    Xpm<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>sig_mean_d,size<span class="op">=</span>N)</span>
+<span id="cb27-230"><a href="#cb27-230" aria-hidden="true" tabindex="-1"></a>    wpm<span class="op">=</span>mypi(Xpm)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xpm,mean<span class="op">=</span>mm,<span class="op">\</span></span>
+<span id="cb27-231"><a href="#cb27-231" aria-hidden="true" tabindex="-1"></a>                                                   cov<span class="op">=</span>sig_mean_d)</span>
+<span id="cb27-232"><a href="#cb27-232" aria-hidden="true" tabindex="-1"></a>    Eprm[i]<span class="op">=</span>np.mean(wpm)</span>
+<span id="cb27-233"><a href="#cb27-233" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-234"><a href="#cb27-234" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
+<span id="cb27-235"><a href="#cb27-235" aria-hidden="true" tabindex="-1"></a>    Xprst<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>sig_opt,size<span class="op">=</span>N)</span>
+<span id="cb27-236"><a href="#cb27-236" aria-hidden="true" tabindex="-1"></a>    wprst<span class="op">=</span>mypi(Xprst)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xprst,mean<span class="op">=</span>mm, <span class="op">\</span></span>
+<span id="cb27-237"><a href="#cb27-237" aria-hidden="true" tabindex="-1"></a>                                                       cov<span class="op">=</span>sig_opt)</span>
+<span id="cb27-238"><a href="#cb27-238" aria-hidden="true" tabindex="-1"></a>    Eprjst[i]<span class="op">=</span>np.mean(wprst)</span>
+<span id="cb27-239"><a href="#cb27-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-240"><a href="#cb27-240" aria-hidden="true" tabindex="-1"></a>   <span class="co">###</span></span>
+<span id="cb27-241"><a href="#cb27-241" aria-hidden="true" tabindex="-1"></a>    Xvmfn <span class="op">=</span> vMFNM_sample(mu, kappa, omega, pp, <span class="dv">1</span>, N)</span>
+<span id="cb27-242"><a href="#cb27-242" aria-hidden="true" tabindex="-1"></a>    Rvn<span class="op">=</span>np.sqrt(np.<span class="bu">sum</span>(Xvmfn<span class="op">**</span><span class="dv">2</span>,axis<span class="op">=</span><span class="dv">1</span>))</span>
+<span id="cb27-243"><a href="#cb27-243" aria-hidden="true" tabindex="-1"></a>    Xvnu<span class="op">=</span>Xvmfn.T<span class="op">/</span>Rvn</span>
+<span id="cb27-244"><a href="#cb27-244" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb27-245"><a href="#cb27-245" aria-hidden="true" tabindex="-1"></a>    h_log<span class="op">=</span>vMF_logpdf(Xvnu,mu.T,kappa)<span class="op">+</span>nakagami_logpdf(Rvn,pp,omega)</span>
+<span id="cb27-246"><a href="#cb27-246" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> np.log(n) <span class="op">+</span> np.log(np.pi <span class="op">**</span> (n <span class="op">/</span> <span class="dv">2</span>)) <span class="op">-</span> sp.special.gammaln(n <span class="op">/</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb27-247"><a href="#cb27-247" aria-hidden="true" tabindex="-1"></a>    f_u <span class="op">=</span> <span class="op">-</span>A       </span>
+<span id="cb27-248"><a href="#cb27-248" aria-hidden="true" tabindex="-1"></a>    f_chi <span class="op">=</span> (np.log(<span class="dv">2</span>) <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> n <span class="op">/</span> <span class="dv">2</span>) <span class="op">+</span> np.log(Rvn) <span class="op">*</span> (n <span class="op">-</span> <span class="dv">1</span>) <span class="op">-</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="op">\</span></span>
+<span id="cb27-249"><a href="#cb27-249" aria-hidden="true" tabindex="-1"></a>             Rvn <span class="op">**</span> <span class="dv">2</span> <span class="op">-</span> sp.special.gammaln(n <span class="op">/</span> <span class="dv">2</span>)) </span>
+<span id="cb27-250"><a href="#cb27-250" aria-hidden="true" tabindex="-1"></a>    f_log <span class="op">=</span> f_u <span class="op">+</span> f_chi</span>
+<span id="cb27-251"><a href="#cb27-251" aria-hidden="true" tabindex="-1"></a>    W_log <span class="op">=</span> f_log <span class="op">-</span> h_log</span>
+<span id="cb27-252"><a href="#cb27-252" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-253"><a href="#cb27-253" aria-hidden="true" tabindex="-1"></a>    wvmfn<span class="op">=</span>(phi(Xvmfn)<span class="op">&gt;</span><span class="dv">0</span>)<span class="op">*</span>np.exp(W_log)          </span>
+<span id="cb27-254"><a href="#cb27-254" aria-hidden="true" tabindex="-1"></a>    Evmfn[i]<span class="op">=</span>np.mean(wvmfn)</span>
+<span id="cb27-255"><a href="#cb27-255" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-256"><a href="#cb27-256" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Eprjst)</span>
+<span id="cb27-257"><a href="#cb27-257" aria-hidden="true" tabindex="-1"></a><span class="co">### KL divergences    </span></span>
+<span id="cb27-258"><a href="#cb27-258" aria-hidden="true" tabindex="-1"></a>dkli<span class="op">=</span>np.zeros(B)</span>
+<span id="cb27-259"><a href="#cb27-259" aria-hidden="true" tabindex="-1"></a>dklp<span class="op">=</span>np.zeros(B)</span>
+<span id="cb27-260"><a href="#cb27-260" aria-hidden="true" tabindex="-1"></a>dklm<span class="op">=</span>np.zeros(B)</span>
+<span id="cb27-261"><a href="#cb27-261" aria-hidden="true" tabindex="-1"></a>dklpst<span class="op">=</span>np.zeros(B)</span>
+<span id="cb27-262"><a href="#cb27-262" aria-hidden="true" tabindex="-1"></a><span class="co">#dklmst=np.zeros(B)</span></span>
+<span id="cb27-263"><a href="#cb27-263" aria-hidden="true" tabindex="-1"></a>dklpca<span class="op">=</span>np.zeros(B)</span>
+<span id="cb27-264"><a href="#cb27-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-265"><a href="#cb27-265" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(B):</span>
+<span id="cb27-266"><a href="#cb27-266" aria-hidden="true" tabindex="-1"></a>    dkli[i]<span class="op">=</span>np.log(np.linalg.det(SI[i]))<span class="op">+</span><span class="bu">sum</span>(np.diag(Sigstar.dot<span class="op">\</span></span>
+<span id="cb27-267"><a href="#cb27-267" aria-hidden="true" tabindex="-1"></a>                                            (np.linalg.inv(SI[i]))))      </span>
+<span id="cb27-268"><a href="#cb27-268" aria-hidden="true" tabindex="-1"></a>    dklp[i]<span class="op">=</span>np.log(np.linalg.det(SIP[i]))<span class="op">+</span><span class="bu">sum</span>(np.diag(Sigstar.dot<span class="op">\</span></span>
+<span id="cb27-269"><a href="#cb27-269" aria-hidden="true" tabindex="-1"></a>                                            (np.linalg.inv(SIP[i]))))        </span>
+<span id="cb27-270"><a href="#cb27-270" aria-hidden="true" tabindex="-1"></a>    dklm[i]<span class="op">=</span>np.log(np.linalg.det(SIM[i]))<span class="op">+</span><span class="bu">sum</span>(np.diag(Sigstar.dot<span class="op">\</span></span>
+<span id="cb27-271"><a href="#cb27-271" aria-hidden="true" tabindex="-1"></a>                                            (np.linalg.inv(SIM[i]))))</span>
+<span id="cb27-272"><a href="#cb27-272" aria-hidden="true" tabindex="-1"></a>    dklpst[i]<span class="op">=</span>np.log(np.linalg.det(SIPst[i]))<span class="op">+</span><span class="bu">sum</span>(np.diag(Sigstar.dot<span class="op">\</span></span>
+<span id="cb27-273"><a href="#cb27-273" aria-hidden="true" tabindex="-1"></a>                                            (np.linalg.inv(SIPst[i]))))</span>
+<span id="cb27-274"><a href="#cb27-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-275"><a href="#cb27-275" aria-hidden="true" tabindex="-1"></a>Tabresult<span class="op">=</span>np.zeros((<span class="dv">3</span>,<span class="dv">7</span>)) <span class="co"># table of results</span></span>
+<span id="cb27-276"><a href="#cb27-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-277"><a href="#cb27-277" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">0</span>]<span class="op">=</span>np.log(np.linalg.det(Sigstar))<span class="op">+</span>n</span>
+<span id="cb27-278"><a href="#cb27-278" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">1</span>]<span class="op">=</span>np.mean(dkli)</span>
+<span id="cb27-279"><a href="#cb27-279" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">2</span>]<span class="op">=</span>np.mean(dklpst)</span>
+<span id="cb27-280"><a href="#cb27-280" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">3</span>]<span class="op">=</span>np.mean(dklpst)</span>
+<span id="cb27-281"><a href="#cb27-281" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">4</span>]<span class="op">=</span>np.mean(dklp)</span>
+<span id="cb27-282"><a href="#cb27-282" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">5</span>]<span class="op">=</span>np.mean(dklm)</span>
+<span id="cb27-283"><a href="#cb27-283" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">6</span>]<span class="op">=</span><span class="va">None</span></span>
+<span id="cb27-284"><a href="#cb27-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-285"><a href="#cb27-285" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">0</span>]<span class="op">=</span>np.mean(Eopt<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb27-286"><a href="#cb27-286" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">=</span>np.mean(EIS<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb27-287"><a href="#cb27-287" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">2</span>]<span class="op">=</span>np.mean(Eprjst<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb27-288"><a href="#cb27-288" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">3</span>]<span class="op">=</span>np.mean(Eprjst<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb27-289"><a href="#cb27-289" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">4</span>]<span class="op">=</span>np.mean(Eprj<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb27-290"><a href="#cb27-290" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">5</span>]<span class="op">=</span>np.mean(Eprm<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb27-291"><a href="#cb27-291" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">6</span>]<span class="op">=</span>np.mean(Evmfn<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb27-292"><a href="#cb27-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-293"><a href="#cb27-293" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">0</span>]<span class="op">=</span>np.sqrt(np.mean((Eopt<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb27-294"><a href="#cb27-294" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">1</span>]<span class="op">=</span>np.sqrt(np.mean((EIS<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb27-295"><a href="#cb27-295" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">2</span>]<span class="op">=</span>np.sqrt(np.mean((Eprjst<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb27-296"><a href="#cb27-296" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">3</span>]<span class="op">=</span>np.sqrt(np.mean((Eprjst<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb27-297"><a href="#cb27-297" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">4</span>]<span class="op">=</span>np.sqrt(np.mean((Eprj<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb27-298"><a href="#cb27-298" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">5</span>]<span class="op">=</span>np.sqrt(np.mean((Eprm<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb27-299"><a href="#cb27-299" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">6</span>]<span class="op">=</span>np.sqrt(np.mean((Evmfn<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb27-300"><a href="#cb27-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-301"><a href="#cb27-301" aria-hidden="true" tabindex="-1"></a>Tabresult<span class="op">=</span>np.<span class="bu">round</span>(Tabresult,<span class="dv">1</span>)</span>
+<span id="cb27-302"><a href="#cb27-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-303"><a href="#cb27-303" aria-hidden="true" tabindex="-1"></a>table<span class="op">=</span>[[<span class="st">"D'"</span>,Tabresult[<span class="dv">0</span>,<span class="dv">0</span>],Tabresult[<span class="dv">0</span>,<span class="dv">1</span>],Tabresult[<span class="dv">0</span>,<span class="dv">2</span>],Tabresult[<span class="dv">0</span>,<span class="dv">3</span>],</span>
+<span id="cb27-304"><a href="#cb27-304" aria-hidden="true" tabindex="-1"></a>        Tabresult[<span class="dv">0</span>,<span class="dv">4</span>],Tabresult[<span class="dv">0</span>,<span class="dv">5</span>],<span class="st">"/"</span>],</span>
+<span id="cb27-305"><a href="#cb27-305" aria-hidden="true" tabindex="-1"></a>      [<span class="st">"Relative error (\%)"</span>,Tabresult[<span class="dv">1</span>,<span class="dv">0</span>],Tabresult[<span class="dv">1</span>,<span class="dv">1</span>],</span>
+<span id="cb27-306"><a href="#cb27-306" aria-hidden="true" tabindex="-1"></a>       Tabresult[<span class="dv">1</span>,<span class="dv">2</span>],Tabresult[<span class="dv">1</span>,<span class="dv">3</span>],Tabresult[<span class="dv">1</span>,<span class="dv">4</span>],Tabresult[<span class="dv">1</span>,<span class="dv">5</span>],Tabresult[<span class="dv">1</span>,<span class="dv">6</span>]],</span>
+<span id="cb27-307"><a href="#cb27-307" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"Coefficient of variation (\%)"</span>,Tabresult[<span class="dv">2</span>,<span class="dv">0</span>],Tabresult[<span class="dv">2</span>,<span class="dv">1</span>],</span>
+<span id="cb27-308"><a href="#cb27-308" aria-hidden="true" tabindex="-1"></a>     Tabresult[<span class="dv">2</span>,<span class="dv">2</span>],Tabresult[<span class="dv">2</span>,<span class="dv">3</span>],Tabresult[<span class="dv">2</span>,<span class="dv">4</span>],Tabresult[<span class="dv">2</span>,<span class="dv">5</span>],Tabresult[<span class="dv">2</span>,<span class="dv">6</span>]]]</span>
+<span id="cb27-309"><a href="#cb27-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-310"><a href="#cb27-310" aria-hidden="true" tabindex="-1"></a>Markdown(tabulate(</span>
+<span id="cb27-311"><a href="#cb27-311" aria-hidden="true" tabindex="-1"></a>  table, </span>
+<span id="cb27-312"><a href="#cb27-312" aria-hidden="true" tabindex="-1"></a>  headers<span class="op">=</span>[<span class="st">""</span>,<span class="st">"$\Sigma^*$"</span>, <span class="st">"$\widehat{\Sigma}^*$"</span>, <span class="st">"$\widehat{\Sigma}_</span><span class="sc">{opt}</span><span class="st">$"</span>,<span class="op">\</span></span>
+<span id="cb27-313"><a href="#cb27-313" aria-hidden="true" tabindex="-1"></a>           <span class="st">"$\widehat{\Sigma}_</span><span class="sc">{mean}</span><span class="st">$"</span>, <span class="st">"${\widehat{\Sigma}^{+d}_</span><span class="sc">{opt}</span><span class="st">}$"</span>,<span class="op">\</span></span>
+<span id="cb27-314"><a href="#cb27-314" aria-hidden="true" tabindex="-1"></a>           <span class="st">"$\widehat{\Sigma}^{+d}_</span><span class="sc">{mean}</span><span class="st">$"</span>, <span class="st">"vMFN"</span>],</span>
+<span id="cb27-315"><a href="#cb27-315" aria-hidden="true" tabindex="-1"></a>    tablefmt<span class="op">=</span><span class="st">"pipe"</span>))</span>
+<span id="cb27-316"><a href="#cb27-316" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-317"><a href="#cb27-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-320"><a href="#cb27-320" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb27-321"><a href="#cb27-321" aria-hidden="true" tabindex="-1"></a>np.random.rand(<span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb27-322"><a href="#cb27-322" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-323"><a href="#cb27-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-326"><a href="#cb27-326" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb27-327"><a href="#cb27-327" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Eprjst)</span>
+<span id="cb27-328"><a href="#cb27-328" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-329"><a href="#cb27-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-332"><a href="#cb27-332" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb27-333"><a href="#cb27-333" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Xprst)</span>
+<span id="cb27-334"><a href="#cb27-334" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-335"><a href="#cb27-335" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-338"><a href="#cb27-338" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb27-339"><a href="#cb27-339" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(mm)</span>
+<span id="cb27-340"><a href="#cb27-340" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-341"><a href="#cb27-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-344"><a href="#cb27-344" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb27-345"><a href="#cb27-345" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sig_opt)</span>
+<span id="cb27-346"><a href="#cb27-346" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

@@ -247,6 +247,7 @@ for i in range(B):
     wvmfn=(phi(Xvmfn)>0)*np.exp(W_log)          
     Evmfn[i]=np.mean(wvmfn)
     
+print(Eprjst)
 ### KL divergences    
 dkli=np.zeros(B)
 dklp=np.zeros(B)
@@ -291,8 +292,6 @@ Tabresult[2,4]=np.sqrt(np.mean((Eprj-E)**2))/E*100
 Tabresult[2,5]=np.sqrt(np.mean((Eprm-E)**2))/E*100
 Tabresult[2,6]=np.sqrt(np.mean((Evmfn-E)**2))/E*100
 
-print(Tabresult)
-
 Tabresult=np.round(Tabresult,1)
 
 table=[["D'",Tabresult[0,0],Tabresult[0,1],Tabresult[0,2],Tabresult[0,3],
@@ -314,7 +313,4 @@ Markdown(tabulate(
 np.random.rand(1,1)
 ```
 
-```{python}
-print(Tabresult)
-```
 

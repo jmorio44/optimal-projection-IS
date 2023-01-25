@@ -345,4 +345,22 @@ print(wprst)
 print(EprjstT)
 ```
 
+```{python}
+    np.random.seed(10)
+    Xprst=sp.stats.multivariate_normal.rvs(mean=np.zeros(np.shape(mm)), cov=np.eye(d),size=N,random_state=2)
+    wprst=mypi(Xprst)/sp.stats.multivariate_normal.pdf(Xprst,mean=mm, \
+                                                       cov=sig_opt)
+    EprjstT=np.mean(wprst)
+```
 
+```{python}
+print(Xprst)
+```
+
+```{python}
+print(wprst)
+```
+
+```{python}
+print(EprjstT)
+```

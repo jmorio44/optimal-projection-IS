@@ -129,7 +129,13 @@ import scipy as sp
 import pickle
 import scipy.stats
 import matplotlib.pyplot as plt
-from CEIS_vMFNM import *
+
+from CEIS_vMFNM import *      ### this library is available on the following website : 
+                              ### "Papaioannou, I., Geyer, S., and Straub, D. (2019b). Software tools for reliability analysis :
+                              ### Cross entropy method and improved cross entropy method. Retrieved from 
+                              ### https://www.bgu.tum.de/era/software/software00/cross-entropy-method-and-improved-cross-entropy-method/."
+                                 
+
 from IPython.display import display, Math, Latex
 from IPython.display import Markdown
 from tabulate import tabulate
@@ -399,7 +405,7 @@ Note that in the particularly simple case considered here, both $\widehat{\mathb
 #| label: fig-eigsum
 #| fig-cap: 'Partial KL divergence and spectrum for the function $\phi = \mathbb{I}_{\varphi \geq 0}$ with $\varphi$ the linear function given by @eq-sum.'
 #| fig-subcap:
-#|   - 'Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix $\Sigma^*$ (blue circles), the sample covariance $\widehat{\Sigma}^*$ (red squares), and the projected covariance $\widehat{\Sigma}^*_k$ (black triangles).'
+#|   - 'Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix $\Sigma^*$ (red squares), the sample covariance $\widehat{\Sigma}^*$ (blue circles), and the projected covariance $\widehat{\Sigma}^*_k$ (black triangles).'
 #|   - 'Computation of $\ell(\lambda_i)$ for the eigenvalues of $\Sigma^*$ (red squares) and $\widehat{\Sigma}^*$ (blue crosses) in dimension $n = 100$.'
 #| layout:
 #|   - - 45
@@ -478,9 +484,9 @@ for d in range(5,n+1,5):
     DKLstar[int((d-5)/5)]=np.log(np.linalg.det(Sigstar))+d
 
 #### plot of partial KL divergence
-plt.plot(range(5,105,5),DKL,'rs',label=r"$D'(\widehat{\Sigma}^*)$")
+plt.plot(range(5,105,5),DKL,'bo',label=r"$D'(\widehat{\Sigma}^*)$")
 plt.plot(range(5,105,5),DKLp,'k^',label=r"$D'(\widehat{\Sigma}^*_k)$")
-plt.plot(range(5,105,5),DKLstar,'bo',label=r"$D'(\Sigma^*)$")
+plt.plot(range(5,105,5),DKLstar,'rs',label=r"$D'(\Sigma^*)$")
 
 plt.grid()
 plt.xlabel('Dimension',fontsize=16)
@@ -787,7 +793,7 @@ We can numerically compute $\lambda_1 \approx 0.28$, $\lambda_2 \approx 0.009$ a
 #| label: fig-inefficiency-parab
 #| fig-cap: 'Partial KL divergence and spectrum for the function $\phi = \mathbb{I}_{\varphi \geq 0}$ with $\varphi$ given by @eq-parabol. in dimension $n=100$. Left: same behavior as for the first test case. Right: we now have two eigenvalues that stand out, and the behavior of $\ell$ is such that Algorithm 2 selects $k = 2$ which corresponds to the leftmost two.'
 #| fig-subcap:
-#|   - 'Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix $\Sigma^*$ (blue circles), the sample covariance $\widehat{\Sigma}^*$ (red squares), and the projected covariance $\widehat{\Sigma}^*_k$ (black triangles).'
+#|   - 'Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix $\Sigma^*$ (red squares), the sample covariance $\widehat{\Sigma}^*$ (blue circles), and the projected covariance $\widehat{\Sigma}^*_k$ (black triangles).'
 #|   - 'Computation of $\ell(\lambda_i)$ for the eigenvalues of $\Sigma^*$ (red squares) and $\widehat{\Sigma}^*$ (blue crosses) in dimension $n = 100$.'
 #| layout:
 #|   - - 45
@@ -882,9 +888,9 @@ for d in range(5,n+1,5):
     DKLstar[int((d-5)/5)]=np.log(np.linalg.det(Sigstar))+d
 
 #### plot of partial KL divergence
-plt.plot(range(5,105,5),DKL,'rs',label=r"$D'(\widehat{\Sigma}^*)$")
+plt.plot(range(5,105,5),DKL,'bo',label=r"$D'(\widehat{\Sigma}^*)$")
 plt.plot(range(5,105,5),DKLp,'k^',label=r"$D'(\widehat{\Sigma}^*_k)$")
-plt.plot(range(5,105,5),DKLstar,'bo',label=r"$D'(\Sigma^*)$")
+plt.plot(range(5,105,5),DKLstar,'rs',label=r"$D'(\Sigma^*)$")
 
 plt.grid()
 plt.xlabel('Dimension',fontsize=16)
@@ -1215,7 +1221,7 @@ The simulation results for the different covariance matrices and the vMFN densit
 #| label: fig-inefficiency-banana
 #| fig-cap: Partial KL divergence and spectrum for the banana shape example.
 #| fig-subcap:
-#|   - 'Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix $\Sigma^*$ (blue circles), the sample covariance $\widehat{\Sigma}^*$ (red squares), and the projected covariance $\widehat{\Sigma}^*_k$ (black triangles).'
+#|   - 'Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix $\Sigma^*$ (red saquares), the sample covariance $\widehat{\Sigma}^*$ (blue circles), and the projected covariance $\widehat{\Sigma}^*_k$ (black triangles).'
 #|   - 'Computation of $\ell(\lambda_i)$ for the eigenvalues of $\Sigma^*$ (red squares) and $\widehat{\Sigma}^*$ (blue crosses) in dimension $n = 100$ for the banana shape example of @eq-banana.'
 #| layout:
 #|   - - 45
@@ -1299,9 +1305,9 @@ for d in range(5,n+1,5):
     DKLstar[int((d-5)/5)]=np.log(np.linalg.det(Sigstar))+d
 
 #### plot of partial KL divergence
-plt.plot(range(5,n+1,5),DKL,'rs',label=r"$D'(\widehat{\Sigma}^*)$")
+plt.plot(range(5,n+1,5),DKL,'bo',label=r"$D'(\widehat{\Sigma}^*)$")
 plt.plot(range(5,n+1,5),DKLp,'k^',label=r"$D'(\widehat{\Sigma}^*_k)$")
-plt.plot(range(5,n+1,5),DKLstar,'bo',label=r"$D'(\Sigma^*)$")
+plt.plot(range(5,n+1,5),DKLstar,'rs',label=r"$D'(\Sigma^*)$")
 
 plt.grid()
 plt.xlabel('Dimension',fontsize=16)
@@ -1579,7 +1585,7 @@ The reference value of this probability $E$ is reported in @tbl-portfolio for di
 #| label: fig-inefficiency-portfolio
 #| fig-cap: 'Partial KL divergence and spectrum for the function $\phi = \mathbb{I}_{\varphi \geq 0}$ with $\varphi$ the function given by @eq-portfolio.'
 #| fig-subcap:
-#|   - 'Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix $\Sigma^*$ (blue circles), the sample covariance $\widehat{\Sigma}^*$ (red squares), and the projected covariance $\widehat{\Sigma}^*_k$ (black triangles).'
+#|   - 'Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix $\Sigma^*$ (red squares), the sample covariance $\widehat{\Sigma}^*$ (blue circles), and the projected covariance $\widehat{\Sigma}^*_k$ (black triangles).'
 #|   - 'Computation of $\ell(\lambda_i)$ for the eigenvalues of $\Sigma^*$ (red squares) and $\widehat{\Sigma}^*$ (blue crosses) in dimension $n = 100$  for the large portfolio losses of @eq-portfolio.'
 #| layout:
 #|   - - 45
@@ -1708,9 +1714,9 @@ for d in range(5,n+1,5):
     DKLstar[int((d-5)/5)]=np.log(np.linalg.det(Sigstar))+d+2
 
 #### plot of partial KL divergence
-plt.plot(range(5,n+1,5),DKL,'rs',label=r"$D'(\widehat{\Sigma}^*)$")
+plt.plot(range(5,n+1,5),DKL,'bo',label=r"$D'(\widehat{\Sigma}^*)$")
 plt.plot(range(5,n+1,5),DKLp,'k^',label=r"$D'(\widehat{\Sigma}^*_k)$")
-plt.plot(range(5,n+1,5),DKLstar,'bo',label=r"$D'(\Sigma^*)$")
+plt.plot(range(5,n+1,5),DKLstar,'rs',label=r"$D'(\Sigma^*)$")
 
 plt.grid()
 plt.xlabel('Dimension',fontsize=16)
@@ -1787,9 +1793,9 @@ SIMst=[]
                                                              
 
 #Mstar
-Mstar=pickle.load( open( "Mstar_portfolio.p", "rb" ) )             
-#Sigmastar
-Sigstar=pickle.load( open( "Sigstar_portfolio.p", "rb" ) )
+Mstar=pickle.load( open( "Mstar_portfolio.p", "rb" ) )           ### The estimation of these parameters takes a lot of time so             
+#Sigmastar                                                       ### the simulation has been done in another file.
+Sigstar=pickle.load( open( "Sigstar_portfolio.p", "rb" ) )       ###
     
 Eigst=np.linalg.eigh(Sigstar)                        
 logeigst=np.sort(np.log(Eigst[0])-Eigst[0])         
@@ -2013,7 +2019,7 @@ The results of this example are given in @tbl-payoff. The insight gained in the 
 #| label: fig-inefficiency-kawai
 #| fig-cap: Partial KL divergence and spectrum for the function $\phi$ given in @eq-payoff.
 #| fig-subcap:
-#|   - 'Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix $\Sigma^*$ (blue circles), the sample covariance $\widehat{\Sigma}^*$ (red squares), and the projected covariance $\widehat{\Sigma}^*_k$ (black triangles).'
+#|   - 'Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix $\Sigma^*$ (red squares), the sample covariance $\widehat{\Sigma}^*$ (blue circles), and the projected covariance $\widehat{\Sigma}^*_k$ (black triangles).'
 #|   - 'Computation of $\ell(\lambda_i)$ for the eigenvalues of $\Sigma^*$ (red squares) and $\widehat{\Sigma}^*$ (blue crosses) in dimension $n = 100$ for the Asian payoff example of @eq-payoff'
 #| layout:
 #|   - - 45
@@ -2110,9 +2116,9 @@ for d in range(5,n+1,5):
     DKLstar[int((d-5)/5)]=np.log(np.linalg.det(Sigstar))+d
 
 #### plot of partial KL divergence
-plt.plot(range(5,n+1,5),DKL,'rs',label=r"$D'(\widehat{\Sigma}^*)$")
+plt.plot(range(5,n+1,5),DKL,'bo',label=r"$D'(\widehat{\Sigma}^*)$")
 plt.plot(range(5,n+1,5),DKLp,'k^',label=r"$D'(\widehat{\Sigma}^*_k)$")
-plt.plot(range(5,n+1,5),DKLstar,'bo',label=r"$D'(\Sigma^*)$")
+plt.plot(range(5,n+1,5),DKLstar,'rs',label=r"$D'(\Sigma^*)$")
 
 plt.grid()
 plt.xlabel('Dimension',fontsize=16)
@@ -2173,9 +2179,9 @@ M=500
 B=500    # number of runs
 
 #Mstar
-Mstar=pickle.load( open( "Mstar_asian.p", "rb" ) )             
-#Sigmastar
-Sigstar=pickle.load( open( "Sigstar_asian.p", "rb" ) )         
+Mstar=pickle.load( open( "Mstar_asian.p", "rb" ) )            ### The estimation of these parameters takes a lot of time so             
+#Sigmastar                                                    ### the simulation has been done in another file.  
+Sigstar=pickle.load( open( "Sigstar_asian.p", "rb" ) )        ### 
 
 Eigst=np.linalg.eigh(Sigstar)                        
 logeigst=np.sort(np.log(Eigst[0])-Eigst[0])         

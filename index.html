@@ -9,7 +9,7 @@
 <meta name="author" content="Maxime El Masri">
 <meta name="author" content="Jérôme Morio">
 <meta name="author" content="Florian Simatos">
-<meta name="dcterms.date" content="2023-02-12">
+<meta name="dcterms.date" content="2023-02-19">
 <meta name="keywords" content="Importance sampling, High dimension, Gaussian covariance matrix, Kullback-Leibler divergence, Projection">
 <meta name="description" content="This document provides a dimension-reduction strategy in order to improve the performance of importance sampling in high dimension.">
 
@@ -206,7 +206,7 @@ ISSN 2824-7795</p>
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">February 12, 2023</p>
+        <p class="date">February 19, 2023</p>
       </div>
     </div>
                                     
@@ -359,7 +359,7 @@ ISSN 2824-7795</p>
 <div class="cell-output cell-output-display">
 <div id="fig-l" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="content_files/figure-html/fig-l-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="content_files/figure-html/fig-l-output-1.svg" class="img-fluid figure-img"></p>
 <p></p><figcaption class="figure-caption">Figure&nbsp;1: Plot of the function <span class="math inline">\ell(x)=-\log(x) + x - 1</span> given by <a href="#eq-l">Equation&nbsp;6</a></figcaption><p></p>
 </figure>
 </div>
@@ -710,7 +710,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <div class="cell-output cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 45.0%;justify-content: center;">
 <div id="fig-eigsum-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="content_files/figure-html/fig-eigsum-output-1.png" class="img-fluid figure-img" data-ref-parent="fig-eigsum"></p>
+<p><img src="content_files/figure-html/fig-eigsum-output-1.svg" class="img-fluid figure-img" data-ref-parent="fig-eigsum"></p>
 <p></p><figcaption class="figure-caption">(a) Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix <span class="math inline">\Sigma^*</span> (blue circles), the sample covariance <span class="math inline">\widehat{\Sigma}^*</span> (red squares), and the projected covariance <span class="math inline">\widehat{\Sigma}^*_k</span> (black triangles).</figcaption><p></p>
 </figure>
 </div>
@@ -721,7 +721,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <div class="cell-output cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 45.0%;justify-content: center;">
 <div id="fig-eigsum-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="content_files/figure-html/fig-eigsum-output-2.png" class="img-fluid figure-img" data-ref-parent="fig-eigsum"></p>
+<p><img src="content_files/figure-html/fig-eigsum-output-2.svg" class="img-fluid figure-img" data-ref-parent="fig-eigsum"></p>
 <p></p><figcaption class="figure-caption">(b) Computation of <span class="math inline">\ell(\lambda_i)</span> for the eigenvalues of <span class="math inline">\Sigma^*</span> (red squares) and <span class="math inline">\widehat{\Sigma}^*</span> (blue crosses) in dimension <span class="math inline">n = 100</span>.</figcaption><p></p>
 </figure>
 </div>
@@ -1182,7 +1182,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <div class="cell-output cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 45.0%;justify-content: center;">
 <div id="fig-inefficiency-parab-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="content_files/figure-html/fig-inefficiency-parab-output-1.png" class="img-fluid figure-img" data-ref-parent="fig-inefficiency-parab"></p>
+<p><img src="content_files/figure-html/fig-inefficiency-parab-output-1.svg" class="img-fluid figure-img" data-ref-parent="fig-inefficiency-parab"></p>
 <p></p><figcaption class="figure-caption">(a) Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix <span class="math inline">\Sigma^*</span> (blue circles), the sample covariance <span class="math inline">\widehat{\Sigma}^*</span> (red squares), and the projected covariance <span class="math inline">\widehat{\Sigma}^*_k</span> (black triangles).</figcaption><p></p>
 </figure>
 </div>
@@ -1193,7 +1193,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <div class="cell-output cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 45.0%;justify-content: center;">
 <div id="fig-inefficiency-parab-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="content_files/figure-html/fig-inefficiency-parab-output-2.png" class="img-fluid figure-img" data-ref-parent="fig-inefficiency-parab"></p>
+<p><img src="content_files/figure-html/fig-inefficiency-parab-output-2.svg" class="img-fluid figure-img" data-ref-parent="fig-inefficiency-parab"></p>
 <p></p><figcaption class="figure-caption">(b) Computation of <span class="math inline">\ell(\lambda_i)</span> for the eigenvalues of <span class="math inline">\Sigma^*</span> (red squares) and <span class="math inline">\widehat{\Sigma}^*</span> (blue crosses) in dimension <span class="math inline">n = 100</span>.</figcaption><p></p>
 </figure>
 </div>
@@ -1669,7 +1669,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <div class="cell-output cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 45.0%;justify-content: center;">
 <div id="fig-inefficiency-banana-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="content_files/figure-html/fig-inefficiency-banana-output-1.png" class="img-fluid figure-img" data-ref-parent="fig-inefficiency-banana"></p>
+<p><img src="content_files/figure-html/fig-inefficiency-banana-output-1.svg" class="img-fluid figure-img" data-ref-parent="fig-inefficiency-banana"></p>
 <p></p><figcaption class="figure-caption">(a) Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix <span class="math inline">\Sigma^*</span> (blue circles), the sample covariance <span class="math inline">\widehat{\Sigma}^*</span> (red squares), and the projected covariance <span class="math inline">\widehat{\Sigma}^*_k</span> (black triangles).</figcaption><p></p>
 </figure>
 </div>
@@ -1680,7 +1680,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <div class="cell-output cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 45.0%;justify-content: center;">
 <div id="fig-inefficiency-banana-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="content_files/figure-html/fig-inefficiency-banana-output-2.png" class="img-fluid figure-img" data-ref-parent="fig-inefficiency-banana"></p>
+<p><img src="content_files/figure-html/fig-inefficiency-banana-output-2.svg" class="img-fluid figure-img" data-ref-parent="fig-inefficiency-banana"></p>
 <p></p><figcaption class="figure-caption">(b) Computation of <span class="math inline">\ell(\lambda_i)</span> for the eigenvalues of <span class="math inline">\Sigma^*</span> (red squares) and <span class="math inline">\widehat{\Sigma}^*</span> (blue crosses) in dimension <span class="math inline">n = 100</span> for the banana shape example of <a href="#eq-banana">Equation&nbsp;15</a>.</figcaption><p></p>
 </figure>
 </div>
@@ -2148,7 +2148,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <div class="cell-output cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 45.0%;justify-content: center;">
 <div id="fig-inefficiency-portfolio-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="content_files/figure-html/fig-inefficiency-portfolio-output-1.png" class="img-fluid figure-img" data-ref-parent="fig-inefficiency-portfolio"></p>
+<p><img src="content_files/figure-html/fig-inefficiency-portfolio-output-1.svg" class="img-fluid figure-img" data-ref-parent="fig-inefficiency-portfolio"></p>
 <p></p><figcaption class="figure-caption">(a) Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix <span class="math inline">\Sigma^*</span> (blue circles), the sample covariance <span class="math inline">\widehat{\Sigma}^*</span> (red squares), and the projected covariance <span class="math inline">\widehat{\Sigma}^*_k</span> (black triangles).</figcaption><p></p>
 </figure>
 </div>
@@ -2159,7 +2159,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <div class="cell-output cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 45.0%;justify-content: center;">
 <div id="fig-inefficiency-portfolio-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="content_files/figure-html/fig-inefficiency-portfolio-output-2.png" class="img-fluid figure-img" data-ref-parent="fig-inefficiency-portfolio"></p>
+<p><img src="content_files/figure-html/fig-inefficiency-portfolio-output-2.svg" class="img-fluid figure-img" data-ref-parent="fig-inefficiency-portfolio"></p>
 <p></p><figcaption class="figure-caption">(b) Computation of <span class="math inline">\ell(\lambda_i)</span> for the eigenvalues of <span class="math inline">\Sigma^*</span> (red squares) and <span class="math inline">\widehat{\Sigma}^*</span> (blue crosses) in dimension <span class="math inline">n = 100</span> for the large portfolio losses of <a href="#eq-portfolio">Equation&nbsp;16</a>.</figcaption><p></p>
 </figure>
 </div>
@@ -2620,7 +2620,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <div class="cell-output cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 45.0%;justify-content: center;">
 <div id="fig-inefficiency-kawai-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="content_files/figure-html/fig-inefficiency-kawai-output-1.png" class="img-fluid figure-img" data-ref-parent="fig-inefficiency-kawai"></p>
+<p><img src="content_files/figure-html/fig-inefficiency-kawai-output-1.svg" class="img-fluid figure-img" data-ref-parent="fig-inefficiency-kawai"></p>
 <p></p><figcaption class="figure-caption">(a) Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix <span class="math inline">\Sigma^*</span> (blue circles), the sample covariance <span class="math inline">\widehat{\Sigma}^*</span> (red squares), and the projected covariance <span class="math inline">\widehat{\Sigma}^*_k</span> (black triangles).</figcaption><p></p>
 </figure>
 </div>
@@ -2631,7 +2631,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <div class="cell-output cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 45.0%;justify-content: center;">
 <div id="fig-inefficiency-kawai-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="content_files/figure-html/fig-inefficiency-kawai-output-2.png" class="img-fluid figure-img" data-ref-parent="fig-inefficiency-kawai"></p>
+<p><img src="content_files/figure-html/fig-inefficiency-kawai-output-2.svg" class="img-fluid figure-img" data-ref-parent="fig-inefficiency-kawai"></p>
 <p></p><figcaption class="figure-caption">(b) Computation of <span class="math inline">\ell(\lambda_i)</span> for the eigenvalues of <span class="math inline">\Sigma^*</span> (red squares) and <span class="math inline">\widehat{\Sigma}^*</span> (blue crosses) in dimension <span class="math inline">n = 100</span> for the Asian payoff example of <a href="#eq-payoff">Equation&nbsp;17</a></figcaption><p></p>
 </figure>
 </div>

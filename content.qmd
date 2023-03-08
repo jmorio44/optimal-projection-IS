@@ -130,11 +130,12 @@ import pickle
 import scipy.stats
 import matplotlib.pyplot as plt
 
-from CEIS_vMFNM import *      ### this library is available on the following website : 
-                              ### "Papaioannou, I., Geyer, S., and Straub, D. (2019b). Software tools for reliability analysis :
-                              ### Cross entropy method and improved cross entropy method. Retrieved from 
-                              ### https://www.bgu.tum.de/era/software/software00/cross-entropy-method-and-improved-cross-entropy-method/."
-                                 
+### the following library is available on the following website : 
+### "Papaioannou, I., Geyer, S., and Straub, D. (2019b). 
+### Software tools for reliability analysis :
+### Cross entropy method and improved cross entropy method. Retrieved from 
+### https://www.cee.ed.tum.de/en/era/software/reliability/"
+from CEIS_vMFNM import *      
 
 from IPython.display import display, Math, Latex
 from IPython.display import Markdown
@@ -1791,11 +1792,12 @@ SIM=[]
 SIMst=[]
 
                                                              
-
+### Mstar and Sigmastar have been estimated offline with 
+### a 10^6 Monte Carlo sample from g^*
 #Mstar
-Mstar=pickle.load( open( "Mstar_portfolio.p", "rb" ) )           ### The estimation of these parameters takes a lot of time so             
-#Sigmastar                                                       ### the simulation has been done in another file.
-Sigstar=pickle.load( open( "Sigstar_portfolio.p", "rb" ) )       ###
+Mstar=pickle.load( open( "Mstar_portfolio.p", "rb" ) )                        
+#Sigmastar                                                       
+Sigstar=pickle.load( open( "Sigstar_portfolio.p", "rb" ) )    
     
 Eigst=np.linalg.eigh(Sigstar)                        
 logeigst=np.sort(np.log(Eigst[0])-Eigst[0])         
@@ -2178,10 +2180,12 @@ N=2000
 M=500   
 B=500    # number of runs
 
+### Mstar and Sigmastar have been estimated offline with 
+### a 10^6 Monte Carlo sample from g^*
 #Mstar
-Mstar=pickle.load( open( "Mstar_asian.p", "rb" ) )            ### The estimation of these parameters takes a lot of time so             
-#Sigmastar                                                    ### the simulation has been done in another file.  
-Sigstar=pickle.load( open( "Sigstar_asian.p", "rb" ) )        ### 
+Mstar=pickle.load( open( "Mstar_asian.p", "rb" ) )                      
+#Sigmastar                                                    
+Sigstar=pickle.load( open( "Sigstar_asian.p", "rb" ) )       
 
 Eigst=np.linalg.eigh(Sigstar)                        
 logeigst=np.sort(np.log(Eigst[0])-Eigst[0])         

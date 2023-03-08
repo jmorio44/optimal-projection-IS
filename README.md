@@ -1,7 +1,6 @@
 # Optimal projection for parametric importance sampling in high dimension
  by Maxime El Masri (ONERA and ISAE), Jérôme Morio (ONERA) and Florian Simatos (ISAE)
  
- 
 # Submitted to Computo
 
 # Abstract

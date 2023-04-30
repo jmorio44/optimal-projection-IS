@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.475">
+<meta name="generator" content="quarto-1.3.340">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Maxime El Masri">
 <meta name="author" content="Jérôme Morio">
 <meta name="author" content="Florian Simatos">
-<meta name="dcterms.date" content="2023-04-23">
+<meta name="dcterms.date" content="2023-04-30">
 <meta name="keywords" content="Importance sampling, High dimension, Gaussian covariance matrix, Kullback-Leibler divergence, Projection">
 <meta name="description" content="This document provides a dimension-reduction strategy in order to improve the performance of importance sampling in high dimension.">
 
@@ -23,9 +23,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -52,48 +53,19 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+/* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
 }
-.hanging div.csl-entry {
+.hanging-indent div.csl-entry {
   margin-left:2em;
   text-indent:-2em;
 }
@@ -107,8 +79,7 @@ div.csl-right-inline {
 }
 div.csl-indent {
   margin-left: 2em;
-}
-</style>
+}</style>
 
 
 <script src="content_files/libs/clipboard/clipboard.min.js"></script>
@@ -124,11 +95,22 @@ div.csl-indent {
 <script src="content_files/libs/quarto-contrib/pseudocode-1.0.0/pseudocode.min.js"></script>
 <link href="content_files/libs/quarto-contrib/pseudocode-1.0.0/pseudocode.min.css" rel="stylesheet">
 <style>
-    .quarto-title-block .quarto-title-banner {
-      color: #FFFFFF;
+
+      .quarto-title-block .quarto-title-banner h1,
+      .quarto-title-block .quarto-title-banner h2,
+      .quarto-title-block .quarto-title-banner h3,
+      .quarto-title-block .quarto-title-banner h4,
+      .quarto-title-block .quarto-title-banner h5,
+      .quarto-title-block .quarto-title-banner h6
+      {
+        color: #FFFFFF;
+      }
+
+      .quarto-title-block .quarto-title-banner {
+        color: #FFFFFF;
 background: #034E79;
-    }
-    </style>
+      }
+</style>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
   <script>document.addEventListener("DOMContentLoaded", function () {
@@ -206,7 +188,7 @@ ISSN 2824-7795</p>
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">April 23, 2023</p>
+        <p class="date">April 30, 2023</p>
       </div>
     </div>
                                     
@@ -241,43 +223,43 @@ ISSN 2824-7795</p>
     <h2 id="toc-title">Contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">1</span>  Introduction</a></li>
-  <li><a href="#sec-IS" id="toc-sec-IS" class="nav-link" data-scroll-target="#sec-IS"><span class="toc-section-number">2</span>  Importance Sampling</a></li>
-  <li><a href="#sec-main-result" id="toc-sec-main-result" class="nav-link" data-scroll-target="#sec-main-result"><span class="toc-section-number">3</span>  Main result and positioning of the paper</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#sec-IS" id="toc-sec-IS" class="nav-link" data-scroll-target="#sec-IS"><span class="header-section-number">2</span> Importance Sampling</a></li>
+  <li><a href="#sec-main-result" id="toc-sec-main-result" class="nav-link" data-scroll-target="#sec-main-result"><span class="header-section-number">3</span> Main result and positioning of the paper</a>
   <ul class="collapse">
-  <li><a href="#sec-proj" id="toc-sec-proj" class="nav-link" data-scroll-target="#sec-proj"><span class="toc-section-number">3.1</span>  Projecting on a low dimensional subspace</a></li>
-  <li><a href="#sec-main-result-positioning" id="toc-sec-main-result-positioning" class="nav-link" data-scroll-target="#sec-main-result-positioning"><span class="toc-section-number">3.2</span>  Main result of the paper</a></li>
-  <li><a href="#sec-choicek" id="toc-sec-choicek" class="nav-link" data-scroll-target="#sec-choicek"><span class="toc-section-number">3.3</span>  Choice of the number of dimensions <span class="math inline">k</span></a></li>
-  <li><a href="#sec-mm" id="toc-sec-mm" class="nav-link" data-scroll-target="#sec-mm"><span class="toc-section-number">3.4</span>  Theoretical result concerning the projection on <span class="math inline">\mathbf{m}^*</span></a></li>
+  <li><a href="#sec-proj" id="toc-sec-proj" class="nav-link" data-scroll-target="#sec-proj"><span class="header-section-number">3.1</span> Projecting on a low dimensional subspace</a></li>
+  <li><a href="#sec-main-result-positioning" id="toc-sec-main-result-positioning" class="nav-link" data-scroll-target="#sec-main-result-positioning"><span class="header-section-number">3.2</span> Main result of the paper</a></li>
+  <li><a href="#sec-choicek" id="toc-sec-choicek" class="nav-link" data-scroll-target="#sec-choicek"><span class="header-section-number">3.3</span> Choice of the number of dimensions <span class="math inline">k</span></a></li>
+  <li><a href="#sec-mm" id="toc-sec-mm" class="nav-link" data-scroll-target="#sec-mm"><span class="header-section-number">3.4</span> Theoretical result concerning the projection on <span class="math inline">\mathbf{m}^*</span></a></li>
   </ul></li>
-  <li><a href="#sec-proof" id="toc-sec-proof" class="nav-link" data-scroll-target="#sec-proof"><span class="toc-section-number">4</span>  Proof of Theorem&nbsp;1 and Theorem&nbsp;2</a></li>
-  <li><a href="#sec-num-results-framework" id="toc-sec-num-results-framework" class="nav-link" data-scroll-target="#sec-num-results-framework"><span class="toc-section-number">5</span>  Framework for the numerical results</a>
+  <li><a href="#sec-proof" id="toc-sec-proof" class="nav-link" data-scroll-target="#sec-proof"><span class="header-section-number">4</span> Proof of Theorem&nbsp;1 and Theorem&nbsp;2</a></li>
+  <li><a href="#sec-num-results-framework" id="toc-sec-num-results-framework" class="nav-link" data-scroll-target="#sec-num-results-framework"><span class="header-section-number">5</span> Framework for the numerical results</a>
   <ul class="collapse">
-  <li><a href="#general-framework" id="toc-general-framework" class="nav-link" data-scroll-target="#general-framework"><span class="toc-section-number">5.1</span>  General framework</a></li>
-  <li><a href="#sec-def_cov" id="toc-sec-def_cov" class="nav-link" data-scroll-target="#sec-def_cov"><span class="toc-section-number">5.2</span>  Choice of the auxiliary density <span class="math inline">g'</span> for the Gaussian model</a></li>
-  <li><a href="#choice-of-the-auxiliary-density-g-for-the-von-misesfishernakagami-model" id="toc-choice-of-the-auxiliary-density-g-for-the-von-misesfishernakagami-model" class="nav-link" data-scroll-target="#choice-of-the-auxiliary-density-g-for-the-von-misesfishernakagami-model"><span class="toc-section-number">5.3</span>  Choice of the auxiliary density <span class="math inline">g'</span> for the von Mises–Fisher–Nakagami model</a></li>
+  <li><a href="#general-framework" id="toc-general-framework" class="nav-link" data-scroll-target="#general-framework"><span class="header-section-number">5.1</span> General framework</a></li>
+  <li><a href="#sec-def_cov" id="toc-sec-def_cov" class="nav-link" data-scroll-target="#sec-def_cov"><span class="header-section-number">5.2</span> Choice of the auxiliary density <span class="math inline">g'</span> for the Gaussian model</a></li>
+  <li><a href="#choice-of-the-auxiliary-density-g-for-the-von-misesfishernakagami-model" id="toc-choice-of-the-auxiliary-density-g-for-the-von-misesfishernakagami-model" class="nav-link" data-scroll-target="#choice-of-the-auxiliary-density-g-for-the-von-misesfishernakagami-model"><span class="header-section-number">5.3</span> Choice of the auxiliary density <span class="math inline">g'</span> for the von Mises–Fisher–Nakagami model</a></li>
   </ul></li>
-  <li><a href="#sec-test-cases" id="toc-sec-test-cases" class="nav-link" data-scroll-target="#sec-test-cases"><span class="toc-section-number">6</span>  Numerical results on five test cases</a>
+  <li><a href="#sec-test-cases" id="toc-sec-test-cases" class="nav-link" data-scroll-target="#sec-test-cases"><span class="header-section-number">6</span> Numerical results on five test cases</a>
   <ul class="collapse">
-  <li><a href="#sec-sub:sum" id="toc-sec-sub:sum" class="nav-link" data-scroll-target="#sec-sub\:sum"><span class="toc-section-number">6.1</span>  Test case 1: one-dimensional optimal projection</a>
+  <li><a href="#sec-sub:sum" id="toc-sec-sub:sum" class="nav-link" data-scroll-target="#sec-sub\:sum"><span class="header-section-number">6.1</span> Test case 1: one-dimensional optimal projection</a>
   <ul class="collapse">
-  <li><a href="#evolution-of-the-partial-kl-divergence-and-spectrum" id="toc-evolution-of-the-partial-kl-divergence-and-spectrum" class="nav-link" data-scroll-target="#evolution-of-the-partial-kl-divergence-and-spectrum"><span class="toc-section-number">6.1.1</span>  Evolution of the partial KL divergence and spectrum</a></li>
-  <li><a href="#numerical-results" id="toc-numerical-results" class="nav-link" data-scroll-target="#numerical-results"><span class="toc-section-number">6.1.2</span>  Numerical results</a></li>
+  <li><a href="#evolution-of-the-partial-kl-divergence-and-spectrum" id="toc-evolution-of-the-partial-kl-divergence-and-spectrum" class="nav-link" data-scroll-target="#evolution-of-the-partial-kl-divergence-and-spectrum"><span class="header-section-number">6.1.1</span> Evolution of the partial KL divergence and spectrum</a></li>
+  <li><a href="#numerical-results" id="toc-numerical-results" class="nav-link" data-scroll-target="#numerical-results"><span class="header-section-number">6.1.2</span> Numerical results</a></li>
   </ul></li>
-  <li><a href="#sec-sub:parabol" id="toc-sec-sub:parabol" class="nav-link" data-scroll-target="#sec-sub\:parabol"><span class="toc-section-number">6.2</span>  Test case 2: projection in 2 directions</a>
+  <li><a href="#sec-sub:parabol" id="toc-sec-sub:parabol" class="nav-link" data-scroll-target="#sec-sub\:parabol"><span class="header-section-number">6.2</span> Test case 2: projection in 2 directions</a>
   <ul class="collapse">
-  <li><a href="#evolution-of-the-partial-kl-divergence-and-spectrum-1" id="toc-evolution-of-the-partial-kl-divergence-and-spectrum-1" class="nav-link" data-scroll-target="#evolution-of-the-partial-kl-divergence-and-spectrum-1"><span class="toc-section-number">6.2.1</span>  Evolution of the partial KL divergence and spectrum</a></li>
-  <li><a href="#numerical-results-1" id="toc-numerical-results-1" class="nav-link" data-scroll-target="#numerical-results-1"><span class="toc-section-number">6.2.2</span>  Numerical results</a></li>
+  <li><a href="#evolution-of-the-partial-kl-divergence-and-spectrum-1" id="toc-evolution-of-the-partial-kl-divergence-and-spectrum-1" class="nav-link" data-scroll-target="#evolution-of-the-partial-kl-divergence-and-spectrum-1"><span class="header-section-number">6.2.1</span> Evolution of the partial KL divergence and spectrum</a></li>
+  <li><a href="#numerical-results-1" id="toc-numerical-results-1" class="nav-link" data-scroll-target="#numerical-results-1"><span class="header-section-number">6.2.2</span> Numerical results</a></li>
   </ul></li>
-  <li><a href="#sec-sub:banana" id="toc-sec-sub:banana" class="nav-link" data-scroll-target="#sec-sub\:banana"><span class="toc-section-number">6.3</span>  Test case 3: banana shape distribution</a></li>
-  <li><a href="#sec-sub:portfolio" id="toc-sec-sub:portfolio" class="nav-link" data-scroll-target="#sec-sub\:portfolio"><span class="toc-section-number">6.4</span>  Application 1: large portfolio losses</a></li>
-  <li><a href="#sec-sub:payoff" id="toc-sec-sub:payoff" class="nav-link" data-scroll-target="#sec-sub\:payoff"><span class="toc-section-number">6.5</span>  Application 2: discretized Asian payoff</a></li>
+  <li><a href="#sec-sub:banana" id="toc-sec-sub:banana" class="nav-link" data-scroll-target="#sec-sub\:banana"><span class="header-section-number">6.3</span> Test case 3: banana shape distribution</a></li>
+  <li><a href="#sec-sub:portfolio" id="toc-sec-sub:portfolio" class="nav-link" data-scroll-target="#sec-sub\:portfolio"><span class="header-section-number">6.4</span> Application 1: large portfolio losses</a></li>
+  <li><a href="#sec-sub:payoff" id="toc-sec-sub:payoff" class="nav-link" data-scroll-target="#sec-sub\:payoff"><span class="header-section-number">6.5</span> Application 2: discretized Asian payoff</a></li>
   </ul></li>
-  <li><a href="#sec-Ccl" id="toc-sec-Ccl" class="nav-link" data-scroll-target="#sec-Ccl"><span class="toc-section-number">7</span>  Conclusion</a></li>
+  <li><a href="#sec-Ccl" id="toc-sec-Ccl" class="nav-link" data-scroll-target="#sec-Ccl"><span class="header-section-number">7</span> Conclusion</a></li>
   <li><a href="#acknowledgement" id="toc-acknowledgement" class="nav-link" data-scroll-target="#acknowledgement">Acknowledgement</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
-</nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="content.pdf"><i class="bi bi-file-pdf"></i>PDF (computo)</a></li></ul></div></nav>
 </div>
 <main class="content quarto-banner-title-block" id="quarto-document-content">
 
@@ -367,7 +349,7 @@ ISSN 2824-7795</p>
 <div id="fig-l" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="content_files/figure-html/fig-l-output-1.svg" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;1: Plot of the function <span class="math inline">\ell(x)=-\log(x) + x - 1</span> given by <a href="#eq-l">Equation&nbsp;6</a></figcaption><p></p>
+<figcaption class="figure-caption">Figure&nbsp;1: Plot of the function <span class="math inline">\ell(x)=-\log(x) + x - 1</span> given by <a href="#eq-l">Equation&nbsp;6</a></figcaption>
 </figure>
 </div>
 </div>
@@ -718,7 +700,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <div id="fig-eigsum-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="content_files/figure-html/fig-eigsum-output-1.svg" class="img-fluid figure-img" data-ref-parent="fig-eigsum"></p>
-<p></p><figcaption class="figure-caption">(a) Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix <span class="math inline">\Sigma^*</span> (red squares), the sample covariance <span class="math inline">\widehat{\Sigma}^*</span> (blue circles), and the projected covariance <span class="math inline">\widehat{\Sigma}^*_k</span> (black triangles).</figcaption><p></p>
+<figcaption class="figure-caption">(a) Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix <span class="math inline">\Sigma^*</span> (red squares), the sample covariance <span class="math inline">\widehat{\Sigma}^*</span> (blue circles), and the projected covariance <span class="math inline">\widehat{\Sigma}^*_k</span> (black triangles).</figcaption>
 </figure>
 </div>
 </div>
@@ -729,7 +711,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <div id="fig-eigsum-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="content_files/figure-html/fig-eigsum-output-2.svg" class="img-fluid figure-img" data-ref-parent="fig-eigsum"></p>
-<p></p><figcaption class="figure-caption">(b) Computation of <span class="math inline">\ell(\lambda_i)</span> for the eigenvalues of <span class="math inline">\Sigma^*</span> (red squares) and <span class="math inline">\widehat{\Sigma}^*</span> (blue crosses) in dimension <span class="math inline">n = 100</span>.</figcaption><p></p>
+<figcaption class="figure-caption">(b) Computation of <span class="math inline">\ell(\lambda_i)</span> for the eigenvalues of <span class="math inline">\Sigma^*</span> (red squares) and <span class="math inline">\widehat{\Sigma}^*</span> (blue crosses) in dimension <span class="math inline">n = 100</span>.</figcaption>
 </figure>
 </div>
 </div>
@@ -974,7 +956,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 </details>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <div id="tbl-sum" class="anchored">
-<table class="table table-sm table-striped">
+<table class="table table-sm table-striped small">
 <caption>Table&nbsp;2: Numerical comparison of the estimation of <span class="math inline">E \approx 1.35\cdot 10^{-3}</span> considering the Gaussian model with the six covariance matrices defined in <a href="#sec-def_cov">Section&nbsp;5.2</a> and the vFMN model, when <span class="math inline">\phi = \mathbb{I}_{{\varphi\geq 0}}</span> with <span class="math inline">\varphi</span> the linear function given by <a href="#eq-sum">Equation&nbsp;13</a>. As explained in the text, <span class="math inline">{\widehat{\Sigma}^{\text{}}_\text{mean}}</span> and <span class="math inline">{\widehat{\Sigma}^{\text{}}_\text{opt}}</span> are actually equal in this case.</caption>
 <colgroup>
 <col style="width: 15%">
@@ -1190,7 +1172,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <div id="fig-inefficiency-parab-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="content_files/figure-html/fig-inefficiency-parab-output-1.svg" class="img-fluid figure-img" data-ref-parent="fig-inefficiency-parab"></p>
-<p></p><figcaption class="figure-caption">(a) Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix <span class="math inline">\Sigma^*</span> (red squares), the sample covariance <span class="math inline">\widehat{\Sigma}^*</span> (blue circles), and the projected covariance <span class="math inline">\widehat{\Sigma}^*_k</span> (black triangles).</figcaption><p></p>
+<figcaption class="figure-caption">(a) Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix <span class="math inline">\Sigma^*</span> (red squares), the sample covariance <span class="math inline">\widehat{\Sigma}^*</span> (blue circles), and the projected covariance <span class="math inline">\widehat{\Sigma}^*_k</span> (black triangles).</figcaption>
 </figure>
 </div>
 </div>
@@ -1201,7 +1183,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <div id="fig-inefficiency-parab-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="content_files/figure-html/fig-inefficiency-parab-output-2.svg" class="img-fluid figure-img" data-ref-parent="fig-inefficiency-parab"></p>
-<p></p><figcaption class="figure-caption">(b) Computation of <span class="math inline">\ell(\lambda_i)</span> for the eigenvalues of <span class="math inline">\Sigma^*</span> (red squares) and <span class="math inline">\widehat{\Sigma}^*</span> (blue crosses) in dimension <span class="math inline">n = 100</span>.</figcaption><p></p>
+<figcaption class="figure-caption">(b) Computation of <span class="math inline">\ell(\lambda_i)</span> for the eigenvalues of <span class="math inline">\Sigma^*</span> (red squares) and <span class="math inline">\widehat{\Sigma}^*</span> (blue crosses) in dimension <span class="math inline">n = 100</span>.</figcaption>
 </figure>
 </div>
 </div>
@@ -1475,7 +1457,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 </details>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <div id="tbl-parabol" class="anchored">
-<table class="table table-sm table-striped">
+<table class="table table-sm table-striped small">
 <caption>Table&nbsp;3: Numerical comparison of the estimation of <span class="math inline">E \approx 1.51\cdot 10^{-3}</span> considering the Gaussian density with the six covariance matrices defined in <a href="#sec-def_cov">Section&nbsp;5.2</a> and the vFMN model, when <span class="math inline">\phi = \mathbb{I}_{{\varphi\geq 0}}</span> with <span class="math inline">\varphi</span> the quadratic function given by <a href="#eq-parabol">Equation&nbsp;14</a>.</caption>
 <colgroup>
 <col style="width: 15%">
@@ -1677,7 +1659,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <div id="fig-inefficiency-banana-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="content_files/figure-html/fig-inefficiency-banana-output-1.svg" class="img-fluid figure-img" data-ref-parent="fig-inefficiency-banana"></p>
-<p></p><figcaption class="figure-caption">(a) Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix <span class="math inline">\Sigma^*</span> (red saquares), the sample covariance <span class="math inline">\widehat{\Sigma}^*</span> (blue circles), and the projected covariance <span class="math inline">\widehat{\Sigma}^*_k</span> (black triangles).</figcaption><p></p>
+<figcaption class="figure-caption">(a) Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix <span class="math inline">\Sigma^*</span> (red saquares), the sample covariance <span class="math inline">\widehat{\Sigma}^*</span> (blue circles), and the projected covariance <span class="math inline">\widehat{\Sigma}^*_k</span> (black triangles).</figcaption>
 </figure>
 </div>
 </div>
@@ -1688,7 +1670,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <div id="fig-inefficiency-banana-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="content_files/figure-html/fig-inefficiency-banana-output-2.svg" class="img-fluid figure-img" data-ref-parent="fig-inefficiency-banana"></p>
-<p></p><figcaption class="figure-caption">(b) Computation of <span class="math inline">\ell(\lambda_i)</span> for the eigenvalues of <span class="math inline">\Sigma^*</span> (red squares) and <span class="math inline">\widehat{\Sigma}^*</span> (blue crosses) in dimension <span class="math inline">n = 100</span> for the banana shape example of <a href="#eq-banana">Equation&nbsp;15</a>.</figcaption><p></p>
+<figcaption class="figure-caption">(b) Computation of <span class="math inline">\ell(\lambda_i)</span> for the eigenvalues of <span class="math inline">\Sigma^*</span> (red squares) and <span class="math inline">\widehat{\Sigma}^*</span> (blue crosses) in dimension <span class="math inline">n = 100</span> for the banana shape example of <a href="#eq-banana">Equation&nbsp;15</a>.</figcaption>
 </figure>
 </div>
 </div>
@@ -1922,7 +1904,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 </details>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <div id="tbl-banana" class="anchored">
-<table class="table table-sm table-striped">
+<table class="table table-sm table-striped small">
 <caption>Table&nbsp;4: Numerical comparison of the estimation of <span class="math inline">E=1</span> considering the Gaussian density with the six covariance matrices defined in <a href="#sec-def_cov">Section&nbsp;5.2</a> and the vFMN model, <span class="math inline">\phi = h/f</span>. NA stands for non applicable, as explained in the text.</caption>
 <colgroup>
 <col style="width: 15%">
@@ -2156,7 +2138,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <div id="fig-inefficiency-portfolio-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="content_files/figure-html/fig-inefficiency-portfolio-output-1.svg" class="img-fluid figure-img" data-ref-parent="fig-inefficiency-portfolio"></p>
-<p></p><figcaption class="figure-caption">(a) Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix <span class="math inline">\Sigma^*</span> (red squares), the sample covariance <span class="math inline">\widehat{\Sigma}^*</span> (blue circles), and the projected covariance <span class="math inline">\widehat{\Sigma}^*_k</span> (black triangles).</figcaption><p></p>
+<figcaption class="figure-caption">(a) Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix <span class="math inline">\Sigma^*</span> (red squares), the sample covariance <span class="math inline">\widehat{\Sigma}^*</span> (blue circles), and the projected covariance <span class="math inline">\widehat{\Sigma}^*_k</span> (black triangles).</figcaption>
 </figure>
 </div>
 </div>
@@ -2167,7 +2149,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <div id="fig-inefficiency-portfolio-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="content_files/figure-html/fig-inefficiency-portfolio-output-2.svg" class="img-fluid figure-img" data-ref-parent="fig-inefficiency-portfolio"></p>
-<p></p><figcaption class="figure-caption">(b) Computation of <span class="math inline">\ell(\lambda_i)</span> for the eigenvalues of <span class="math inline">\Sigma^*</span> (red squares) and <span class="math inline">\widehat{\Sigma}^*</span> (blue crosses) in dimension <span class="math inline">n = 100</span> for the large portfolio losses of <a href="#eq-portfolio">Equation&nbsp;16</a>.</figcaption><p></p>
+<figcaption class="figure-caption">(b) Computation of <span class="math inline">\ell(\lambda_i)</span> for the eigenvalues of <span class="math inline">\Sigma^*</span> (red squares) and <span class="math inline">\widehat{\Sigma}^*</span> (blue crosses) in dimension <span class="math inline">n = 100</span> for the large portfolio losses of <a href="#eq-portfolio">Equation&nbsp;16</a>.</figcaption>
 </figure>
 </div>
 </div>
@@ -2426,7 +2408,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 </details>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <div id="tbl-portfolio" class="anchored">
-<table class="table table-sm table-striped">
+<table class="table table-sm table-striped small">
 <caption>Table&nbsp;5: Numerical comparison of the estimation of <span class="math inline">E \approx 1.82 \cdot 10^{-3}</span> considering the Gaussian density with the six covariance matrices defined in <a href="#sec-def_cov">Section&nbsp;5.2</a> and the vFMN model, <span class="math inline">\phi = \mathbb{I}_{{\varphi \geq 0}}</span> with <span class="math inline">\varphi</span> given by <a href="#eq-portfolio">Equation&nbsp;16</a>.</caption>
 <colgroup>
 <col style="width: 15%">
@@ -2629,7 +2611,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <div id="fig-inefficiency-kawai-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="content_files/figure-html/fig-inefficiency-kawai-output-1.svg" class="img-fluid figure-img" data-ref-parent="fig-inefficiency-kawai"></p>
-<p></p><figcaption class="figure-caption">(a) Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix <span class="math inline">\Sigma^*</span> (red squares), the sample covariance <span class="math inline">\widehat{\Sigma}^*</span> (blue circles), and the projected covariance <span class="math inline">\widehat{\Sigma}^*_k</span> (black triangles).</figcaption><p></p>
+<figcaption class="figure-caption">(a) Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix <span class="math inline">\Sigma^*</span> (red squares), the sample covariance <span class="math inline">\widehat{\Sigma}^*</span> (blue circles), and the projected covariance <span class="math inline">\widehat{\Sigma}^*_k</span> (black triangles).</figcaption>
 </figure>
 </div>
 </div>
@@ -2640,7 +2622,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <div id="fig-inefficiency-kawai-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="content_files/figure-html/fig-inefficiency-kawai-output-2.svg" class="img-fluid figure-img" data-ref-parent="fig-inefficiency-kawai"></p>
-<p></p><figcaption class="figure-caption">(b) Computation of <span class="math inline">\ell(\lambda_i)</span> for the eigenvalues of <span class="math inline">\Sigma^*</span> (red squares) and <span class="math inline">\widehat{\Sigma}^*</span> (blue crosses) in dimension <span class="math inline">n = 100</span> for the Asian payoff example of <a href="#eq-payoff">Equation&nbsp;17</a></figcaption><p></p>
+<figcaption class="figure-caption">(b) Computation of <span class="math inline">\ell(\lambda_i)</span> for the eigenvalues of <span class="math inline">\Sigma^*</span> (red squares) and <span class="math inline">\widehat{\Sigma}^*</span> (blue crosses) in dimension <span class="math inline">n = 100</span> for the Asian payoff example of <a href="#eq-payoff">Equation&nbsp;17</a></figcaption>
 </figure>
 </div>
 </div>
@@ -2901,7 +2883,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 </details>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <div id="tbl-payoff" class="anchored">
-<table class="table table-sm table-striped">
+<table class="table table-sm table-striped small">
 <caption>Table&nbsp;6: Numerical comparison of the estimation of <span class="math inline">E \approx 18.7 \times 10^{-3}</span> considering the Gaussian density with the six covariance matrices defined in <a href="#sec-def_cov">Section&nbsp;5.2</a> and the vFMN model, when <span class="math inline">\phi</span> is given by <a href="#eq-payoff">Equation&nbsp;17</a>.</caption>
 <colgroup>
 <col style="width: 15%">
@@ -2984,89 +2966,89 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 </section>
 <section id="references" class="level1 unnumbered">
 <h1 class="unnumbered">References</h1>
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
-<div id="ref-AgapiouEtAl_ImportanceSamplingIntrinsic_2017" class="csl-entry" role="doc-biblioentry">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-AgapiouEtAl_ImportanceSamplingIntrinsic_2017" class="csl-entry" role="listitem">
 Agapiou, Sergios, Omiros Papaspiliopoulos, Daniel Sanz-Alonso, and Andrew M Stuart. 2017. <span>“Importance <span>Sampling</span> : <span>Intrinsic Dimension</span> and <span>Computational Cost</span>.”</span> <em>Statistical Science</em> 32 (3): 405–31. <a href="https://doi.org/10.1214/17-STS611">https://doi.org/10.1214/17-STS611</a>.
 </div>
-<div id="ref-AshurbekovaEtAl_OptimalShrinkageRobust_" class="csl-entry" role="doc-biblioentry">
+<div id="ref-AshurbekovaEtAl_OptimalShrinkageRobust_" class="csl-entry" role="listitem">
 Ashurbekova, Karina, Antoine Usseglio-Carleve, Florence Forbes, and Sophie Achard. 2020. <span>“Optimal Shrinkage for Robust Covariance Matrix Estimators in a Small Sample Size Setting.”</span>
 </div>
-<div id="ref-AuBeck_ImportantSamplingHigh_2003" class="csl-entry" role="doc-biblioentry">
+<div id="ref-AuBeck_ImportantSamplingHigh_2003" class="csl-entry" role="listitem">
 Au, S. K., and J. L. Beck. 2003. <span>“Important Sampling in High Dimensions.”</span> <em>Structural Safety</em> 25 (2): 139–63. <a href="https://doi.org/10.1016/S0167-4730(02)00047-4">https://doi.org/10.1016/S0167-4730(02)00047-4</a>.
 </div>
-<div id="ref-BassambooEtAl_PortfolioCreditRisk_2008" class="csl-entry" role="doc-biblioentry">
+<div id="ref-BassambooEtAl_PortfolioCreditRisk_2008" class="csl-entry" role="listitem">
 Bassamboo, Achal, Sandeep Juneja, and Assaf Zeevi. 2008. <span>“Portfolio <span>Credit Risk</span> with <span>Extremal Dependence</span>: <span>Asymptotic Analysis</span> and <span>Efficient Simulation</span>.”</span> <em>Operations Research</em> 56 (3): 593–606. <a href="https://doi.org/10.1287/opre.1080.0513">https://doi.org/10.1287/opre.1080.0513</a>.
 </div>
-<div id="ref-Benaych-Georges11:0" class="csl-entry" role="doc-biblioentry">
+<div id="ref-Benaych-Georges11:0" class="csl-entry" role="listitem">
 Benaych-Georges, Florent, and Raj Rao Nadakuditi. 2011. <span>“The Eigenvalues and Eigenvectors of Finite, Low Rank Perturbations of Large Random Matrices.”</span> <em>Advances in Mathematics</em> 227 (1): 494–521. <a href="https://doi.org/10.1016/j.aim.2011.02.007">https://doi.org/10.1016/j.aim.2011.02.007</a>.
 </div>
-<div id="ref-BengtssonEtAl_CurseofdimensionalityRevisitedCollapse_2008" class="csl-entry" role="doc-biblioentry">
+<div id="ref-BengtssonEtAl_CurseofdimensionalityRevisitedCollapse_2008" class="csl-entry" role="listitem">
 Bengtsson, Thomas, Peter Bickel, and Bo Li. 2008. <span>“Curse-of-Dimensionality Revisited: <span>Collapse</span> of the Particle Filter in Very Large Scale Systems.”</span> In <em>Institute of <span>Mathematical Statistics Collections</span></em>, 316–34. <span>Beachwood, Ohio, USA</span>: <span>Institute of Mathematical Statistics</span>. <a href="https://doi.org/10.1214/193940307000000518">https://doi.org/10.1214/193940307000000518</a>.
 </div>
-<div id="ref-bucklew2013introduction" class="csl-entry" role="doc-biblioentry">
+<div id="ref-bucklew2013introduction" class="csl-entry" role="listitem">
 Bucklew, James. 2013. <em>Introduction to Rare Event Simulation</em>. Springer Science &amp; Business Media. <a href="https://doi.org/10.1007/978-1-4757-4078-3">https://doi.org/10.1007/978-1-4757-4078-3</a>.
 </div>
-<div id="ref-BugalloEtAl_AdaptiveImportanceSampling_2017" class="csl-entry" role="doc-biblioentry">
+<div id="ref-BugalloEtAl_AdaptiveImportanceSampling_2017" class="csl-entry" role="listitem">
 Bugallo, Monica F., Victor Elvira, Luca Martino, David Luengo, Joaquin Miguez, and Petar M. Djuric. 2017. <span>“Adaptive <span>Importance Sampling</span>: <span>The</span> Past, the Present, and the Future.”</span> <em>IEEE Signal Processing Magazine</em> 34 (4): 60–79. <a href="https://doi.org/10.1109/MSP.2017.2699226">https://doi.org/10.1109/MSP.2017.2699226</a>.
 </div>
-<div id="ref-CappeEtAl_AdaptiveImportanceSampling_2008" class="csl-entry" role="doc-biblioentry">
+<div id="ref-CappeEtAl_AdaptiveImportanceSampling_2008" class="csl-entry" role="listitem">
 Cappé, Olivier, Randal Douc, Arnaud Guillin, Jean-Michel Marin, and Christian P. Robert. 2008. <span>“Adaptive Importance Sampling in General Mixture Classes.”</span> <em>Statistics and Computing</em> 18 (4): 447–59. <a href="https://doi.org/10.1007/s11222-008-9059-x">https://doi.org/10.1007/s11222-008-9059-x</a>.
 </div>
-<div id="ref-ChanKroese_ImprovedCrossentropyMethod_2012" class="csl-entry" role="doc-biblioentry">
+<div id="ref-ChanKroese_ImprovedCrossentropyMethod_2012" class="csl-entry" role="listitem">
 Chan, Joshua C. C., and Dirk P. Kroese. 2012. <span>“Improved Cross-Entropy Method for Estimation.”</span> <em>Statistics and Computing</em> 22 (5): 1031–40. <a href="https://doi.org/10.1007/s11222-011-9275-7">https://doi.org/10.1007/s11222-011-9275-7</a>.
 </div>
-<div id="ref-Chatterjee18:0" class="csl-entry" role="doc-biblioentry">
+<div id="ref-Chatterjee18:0" class="csl-entry" role="listitem">
 Chatterjee, Sourav, and Persi Diaconis. 2018. <span>“The Sample Size Required in Importance Sampling.”</span> <em>The Annals of Applied Probability</em> 28 (2): 1099–1135. <a href="https://doi.org/10.1214/17-AAP1326">https://doi.org/10.1214/17-AAP1326</a>.
 </div>
-<div id="ref-CornuetEtAl_AdaptiveMultipleImportance_2012" class="csl-entry" role="doc-biblioentry">
+<div id="ref-CornuetEtAl_AdaptiveMultipleImportance_2012" class="csl-entry" role="listitem">
 Cornuet, Jean-Marie, Jean-Michel Marin, Antonietta Mira, and Christian P. Robert. 2012. <span>“Adaptive Multiple Importance Sampling.”</span> <em>Scandinavian Journal of Statistics</em> 39 (4): 798–812. <a href="https://doi.org/10.1111/j.1467-9469.2011.00756.x">https://doi.org/10.1111/j.1467-9469.2011.00756.x</a>.
 </div>
-<div id="ref-MasriEtAl_ImprovementCrossentropyMethod_2020" class="csl-entry" role="doc-biblioentry">
+<div id="ref-MasriEtAl_ImprovementCrossentropyMethod_2020" class="csl-entry" role="listitem">
 El Masri, Maxime, Jérôme Morio, and Florian Simatos. 2021. <span>“Improvement of the Cross-Entropy Method in High Dimension for Failure Probability Estimation Through a One-Dimensional Projection Without Gradient Estimation.”</span> <em>Reliability Engineering &amp; System Safety</em> 216: 107991. <a href="https://doi.org/10.1016/j.ress.2021.107991">https://doi.org/10.1016/j.ress.2021.107991</a>.
 </div>
-<div id="ref-El-LahamEtAl_RecursiveShrinkageCovariance_" class="csl-entry" role="doc-biblioentry">
+<div id="ref-El-LahamEtAl_RecursiveShrinkageCovariance_" class="csl-entry" role="listitem">
 El-Laham, Yousef, Vı́ctor Elvira, and Mónica Bugallo. 2019. <span>“Recursive Shrinkage Covariance Learning in Adaptive Importance Sampling.”</span> In <em>2019 IEEE 8th International Workshop on Computational Advances in Multi-Sensor Adaptive Processing (CAMSAP)</em>, 624–28. IEEE. <a href="https://doi.org/10.1109/CAMSAP45676.2019.9022450">https://doi.org/10.1109/CAMSAP45676.2019.9022450</a>.
 </div>
-<div id="ref-ElviraEtAl_GeneralizedMultipleImportance_2019" class="csl-entry" role="doc-biblioentry">
+<div id="ref-ElviraEtAl_GeneralizedMultipleImportance_2019" class="csl-entry" role="listitem">
 Elvira, Vı́ctor, Luca Martino, David Luengo, and Mónica F. Bugallo. 2019. <span>“Generalized <span>Multiple Importance Sampling</span>.”</span> <em>Statistical Science</em> 34 (1): 129–55. <a href="https://doi.org/10.1214/18-STS668">https://doi.org/10.1214/18-STS668</a>.
 </div>
-<div id="ref-GraceEtAl_AutomatedStateDependentImportance_2014" class="csl-entry" role="doc-biblioentry">
+<div id="ref-GraceEtAl_AutomatedStateDependentImportance_2014" class="csl-entry" role="listitem">
 Grace, Adam W., Dirk P. Kroese, and Werner Sandmann. 2014. <span>“Automated <span>State</span>-<span>Dependent Importance Sampling</span> for <span>Markov Jump Processes</span> via <span>Sampling</span> from the <span>Zero</span>-<span>Variance Distribution</span>.”</span> <em>Journal of Applied Probability</em> 51 (3): 741–55. <a href="https://doi.org/10.1239/jap/1409932671">https://doi.org/10.1239/jap/1409932671</a>.
 </div>
-<div id="ref-HohenbichlerRackwitz_NonNormalDependentVectors_1981" class="csl-entry" role="doc-biblioentry">
+<div id="ref-HohenbichlerRackwitz_NonNormalDependentVectors_1981" class="csl-entry" role="listitem">
 Hohenbichler, Michael, and Rüdiger Rackwitz. 1981. <span>“Non-<span>Normal Dependent Vectors</span> in <span>Structural Safety</span>.”</span> <em>Journal of the Engineering Mechanics Division</em> 107 (6): 1227–38. <a href="https://doi.org/10.1061/JMCEA3.0002777">https://doi.org/10.1061/JMCEA3.0002777</a>.
 </div>
-<div id="ref-Kawai_OptimizingAdaptiveImportance_2018" class="csl-entry" role="doc-biblioentry">
+<div id="ref-Kawai_OptimizingAdaptiveImportance_2018" class="csl-entry" role="listitem">
 Kawai, Reiichiro. 2018. <span>“Optimizing <span>Adaptive Importance Sampling</span> by <span>Stochastic Approximation</span>.”</span> <em>SIAM Journal on Scientific Computing</em> 40 (4): A2774–2800. <a href="https://doi.org/10.1137/18M1173472">https://doi.org/10.1137/18M1173472</a>.
 </div>
-<div id="ref-LedoitWolf_WellconditionedEstimatorLargedimensional_2004" class="csl-entry" role="doc-biblioentry">
+<div id="ref-LedoitWolf_WellconditionedEstimatorLargedimensional_2004" class="csl-entry" role="listitem">
 Ledoit, Olivier, and Michael Wolf. 2004. <span>“A Well-Conditioned Estimator for Large-Dimensional Covariance Matrices.”</span> <em>Journal of Multivariate Analysis</em> 88 (2): 365–411. <a href="https://doi.org/10.1016/S0047-259X(03)00096-4">https://doi.org/10.1016/S0047-259X(03)00096-4</a>.
 </div>
-<div id="ref-LiuDerKiureghian_MultivariateDistributionModels_1986" class="csl-entry" role="doc-biblioentry">
+<div id="ref-LiuDerKiureghian_MultivariateDistributionModels_1986" class="csl-entry" role="listitem">
 Liu, Pei-Ling, and Armen Der Kiureghian. 1986. <span>“Multivariate Distribution Models with Prescribed Marginals and Covariances.”</span> <em>Probabilistic Engineering Mechanics</em> 1 (2): 105–12. <a href="https://doi.org/10.1016/0266-8920(86)90033-0">https://doi.org/10.1016/0266-8920(86)90033-0</a>.
 </div>
-<div id="ref-Mestre_ImprovedEstimationEigenvalues_2008" class="csl-entry" role="doc-biblioentry">
+<div id="ref-Mestre_ImprovedEstimationEigenvalues_2008" class="csl-entry" role="listitem">
 Mestre, Xavier. 2008a. <span>“Improved <span>Estimation</span> of <span>Eigenvalues</span> and <span>Eigenvectors</span> of <span>Covariance Matrices Using Their Sample Estimates</span>.”</span> <em>IEEE Transactions on Information Theory</em> 54 (11): 5113–29. <a href="https://doi.org/10.1109/TIT.2008.929938">https://doi.org/10.1109/TIT.2008.929938</a>.
 </div>
-<div id="ref-Mestre_AsymptoticBehaviorSample_2008" class="csl-entry" role="doc-biblioentry">
+<div id="ref-Mestre_AsymptoticBehaviorSample_2008" class="csl-entry" role="listitem">
 ———. 2008b. <span>“On the <span>Asymptotic Behavior</span> of the <span>Sample Estimates</span> of <span>Eigenvalues</span> and <span>Eigenvectors</span> of <span>Covariance Matrices</span>.”</span> <em>IEEE Transactions on Signal Processing</em> 56 (11): 5353–68. <a href="https://doi.org/10.1109/TSP.2008.929662">https://doi.org/10.1109/TSP.2008.929662</a>.
 </div>
-<div id="ref-Nadakuditi08:0" class="csl-entry" role="doc-biblioentry">
+<div id="ref-Nadakuditi08:0" class="csl-entry" role="listitem">
 Nadakuditi, Raj Rao, and Alan Edelman. 2008. <span>“Sample Eigenvalue Based Detection of High-Dimensional Signals in White Noise Using Relatively Few Samples.”</span> <em>IEEE Transactions on Signal Processing</em> 56 (7): 2625–38. <a href="https://doi.org/10.1109/TSP.2008.917356">https://doi.org/10.1109/TSP.2008.917356</a>.
 </div>
-<div id="ref-OwenZhou_SafeEffectiveImportance_2000" class="csl-entry" role="doc-biblioentry">
+<div id="ref-OwenZhou_SafeEffectiveImportance_2000" class="csl-entry" role="listitem">
 Owen, Art, and Yi Zhou. 2000. <span>“Safe and <span>Effective Importance Sampling</span>.”</span> <em>Journal of the American Statistical Association</em> 95 (449): 135–43. <a href="https://doi.org/10.1080/01621459.2000.10473909">https://doi.org/10.1080/01621459.2000.10473909</a>.
 </div>
-<div id="ref-PapaioannouEtAl_ImprovedCrossEntropybased_2019" class="csl-entry" role="doc-biblioentry">
+<div id="ref-PapaioannouEtAl_ImprovedCrossEntropybased_2019" class="csl-entry" role="listitem">
 Papaioannou, Iason, Sebastian Geyer, and Daniel Straub. 2019. <span>“Improved Cross Entropy-Based Importance Sampling with a Flexible Mixture Model.”</span> <em>Reliability Engineering &amp; System Safety</em> 191 (November): 106564. <a href="https://doi.org/10.1016/j.ress.2019.106564">https://doi.org/10.1016/j.ress.2019.106564</a>.
 </div>
-<div id="ref-RubinsteinKroese_CrossentropyMethodUnified_2011" class="csl-entry" role="doc-biblioentry">
+<div id="ref-RubinsteinKroese_CrossentropyMethodUnified_2011" class="csl-entry" role="listitem">
 Rubinstein, Reuven Y., and Dirk P Kroese. 2011. <em>The Cross-Entropy Method: A Unified Approach to Combinatorial Optimization, <span>Monte</span>-<span>Carlo</span> Simulation and Machine Learning</em>. <span>New York; London</span>: <span>Springer</span>. <a href="https://doi.org/10.1007/978-1-4757-4321-0">https://doi.org/10.1007/978-1-4757-4321-0</a>.
 </div>
-<div id="ref-RubinsteinKroese_SimulationMonteCarlo_2017" class="csl-entry" role="doc-biblioentry">
+<div id="ref-RubinsteinKroese_SimulationMonteCarlo_2017" class="csl-entry" role="listitem">
 Rubinstein, Reuven Y., and Dirk P. Kroese. 2017. <em>Simulation and the <span>Monte Carlo</span> Method</em>. Third edition. Wiley Series in Probability and Statistics. <span>Hoboken, New Jersey</span>: <span>Wiley</span>. <a href="https://doi.org/10.1002/9781118631980">https://doi.org/10.1002/9781118631980</a>.
 </div>
-<div id="ref-UribeEtAl_CrossentropybasedImportanceSampling_2020" class="csl-entry" role="doc-biblioentry">
+<div id="ref-UribeEtAl_CrossentropybasedImportanceSampling_2020" class="csl-entry" role="listitem">
 Uribe, Felipe, Iason Papaioannou, Youssef M. Marzouk, and Daniel Straub. 2021. <span>“Cross-Entropy-Based Importance Sampling with Failure-Informed Dimension Reduction for Rare Event Simulation.”</span> <em>SIAM/ASA Journal on Uncertainty Quantification</em> 9 (2): 818–47. <a href="https://doi.org/10.1137/20M1344585">https://doi.org/10.1137/20M1344585</a>.
 </div>
 </div>
@@ -3074,7 +3056,7 @@ Uribe, Felipe, Iason Papaioannou, Youssef M. Marzouk, and Daniel Straub. 2021. <
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section></div></main>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div id="quarto-reuse" class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></div></section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -3103,9 +3085,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -3221,6 +3217,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -3264,7 +3346,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
-    var links = window.document.querySelectorAll('a:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

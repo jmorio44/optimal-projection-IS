@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.353">
+<meta name="generator" content="quarto-1.3.361">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Maxime El Masri">
 <meta name="author" content="Jérôme Morio">
 <meta name="author" content="Florian Simatos">
-<meta name="dcterms.date" content="2023-05-21">
+<meta name="dcterms.date" content="2023-05-28">
 <meta name="keywords" content="Importance sampling, High dimension, Gaussian covariance matrix, Kullback-Leibler divergence, Projection">
 <meta name="description" content="This document provides a dimension-reduction strategy in order to improve the performance of importance sampling in high dimension.">
 
@@ -188,7 +188,7 @@ ISSN 2824-7795</p>
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">May 21, 2023</p>
+        <p class="date">May 28, 2023</p>
       </div>
     </div>
                                     
@@ -308,7 +308,7 @@ ISSN 2824-7795</p>
      \tag{6}</span></span> In the following, <span class="math inline">(\lambda, \mathbf{d}) \in \mathbb{R} \times \mathbb{R}^n</span> is an eigenpair of a matrix <span class="math inline">A</span> if <span class="math inline">A\mathbf{d} = \lambda \mathbf{d}</span> and <span class="math inline">\lVert \mathbf{d} \rVert = 1</span>. A diagonalizable matrix has <span class="math inline">n</span> distinct eigenpairs, say <span class="math inline">((\lambda^*_i, \mathbf{d}^*_i), i = 1, \ldots, n)</span>, and we say that these eigenpairs are ranked in decreasing <span class="math inline">\ell</span>-order if <span class="math inline">\ell(\lambda^*_1) \geq \cdots \geq \ell(\lambda^*_n)</span>.</p>
 <div class="cell" data-execution_count="1">
 <details>
-<summary>Hide/Show the code</summary>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#######################################################################</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Figure 1. Plot of the function "l"</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#######################################################################</span></span>
@@ -584,7 +584,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <p><a href="#fig-eigsum-2">Figure&nbsp;2 (b)</a> represents the images by <span class="math inline">\ell</span> of the eigenvalues of <span class="math inline">\Sigma^*</span> and <span class="math inline">\widehat{\Sigma}^*</span>. This picture carries a very important insight. We notice that the estimation of most eigenvalues is poor: indeed, all the blue crosses except the leftmost one are meant to be estimator of <span class="math inline">1</span>, whereas we see that they are more or less uniformly spread between <span class="math inline">0.2</span> and <span class="math inline">2.5</span>. This means that the variance terms in the corresponding directions are poorly estimated, which could be the explanation on why the use of <span class="math inline">\widehat{\Sigma}^*</span> gives an inaccurate estimation. But what we remark also is that the function <span class="math inline">\ell</span> is quite flat around one: as a consequence, although the eigenvalues offer significant variability, this variability is smoothed by the action of <span class="math inline">\ell</span>. Indeed, the images of the eigenvalues by <span class="math inline">\ell</span> take values between <span class="math inline">0</span> and <span class="math inline">0.8</span> and have smaller variability. Moreover, <span class="math inline">\ell(x)</span> increases sharply as <span class="math inline">x</span> approaches <span class="math inline">0</span> and thus efficiently distinguishes between the two leftmost estimated eigenvalues and is able to separate them.</p>
 <div>
 <details>
-<summary>Hide/Show the code</summary>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#############################################################################</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Figure 2. Evolution of the partial KL divergence and spectrum of the</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># eigenvalues for the test case 1</span></span>
@@ -728,7 +728,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <p>Thus, the proposed idea improves significantly the probability estimation in high dimension. But we see that the method taken in <span class="citation" data-cites="MasriEtAl_ImprovementCrossentropyMethod_2020">(<a href="#ref-MasriEtAl_ImprovementCrossentropyMethod_2020" role="doc-biblioref">El Masri, Morio, and Simatos 2021</a>)</span> with the projection <span class="math inline">\mathbf{m}^*</span> is at least as much efficient in this example where we need only a one-dimensional projection. The next case shows that the projection on more than one direction can outperform the one-dimensional projection on <span class="math inline">\mathbf{m}^*</span>.</p>
 <div class="cell" data-execution_count="3">
 <details>
-<summary>Hide/Show the code</summary>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">###########################################################################</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Table 2. Numerical comparison on test case 1</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">###########################################################################</span></span>
@@ -1041,7 +1041,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <p>We can numerically compute <span class="math inline">\lambda_1 \approx 0.28</span>, <span class="math inline">\lambda_2 \approx 0.009</span> and <span class="math inline">\lambda_3 \approx 0.008</span>. These values correspond to the red squares in <a href="#fig-inefficiency-parab-2">Figure&nbsp;3 (b)</a> which shows that the smallest eigenvalues are properly estimated. Moreover, Algorithm 2 selects the two largest eigenvalues, which have the highest <span class="math inline">\ell</span>-values. These two eigenvalues thus correspond to the eigenvectors <span class="math inline">\mathbf{e}_2</span> and <span class="math inline">\mathbf{e}_3</span>, and so we see that on this example, the optimal directions predicted by <a href="#thm-thm1">Theorem&nbsp;1</a> are significantly different (actually, orthogonal) from <span class="math inline">\mathbf{m}^*</span> which is proportional to <span class="math inline">\textbf{e}_1</span>.</p>
 <div>
 <details>
-<summary>Hide/Show the code</summary>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">############################################################################</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Figure 3. Evolution of the partial KL divergence and spectrum of the </span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># eigenvalues for the test case 2</span></span>
@@ -1200,7 +1200,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <p>Finally, we notice that performing estimations of the projection directions instead of taking the true ones (columns <span class="math inline">{\widehat{\Sigma}^{\text{+d}}_\text{opt}}</span> vs <span class="math inline">{\widehat{\Sigma}^{\text{}}_\text{opt}}</span>) slightly degrades the situation, making the coefficient of variation increase from <span class="math inline">3.7</span> to <span class="math inline">7.2 \%</span> even if the accuracy remains satisfactory. The vMFN model is also not really adapted to this example as it gives results similar to <span class="math inline">{\widehat{\Sigma}^{\text{}}_\text{mean}}</span>. Gaussian density family are more able to fit <span class="math inline">g^*</span> than vMFN parametric model in this test case.</p>
 <div class="cell" data-execution_count="5">
 <details>
-<summary>Hide/Show the code</summary>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">##############################################################################</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Table 3. Numerical comparison on test case 2</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">##############################################################################</span></span>
@@ -1539,7 +1539,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <p>The simulation results for the different covariance matrices and the vMFN density are given in <a href="#tbl-banana">Table&nbsp;4</a>. The matrices <span class="math inline">{\widehat{\Sigma}^{\text{}}_\text{opt}}</span> and <span class="math inline">{\widehat{\Sigma}^{\text{+d}}_\text{opt}}</span> perform very well for the estimation of <span class="math inline">E</span> with an accuracy of the same order as the optimal covariance matrix <span class="math inline">\Sigma^*</span>. The effect of estimating the <span class="math inline">k=2</span> main projection directions does not affect much the estimation performance as <span class="math inline">{\widehat{\Sigma}^{\text{+d}}_\text{opt}}</span> is still efficient compared to <span class="math inline">{\widehat{\Sigma}^{\text{}}_\text{opt}}</span>. The estimation results with <span class="math inline">{\widehat{\Sigma}^{\text{+d}}_\text{mean}}</span> are not really accurate and this choice is in fact roughly equivalent to choosing a random projection direction. The vMFN parametric model is not adapted to this test case as the vMFN estimate is not close to 1.</p>
 <div>
 <details>
-<summary>Hide/Show the code</summary>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#############################################################################</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Figure 4. Evolution of the partial KL divergence and spectrum of the </span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># eigenvalues for the test case 3</span></span>
@@ -1681,7 +1681,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 </div>
 <div class="cell" data-execution_count="7">
 <details>
-<summary>Hide/Show the code</summary>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#############################################################################</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Table 4. Numerical comparison on test case 3</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#############################################################################</span></span>
@@ -1973,7 +1973,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <p>The reference value of this probability <span class="math inline">E</span> is reported in <a href="#tbl-portfolio">Table&nbsp;5</a> for dimension <span class="math inline">n=100</span>. The optimal parameters <span class="math inline">\mathbf{m}^*</span> and <span class="math inline">\Sigma^*</span> cannot be computed analytically, but they are accurately estimated by Monte Carlo with a large sample. It turns out that <span class="math inline">\mathbf{m}^*</span> and the first eigenvector <span class="math inline">\mathbf{d}^*_1</span> of <span class="math inline">\Sigma^*</span> are numerically indistinguishable and that Algorithm 2 selects <span class="math inline">k=1</span> projection direction, so that numerically, the choices <span class="math inline">{\widehat{\Sigma}^{\text{}}_\text{opt}}</span> and <span class="math inline">{\widehat{\Sigma}^{\text{}}_\text{mean}}</span> are indistinguishable and gives the same estimation results. Actually, the fact that these two estimators behave similarly does not seem to come from the fact that <span class="math inline">\mathbf{m}^*</span> and <span class="math inline">\mathbf{d}^*</span> are close: this relation can be broken for instance by a simple translation argument (see remark after <a href="#tbl-payoff">Table&nbsp;6</a>), but even then they behave similarly. The KL partial divergence and the spectrum with the associated <span class="math inline">\ell</span>-order are presented respectively in <a href="#fig-inefficiency-portfolio-1">Figure&nbsp;5 (a)</a> and in <a href="#fig-inefficiency-portfolio-2">Figure&nbsp;5 (b)</a>.</p>
 <div>
 <details>
-<summary>Hide/Show the code</summary>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">###########################################################################</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Figure 5. Evolution of the partial KL divergence and spectrum of the </span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># eigenvalues for the large portfolio loss application</span></span>
@@ -2160,7 +2160,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 </div>
 <div class="cell" data-execution_count="9">
 <details>
-<summary>Hide/Show the code</summary>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#############################################################################</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Table 5. Numerical comparison on the large portfolio loss application</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co">#############################################################################</span></span>
@@ -2478,7 +2478,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <p>The results of this example are given in <a href="#tbl-payoff">Table&nbsp;6</a>. The insight gained in the previous examples is confirmed. Projecting on <span class="math inline">\mathbf{m}^*</span> or <span class="math inline">\mathbf{d}^*_1</span> in dimension <span class="math inline">n = 100</span> enables to reach convergence and reduces (compared to <span class="math inline">\widehat{\Sigma}^*</span>) the coefficient of variation from <span class="math inline">559\%</span> to nearly <span class="math inline">2\%</span>. Moreover, this improvement goes through even when projection directions are estimated, with again <span class="math inline">{\widehat{\Sigma}^{\text{+d}}_\text{mean}}</span> behaving better than <span class="math inline">{\widehat{\Sigma}^{\text{+d}}_\text{opt}}</span>.</p>
 <div>
 <details>
-<summary>Hide/Show the code</summary>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">##########################################################################</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Figure 6. Evolution of the partial KL divergence and spectrum of the </span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># eigenvalues for the asian payoff application</span></span>
@@ -2633,7 +2633,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 </div>
 <div class="cell" data-execution_count="11">
 <details>
-<summary>Hide/Show the code</summary>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#########################################################################</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Table 6. Numerical comparison on the Asian payoff application</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">########################################################################</span></span>

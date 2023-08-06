@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Maxime El Masri">
 <meta name="author" content="Jérôme Morio">
 <meta name="author" content="Florian Simatos">
-<meta name="dcterms.date" content="2023-07-30">
+<meta name="dcterms.date" content="2023-08-06">
 <meta name="keywords" content="Importance sampling, High dimension, Gaussian covariance matrix, Kullback-Leibler divergence, Projection">
 <meta name="description" content="This document provides a dimension-reduction strategy in order to improve the performance of importance sampling in high dimension.">
 
@@ -188,7 +188,7 @@ ISSN 2824-7795</p>
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">July 30, 2023</p>
+        <p class="date">August 6, 2023</p>
       </div>
     </div>
                                     
@@ -361,7 +361,7 @@ ISSN 2824-7795</p>
 </div>
 <p>For <span class="math inline">k = 1</span> for instance, the shape of the function <span class="math inline">\ell</span> depicted in <a href="#fig-l">Figure&nbsp;1</a> implies that the matrix <span class="math inline">\Sigma^*_1 = I_n + (\lambda^*-1) \mathbf{d}^* (\mathbf{d}^*)^\top</span> with <span class="math inline">(\lambda^*, \mathbf{d}^*)</span> the eigenpair of <span class="math inline">\Sigma^*</span> with <span class="math inline">\lambda^*</span> either the largest or the smallest eigenvalue of <span class="math inline">\Sigma^*</span>, depending on which one maximizes <span class="math inline">\ell</span>.</p>
 <p>This theoretical result therefore suggests to reduce dimension by estimating eigenpairs of <span class="math inline">\Sigma^*</span>, rank them in decreasing <span class="math inline">\ell</span>-order and then use the <span class="math inline">k</span> first eigenpairs <span class="math inline">(({\widehat{\lambda}}^*_i, {\widehat{\mathbf{d}}}^*_i), i = 1, \ldots, k)</span> to build the covariance matrix <span class="math inline">\widehat \Sigma^*_k = \sum_{i=1}^k ({\widehat{\lambda}}^*_i-1) {\widehat{\mathbf{d}}}^*_i ({{\widehat{\mathbf{d}}}^*}_i)^\top + I_n</span> and the corresponding auxiliary density. This scheme is summarized in Algorithm 1. The effective dimension <span class="math inline">k</span> is obtained by Algorithm 2, see <a href="#sec-choicek">Section&nbsp;3.3</a> below.</p>
-<div class="pseudocode-container" data-pseudocode-index="1" data-alg-title="Algorithm">
+<div class="pseudocode-container" data-alg-title="Algorithm" data-pseudocode-index="1">
 <div class="pseudocode">
 \begin{algorithm} \caption{Algorithm suggested by Theorem 1.} \begin{algorithmic} \State \textbf{Data}: Sample sizes $N$ and $M$ \State \textbf{Result}: Estimation $\widehat{E}_N$ of integral $E$ \State - Generate a sample $\mathbf{X}_1,\ldots,\mathbf{X}_M$ on $\mathbb{R}^n$ independently according to $g^*$ \State - Estimate $\widehat{\mathbf{m}}^*$ and $\widehat{\Sigma}^*$ defined in Equation 10 and Equation 11 with this sample \State - Compute the eigenpairs $(\widehat{\lambda}^*_i, \widehat{\mathbf{d}}^*_i)$ of $\widehat{\Sigma}^*$ ranked in decreasing $\ell$-order \State - Compute the matrix $\widehat{\Sigma}^*_k = \sum_{i=1}^k ({\widehat{\lambda}}^*_i-1) {\widehat{\mathbf{d}}}^*_i ({{\widehat{\mathbf{d}}}^*}_i)^\top + I_n$ with $k$ obtained by applying Algorithm 2 with input $({\widehat{\lambda}}^*_1, \ldots, {\widehat{\lambda}}^*_n)$ \State - Generate a new sample $\mathbf{X}_1,\ldots,\mathbf{X}_N$ independently from $g' = g_{\widehat{\mathbf{m}}^*,\widehat{\Sigma}^*_k}$ \State - Return $\displaystyle \widehat{E}_N=\frac{1}{N}\underset{i=1}{\overset{N}{\sum}} \phi(\mathbf{X}_i)\frac{f(\mathbf{X}_i)}{g'(\mathbf{X}_i)}$ \end{algorithmic} \end{algorithm}
 </div>
@@ -374,7 +374,7 @@ ISSN 2824-7795</p>
 <section id="sec-choicek" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="sec-choicek"><span class="header-section-number">3.3</span> Choice of the number of dimensions <span class="math inline">k</span></h2>
 <p>The choice of the effective dimension <span class="math inline">k</span>, i.e., the number of projection directions considered, is important. If it is close to <span class="math inline">n</span>, then the matrix <span class="math inline">\widehat{\Sigma}^*_k</span> will be close to <span class="math inline">\widehat{\Sigma}^*</span> which is the situation we want to avoid in the first place. On the other hand, setting <span class="math inline">k=1</span> in all cases may be too simple and lead to suboptimal results. In practice however, this is often a good choice. In order to adapt <span class="math inline">k</span> dynamically, we consider a simple method based on the value of the KL divergence. Given the eigenvalues <span class="math inline">\lambda_1, \ldots, \lambda_n</span> ranked in decreasing <span class="math inline">\ell</span>-order, we look for the maximal gap in the sequence <span class="math inline">(\ell(\lambda_1), \ldots, \ell(\lambda_n))</span>. This allows to choose <span class="math inline">k</span> such that <span class="math inline">\sum_{i=1}^k \ell(\lambda_i)</span> is close to <span class="math inline">\sum_{i=1}^n \ell(\lambda_i)</span> which is equal, up to an additive constant, to the minimal KL divergence (see <a href="#eq-Dell">Equation&nbsp;9</a> below). The precise method is described in Algorithm 2.</p>
-<div class="pseudocode-container" data-pseudocode-index="2" data-alg-title="Algorithm">
+<div class="pseudocode-container" data-alg-title="Algorithm" data-pseudocode-index="2">
 <div class="pseudocode">
 \begin{algorithm} \caption{Choice of the number of dimensions} \begin{algorithmic} \State \textbf{Data}: Sequence of positive numbers $\lambda_1, \ldots, \lambda_n$ in decreasing $\ell$-order \State \textbf{Result}: Number of selected dimensions $k$ \State - Compute the increments $\delta_i = \ell(\lambda_{i+1}) - \ell(\lambda_i)$ for $i=1\ldots n-1$ \State - Return $k=\arg\max \delta_i$, the index of the maximum of the differences. \end{algorithmic} \end{algorithm}
 </div>

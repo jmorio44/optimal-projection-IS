@@ -127,7 +127,7 @@ $$
 \mathbf{m}^*_k = \mathbf{m}^* \ \text{ and } \ \mathbf{\Sigma}^*_k = I_n + \sum_{i=1}^k \left( \lambda^*_i - 1 \right) \mathbf{d}^*_i (\mathbf{d}^*_i)^\top. 
 $$ {#eq-Sigma*k}
 :::
-The proof of @thm-thm1 is detailed in @sec-proof. For $k = 1$ for instance, the shape of the function $\ell$ depicted in @fig-l implies that the matrix $\mathbf{\Sigma}^*_1 = I_n + (\lambda^*-1) \mathbf{d}^* (\mathbf{d}^*)^\top$ with $(\lambda^*, \mathbf{d}^*)$ the eigenpair of $\mathbf{\Sigma}^*$ and $\lambda^*$ either the largest or the smallest eigenvalue of $\mathbf{\Sigma}^*$, depending on which one maximizes $\ell$.
+The proof of @thm-thm1 is detailed in [Appendix A]@#sec-proof. For $k = 1$ for instance, the shape of the function $\ell$ depicted in @fig-l implies that the matrix $\mathbf{\Sigma}^*_1 = I_n + (\lambda^*-1) \mathbf{d}^* (\mathbf{d}^*)^\top$ with $(\lambda^*, \mathbf{d}^*)$ the eigenpair of $\mathbf{\Sigma}^*$ and $\lambda^*$ either the largest or the smallest eigenvalue of $\mathbf{\Sigma}^*$, depending on which one maximizes $\ell$.
 
 This theoretical result therefore suggests to reduce dimension by estimating eigenpairs of $\mathbf{\Sigma}^*$, rank them in decreasing $\ell$-order and then use the $k$ first eigenpairs $(({\widehat{\lambda}}^*_i, {\widehat{\mathbf{d}}}^*_i), i = 1, \ldots, k)$ to build the covariance matrix $\widehat{\mathbf{\Sigma}}^*_k = \sum_{i=1}^k ({\widehat{\lambda}}^*_i-1) {\widehat{\mathbf{d}}}^*_i ({{\widehat{\mathbf{d}}}^*}_i)^\top + I_n$ and the corresponding auxiliary density. This scheme is summarized in Algorithm 1. The effective dimension $k$ is obtained by Algorithm 2, see @sec-choicek below. The proof of the theorem is shown in @#sec-proof.
 
@@ -412,7 +412,7 @@ We note finally that it would be interesting to consider multimodal failure func
 # Acknowledgement {.unnumbered}
 The first author was enrolled in a PhD program co-funded by ISAE-SUPAERO and ONERA—The French Aerospace Lab. Their financial support is gratefully acknowledged. This work is part of the activities of ONERA - ISAE - ENAC joint research group.
 
-# Proof of @thm-thm1 and @thm-thm2 {#sec-proof} {.appendix}
+# Appendix A: Proof of @thm-thm1 and @thm-thm2 {#sec-proof} {.appendix .unnumbered}
 We begin with a preliminary lemma.
 
 ::: {#lem-D}

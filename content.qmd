@@ -2461,7 +2461,7 @@ def mypi(X):
     return((phi(X)>0)*f0)
 
 N=2000   
-M=500   
+M=1000   
 B=500   # number of runs
 
 Eopt=np.zeros(B)

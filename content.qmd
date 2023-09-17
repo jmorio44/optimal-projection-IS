@@ -2348,7 +2348,7 @@ We note finally that it would be interesting to consider multimodal failure func
 # Acknowledgement {.unnumbered}
 The first author was enrolled in a PhD program co-funded by ISAE-SUPAERO and ONERA—The French Aerospace Lab. Their financial support is gratefully acknowledged. This work is part of the activities of ONERA - ISAE - ENAC joint research group.
 
-# Appendix A: Proof of @thm-thm1 and @thm-thm2 {#sec-proof} {.appendix .unnumbered}
+# Appendix A: Proof of @thm-thm1 and @thm-thm2 {#sec-proof .appendix .unnumbered}
 We begin with a preliminary lemma.
 
 ::: {#lem-D}
@@ -2420,7 +2420,7 @@ $$
 As $\ell$ is increasing in $[1, \infty)$, this last quantity is minimized by maximizing $(\mathbf{d}^\top \mathbf{m}^*)^2$, which is obtained for $\mathbf{d} = \mathbf{m}^* / \lVert \mathbf{m}^* \rVert$. The result is proved.
 :::
 
-# Appendix B: Choice of the auxiliary density $g'$ for the von Mises–Fisher–Nakagami model {#sec-naka}  {.appendix .unnumbered}
+# Appendix B: Choice of the auxiliary density $g'$ for the von Mises–Fisher–Nakagami model {#sec-naka .appendix .unnumbered}
 Von Mises–Fisher–Nakagami (vMFN) distributions were proposed in [@PapaioannouEtAl_ImprovedCrossEntropybased_2019] as an alternative to the Gaussian parametric family to perform IS for high dimensional probability estimation. A random vector $\mathbf{X}$ drawn according to the vMFN distribution can be written as $\mathbf{X}=R {\bf A}$ where ${\bf A}=\frac{\mathbf{X}}{\lVert\mathbf{X}\rVert}$ is a unit random vector following the von Mises--Fisher distribution, and $R=\lVert\mathbf{X}\rVert$ is a positive random variable with a Nakagami distribution; further, $R$ and $\bf A$ are independent. The vMFN pdf can be written as
 $$
 g_\text{vMFN}({\bf x})= g_\text{N}(\lVert{\bf x}\rVert, p, \omega) \times g_\text{vMF} \left( \frac{{\bf x}}{\lVert{\bf x}\rVert}, {\boldsymbol{\mu}}, \kappa \right).
@@ -2446,7 +2446,7 @@ $$
 # Appendix C: MCMC  {.appendix .unnumbered}
 
 ```{python}
-#| label: tbl-sum
+#| label: tbl-sumMCMC
 #| tbl-cap: 'Numerical comparison of the estimation of $\mathcal{E} \approx 1.35\cdot 10^{-3}$ considering the Gaussian model with the six covariance matrices defined in @sec-def_cov and the vFMN model, when $\phi = \mathbb{I}_{\{\varphi\geq 0\}}$ with $\varphi$ the linear function given by @eq-sum. As explained in the text, ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{mean}}$ and ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{opt}}$ are actually equal in this case. The computational cost is $N=2000$.'
 ###########################################################################
 # Table 2. Numerical comparison on test case 1

@@ -170,12 +170,12 @@ The main result of the present paper is to compute the exact value for $\mathbf{
 Let $(\lambda^*_i, \mathbf{d}^*_i)$ be the eigenpairs of $\mathbf{\Sigma}^*$ ranked in decreasing $\ell$-order. Then for $1 \leq k \leq n$, the solution $(\mathbf{m}^*_k, \mathbf{\Sigma}^*_k)$ to @eq-argminDkl-k is given by
 $$
 \mathbf{m}^*_k = \mathbf{m}^* \ \text{ and } \ \mathbf{\Sigma}^*_k = I_n + \sum_{i=1}^k \left( \lambda^*_i - 1 \right) \mathbf{d}^*_i (\mathbf{d}^*_i)^\top. 
-$$ {#eq-Sigma*k}
+$$ {#eq-Sigma-k}
 :::
 
-The proof of @thm-thm1 is detailed in [Appendix A]@#sec-proof. For $k = 1$ for instance, the matrix $\mathbf{\Sigma}^*_1 = I_n + (\lambda_1^*-1) \mathbf{d}_1^* (\mathbf{d}_1^*)^\top$ with $(\lambda_1^*, \mathbf{d}_1^*)$ the eigenpair of $\mathbf{\Sigma}^*$ such as $\lambda_1^*$ is either the largest or the smallest eigenvalue of $\mathbf{\Sigma}^*$, depending on which one maximizes $\ell$.
+The proof of @thm-thm1 is detailed in [Appendix A](@sec-proof). For $k = 1$ for instance, the matrix $\mathbf{\Sigma}^*_1 = I_n + (\lambda_1^*-1) \mathbf{d}_1^* (\mathbf{d}_1^*)^\top$ with $(\lambda_1^*, \mathbf{d}_1^*)$ the eigenpair of $\mathbf{\Sigma}^*$ such as $\lambda_1^*$ is either the largest or the smallest eigenvalue of $\mathbf{\Sigma}^*$, depending on which one maximizes $\ell$.
 
-Let $({\widehat{\lambda}}^*_i, {\widehat{\mathbf{d}}}^*_i)$ be the eigenpairs of an estimate $\widehat{\mathbf{\Sigma}}^*$ of $\mathbf{\Sigma}^*$. This theoretical result therefore suggests to reduce dimension by computing the covariance matrix $\widehat{\mathbf{\Sigma}}^*$ and its eigenpairs, rank them in decreasing $\ell$-order and then use the $k$ first eigenpairs $(({\widehat{\lambda}}^*_i, {\widehat{\mathbf{d}}}^*_i), i = 1, \ldots, k)$ to build the covariance matrix $\widehat{\mathbf{\Sigma}}^*_k = \sum_{i=1}^k ({\widehat{\lambda}}^*_i-1) {\widehat{\mathbf{d}}}^*_i ({{\widehat{\mathbf{d}}}^*}_i)^\top + I_n$ and the corresponding auxiliary density. This scheme is summarized in Algorithm 1. The effective dimension $k$ is obtained by Algorithm 2, see @sec-choicek below. The proof of the theorem is shown in [Appendix A]@#sec-proof.
+Let $({\widehat{\lambda}}^*_i, {\widehat{\mathbf{d}}}^*_i)$ be the eigenpairs of an estimate $\widehat{\mathbf{\Sigma}}^*$ of $\mathbf{\Sigma}^*$. This theoretical result therefore suggests to reduce dimension by computing the covariance matrix $\widehat{\mathbf{\Sigma}}^*$ and its eigenpairs, rank them in decreasing $\ell$-order and then use the $k$ first eigenpairs $(({\widehat{\lambda}}^*_i, {\widehat{\mathbf{d}}}^*_i), i = 1, \ldots, k)$ to build the covariance matrix $\widehat{\mathbf{\Sigma}}^*_k = \sum_{i=1}^k ({\widehat{\lambda}}^*_i-1) {\widehat{\mathbf{d}}}^*_i ({{\widehat{\mathbf{d}}}^*}_i)^\top + I_n$ and the corresponding auxiliary density. This scheme is summarized in Algorithm 1. The effective dimension $k$ is obtained by Algorithm 2, see @sec-choicek below. The proof of the theorem is shown in [Appendix A](@sec-proof).
 
 
 ```{.pseudocode}
@@ -195,10 +195,10 @@ Let $({\widehat{\lambda}}^*_i, {\widehat{\mathbf{d}}}^*_i)$ be the eigenpairs of
 ```
 
 ::: {.remark}
-Since the function $\ell$ is minimized at 1, eigenpairs with $\lambda^*_i =1$ are selected in the sum @eq-Sigma*k once all other eigenpairs have been picked: in other words, if $\lambda^*_i = 1$ then $\lambda^*_j = 1$ for all $j \geq i$. Note also that the minimizer $1$ plays a special role as we are interested in covariance matrices of $\mathcal{L}_{n,k}$ which, once diagonalized, have mostly ones in the main diagonal (except for k values associated with the $\alpha_i$). As $k$ will be small (See @sec-choicek), typically $k = 1$ or $2$, this amounts to finding covariance matrices that are perturbations of the identity (this is relevant as we assume $f$ is standard Gaussian). Therefore, when approximating $\mathbf{\Sigma}^*$ by such matrices, we should first consider eigenvalues as different as possible from $1$ (with the discrepancy from 1 being measured by $\ell$).
+Since the function $\ell$ is minimized at 1, eigenpairs with $\lambda^*_i =1$ are selected in the sum @eq-Sigma-k once all other eigenpairs have been picked: in other words, if $\lambda^*_i = 1$ then $\lambda^*_j = 1$ for all $j \geq i$. Note also that the minimizer $1$ plays a special role as we are interested in covariance matrices of $\mathcal{L}_{n,k}$ which, once diagonalized, have mostly ones in the main diagonal (except for k values associated with the $\alpha_i$). As $k$ will be small (See @sec-choicek), typically $k = 1$ or $2$, this amounts to finding covariance matrices that are perturbations of the identity (this is relevant as we assume $f$ is standard Gaussian). Therefore, when approximating $\mathbf{\Sigma}^*$ by such matrices, we should first consider eigenvalues as different as possible from $1$ (with the discrepancy from 1 being measured by $\ell$).
 :::
 
-In the first step of Algorithm 1, we assume $g^*$ can be sampled independently. This is a reasonable assumption as classical techniques such as importance sampling with self-normalized weights or Markov Chain Monte Carlo (MCMC) can be applied in this case (see for instance [@ChanKroese_ImprovedCrossentropyMethod_2012], [@GraceEtAl_AutomatedStateDependentImportance_2014]). In this paper, we choose to apply a basic rejection method that yields perfect independent samples from $g^*$, possibly at the price of a high computational cost. As the primary goal of this paper is to understand whether the $\mathbf{d}^*_i$'s are indeed good projection directions, this cost will not be taken into account. Possible improvements to relax this assumption are discussed in the conclusion of the paper.
+In the first step of Algorithm 1, we assume $g^*$ can be sampled independently. This is a reasonable assumption as classical techniques such as importance sampling with self-normalized weights or Markov Chain Monte Carlo (MCMC) can be applied in this case (see for instance [@ChanKroese_ImprovedCrossentropyMethod_2012], [@GraceEtAl_AutomatedStateDependentImportance_2014]). In this paper, we choose to apply a basic rejection method that yields perfect independent samples from $g^*$, possibly at the price of a high computational cost. As the primary goal of this paper is to understand whether the $\mathbf{d}^*_i$'s are indeed good projection directions, this cost will not be taken into account. Possible improvements to relax this assumption are discussed in the conclusion of the paper and in [Appendix C](@sec-MCMC).
 
 
 ## Choice of the number of dimensions $k$ {#sec-choicek} 
@@ -223,7 +223,7 @@ In [@MasriEtAl_ImprovementCrossentropyMethod_2020], the authors propose to proje
 Consider $\mathbf{\Sigma} \in \mathcal{L}_{n,1}$ of the form $\mathbf{\Sigma} = I_n + (\alpha - 1) \mathbf{d} \mathbf{d}^\top$ with $\alpha > 0$ and $\lVert \mathbf{d} \rVert = 1$. Then the minimizer in $(\alpha, \mathbf{d})$ of the KL divergence between $f$ and $g_{\mathbf{m}^*, \mathbf{\Sigma}}$ is $(1+\lVert \mathbf{m}^*\rVert^2, \mathbf{m}^* / \lVert \mathbf{m}^* \rVert)$:
 		$$\left( 1+\lVert \mathbf{m}^*\rVert^2, \mathbf{m}^* / \lVert \mathbf{m}^* \rVert \right) = \arg \min_{\alpha, \mathbf{d}} \left\{ D(f, g_{\mathbf{m}^*, I_n + (\alpha - 1) \mathbf{d} \mathbf{d}^\top}): \alpha > 0, \ \lVert \mathbf{d} \rVert = 1 \right\}. $$
 :::
-The proof of @thm-thm2 is detailed in [Appendix A]@sec-proof. In other words, $\mathbf{m}^*$ appears as an optimal projection direction when one seeks to minimize the KL divergence between $f$ and the Gaussian density with mean $\mathbf{m}^*$ and covariance of the form $I_n + (\alpha - 1) \mathbf{d} \mathbf{d}^\top$. Let us now explain why this minimization problem is indeed relevant, and why choosing an auxiliary density which minimizes this KL divergence may indeed lead to an accurate estimation. The justification deeply relies on the recent results by [@Chatterjee18:0].
+The proof of @thm-thm2 is detailed in [Appendix A](@sec-proof). In other words, $\mathbf{m}^*$ appears as an optimal projection direction when one seeks to minimize the KL divergence between $f$ and the Gaussian density with mean $\mathbf{m}^*$ and covariance of the form $I_n + (\alpha - 1) \mathbf{d} \mathbf{d}^\top$. Let us now explain why this minimization problem is indeed relevant, and why choosing an auxiliary density which minimizes this KL divergence may indeed lead to an accurate estimation. The justification deeply relies on the recent results by [@Chatterjee18:0].
 	
 As mentioned above, in a reliability context where one seeks to estimate a small probability $p = \mathbb{P}(\mathbf{X} \in A),$ Theorem $1.3$ in [@Chatterjee18:0] shows that $D(g^*, g)$ governs the sample size required for an accurate estimation of $p$: more precisely, the estimation is accurate if the sample size is larger than $e^{D(g^*, g)}$, and inaccurate otherwise. This motivates the rationale for minimizing the KL divergence with $g^*$.
 	
@@ -236,11 +236,11 @@ In light of these results, it becomes natural to consider the KL divergence with
 
 ## Numerical procedure for IS estimate comparison
 
-The objective of the numerical simulations is to evaluate the impact of the choice of the covariance matrix on the estimation accuracy of a high dimensional integral $\mathcal{E}$. We thus want to compare the IS estimation results for different auxiliary densities and more particularly for different choices of the auxiliary covariance matrix when the IS auxiliary density is Gaussian. The details of the considered covariance matrices is given in @sec-def_cov. To extend this comparison, we also compute the results when the IS auxiliary density is chosen with the von Mises–Fisher– Nakagami (vMFN) model recently proposed in [@PapaioannouEtAl_ImprovedCrossEntropybased_2019] for high dimensional probability estimation (See [Appendix B]@sec-naka).
+The objective of the numerical simulations is to evaluate the impact of the choice of the covariance matrix on the estimation accuracy of a high dimensional integral $\mathcal{E}$. We thus want to compare the IS estimation results for different auxiliary densities and more particularly for different choices of the auxiliary covariance matrix when the IS auxiliary density is Gaussian. The details of the considered covariance matrices is given in @sec-def_cov. To extend this comparison, we also compute the results when the IS auxiliary density is chosen with the von Mises–Fisher– Nakagami (vMFN) model recently proposed in [@PapaioannouEtAl_ImprovedCrossEntropybased_2019] for high dimensional probability estimation (See [Appendix B](@sec-naka)).
 
 In @sec-test-cases we test these different models of auxiliary densities on five test cases, where $f$ is a standard Gaussian density. This choice is not a theoretical limitation as we can in principle always come back to this case by transforming the vector $\mathbf{X}$ with isoprobabilistic transformations (see for instance [@HohenbichlerRackwitz_NonNormalDependentVectors_1981], [@LiuDerKiureghian_MultivariateDistributionModels_1986]).
 
-The precise numerical framework that we will consider to assess the efficiency of the different auxiliary models is as follows. We assume first that $M$ i.i.d.\ random samples $\mathbf{X}_1,\ldots,\mathbf{X}_M$ distributed from $g^*$ are available from rejection sampling. From these samples, the parameters of the Gaussian and of the vMFN auxiliary density are computed to get an auxiliary density $g'$. Finally, $N$ samples are generated from $g'$ to provide an estimation of $E$ with IS. This procedure is summarized by the following stages: 
+The precise numerical framework that we will consider to assess the efficiency of the different auxiliary models is as follows. We assume first that $M$ i.i.d.\ random samples $\mathbf{X}_1,\ldots,\mathbf{X}_M$ distributed from $g^*$ are available from rejection sampling (unless in [Appendix C](@sec-MCMC) where we consider MCMC to analyze a more realistic computational cost). From these samples, the parameters of the Gaussian and of the vMFN auxiliary density are computed to get an auxiliary density $g'$. Finally, $N$ samples are generated from $g'$ to provide an estimation of $E$ with IS. This procedure is summarized by the following stages: 
 
 1. Generate a sample $\mathbf{X}_1,\ldots,\mathbf{X}_M$ independently according to $g^*$;
 2. From $\mathbf{X}_1,\ldots,\mathbf{X}_M$, compute the parameters of the auxiliary parametric density $g'$;
@@ -2361,8 +2361,10 @@ $$
 $$ {#eq-D}
 :::
 
-::: {.proof}
-(of @lem-D)
+::: {.callout-note appearance="minimal"}
+
+## Proof of @lem-D
+
 For any $\mathbf{m} \in \mathbb{R}^n$ and $\mathbf{\Sigma} \in \mathcal{S}^+_n$, we have by definition
 $$ D(g^*, g_{\mathbf{m}, \mathbf{\Sigma}}) = \mathbb{E}_{g^*} \left( \log \left( \frac{g^*(\mathbf{X})}{g_{\mathbf{m}, \mathbf{\Sigma}}(\mathbf{X})} \right) \right) = \mathbb{E}_{g^*} \left( \log \left( \frac{\frac{\phi(\mathbf{X}) e^{-\frac{1}{2} \lVert \mathbf{X} \rVert^2}}{\mathcal{E}(2\pi)^{n/2}}}{ \frac{e^{-\frac{1}{2} (\mathbf{X} - \mathbf{m})^\top \mathbf{\Sigma}^{-1} (\mathbf{X} - \mathbf{m})}}{(2\pi)^{n/2} \lvert \mathbf{\Sigma} \rvert^{1/2}} } \right) \right) $$
 and so
@@ -2443,11 +2445,12 @@ and
 $$ \widehat{\boldsymbol{\mu}}=\frac{\sum_{i=1}^M \frac{\mathbf{X}_i}{\lvert\lvert\mathbf{X}_i\rvert\rvert}}{\lvert\lvert\sum_{i=1}^M \frac{\mathbf{X}_i}{\lvert\lvert\mathbf{X}_i\rvert\rvert} \rvert\rvert} \ \text{ and } \  \widehat{\kappa}=\dfrac{n\widehat{\chi}-\widehat{\chi}^3}{1-\widehat{\chi}^2} \text{ with } \widehat{\chi} = \min \left( \left \lVert \frac{1}{M}\sum_{i=1}^M \frac{\mathbf{X}_i}{\lVert \mathbf{X}_i \rVert} \right \rVert, 0.95 \right). 
 $$
  	
-# Appendix C: MCMC  {.appendix .unnumbered}
+# Appendix C: MCMC  {#sec-MCMC .appendix .unnumbered}
+We consider again the test case 1 of @sec-sub:sum but the samples of $g^*$ are no more generated with rejection sampling but with the Metropolis--Hastings Algorithm. The computationnal cost to generate the samples of $g^*$ is thus much lower with MCMC but the resulting $g^*$ are dependent. The number $N$ of $g^*$ samples has been increased to $1000$ so that the Markov chain has enough step to reach convergence. The simulation results are available in @tbl-sumMCMC and leads to the same conclusion as with rejection sampling.
 
 ```{python}
 #| label: tbl-sumMCMC
-#| tbl-cap: 'Numerical comparison of the estimation of $\mathcal{E} \approx 1.35\cdot 10^{-3}$ considering the Gaussian model with the six covariance matrices defined in @sec-def_cov and the vFMN model, when $\phi = \mathbb{I}_{\{\varphi\geq 0\}}$ with $\varphi$ the linear function given by @eq-sum. As explained in the text, ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{mean}}$ and ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{opt}}$ are actually equal in this case. The computational cost is $N=2000$.'
+#| tbl-cap: 'Numerical comparison of the estimation of $\mathcal{E} \approx 1.35\cdot 10^{-3}$ considering the Gaussian model with the six covariance matrices defined in @sec-def_cov and the vFMN model, when $\phi = \mathbb{I}_{\{\varphi\geq 0\}}$ with $\varphi$ the linear function given by @eq-sum. As explained in the text, the sample of $g^*$ is generated with MCMC instead of rejection sampling. The computational cost is $N=2000$.'
 ###########################################################################
 # Table 2. Numerical comparison on test case 1
 ###########################################################################
@@ -2459,7 +2462,7 @@ def mypi(X):
     n=np.shape(X)[1]
     f0=sp.stats.multivariate_normal.pdf(X,mean=np.zeros(n),cov=np.eye(n))
     return((phi(X)>0)*f0)
-
+E=sp.stats.norm.cdf(-3)
 N=2000   
 M=1000   
 B=500   # number of runs

@@ -188,7 +188,7 @@ This theoretical result therefore suggests to reduce dimension by computing the 
 \begin{algorithmic}
 \State \textbf{Data}: Sample sizes $N$ and $M$
 \State \textbf{Result}: Estimation $\widehat{\mathcal{E}_N}$ of integral $\mathcal{E}$
-\State - Generate a sample $\mathbf{X}_1,\ldots,\mathbf{X}_M$  on $\mathbb{R}^n$ independently according to $g^*$
+\State - Generate a sample $\mathbf{X}^*_1,\ldots,\mathbf{X}^*_M$  on $\mathbb{R}^n$ independently according to $g^*$
 \State  - Estimate $\widehat{\mathbf{m}}^*$ and $\widehat{\mathbf{\Sigma}}^*$ defined in Equation 8 and Equation 9 with this sample
 \State - Compute the eigenpairs $(\widehat{\lambda}^*_i, \widehat{\mathbf{d}}^*_i)$ of $\widehat{\mathbf{\Sigma}}^*$ ranked in decreasing $\ell$-order
 \State - Compute the matrix $\widehat{\mathbf{\Sigma}}^*_k = \sum_{i=1}^k ({\widehat{\lambda}}^*_i-1) {\widehat{\mathbf{d}}}^*_i ({{\widehat{\mathbf{d}}}^*}_i)^\top + I_n$ with $k$ obtained by applying Algorithm 2 with input $({\widehat{\lambda}}^*_1, \ldots, {\widehat{\lambda}}^*_n)$
@@ -244,14 +244,14 @@ The objective of the numerical simulations is to evaluate the impact of the choi
 
 In @sec-test-cases we test these different models of auxiliary densities on five test cases, where $f$ is a standard Gaussian density. This choice is not a theoretical limitation as we can in principle always come back to this case by transforming the vector $\mathbf{X}$ with isoprobabilistic transformations (see for instance [@HohenbichlerRackwitz_NonNormalDependentVectors_1981], [@LiuDerKiureghian_MultivariateDistributionModels_1986]).
 
-The precise numerical framework that we will consider to assess the efficiency of the different auxiliary models is as follows. We assume first that $M$ i.i.d.\ random samples $\mathbf{X}_1,\ldots,\mathbf{X}_M$ distributed from $g^*$ are available from rejection sampling (unless in [Appendix C](@sec-MCMC) where we consider MCMC). From these samples, the parameters of the Gaussian and of the vMFN auxiliary density are computed to get an auxiliary density $g'$. Finally, $N$ samples are generated from $g'$ to provide an estimation of $E$ with IS. This procedure is summarized by the following stages: 
+The precise numerical framework that we will consider to assess the efficiency of the different auxiliary models is as follows. We assume first that $M$ i.i.d.\ random samples $\mathbf{X}^*_1,\ldots,\mathbf{X}^*_M$ distributed from $g^*$ are available from rejection sampling (unless in [Appendix C](@sec-MCMC) where we consider MCMC). From these samples, the parameters of the Gaussian and of the vMFN auxiliary density are computed to get an auxiliary density $g'$. Finally, $N$ samples are generated from $g'$ to provide an estimation of $E$ with IS. This procedure is summarized by the following stages: 
 
-1. Generate a sample $\mathbf{X}_1,\ldots,\mathbf{X}_M$ independently according to $g^*$;
-2. From $\mathbf{X}_1,\ldots,\mathbf{X}_M$, compute the parameters of the auxiliary parametric density $g'$;
+1. Generate a sample $\mathbf{X}^*_1,\ldots,\mathbf{X}^*_M$ independently according to $g^*$;
+2. From $\mathbf{X}^*_1,\ldots,\mathbf{X}^*_M$, compute the parameters of the auxiliary parametric density $g'$;
 3. Generate a new sample $\mathbf{X}_1,\ldots,\mathbf{X}_N$ independently from $g'$;
 4. Estimate $\mathcal{E}$ with $\widehat{\mathcal{E}_N}=\frac{1}{N}\underset{i=1}{\overset{N}{\sum}} \phi(\mathbf{X}_i)\frac{f(\mathbf{X}_i)}{g'(\mathbf{X}_i)}$.
 
-The number of samples $M$ and $N$ are respectively set to $M=500$ and $N=2000$. The computational cost to generate $M=500$ samples distributed from $g^*$ with rejection sampling is often unaffordable in practice; if $\mathcal{E}$ is a probability of order $10^{-p}$, then approximately $500\times10^p$ calls to $\phi$ are necessary for the generation of $\mathbf{X}_1,\ldots,\mathbf{X}_M$. Finally, whatever the auxiliary parametric density $g'$ computed from $\mathbf{X}_1,\ldots,\mathbf{X}_M$, the number of calls to $\phi$ for the estimation step stay constant and equal to $N$. The number of calls to $\phi$ for the whole procedure on a $10^{-p}$ probability estimation is about $500\times10^p+N$. A more realistic situation is considered in [Appendix C](@sec-MCMC) where MCMC is applied to generate samples from $g^*$; The resulting samples are dependent but the computational cost is significanlty reduced. The number of calls to $\phi$ with MCMC is then equal to $M$ which leads to a total computational cost of $M+N$ for the whole procedure.
+The number of samples $M$ and $N$ are respectively set to $M=500$ and $N=2000$. The computational cost to generate $M=500$ samples distributed from $g^*$ with rejection sampling is often unaffordable in practice; if $\mathcal{E}$ is a probability of order $10^{-p}$, then approximately $500\times10^p$ calls to $\phi$ are necessary for the generation of $\mathbf{X}^*_1,\ldots,\mathbf{X}^*_M$. Finally, whatever the auxiliary parametric density $g'$ computed from $\mathbf{X}^*_1,\ldots,\mathbf{X}^*_M$, the number of calls to $\phi$ for the estimation step stay constant and equal to $N$. The number of calls to $\phi$ for the whole procedure on a $10^{-p}$ probability estimation is about $500\times10^p+N$. A more realistic situation is considered in [Appendix C](@sec-MCMC) where MCMC is applied to generate samples from $g^*$; The resulting samples are dependent but the computational cost is significanlty reduced. The number of calls to $\phi$ with MCMC is then equal to $M$ which leads to a total computational cost of $M+N$ for the whole procedure.
 
 This procedure is then repeated $500$ times to provide a mean estimation $\widehat{\mathcal{E}}$ of $\mathcal{E}$. In the result tables, for each auxiliary density $g'$ we report the corresponding value for the relative error $\widehat{\mathcal{E}}/ \mathcal{E}-1$ and the coefficient of variation of the $500$ iterations (the empirical standard deviation divided by $\mathcal{E}$). As was established in the proof of @thm-thm1, the KL divergence is, up to an additive constant, equal to $D'(\mathbf{\Sigma}) = \log \lvert \mathbf{\Sigma} \rvert + \textrm{tr}(\mathbf{\Sigma}^* \mathbf{\Sigma}^{-1})$ which we will refer to as partial KL divergence. In the result tables, we also report thus the mean value of $D'(\mathbf{\Sigma})$ to analyse the relevance of the auxiliary density $g_{\widehat{\mathbf{m}}^*, \mathbf{\Sigma}}$ for six choices of covariance matrix $\mathbf{\Sigma}$. The next sections specify the different parameters of $g'$ for the Gaussian model and for the vMFN model we have considered in the simulations. 
 
@@ -262,9 +262,9 @@ The goal is to get benchmark results to assess whether one can improve estimatio
 - the $\mathbf{d}^*_i$'s are good candidates, in particular compared to the choice $\mathbf{m}^*$ suggested in [@MasriEtAl_ImprovementCrossentropyMethod_2020];
 - what is the impact in making errors in estimating the eigenpairs $(\lambda^*_i, \mathbf{d}^*_i)$.
 
-Let us define the estimate  $\widehat{\mathbf{m}}^*$ of $\mathbf{m}^*$	from the $M$ i.i.d. random samples $\mathbf{X}_1,\ldots,\mathbf{X}_M$ distributed from $g^*$ with
+Let us define the estimate  $\widehat{\mathbf{m}}^*$ of $\mathbf{m}^*$	from the $M$ i.i.d. random samples $\mathbf{X}_1^*,\ldots,\mathbf{X}_M^*$ distributed from $g^*$ with
 $$
-	\widehat{\mathbf{m}}^* = \frac{1}{M}\sum_{i=1}^M \mathbf{X}_i.
+	\widehat{\mathbf{m}}^* = \frac{1}{M}\sum_{i=1}^M \mathbf{X}_i^*.
 $$ {#eq-hatm}
 In our numerical test cases, we will compare six different choices of Gaussian auxiliary distributions $g'$ with mean $\widehat{\mathbf{m}}^*$ and the following covariance matrices summarized in @tbl-sigma:
 
@@ -272,7 +272,7 @@ In our numerical test cases, we will compare six different choices of Gaussian a
 
 2. $\widehat{\mathbf{\Sigma}}^*$: the empirical estimation of $\mathbf{\Sigma}^*$ given by
 $$
-	\widehat{\mathbf{\Sigma}}^* = \frac{1}{M}\sum_{i=1}^M (\mathbf{X}_i-\widehat{\mathbf{m}}^*)(\mathbf{X}_i-\widehat{\mathbf{m}}^*)^\top.
+	\widehat{\mathbf{\Sigma}}^* = \frac{1}{M}\sum_{i=1}^M (\mathbf{X}_i^*-\widehat{\mathbf{m}}^*)(\mathbf{X}_i^*-\widehat{\mathbf{m}}^*)^\top.
 $$ {#eq-hatSigma}
 
 The four other covariance matrices considered in the numerical simulations are of the form 
@@ -2448,11 +2448,11 @@ where $C_n(\kappa)$ is a normalizing constant, $\boldsymbol{\mu}$ is a mean dire
 
 Choosing a vMFN distribution therefore amounts to choosing the parameters $p, \omega, {\boldsymbol{\mu}},$ and $\kappa$. There are therefore $n+3$ parameters to estimate, which is a significant reduction compared to the $\frac{n(n+3)}{2}$ required parameters of the Gaussian model with full covariance matrix.
 
-Following [@PapaioannouEtAl_ImprovedCrossEntropybased_2019], given a sample $\mathbf{X}_1,\ldots,\mathbf{X}_M$ distributed from $g^*$, the parameters $\omega$, $p$, $\boldsymbol{\mu}$ and $\kappa$ are set in the following way in order to define $g'$:
-$$ \widehat{\omega}=\frac{1}{M}\sum_{i=1}^M \lVert\mathbf{X}_i\rVert^2 \ \text{ and } \ \widehat{p}=\frac{\widehat{\omega}^2}{\widehat{\tau}-\widehat{\omega}^2} \text{ with } \widehat{\tau}=\frac{1}{M}\sum_{i=1}^M \lVert\mathbf{X}_i\rVert^4 
+Following [@PapaioannouEtAl_ImprovedCrossEntropybased_2019], given a sample $\mathbf{X}_1^*,\ldots,\mathbf{X}_M^*$ distributed from $g^*$, the parameters $\omega$, $p$, $\boldsymbol{\mu}$ and $\kappa$ are set in the following way in order to define $g'$:
+$$ \widehat{\omega}=\frac{1}{M}\sum_{i=1}^M \lVert\mathbf{X}_i^*\rVert^2 \ \text{ and } \ \widehat{p}=\frac{\widehat{\omega}^2}{\widehat{\tau}-\widehat{\omega}^2} \text{ with } \widehat{\tau}=\frac{1}{M}\sum_{i=1}^M \lVert\mathbf{X}_i^*\rVert^4 
 $$
 and
-$$ \widehat{\boldsymbol{\mu}}=\frac{\sum_{i=1}^M \frac{\mathbf{X}_i}{\lvert\lvert\mathbf{X}_i\rvert\rvert}}{\lvert\lvert\sum_{i=1}^M \frac{\mathbf{X}_i}{\lvert\lvert\mathbf{X}_i\rvert\rvert} \rvert\rvert} \ \text{ and } \  \widehat{\kappa}=\dfrac{n\widehat{\chi}-\widehat{\chi}^3}{1-\widehat{\chi}^2} \text{ with } \widehat{\chi} = \min \left( \left \lVert \frac{1}{M}\sum_{i=1}^M \frac{\mathbf{X}_i}{\lVert \mathbf{X}_i \rVert} \right \rVert, 0.95 \right). 
+$$ \widehat{\boldsymbol{\mu}}=\frac{\sum_{i=1}^M \frac{\mathbf{X}_i^*}{\lvert\lvert\mathbf{X}_i^*\rvert\rvert}}{\lvert\lvert\sum_{i=1}^M \frac{\mathbf{X}_i^*}{\lvert\lvert\mathbf{X}_i^*\rvert\rvert} \rvert\rvert} \ \text{ and } \  \widehat{\kappa}=\dfrac{n\widehat{\chi}-\widehat{\chi}^3}{1-\widehat{\chi}^2} \text{ with } \widehat{\chi} = \min \left( \left \lVert \frac{1}{M}\sum_{i=1}^M \frac{\mathbf{X}_i^*}{\lVert \mathbf{X}_i^* \rVert} \right \rVert, 0.95 \right). 
 $$
  	
 # Appendix C: MCMC  {#sec-MCMC .appendix .unnumbered}

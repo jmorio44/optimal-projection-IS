@@ -1,5 +1,5 @@
 ---
-title: Optimal projection for parametric importance sampling in high dimension
+title: Optimal projection for parametric importance sampling in high dimensions
 author:
   - name: Maxime El Masri
     affiliation: '[ONERA/DTIS](https://www.onera.fr/), [ISAE-SUPAERO](https://www.isae-supaero.fr/), [Université de Toulouse](https://www.univ-toulouse.fr/)'
@@ -327,7 +327,7 @@ Note that in the particularly simple case considered here, both $\widehat{\mathb
 #| label: fig-eigsum
 #| fig-cap: 'Partial KL divergence and spectrum for the function $\phi = \mathbb{I}_{\varphi \geq 0}$ with $\varphi$ the linear function given by @eq-sum.'
 #| fig-subcap:
-#|   - 'Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix $\mathbf{\Sigma}^*$ (red squares), the sample covariance $\widehat{\mathbf{\Sigma}}^*$ (blue circles), and the projected covariance $\widehat{\mathbf{\Sigma}}^*_k$ (black triangles).'
+#|   - 'Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix $\mathbf{\Sigma}^*$ (red squares), the sample covariance $\widehat{\mathbf{\Sigma}}^*$ (blue circles), and the projected covariance $\widehat{\mathbf{\Sigma}}^*_k$ (black dots).'
 #|   - 'Computation of $\ell(\lambda_i)$ for the eigenvalues of $\mathbf{\Sigma}^*$ (red squares) and $\widehat{\mathbf{\Sigma}}^*$ (blue crosses) in dimension $n = 100$.'
 #| layout:
 #|   - - 45
@@ -446,7 +446,7 @@ plt.show()
 ```
 
 ###  Numerical results
-We report in @tbl-sum the numerical results for the six different matrices and the vMFN model for the dimension $n=100$. The column $\mathbf{\Sigma}^*$ gives the optimal results, while the column $\widehat{\mathbf{\Sigma}}^*$ corresponds to the results that we are trying to improve. Comparing these two columns, we notice as expected that the estimation of $\mathcal{E}$ with $\widehat{\mathbf{\Sigma}}^*$ is significantly degraded. Compared to the first column $\mathbf{\Sigma}^*$, the third and fourth columns with ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{opt}} =  {\widehat{\mathbf{\Sigma}}^{\text{}}_\text{mean}}$ correspond to the best projection direction $\textbf{1}$ (as for $\mathbf{\Sigma}^*$) but estimating the variance in this direction (instead of the true variance) with $\textbf{1}^\top \widehat{\mathbf{\Sigma}}^* \textbf{1}$. This choice performs very well, with numerical results similar to the optimal ones. This can be understood since in this case, both ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{opt}}$ and $\mathbf{\Sigma}^*$ are of the form $\alpha \textbf{1} \textbf{1}^\top + I_n$ and so estimating ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{opt}}$ requires only a one-dimensional estimation (namely, the estimation of $\alpha$). Next, the last two columns ${\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{opt}}$ and ${\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{mean}}$ highlight the impact of having to estimate the projection directions in addition to the variance since these two matrices are of the form $\widehat \alpha \widehat{\textbf{1}} {\widehat{\textbf{1}}}^\top + I_n$ with both $\widehat{\alpha}$ (the variance term) and $\widehat{\textbf{1}}$ (the direction) being estimated. We observe that these matrices yield results which are close to optimal and greatly improve the estimation obtained using $\widehat{\mathbf{\Sigma}}^*$. In dimension $100$, the coefficient of variation is around $5.2$\% for ${\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{mean}}$, and around $11.1$\% for $\widehat{\mathbf{\Sigma}}^{\text{+d}}_{\text{opt}}$, compared to $2.6$\% for $\widehat{\mathbf{\Sigma}}^*$. 
+We report in @tbl-sum the numerical results for the six different matrices and the vMFN model for the dimension $n=100$. The column $\mathbf{\Sigma}^*$ gives the optimal results, while the column $\widehat{\mathbf{\Sigma}}^*$ corresponds to the results that we are trying to improve. Comparing these two columns, we notice as expected that the estimation of $\mathcal{E}$ with $\widehat{\mathbf{\Sigma}}^*$ is significantly degraded. Compared to the first column $\mathbf{\Sigma}^*$, the third and fourth columns with ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{opt}} =  {\widehat{\mathbf{\Sigma}}^{\text{}}_\text{mean}}$ correspond to the best projection direction $\textbf{1}$ (as for $\mathbf{\Sigma}^*$) but estimating the variance in this direction (instead of the true variance) with $\textbf{1}^\top \widehat{\mathbf{\Sigma}}^* \textbf{1}$. This choice performs very well, with numerical results similar to the optimal ones. This can be understood since in this case, both ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{opt}}$ and $\mathbf{\Sigma}^*$ are of the form $\alpha \textbf{1} \textbf{1}^\top + I_n$ and so estimating ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{opt}}$ requires only a one-dimensional estimation (namely, the estimation of $\alpha$). Next, the last two columns ${\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{opt}}$ and ${\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{mean}}$ highlight the impact of having to estimate the projection directions in addition to the variance since these two matrices are of the form $\widehat \alpha \widehat{\textbf{1}} {\widehat{\textbf{1}}}^\top + I_n$ with both $\widehat{\alpha}$ (the variance term) and $\widehat{\textbf{1}}$ (the direction) being estimated. We observe that these matrices yield results which are close to optimal and greatly improve the estimation obtained using $\widehat{\mathbf{\Sigma}}^*$. In dimension $100$, the coefficient of variation is around $5.1$\% for ${\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{mean}}$, and around $6.2$\% for $\widehat{\mathbf{\Sigma}}^{\text{+d}}_{\text{opt}}$, compared to $2.6$\% for $\widehat{\mathbf{\Sigma}}^*$. 
 
 Moreover, we observe that ${\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{mean}}$ gives better results than ${\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{opt}}$. We suggest that this is because $\widehat{\mathbf{m}}^* / \lVert \widehat{\mathbf{m}}^* \rVert$ is a better estimator of $\textbf{1}$ than the eigenvector of $\widehat{\mathbf{\Sigma}}^*$. Indeed, evaluating $\widehat{\mathbf{m}}^*$ requires the estimation of $n$ parameters, whereas $\widehat{\mathbf{\Sigma}}^*$ needs around $n^2/2$ parameters to estimate, so the eigenvector is finally more noisy than the mean vector.  In the last column, we present the vMFN estimation that is slightly more efficicent than the estimation obtained with ${\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{mean}}$.
 	
@@ -715,7 +715,7 @@ We can numerically compute $\lambda_1 \approx 0.28$, $\lambda_2 \approx 0.009$ a
 #| label: fig-inefficiency-parab
 #| fig-cap: 'Partial KL divergence and spectrum for the function $\phi = \mathbb{I}_{\varphi \geq 0}$ with $\varphi$ given by @eq-parabol. in dimension $n=100$. Left: same behavior as for the first test case. Right: we now have two eigenvalues that stand out, and the behavior of $\ell$ is such that Algorithm 2 selects $k = 2$ which corresponds to the leftmost two.'
 #| fig-subcap:
-#|   - 'Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix $\mathbf{\Sigma}^*$ (red squares), the sample covariance $\widehat{\mathbf{\Sigma}}^*$ (blue circles), and the projected covariance $\widehat{\mathbf{\Sigma}}^*_k$ (black triangles).'
+#|   - 'Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix $\mathbf{\Sigma}^*$ (red squares), the sample covariance $\widehat{\mathbf{\Sigma}}^*$ (blue circles), and the projected covariance $\widehat{\mathbf{\Sigma}}^*_k$ (black dots).'
 #|   - 'Computation of $\ell(\lambda_i)$ for the eigenvalues of $\mathbf{\Sigma}^*$ (red squares) and $\widehat{\mathbf{\Sigma}}^*$ (blue crosses) in dimension $n = 100$.'
 #| layout:
 #|   - - 45
@@ -852,9 +852,9 @@ plt.show()
 ###  Numerical results
 The numerical results of our simulations are presented in @tbl-parabol. We remark as before that, when using $\widehat{\mathbf{\Sigma}}^*$, the accuracy quickly deteriorates as the dimension increases as shows the coefficient of variation of $396 \%$ in dimension $n = 100$. In contrast, ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{opt}}$ leads to very accurate results, which remain close to optimal up to the same dimension $n = 100$. This behavior is to compare with the evolution of the relative KL divergence: contrary to $\widehat{\mathbf{\Sigma}}^*$, ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{opt}}$ gives a partial KL divergence close to optimal in dimension $n = 100$. This confirms that the KL divergence is indeed a good proxy to assess the relevance of an auxiliary density.
 
-It is also interesting to note that the direction $\mathbf{m}^*$ improves the situation compared to not projecting (column ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{mean}}$ compared to $\widehat{\mathbf{\Sigma}}^*$), but using ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{opt}}$ gives significantly better results, with for instance a coefficient of variation around $3.7 \%$ for ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{opt}}$ and around $28.8 \%$ for ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{mean}}$ in dimension $n = 100$. Thus, this confirms our theoretical result that the $\mathbf{d}^*_i$'s are good directions on which to project. 
+It is also interesting to note that the direction $\mathbf{m}^*$ improves the situation compared to not projecting (column ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{mean}}$ compared to $\widehat{\mathbf{\Sigma}}^*$), but using ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{opt}}$ gives significantly better results, with for instance a coefficient of variation around $3.6 \%$ for ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{opt}}$ and around $28.8 \%$ for ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{mean}}$ in dimension $n = 100$. Thus, this confirms our theoretical result that the $\mathbf{d}^*_i$'s are good directions on which to project. 
 	
-Finally, we notice that performing estimations of the projection directions instead of taking the true ones (columns ${\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{opt}}$ vs ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{opt}}$) slightly degrades the situation, making the coefficient of variation increase from $3.7$ to $7.2 \%$ even if the accuracy remains satisfactory.
+Finally, we notice that performing estimations of the projection directions instead of taking the true ones (columns ${\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{opt}}$ vs ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{opt}}$) slightly degrades the situation, making the coefficient of variation increase from $3.6$ to $9.5 \%$ even if the accuracy remains satisfactory.
 	The vMFN model is also not really adapted to this example as it gives results similar to ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{mean}}$. Gaussian density family are more able to fit $g^*$ than vMFN parametric model in this test case.
 
 ```{python}
@@ -1143,7 +1143,7 @@ The simulation results for the different covariance matrices and the vMFN densit
 #| label: fig-inefficiency-banana
 #| fig-cap: Partial KL divergence and spectrum for the banana shape example.
 #| fig-subcap:
-#|   - 'Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix $\mathbf{\Sigma}^*$ (red saquares), the sample covariance $\widehat{\mathbf{\Sigma}}^*$ (blue circles), and the projected covariance $\widehat{\mathbf{\Sigma}}^*_k$ (black triangles).'
+#|   - 'Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix $\mathbf{\Sigma}^*$ (red saquares), the sample covariance $\widehat{\mathbf{\Sigma}}^*$ (blue circles), and the projected covariance $\widehat{\mathbf{\Sigma}}^*_k$ (black dots).'
 #|   - 'Computation of $\ell(\lambda_i)$ for the eigenvalues of $\mathbf{\Sigma}^*$ (red squares) and $\widehat{\mathbf{\Sigma}}^*$ (blue crosses) in dimension $n = 100$ for the banana shape example of @eq-banana.'
 #| layout:
 #|   - - 45
@@ -1509,7 +1509,7 @@ The reference value of this probability $\mathcal{E}$ is reported in @tbl-portfo
 #| label: fig-inefficiency-portfolio
 #| fig-cap: 'Partial KL divergence and spectrum for the function $\phi = \mathbb{I}_{\varphi \geq 0}$ with $\varphi$ the function given by @eq-portfolio.'
 #| fig-subcap:
-#|   - 'Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix $\mathbf{\Sigma}^*$ (red squares), the sample covariance $\widehat{\mathbf{\Sigma}}^*$ (blue circles), and the projected covariance $\widehat{\mathbf{\Sigma}}^*_k$ (black triangles).'
+#|   - 'Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix $\mathbf{\Sigma}^*$ (red squares), the sample covariance $\widehat{\mathbf{\Sigma}}^*$ (blue circles), and the projected covariance $\widehat{\mathbf{\Sigma}}^*_k$ (black dots).'
 #|   - 'Computation of $\ell(\lambda_i)$ for the eigenvalues of $\mathbf{\Sigma}^*$ (red squares) and $\widehat{\mathbf{\Sigma}}^*$ (blue crosses) in dimension $n = 100$  for the large portfolio losses of @eq-portfolio.'
 #| layout:
 #|   - - 45
@@ -1927,7 +1927,7 @@ Markdown(tabulate(
     tablefmt="pipe"))
 ```
 
-The results of @tbl-portfolio show similar trends as for the first test case of @sec-sub:sum. First, projecting seems indeed a relevant idea, as using ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{opt}}$ or ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{mean}}$ greatly improves the situation compared to $\widehat{\mathbf{\Sigma}}^*$. This is particularly salient as $\widehat{\mathbf{\Sigma}}^*$ yields an important bias and a coefficient of variation of $370\%$, whereas projecting on $\mathbf{d}^*_1$ or $\mathbf{m}^*$ yields a coefficient of variation of $14 \%$ and of $6.9 \%$ respectively. This improvement is still true even when the projection directions are estimated: compared to ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{opt}}$ and ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{mean}}$, ${\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{opt}}$ and ${\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{mean}}$ give coefficients of variation between $11.8$ and $14.6\%$. Finally, ${\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{opt}}$ seems to behave better than ${\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{mean}}$. 
+The results of @tbl-portfolio show similar trends as for the first test case of @sec-sub:sum. First, projecting seems indeed a relevant idea, as using ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{opt}}$ or ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{mean}}$ greatly improves the situation compared to $\widehat{\mathbf{\Sigma}}^*$. This is particularly salient as $\widehat{\mathbf{\Sigma}}^*$ yields an important bias and a coefficient of variation of $370\%$, whereas projecting on $\mathbf{d}^*_1$ or $\mathbf{m}^*$ yields a coefficient of variation of $12 \%$ and of $7.5 \%$ respectively. This improvement is still true even when the projection directions are estimated: compared to ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{opt}}$ and ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{mean}}$, ${\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{opt}}$ and ${\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{mean}}$ give coefficients of variation between $12.2$ and $14.9\%$. Finally, ${\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{opt}}$ seems to behave better than ${\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{mean}}$. 
 
 ## Application 2: discretized Asian payoff {#sec-sub:payoff}
 
@@ -1944,7 +1944,7 @@ The results of this example are given in @tbl-payoff. The insight gained in the 
 #| label: fig-inefficiency-kawai
 #| fig-cap: Partial KL divergence and spectrum for the function $\phi$ given in @eq-payoff.
 #| fig-subcap:
-#|   - 'Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix $\mathbf{\Sigma}^*$ (red squares), the sample covariance $\widehat{\mathbf{\Sigma}}^*$ (blue circles), and the projected covariance $\widehat{\mathbf{\Sigma}}^*_k$ (black triangles).'
+#|   - 'Evolution of the partial KL divergence as the dimension increases, with the optimal covariance matrix $\mathbf{\Sigma}^*$ (red squares), the sample covariance $\widehat{\mathbf{\Sigma}}^*$ (blue circles), and the projected covariance $\widehat{\mathbf{\Sigma}}^*_k$ (black dots).'
 #|   - 'Computation of $\ell(\lambda_i)$ for the eigenvalues of $\mathbf{\Sigma}^*$ (red squares) and $\widehat{\mathbf{\Sigma}}^*$ (blue crosses) in dimension $n = 100$ for the Asian payoff example of @eq-payoff'
 #| layout:
 #|   - - 45
@@ -2456,7 +2456,7 @@ $$ \widehat{\boldsymbol{\mu}}=\frac{\sum_{i=1}^M \frac{\mathbf{X}_i^*}{\lvert\lv
 $$
  	
 # Appendix C: MCMC  {#sec-MCMC .appendix .unnumbered}
-We consider again the test case 1 of @sec-sub:sum but the samples of $g^*$ are no more generated with rejection sampling but with the Metropolis--Hastings Algorithm. The computationnal cost to generate the samples of $g^*$ is thus much lower with MCMC but the resulting $g^*$ are dependent. The number $M$ of $g^*$ samples has been increased to $1000$ so that the Markov chain has enough step to reach convergence. The simulation results are available in @tbl-mcmc and leads to the same conclusion as with rejection sampling.
+We consider again the test case 1 of @sec-sub:sum but the samples of $g^*$ are no more generated with rejection sampling but with the Metropolis--Hastings Algorithm. The computationnal cost to generate the samples of $g^*$ is thus much lower with MCMC but the resulting samples are dependent. The number $M$ of $g^*$ samples has been increased to $1000$ so that the Markov chain has enough step to reach convergence. The simulation results are available in @tbl-mcmc and leads to the same conclusion as with rejection sampling.
 
 ```{python}
 #| label: tbl-mcmc

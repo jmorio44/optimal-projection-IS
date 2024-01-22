@@ -238,7 +238,7 @@ In light of these results, it becomes natural to consider the KL divergence with
 
 # Computational framework {#sec-num-results-framework} 
 
-## Numerical procedure for IS estimate comparison
+## Numerical procedure for IS estimate comparison {#sec-def_proc} 
 
 The objective of the numerical simulations is to evaluate the impact of the choice of the covariance matrix on the estimation accuracy of a high dimensional integral $\mathcal{E}$. We thus want to compare the IS estimation results for different auxiliary densities and more particularly for different choices of the auxiliary covariance matrix when the IS auxiliary density is Gaussian. The details of the considered covariance matrices is given in @sec-def_cov. To extend this comparison, we also compute the results when the IS auxiliary density is chosen with the von Mises--Fisher--Nakagami (vMFN) model recently proposed in [@PapaioannouEtAl_ImprovedCrossEntropybased_2019] for high dimensional probability estimation (See [Appendix B](#sec-naka)). 
 
@@ -1938,7 +1938,7 @@ $$
 $$ {#eq-payoff}
 	where $[y]_+=\max(y,0)$, for a real number $y$. The constants are taken from [@Kawai_OptimizingAdaptiveImportance_2018]: $S_0=50$, $r=0.05, T=0.5, \sigma=0.1, K=55$, where they test the function for dimension $n=16$. In our contribution, we test this example in dimension $100$. Concerning $\mathbf{m}^*$ and the $\mathbf{d}^*_i$'s, the situation is the same as in the previous example: they are not available analytically but can be estimated numerically by Monte Carlo with a large simulation budget. And again, it turns out that $\mathbf{m}^*$ and the first eigenvector $\mathbf{d}^*_1$ of $\mathbf{\Sigma}^*$ are numerically indistinguishable and that Algorithm 2 selects $k=1$ projection direction, so that ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{opt}}$ and ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{mean}}$ yield results that are numerically indistinguishable. The KL partial divergence and the spectrum with the associated $\ell$-order are respectively presented in @fig-inefficiency-kawai-1 and @fig-inefficiency-kawai-2. 
 
-The results of this example are given in @tbl-payoff. The insight gained in the previous examples is confirmed. Projecting on $\mathbf{m}^*$ or $\mathbf{d}^*_1$ in dimension $n = 100$ enables to reach convergence and strongly reduces (compared to $\widehat{\mathbf{\Sigma}}^*$) the coefficient of variation. Moreover, this improvement goes through even when projection directions are estimated, with again ${\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{mean}}$ behaving better than ${\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{opt}}$.
+The results of this example are given in @tbl-payoff. The insight gained in the previous examples is confirmed. Projecting on $\mathbf{m}^*$ or $\mathbf{d}^*_1$ in dimension $n = 100$ enables to reach convergence and stongly reduces (compared to $\widehat{\mathbf{\Sigma}}^*$) the coefficient of variation from $559\%$ to nearly $2\%$. Moreover, this improvement goes through even when projection directions are estimated, with again ${\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{mean}}$ behaving better than ${\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{opt}}$.
 
 ```{python}
 #| label: fig-inefficiency-kawai
@@ -2454,7 +2454,7 @@ $$ \widehat{\boldsymbol{\mu}}=\frac{\sum_{i=1}^M \frac{\mathbf{X}_i^*}{\lvert\lv
 $$
  	
 # Appendix C: MCMC sampling {#sec-MCMC .appendix .unnumbered}
-We consider again the test case 1 of @sec-sub:sum but the samples of $g^*$ are no more generated with rejection sampling but with the Metropolis--Hastings Algorithm. The computational cost to generate the samples of $g^*$ is thus much lower with MCMC but the resulting samples are dependent. The number $M$ of $g^*$ samples has been increased to $1000$ to reduce the influence of the sample dependency. The simulation results are available in @tbl-mcmc and leads to the same conclusion as with rejection sampling.
+We consider again the test case 1 of @sec-sub:sum but the samples of $g^*$ are no more generated with rejection sampling but with the Metropolis--Hastings Algorithm. The computational cost to generate the samples of $g^*$ is thus much lower with MCMC but the resulting samples are dependent. Remember that with rejection sampling, we did not account for the samples generated in the rejection step. Thus, in order to generate a sample of size $M = 500$ with an acceptance probability of the order of $10^{-3}$, of the order of $500,000$ samples are generated. Thus, a fair comparison between the rejection and MCMC methods would allow to consider sampling $500,000$ times. In practice, we found that the MCMC method performs reasonably well if we use it as a sampler. More precisely, the sample $(X^*_1, \cdots, X^*_M)$ in @sec-def_proc is given by $(Y_{5k})_{k = 1, \cdots, 500}$ where  $(Y_i)_{i = 1, \cdots, 2,500}$ is the MH Markov chain. The simulation results are available in @tbl-mcmc and leads to the same conclusion as with rejection sampling.
 
 ```{python}
 #| label: tbl-mcmc
@@ -2472,7 +2472,7 @@ def mypi(X):
     return((phi(X)>0)*f0)
 E=sp.stats.norm.cdf(-3)
 N=2000   
-M=1000   
+M=500   
 B=500   # number of runs
 
 Eopt=np.zeros(B)
@@ -2518,13 +2518,12 @@ for i in range(1,k_st):
 #np.random.seed(0)
 for i in range(B):
 ############################# Estimation of the matrices
-    
    ## g*-sample of size M with Metropolis-Hastings
     X=np.ones((1,n))*3/np.sqrt(n)
     param_agit=0.5
     VA0=sp.stats.multivariate_normal(mean=np.zeros(n),cov=np.eye(n))
     j=0
-    while j<M:
+    while j<(M+2000-1):
         j=j+1
         P=VA0.rvs(size=1)
         X2=(X[-1,:]+param_agit*P)/np.sqrt(1+param_agit*param_agit)
@@ -2533,7 +2532,7 @@ for i in range(B):
         else:
             X=np.append(X,[X[-1,:]],axis=0) 
              
-    
+    X=X[0:2500:5,:]
     R=np.sqrt(np.sum(X**2,axis=1))   
     Xu=(X.T/R).T                
     
@@ -2697,3 +2696,4 @@ Markdown(tabulate(
 
 ::: {#refs}
 :::
+

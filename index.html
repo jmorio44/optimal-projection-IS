@@ -9,7 +9,7 @@
 <meta name="author" content="Maxime El Masri">
 <meta name="author" content="Jérôme Morio">
 <meta name="author" content="Florian Simatos">
-<meta name="dcterms.date" content="2024-01-21">
+<meta name="dcterms.date" content="2024-01-22">
 <meta name="keywords" content="Rare event simulation, Parameter estimation, Importance sampling, Dimension reduction, Kullback–Leibler divergence, Projection">
 <meta name="description" content="This document provides a dimension-reduction strategy in order to improve the performance of importance sampling in high dimensions.">
 
@@ -188,7 +188,7 @@ ISSN 2824-7795</p>
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">January 21, 2024</p>
+        <p class="date">January 22, 2024</p>
       </div>
     </div>
                                     
@@ -235,7 +235,7 @@ ISSN 2824-7795</p>
   </ul></li>
   <li><a href="#sec-num-results-framework" id="toc-sec-num-results-framework" class="nav-link" data-scroll-target="#sec-num-results-framework"><span class="header-section-number">4</span> Computational framework</a>
   <ul class="collapse">
-  <li><a href="#numerical-procedure-for-is-estimate-comparison" id="toc-numerical-procedure-for-is-estimate-comparison" class="nav-link" data-scroll-target="#numerical-procedure-for-is-estimate-comparison"><span class="header-section-number">4.1</span> Numerical procedure for IS estimate comparison</a></li>
+  <li><a href="#sec-def_proc" id="toc-sec-def_proc" class="nav-link" data-scroll-target="#sec-def_proc"><span class="header-section-number">4.1</span> Numerical procedure for IS estimate comparison</a></li>
   <li><a href="#sec-def_cov" id="toc-sec-def_cov" class="nav-link" data-scroll-target="#sec-def_cov"><span class="header-section-number">4.2</span> Choice of the auxiliary density <span class="math inline">g'</span> for the Gaussian model</a></li>
   </ul></li>
   <li><a href="#sec-test-cases" id="toc-sec-test-cases" class="nav-link" data-scroll-target="#sec-test-cases"><span class="header-section-number">5</span> Numerical results on five test cases</a>
@@ -405,8 +405,8 @@ ISSN 2824-7795</p>
 </section>
 <section id="sec-num-results-framework" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Computational framework</h1>
-<section id="numerical-procedure-for-is-estimate-comparison" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="numerical-procedure-for-is-estimate-comparison"><span class="header-section-number">4.1</span> Numerical procedure for IS estimate comparison</h2>
+<section id="sec-def_proc" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="sec-def_proc"><span class="header-section-number">4.1</span> Numerical procedure for IS estimate comparison</h2>
 <p>The objective of the numerical simulations is to evaluate the impact of the choice of the covariance matrix on the estimation accuracy of a high dimensional integral <span class="math inline">\mathcal{E}</span>. We thus want to compare the IS estimation results for different auxiliary densities and more particularly for different choices of the auxiliary covariance matrix when the IS auxiliary density is Gaussian. The details of the considered covariance matrices is given in <a href="#sec-def_cov">Section&nbsp;4.2</a>. To extend this comparison, we also compute the results when the IS auxiliary density is chosen with the von Mises–Fisher–Nakagami (vMFN) model recently proposed in <span class="citation" data-cites="PapaioannouEtAl_ImprovedCrossEntropybased_2019">(<a href="#ref-PapaioannouEtAl_ImprovedCrossEntropybased_2019" role="doc-biblioref">Papaioannou, Geyer, and Straub 2019</a>)</span> for high dimensional probability estimation (See <a href="#sec-naka">Appendix B</a>).</p>
 <p>In <a href="#sec-test-cases">Section&nbsp;5</a> we test these different models of auxiliary densities on five test cases, where <span class="math inline">f</span> is a standard Gaussian density. This choice is not a theoretical limitation as we can in principle always come back to this case by transforming the vector <span class="math inline">\mathbf{X}</span> with isoprobabilistic transformations (see for instance <span class="citation" data-cites="HohenbichlerRackwitz_NonNormalDependentVectors_1981">(<a href="#ref-HohenbichlerRackwitz_NonNormalDependentVectors_1981" role="doc-biblioref">Hohenbichler and Rackwitz 1981</a>)</span>, <span class="citation" data-cites="LiuDerKiureghian_MultivariateDistributionModels_1986">(<a href="#ref-LiuDerKiureghian_MultivariateDistributionModels_1986" role="doc-biblioref">Liu and Der Kiureghian 1986</a>)</span>).</p>
 <p>The precise numerical framework that we will consider to assess the efficiency of the different auxiliary models is as follows. We assume first that <span class="math inline">M</span> i.i.d.&nbsp;random samples <span class="math inline">\mathbf{X}^*_1,\ldots,\mathbf{X}^*_M</span> distributed from <span class="math inline">g^*</span> are available from rejection sampling (unless in <a href="#sec-MCMC">Appendix C</a> where we consider MCMC). From these samples, the parameters of the Gaussian and of the vMFN auxiliary density are computed to get an auxiliary density <span class="math inline">g'</span>. Finally, <span class="math inline">N</span> samples are generated from <span class="math inline">g'</span> to provide an estimation of <span class="math inline">\mathcal{E}</span> with IS. This procedure is summarized by the following stages:</p>
@@ -916,21 +916,21 @@ ISSN 2824-7795</p>
 &lt;&gt;:222: SyntaxWarning: invalid escape sequence '\w'
 &lt;&gt;:222: SyntaxWarning: invalid escape sequence '\w'
 &lt;&gt;:223: SyntaxWarning: invalid escape sequence '\w'
-/tmp/ipykernel_3377/4266669899.py:214: SyntaxWarning: invalid escape sequence '\%'
+/tmp/ipykernel_3352/4266669899.py:214: SyntaxWarning: invalid escape sequence '\%'
   ["Relative error (\%)",Tabresult[1,0],Tabresult[1,1],
-/tmp/ipykernel_3377/4266669899.py:216: SyntaxWarning: invalid escape sequence '\%'
+/tmp/ipykernel_3352/4266669899.py:216: SyntaxWarning: invalid escape sequence '\%'
   ["Coefficient of variation (\%)",Tabresult[2,0],Tabresult[2,1],
-/tmp/ipykernel_3377/4266669899.py:221: SyntaxWarning: invalid escape sequence '\m'
+/tmp/ipykernel_3352/4266669899.py:221: SyntaxWarning: invalid escape sequence '\m'
   headers=["","$\mathbf{\Sigma}^*$", "$\widehat{\mathbf{\Sigma}}^*$", "$\widehat{\mathbf{\Sigma}}_{opt}$",\
-/tmp/ipykernel_3377/4266669899.py:221: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/4266669899.py:221: SyntaxWarning: invalid escape sequence '\w'
   headers=["","$\mathbf{\Sigma}^*$", "$\widehat{\mathbf{\Sigma}}^*$", "$\widehat{\mathbf{\Sigma}}_{opt}$",\
-/tmp/ipykernel_3377/4266669899.py:221: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/4266669899.py:221: SyntaxWarning: invalid escape sequence '\w'
   headers=["","$\mathbf{\Sigma}^*$", "$\widehat{\mathbf{\Sigma}}^*$", "$\widehat{\mathbf{\Sigma}}_{opt}$",\
-/tmp/ipykernel_3377/4266669899.py:222: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/4266669899.py:222: SyntaxWarning: invalid escape sequence '\w'
   "$\widehat{\mathbf{\Sigma}}_{mean}$", "${\widehat{\mathbf{\Sigma}}^{+d}_{opt}}$",\
-/tmp/ipykernel_3377/4266669899.py:222: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/4266669899.py:222: SyntaxWarning: invalid escape sequence '\w'
   "$\widehat{\mathbf{\Sigma}}_{mean}$", "${\widehat{\mathbf{\Sigma}}^{+d}_{opt}}$",\
-/tmp/ipykernel_3377/4266669899.py:223: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/4266669899.py:223: SyntaxWarning: invalid escape sequence '\w'
   "$\widehat{\mathbf{\Sigma}}^{+d}_{mean}$", "vMFN"],</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="3">
@@ -1451,21 +1451,21 @@ ISSN 2824-7795</p>
 &lt;&gt;:251: SyntaxWarning: invalid escape sequence '\w'
 &lt;&gt;:251: SyntaxWarning: invalid escape sequence '\w'
 &lt;&gt;:252: SyntaxWarning: invalid escape sequence '\w'
-/tmp/ipykernel_3377/1713126179.py:244: SyntaxWarning: invalid escape sequence '\%'
+/tmp/ipykernel_3352/1713126179.py:244: SyntaxWarning: invalid escape sequence '\%'
   ["Relative error (\%)",Tabresult[1,0],Tabresult[1,1],
-/tmp/ipykernel_3377/1713126179.py:246: SyntaxWarning: invalid escape sequence '\%'
+/tmp/ipykernel_3352/1713126179.py:246: SyntaxWarning: invalid escape sequence '\%'
   ["Coefficient of variation (\%)",Tabresult[2,0],Tabresult[2,1],
-/tmp/ipykernel_3377/1713126179.py:250: SyntaxWarning: invalid escape sequence '\m'
+/tmp/ipykernel_3352/1713126179.py:250: SyntaxWarning: invalid escape sequence '\m'
   headers=["","$\mathbf{\Sigma}^*$", "$\widehat{\mathbf{\Sigma}}^*$", "$\widehat{\mathbf{\Sigma}}_{opt}$",\
-/tmp/ipykernel_3377/1713126179.py:250: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/1713126179.py:250: SyntaxWarning: invalid escape sequence '\w'
   headers=["","$\mathbf{\Sigma}^*$", "$\widehat{\mathbf{\Sigma}}^*$", "$\widehat{\mathbf{\Sigma}}_{opt}$",\
-/tmp/ipykernel_3377/1713126179.py:250: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/1713126179.py:250: SyntaxWarning: invalid escape sequence '\w'
   headers=["","$\mathbf{\Sigma}^*$", "$\widehat{\mathbf{\Sigma}}^*$", "$\widehat{\mathbf{\Sigma}}_{opt}$",\
-/tmp/ipykernel_3377/1713126179.py:251: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/1713126179.py:251: SyntaxWarning: invalid escape sequence '\w'
   "$\widehat{\mathbf{\Sigma}}_{mean}$", "${\widehat{\mathbf{\Sigma}}^{+d}_{opt}}$",\
-/tmp/ipykernel_3377/1713126179.py:251: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/1713126179.py:251: SyntaxWarning: invalid escape sequence '\w'
   "$\widehat{\mathbf{\Sigma}}_{mean}$", "${\widehat{\mathbf{\Sigma}}^{+d}_{opt}}$",\
-/tmp/ipykernel_3377/1713126179.py:252: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/1713126179.py:252: SyntaxWarning: invalid escape sequence '\w'
   "$\widehat{\mathbf{\Sigma}}^{+d}_{mean}$", "vMFN"],</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="5">
@@ -1934,21 +1934,21 @@ ISSN 2824-7795</p>
 &lt;&gt;:217: SyntaxWarning: invalid escape sequence '\w'
 &lt;&gt;:217: SyntaxWarning: invalid escape sequence '\w'
 &lt;&gt;:218: SyntaxWarning: invalid escape sequence '\w'
-/tmp/ipykernel_3377/605444355.py:210: SyntaxWarning: invalid escape sequence '\%'
+/tmp/ipykernel_3352/605444355.py:210: SyntaxWarning: invalid escape sequence '\%'
   ["Relative error (\%)",Tabresult[1,0],Tabresult[1,1],
-/tmp/ipykernel_3377/605444355.py:212: SyntaxWarning: invalid escape sequence '\%'
+/tmp/ipykernel_3352/605444355.py:212: SyntaxWarning: invalid escape sequence '\%'
   ["Coefficient of variation (\%)",Tabresult[2,0],Tabresult[2,1],
-/tmp/ipykernel_3377/605444355.py:216: SyntaxWarning: invalid escape sequence '\m'
+/tmp/ipykernel_3352/605444355.py:216: SyntaxWarning: invalid escape sequence '\m'
   headers=["","$\mathbf{\Sigma}^*$", "$\widehat{\mathbf{\Sigma}}^*$", "$\widehat{\mathbf{\Sigma}}_{opt}$",\
-/tmp/ipykernel_3377/605444355.py:216: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/605444355.py:216: SyntaxWarning: invalid escape sequence '\w'
   headers=["","$\mathbf{\Sigma}^*$", "$\widehat{\mathbf{\Sigma}}^*$", "$\widehat{\mathbf{\Sigma}}_{opt}$",\
-/tmp/ipykernel_3377/605444355.py:216: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/605444355.py:216: SyntaxWarning: invalid escape sequence '\w'
   headers=["","$\mathbf{\Sigma}^*$", "$\widehat{\mathbf{\Sigma}}^*$", "$\widehat{\mathbf{\Sigma}}_{opt}$",\
-/tmp/ipykernel_3377/605444355.py:217: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/605444355.py:217: SyntaxWarning: invalid escape sequence '\w'
   "$\widehat{\mathbf{\Sigma}}_{mean}$", "${\widehat{\mathbf{\Sigma}}^{+d}_{opt}}$",\
-/tmp/ipykernel_3377/605444355.py:217: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/605444355.py:217: SyntaxWarning: invalid escape sequence '\w'
   "$\widehat{\mathbf{\Sigma}}_{mean}$", "${\widehat{\mathbf{\Sigma}}^{+d}_{opt}}$",\
-/tmp/ipykernel_3377/605444355.py:218: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/605444355.py:218: SyntaxWarning: invalid escape sequence '\w'
   "$\widehat{\mathbf{\Sigma}}^{+d}_{mean}$", "vMFN"],</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="7">
@@ -2472,21 +2472,21 @@ ISSN 2824-7795</p>
 &lt;&gt;:242: SyntaxWarning: invalid escape sequence '\w'
 &lt;&gt;:242: SyntaxWarning: invalid escape sequence '\w'
 &lt;&gt;:243: SyntaxWarning: invalid escape sequence '\w'
-/tmp/ipykernel_3377/3889756799.py:235: SyntaxWarning: invalid escape sequence '\%'
+/tmp/ipykernel_3352/3889756799.py:235: SyntaxWarning: invalid escape sequence '\%'
   ["Relative error (\%)",Tabresult[1,0],Tabresult[1,1],
-/tmp/ipykernel_3377/3889756799.py:237: SyntaxWarning: invalid escape sequence '\%'
+/tmp/ipykernel_3352/3889756799.py:237: SyntaxWarning: invalid escape sequence '\%'
   ["Coefficient of variation (\%)",Tabresult[2,0],Tabresult[2,1],
-/tmp/ipykernel_3377/3889756799.py:241: SyntaxWarning: invalid escape sequence '\m'
+/tmp/ipykernel_3352/3889756799.py:241: SyntaxWarning: invalid escape sequence '\m'
   headers=["","$\mathbf{\Sigma}^*$", "$\widehat{\mathbf{\Sigma}}^*$", "$\widehat{\mathbf{\Sigma}}_{opt}$", \
-/tmp/ipykernel_3377/3889756799.py:241: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/3889756799.py:241: SyntaxWarning: invalid escape sequence '\w'
   headers=["","$\mathbf{\Sigma}^*$", "$\widehat{\mathbf{\Sigma}}^*$", "$\widehat{\mathbf{\Sigma}}_{opt}$", \
-/tmp/ipykernel_3377/3889756799.py:241: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/3889756799.py:241: SyntaxWarning: invalid escape sequence '\w'
   headers=["","$\mathbf{\Sigma}^*$", "$\widehat{\mathbf{\Sigma}}^*$", "$\widehat{\mathbf{\Sigma}}_{opt}$", \
-/tmp/ipykernel_3377/3889756799.py:242: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/3889756799.py:242: SyntaxWarning: invalid escape sequence '\w'
   "$\widehat{\mathbf{\Sigma}}_{mean}$", "${\widehat{\mathbf{\Sigma}}^{+d}_{opt}}$",\
-/tmp/ipykernel_3377/3889756799.py:242: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/3889756799.py:242: SyntaxWarning: invalid escape sequence '\w'
   "$\widehat{\mathbf{\Sigma}}_{mean}$", "${\widehat{\mathbf{\Sigma}}^{+d}_{opt}}$",\
-/tmp/ipykernel_3377/3889756799.py:243: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/3889756799.py:243: SyntaxWarning: invalid escape sequence '\w'
   "$\widehat{\mathbf{\Sigma}}^{+d}_{mean}$", "vMFN"],</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="9">
@@ -2558,7 +2558,7 @@ ISSN 2824-7795</p>
 <p>Our last numerical experiment is a mathematical finance example coming from <span class="citation" data-cites="Kawai_OptimizingAdaptiveImportance_2018">(<a href="#ref-Kawai_OptimizingAdaptiveImportance_2018" role="doc-biblioref">Kawai 2018</a>)</span>, representing a discrete approximation of a standard Asian payoff under the Black–Scholes model. The goal is to estimate the integral <span class="math inline">\mathcal{E}=\int_{\mathbb{R}^n} \phi(\mathbf{x}) f(\mathbf{x}) \textrm{d}\mathbf{x}</span> with <span class="math inline">f</span> the standard <span class="math inline">n</span>-dimensional Gaussian distribution and the following function <span class="math inline">\phi</span>: <span id="eq-payoff"><span class="math display">
     \phi: \mathbf{x}=(x_1,\ldots,x_n) \mapsto e^{-rT}\left[\frac{S_0}{n} \sum_{i=1}^n \exp\left( i \left(r-\frac{\sigma^2}{2}\right)\frac{T}{n}+\sigma \sqrt{\frac{T}{n}} \sum_{k=1}^{i} x_k \right)-K\right]_+
 \tag{14}</span></span> where <span class="math inline">[y]_+=\max(y,0)</span>, for a real number <span class="math inline">y</span>. The constants are taken from <span class="citation" data-cites="Kawai_OptimizingAdaptiveImportance_2018">(<a href="#ref-Kawai_OptimizingAdaptiveImportance_2018" role="doc-biblioref">Kawai 2018</a>)</span>: <span class="math inline">S_0=50</span>, <span class="math inline">r=0.05, T=0.5, \sigma=0.1, K=55</span>, where they test the function for dimension <span class="math inline">n=16</span>. In our contribution, we test this example in dimension <span class="math inline">100</span>. Concerning <span class="math inline">\mathbf{m}^*</span> and the <span class="math inline">\mathbf{d}^*_i</span>’s, the situation is the same as in the previous example: they are not available analytically but can be estimated numerically by Monte Carlo with a large simulation budget. And again, it turns out that <span class="math inline">\mathbf{m}^*</span> and the first eigenvector <span class="math inline">\mathbf{d}^*_1</span> of <span class="math inline">\mathbf{\Sigma}^*</span> are numerically indistinguishable and that Algorithm 2 selects <span class="math inline">k=1</span> projection direction, so that <span class="math inline">{\widehat{\mathbf{\Sigma}}^{\text{}}_\text{opt}}</span> and <span class="math inline">{\widehat{\mathbf{\Sigma}}^{\text{}}_\text{mean}}</span> yield results that are numerically indistinguishable. The KL partial divergence and the spectrum with the associated <span class="math inline">\ell</span>-order are respectively presented in <a href="#fig-inefficiency-kawai-1">Figure&nbsp;6 (a)</a> and <a href="#fig-inefficiency-kawai-2">Figure&nbsp;6 (b)</a>.</p>
-<p>The results of this example are given in <a href="#tbl-payoff">Table&nbsp;6</a>. The insight gained in the previous examples is confirmed. Projecting on <span class="math inline">\mathbf{m}^*</span> or <span class="math inline">\mathbf{d}^*_1</span> in dimension <span class="math inline">n = 100</span> enables to reach convergence and strongly reduces (compared to <span class="math inline">\widehat{\mathbf{\Sigma}}^*</span>) the coefficient of variation. Moreover, this improvement goes through even when projection directions are estimated, with again <span class="math inline">{\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{mean}}</span> behaving better than <span class="math inline">{\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{opt}}</span>.</p>
+<p>The results of this example are given in <a href="#tbl-payoff">Table&nbsp;6</a>. The insight gained in the previous examples is confirmed. Projecting on <span class="math inline">\mathbf{m}^*</span> or <span class="math inline">\mathbf{d}^*_1</span> in dimension <span class="math inline">n = 100</span> enables to reach convergence and stongly reduces (compared to <span class="math inline">\widehat{\mathbf{\Sigma}}^*</span>) the coefficient of variation from <span class="math inline">559\%</span> to nearly <span class="math inline">2\%</span>. Moreover, this improvement goes through even when projection directions are estimated, with again <span class="math inline">{\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{mean}}</span> behaving better than <span class="math inline">{\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{opt}}</span>.</p>
 <div>
 <details>
 <summary>Code</summary>
@@ -2981,21 +2981,21 @@ ISSN 2824-7795</p>
 &lt;&gt;:244: SyntaxWarning: invalid escape sequence '\w'
 &lt;&gt;:244: SyntaxWarning: invalid escape sequence '\w'
 &lt;&gt;:245: SyntaxWarning: invalid escape sequence '\w'
-/tmp/ipykernel_3377/842017826.py:237: SyntaxWarning: invalid escape sequence '\%'
+/tmp/ipykernel_3352/842017826.py:237: SyntaxWarning: invalid escape sequence '\%'
   ["Relative error (\%)",Tabresult[1,0],Tabresult[1,1],
-/tmp/ipykernel_3377/842017826.py:239: SyntaxWarning: invalid escape sequence '\%'
+/tmp/ipykernel_3352/842017826.py:239: SyntaxWarning: invalid escape sequence '\%'
   ["Coefficient of variation (\%)",Tabresult[2,0],Tabresult[2,1],
-/tmp/ipykernel_3377/842017826.py:243: SyntaxWarning: invalid escape sequence '\m'
+/tmp/ipykernel_3352/842017826.py:243: SyntaxWarning: invalid escape sequence '\m'
   headers=["","$\mathbf{\Sigma}^*$", "$\widehat{\mathbf{\Sigma}}^*$", "$\widehat{\mathbf{\Sigma}}_{opt}$",\
-/tmp/ipykernel_3377/842017826.py:243: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/842017826.py:243: SyntaxWarning: invalid escape sequence '\w'
   headers=["","$\mathbf{\Sigma}^*$", "$\widehat{\mathbf{\Sigma}}^*$", "$\widehat{\mathbf{\Sigma}}_{opt}$",\
-/tmp/ipykernel_3377/842017826.py:243: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/842017826.py:243: SyntaxWarning: invalid escape sequence '\w'
   headers=["","$\mathbf{\Sigma}^*$", "$\widehat{\mathbf{\Sigma}}^*$", "$\widehat{\mathbf{\Sigma}}_{opt}$",\
-/tmp/ipykernel_3377/842017826.py:244: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/842017826.py:244: SyntaxWarning: invalid escape sequence '\w'
   "$\widehat{\mathbf{\Sigma}}_{mean}$", "${\widehat{\mathbf{\Sigma}}^{+d}_{opt}}$",\
-/tmp/ipykernel_3377/842017826.py:244: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/842017826.py:244: SyntaxWarning: invalid escape sequence '\w'
   "$\widehat{\mathbf{\Sigma}}_{mean}$", "${\widehat{\mathbf{\Sigma}}^{+d}_{opt}}$",\
-/tmp/ipykernel_3377/842017826.py:245: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/842017826.py:245: SyntaxWarning: invalid escape sequence '\w'
   "$\widehat{\mathbf{\Sigma}}^{+d}_{mean}$", "vMFN"],</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="11">
@@ -3269,7 +3269,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 </span></p>
 </div></section><section id="sec-MCMC" class="level1 appendix unnumbered"><h2 class="anchored quarto-appendix-heading">Appendix C: MCMC sampling</h2><div class="quarto-appendix-contents">
 
-<p>We consider again the test case 1 of <a href="#sec-sub:sum">Section&nbsp;5.1</a> but the samples of <span class="math inline">g^*</span> are no more generated with rejection sampling but with the Metropolis–Hastings Algorithm. The computational cost to generate the samples of <span class="math inline">g^*</span> is thus much lower with MCMC but the resulting samples are dependent. The number <span class="math inline">M</span> of <span class="math inline">g^*</span> samples has been increased to <span class="math inline">1000</span> to reduce the influence of the sample dependency. The simulation results are available in <a href="#tbl-mcmc">Table&nbsp;7</a> and leads to the same conclusion as with rejection sampling.</p>
+<p>We consider again the test case 1 of <a href="#sec-sub:sum">Section&nbsp;5.1</a> but the samples of <span class="math inline">g^*</span> are no more generated with rejection sampling but with the Metropolis–Hastings Algorithm. The computational cost to generate the samples of <span class="math inline">g^*</span> is thus much lower with MCMC but the resulting samples are dependent. Remember that with rejection sampling, we did not account for the samples generated in the rejection step. Thus, in order to generate a sample of size <span class="math inline">M = 500</span> with an acceptance probability of the order of <span class="math inline">10^{-3}</span>, of the order of <span class="math inline">500,000</span> samples are generated. Thus, a fair comparison between the rejection and MCMC methods would allow to consider sampling <span class="math inline">500,000</span> times. In practice, we found that the MCMC method performs reasonably well if we use it as a sampler. More precisely, the sample <span class="math inline">(X^*_1, \cdots, X^*_M)</span> in <a href="#sec-def_proc">Section&nbsp;4.1</a> is given by <span class="math inline">(Y_{5k})_{k = 1, \cdots, 500}</span> where <span class="math inline">(Y_i)_{i = 1, \cdots, 2,500}</span> is the MH Markov chain. The simulation results are available in <a href="#tbl-mcmc">Table&nbsp;7</a> and leads to the same conclusion as with rejection sampling.</p>
 <div class="cell" data-execution_count="12">
 <details>
 <summary>Code</summary>
@@ -3286,7 +3286,7 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span>((phi(X)<span class="op">&gt;</span><span class="dv">0</span>)<span class="op">*</span>f0)</span>
 <span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>E<span class="op">=</span>sp.stats.norm.cdf(<span class="op">-</span><span class="dv">3</span>)</span>
 <span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>N<span class="op">=</span><span class="dv">2000</span>   </span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>M<span class="op">=</span><span class="dv">1000</span>   </span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>M<span class="op">=</span><span class="dv">500</span>   </span>
 <span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>B<span class="op">=</span><span class="dv">500</span>   <span class="co"># number of runs</span></span>
 <span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>Eopt<span class="op">=</span>np.zeros(B)</span>
@@ -3332,212 +3332,211 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <span id="cb17-57"><a href="#cb17-57" aria-hidden="true" tabindex="-1"></a><span class="co">#np.random.seed(0)</span></span>
 <span id="cb17-58"><a href="#cb17-58" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(B):</span>
 <span id="cb17-59"><a href="#cb17-59" aria-hidden="true" tabindex="-1"></a><span class="co">############################# Estimation of the matrices</span></span>
-<span id="cb17-60"><a href="#cb17-60" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-61"><a href="#cb17-61" aria-hidden="true" tabindex="-1"></a>   <span class="co">## g*-sample of size M with Metropolis-Hastings</span></span>
-<span id="cb17-62"><a href="#cb17-62" aria-hidden="true" tabindex="-1"></a>    X<span class="op">=</span>np.ones((<span class="dv">1</span>,n))<span class="op">*</span><span class="dv">3</span><span class="op">/</span>np.sqrt(n)</span>
-<span id="cb17-63"><a href="#cb17-63" aria-hidden="true" tabindex="-1"></a>    param_agit<span class="op">=</span><span class="fl">0.5</span></span>
-<span id="cb17-64"><a href="#cb17-64" aria-hidden="true" tabindex="-1"></a>    VA0<span class="op">=</span>sp.stats.multivariate_normal(mean<span class="op">=</span>np.zeros(n),cov<span class="op">=</span>np.eye(n))</span>
-<span id="cb17-65"><a href="#cb17-65" aria-hidden="true" tabindex="-1"></a>    j<span class="op">=</span><span class="dv">0</span></span>
-<span id="cb17-66"><a href="#cb17-66" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> j<span class="op">&lt;</span>M:</span>
-<span id="cb17-67"><a href="#cb17-67" aria-hidden="true" tabindex="-1"></a>        j<span class="op">=</span>j<span class="op">+</span><span class="dv">1</span></span>
-<span id="cb17-68"><a href="#cb17-68" aria-hidden="true" tabindex="-1"></a>        P<span class="op">=</span>VA0.rvs(size<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb17-69"><a href="#cb17-69" aria-hidden="true" tabindex="-1"></a>        X2<span class="op">=</span>(X[<span class="op">-</span><span class="dv">1</span>,:]<span class="op">+</span>param_agit<span class="op">*</span>P)<span class="op">/</span>np.sqrt(<span class="dv">1</span><span class="op">+</span>param_agit<span class="op">*</span>param_agit)</span>
-<span id="cb17-70"><a href="#cb17-70" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(phi([X2])<span class="op">&gt;</span><span class="dv">0</span>):</span>
-<span id="cb17-71"><a href="#cb17-71" aria-hidden="true" tabindex="-1"></a>            X<span class="op">=</span>np.append(X,[X2],axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb17-72"><a href="#cb17-72" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb17-73"><a href="#cb17-73" aria-hidden="true" tabindex="-1"></a>            X<span class="op">=</span>np.append(X,[X[<span class="op">-</span><span class="dv">1</span>,:]],axis<span class="op">=</span><span class="dv">0</span>) </span>
-<span id="cb17-74"><a href="#cb17-74" aria-hidden="true" tabindex="-1"></a>             </span>
-<span id="cb17-75"><a href="#cb17-75" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-76"><a href="#cb17-76" aria-hidden="true" tabindex="-1"></a>    R<span class="op">=</span>np.sqrt(np.<span class="bu">sum</span>(X<span class="op">**</span><span class="dv">2</span>,axis<span class="op">=</span><span class="dv">1</span>))   </span>
-<span id="cb17-77"><a href="#cb17-77" aria-hidden="true" tabindex="-1"></a>    Xu<span class="op">=</span>(X.T<span class="op">/</span>R).T                </span>
-<span id="cb17-78"><a href="#cb17-78" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-79"><a href="#cb17-79" aria-hidden="true" tabindex="-1"></a>   <span class="co">## estimated gaussian mean and covariance </span></span>
-<span id="cb17-80"><a href="#cb17-80" aria-hidden="true" tabindex="-1"></a>    mm<span class="op">=</span>np.mean(X,axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb17-81"><a href="#cb17-81" aria-hidden="true" tabindex="-1"></a>    Xc<span class="op">=</span>(X<span class="op">-</span>mm).T</span>
-<span id="cb17-82"><a href="#cb17-82" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span>Xc <span class="op">@</span> Xc.T<span class="op">/</span>np.shape(Xc)[<span class="dv">1</span>]  </span>
-<span id="cb17-83"><a href="#cb17-83" aria-hidden="true" tabindex="-1"></a>    SI.append(sigma)</span>
-<span id="cb17-84"><a href="#cb17-84" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-85"><a href="#cb17-85" aria-hidden="true" tabindex="-1"></a>   <span class="co">## von Mises Fisher parameters</span></span>
-<span id="cb17-86"><a href="#cb17-86" aria-hidden="true" tabindex="-1"></a>    normu<span class="op">=</span>np.sqrt(np.mean(Xu,axis<span class="op">=</span><span class="dv">0</span>).dot(np.mean(Xu,axis<span class="op">=</span><span class="dv">0</span>).T))</span>
-<span id="cb17-87"><a href="#cb17-87" aria-hidden="true" tabindex="-1"></a>    mu<span class="op">=</span>np.mean(Xu,axis<span class="op">=</span><span class="dv">0</span>)<span class="op">/</span>normu</span>
-<span id="cb17-88"><a href="#cb17-88" aria-hidden="true" tabindex="-1"></a>    mu<span class="op">=</span>np.array(mu,ndmin<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb17-89"><a href="#cb17-89" aria-hidden="true" tabindex="-1"></a>    chi<span class="op">=</span><span class="bu">min</span>(normu,<span class="fl">0.95</span>)</span>
-<span id="cb17-90"><a href="#cb17-90" aria-hidden="true" tabindex="-1"></a>    kappa<span class="op">=</span>(chi<span class="op">*</span>n<span class="op">-</span>chi<span class="op">**</span><span class="dv">3</span>)<span class="op">/</span>(<span class="dv">1</span><span class="op">-</span>chi<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb17-91"><a href="#cb17-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-92"><a href="#cb17-92" aria-hidden="true" tabindex="-1"></a>   <span class="co">## Nakagami parameters</span></span>
-<span id="cb17-93"><a href="#cb17-93" aria-hidden="true" tabindex="-1"></a>    omega<span class="op">=</span>np.mean(R<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb17-94"><a href="#cb17-94" aria-hidden="true" tabindex="-1"></a>    tau4<span class="op">=</span>np.mean(R<span class="op">**</span><span class="dv">4</span>)</span>
-<span id="cb17-95"><a href="#cb17-95" aria-hidden="true" tabindex="-1"></a>    pp<span class="op">=</span>omega<span class="op">**</span><span class="dv">2</span><span class="op">/</span>(tau4<span class="op">-</span>omega<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb17-96"><a href="#cb17-96" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-97"><a href="#cb17-97" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
-<span id="cb17-98"><a href="#cb17-98" aria-hidden="true" tabindex="-1"></a>    Eig<span class="op">=</span>np.linalg.eigh(sigma)                     </span>
-<span id="cb17-99"><a href="#cb17-99" aria-hidden="true" tabindex="-1"></a>    logeig<span class="op">=</span>np.sort(np.log(Eig[<span class="dv">0</span>])<span class="op">-</span>Eig[<span class="dv">0</span>])     </span>
-<span id="cb17-100"><a href="#cb17-100" aria-hidden="true" tabindex="-1"></a>    delta<span class="op">=</span>np.zeros(<span class="bu">len</span>(logeig)<span class="op">-</span><span class="dv">1</span>)</span>
-<span id="cb17-101"><a href="#cb17-101" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(logeig)<span class="op">-</span><span class="dv">1</span>):</span>
-<span id="cb17-102"><a href="#cb17-102" aria-hidden="true" tabindex="-1"></a>        delta[j]<span class="op">=</span><span class="bu">abs</span>(logeig[j]<span class="op">-</span>logeig[j<span class="op">+</span><span class="dv">1</span>])    </span>
-<span id="cb17-103"><a href="#cb17-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-104"><a href="#cb17-104" aria-hidden="true" tabindex="-1"></a>    k<span class="op">=</span>np.argmax(delta)<span class="op">+</span><span class="dv">1</span>         </span>
-<span id="cb17-105"><a href="#cb17-105" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-106"><a href="#cb17-106" aria-hidden="true" tabindex="-1"></a>    indi<span class="op">=</span>[]</span>
-<span id="cb17-107"><a href="#cb17-107" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> l <span class="kw">in</span> <span class="bu">range</span>(k):</span>
-<span id="cb17-108"><a href="#cb17-108" aria-hidden="true" tabindex="-1"></a>        indi.append(np.where(np.log(Eig[<span class="dv">0</span>])<span class="op">-</span>Eig[<span class="dv">0</span>]<span class="op">==</span>logeig[l])[<span class="dv">0</span>][<span class="dv">0</span>])</span>
-<span id="cb17-109"><a href="#cb17-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-110"><a href="#cb17-110" aria-hidden="true" tabindex="-1"></a>    P1<span class="op">=</span>np.array(Eig[<span class="dv">1</span>][:,indi[<span class="dv">0</span>]],ndmin<span class="op">=</span><span class="dv">2</span>).T</span>
-<span id="cb17-111"><a href="#cb17-111" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> l <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>,k):</span>
-<span id="cb17-112"><a href="#cb17-112" aria-hidden="true" tabindex="-1"></a>        P1<span class="op">=</span>np.concatenate((P1,np.array(Eig[<span class="dv">1</span>][:,indi[l]],ndmin<span class="op">=</span><span class="dv">2</span>).T)<span class="op">\</span></span>
-<span id="cb17-113"><a href="#cb17-113" aria-hidden="true" tabindex="-1"></a>                          ,axis<span class="op">=</span><span class="dv">1</span>)     </span>
-<span id="cb17-114"><a href="#cb17-114" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb17-115"><a href="#cb17-115" aria-hidden="true" tabindex="-1"></a>    diagsi<span class="op">=</span>np.diag(Eig[<span class="dv">0</span>][indi])                           </span>
-<span id="cb17-116"><a href="#cb17-116" aria-hidden="true" tabindex="-1"></a>    sig_opt_d<span class="op">=</span>P1.dot((diagsi<span class="op">-</span>np.eye(k))).dot(P1.T)<span class="op">+</span>np.eye(n)</span>
-<span id="cb17-117"><a href="#cb17-117" aria-hidden="true" tabindex="-1"></a>    SIP.append(sig_opt_d)</span>
-<span id="cb17-118"><a href="#cb17-118" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-119"><a href="#cb17-119" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
-<span id="cb17-120"><a href="#cb17-120" aria-hidden="true" tabindex="-1"></a>    diagsist<span class="op">=</span>P1st.T.dot(sigma).dot(P1st)                   </span>
-<span id="cb17-121"><a href="#cb17-121" aria-hidden="true" tabindex="-1"></a>    sig_opt<span class="op">=</span>P1st.dot(diagsist<span class="op">-</span>np.eye(k_st)).dot(P1st.T)<span class="op">+</span>np.eye(n)</span>
-<span id="cb17-122"><a href="#cb17-122" aria-hidden="true" tabindex="-1"></a>    SIPst.append(sig_opt)</span>
-<span id="cb17-123"><a href="#cb17-123" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-124"><a href="#cb17-124" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
-<span id="cb17-125"><a href="#cb17-125" aria-hidden="true" tabindex="-1"></a>    Norm_mm<span class="op">=</span>np.linalg.norm(mm)               </span>
-<span id="cb17-126"><a href="#cb17-126" aria-hidden="true" tabindex="-1"></a>    normalised_mm<span class="op">=</span>np.array(mm,ndmin<span class="op">=</span><span class="dv">2</span>).T<span class="op">/</span>Norm_mm        </span>
-<span id="cb17-127"><a href="#cb17-127" aria-hidden="true" tabindex="-1"></a>    vhat<span class="op">=</span>normalised_mm.T.dot(sigma).dot(normalised_mm)          </span>
-<span id="cb17-128"><a href="#cb17-128" aria-hidden="true" tabindex="-1"></a>    sig_mean_d<span class="op">=</span>(vhat<span class="op">-</span><span class="dv">1</span>)<span class="op">*</span>normalised_mm.dot(normalised_mm.T)<span class="op">+</span>np.eye(n) </span>
-<span id="cb17-129"><a href="#cb17-129" aria-hidden="true" tabindex="-1"></a>    SIM.append(sig_mean_d)</span>
-<span id="cb17-130"><a href="#cb17-130" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-131"><a href="#cb17-131" aria-hidden="true" tabindex="-1"></a><span class="co">############################################# Estimation of the integral</span></span>
-<span id="cb17-132"><a href="#cb17-132" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
-<span id="cb17-133"><a href="#cb17-133" aria-hidden="true" tabindex="-1"></a>    Xop<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>Sigstar,size<span class="op">=</span>N)              </span>
-<span id="cb17-134"><a href="#cb17-134" aria-hidden="true" tabindex="-1"></a>    wop<span class="op">=</span>mypi(Xop)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xop,mean<span class="op">=</span>mm, cov<span class="op">=</span>Sigstar)       </span>
-<span id="cb17-135"><a href="#cb17-135" aria-hidden="true" tabindex="-1"></a>    Eopt[i]<span class="op">=</span>np.mean(wop)                                                     </span>
-<span id="cb17-136"><a href="#cb17-136" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-137"><a href="#cb17-137" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
-<span id="cb17-138"><a href="#cb17-138" aria-hidden="true" tabindex="-1"></a>    Xis<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>sigma,size<span class="op">=</span>N)</span>
-<span id="cb17-139"><a href="#cb17-139" aria-hidden="true" tabindex="-1"></a>    wis<span class="op">=</span>mypi(Xis)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xis,mean<span class="op">=</span>mm, cov<span class="op">=</span>sigma)</span>
-<span id="cb17-140"><a href="#cb17-140" aria-hidden="true" tabindex="-1"></a>    EIS[i]<span class="op">=</span>np.mean(wis)</span>
-<span id="cb17-141"><a href="#cb17-141" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-142"><a href="#cb17-142" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
-<span id="cb17-143"><a href="#cb17-143" aria-hidden="true" tabindex="-1"></a>    Xpr<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>sig_opt_d,size<span class="op">=</span>N)</span>
-<span id="cb17-144"><a href="#cb17-144" aria-hidden="true" tabindex="-1"></a>    wpr<span class="op">=</span>mypi(Xpr)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xpr,mean<span class="op">=</span>mm,<span class="op">\</span></span>
-<span id="cb17-145"><a href="#cb17-145" aria-hidden="true" tabindex="-1"></a>                                                   cov<span class="op">=</span>sig_opt_d)</span>
-<span id="cb17-146"><a href="#cb17-146" aria-hidden="true" tabindex="-1"></a>    Eprj[i]<span class="op">=</span>np.mean(wpr)</span>
-<span id="cb17-147"><a href="#cb17-147" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-148"><a href="#cb17-148" aria-hidden="true" tabindex="-1"></a>   <span class="co">###   </span></span>
-<span id="cb17-149"><a href="#cb17-149" aria-hidden="true" tabindex="-1"></a>    Xpm<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>sig_mean_d,size<span class="op">=</span>N)</span>
-<span id="cb17-150"><a href="#cb17-150" aria-hidden="true" tabindex="-1"></a>    wpm<span class="op">=</span>mypi(Xpm)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xpm,mean<span class="op">=</span>mm,<span class="op">\</span></span>
-<span id="cb17-151"><a href="#cb17-151" aria-hidden="true" tabindex="-1"></a>                                                   cov<span class="op">=</span>sig_mean_d)</span>
-<span id="cb17-152"><a href="#cb17-152" aria-hidden="true" tabindex="-1"></a>    Eprm[i]<span class="op">=</span>np.mean(wpm)</span>
-<span id="cb17-153"><a href="#cb17-153" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-154"><a href="#cb17-154" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
-<span id="cb17-155"><a href="#cb17-155" aria-hidden="true" tabindex="-1"></a>    Xprst<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>sig_opt,size<span class="op">=</span>N)</span>
-<span id="cb17-156"><a href="#cb17-156" aria-hidden="true" tabindex="-1"></a>    wprst<span class="op">=</span>mypi(Xprst)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xprst,mean<span class="op">=</span>mm, <span class="op">\</span></span>
-<span id="cb17-157"><a href="#cb17-157" aria-hidden="true" tabindex="-1"></a>                                                       cov<span class="op">=</span>sig_opt)</span>
-<span id="cb17-158"><a href="#cb17-158" aria-hidden="true" tabindex="-1"></a>    Eprjst[i]<span class="op">=</span>np.mean(wprst)</span>
-<span id="cb17-159"><a href="#cb17-159" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-160"><a href="#cb17-160" aria-hidden="true" tabindex="-1"></a>   <span class="co">###</span></span>
-<span id="cb17-161"><a href="#cb17-161" aria-hidden="true" tabindex="-1"></a>    Xvmfn <span class="op">=</span> vMFNM_sample(mu, kappa, omega, pp, <span class="dv">1</span>, N)</span>
-<span id="cb17-162"><a href="#cb17-162" aria-hidden="true" tabindex="-1"></a>    Rvn<span class="op">=</span>np.sqrt(np.<span class="bu">sum</span>(Xvmfn<span class="op">**</span><span class="dv">2</span>,axis<span class="op">=</span><span class="dv">1</span>))</span>
-<span id="cb17-163"><a href="#cb17-163" aria-hidden="true" tabindex="-1"></a>    Xvnu<span class="op">=</span>Xvmfn.T<span class="op">/</span>Rvn</span>
-<span id="cb17-164"><a href="#cb17-164" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb17-165"><a href="#cb17-165" aria-hidden="true" tabindex="-1"></a>    h_log<span class="op">=</span>vMF_logpdf(Xvnu,mu.T,kappa)<span class="op">+</span>nakagami_logpdf(Rvn,pp,omega)</span>
-<span id="cb17-166"><a href="#cb17-166" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> np.log(n) <span class="op">+</span> np.log(np.pi <span class="op">**</span> (n <span class="op">/</span> <span class="dv">2</span>)) <span class="op">-</span> sp.special.gammaln(n <span class="op">/</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb17-167"><a href="#cb17-167" aria-hidden="true" tabindex="-1"></a>    f_u <span class="op">=</span> <span class="op">-</span>A       </span>
-<span id="cb17-168"><a href="#cb17-168" aria-hidden="true" tabindex="-1"></a>    f_chi <span class="op">=</span> (np.log(<span class="dv">2</span>) <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> n <span class="op">/</span> <span class="dv">2</span>) <span class="op">+</span> np.log(Rvn) <span class="op">*</span> (n <span class="op">-</span> <span class="dv">1</span>) <span class="op">-</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="op">\</span></span>
-<span id="cb17-169"><a href="#cb17-169" aria-hidden="true" tabindex="-1"></a>             Rvn <span class="op">**</span> <span class="dv">2</span> <span class="op">-</span> sp.special.gammaln(n <span class="op">/</span> <span class="dv">2</span>)) </span>
-<span id="cb17-170"><a href="#cb17-170" aria-hidden="true" tabindex="-1"></a>    f_log <span class="op">=</span> f_u <span class="op">+</span> f_chi</span>
-<span id="cb17-171"><a href="#cb17-171" aria-hidden="true" tabindex="-1"></a>    W_log <span class="op">=</span> f_log <span class="op">-</span> h_log</span>
-<span id="cb17-172"><a href="#cb17-172" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-173"><a href="#cb17-173" aria-hidden="true" tabindex="-1"></a>    wvmfn<span class="op">=</span>(phi(Xvmfn)<span class="op">&gt;</span><span class="dv">0</span>)<span class="op">*</span>np.exp(W_log)          </span>
-<span id="cb17-174"><a href="#cb17-174" aria-hidden="true" tabindex="-1"></a>    Evmfn[i]<span class="op">=</span>np.mean(wvmfn)</span>
-<span id="cb17-175"><a href="#cb17-175" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-176"><a href="#cb17-176" aria-hidden="true" tabindex="-1"></a><span class="co">### KL divergences    </span></span>
-<span id="cb17-177"><a href="#cb17-177" aria-hidden="true" tabindex="-1"></a>dkli<span class="op">=</span>np.zeros(B)</span>
-<span id="cb17-178"><a href="#cb17-178" aria-hidden="true" tabindex="-1"></a>dklp<span class="op">=</span>np.zeros(B)</span>
-<span id="cb17-179"><a href="#cb17-179" aria-hidden="true" tabindex="-1"></a>dklm<span class="op">=</span>np.zeros(B)</span>
-<span id="cb17-180"><a href="#cb17-180" aria-hidden="true" tabindex="-1"></a>dklpst<span class="op">=</span>np.zeros(B)</span>
-<span id="cb17-181"><a href="#cb17-181" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-182"><a href="#cb17-182" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(B):</span>
-<span id="cb17-183"><a href="#cb17-183" aria-hidden="true" tabindex="-1"></a>    dkli[i]<span class="op">=</span>np.log(np.linalg.det(SI[i]))<span class="op">+</span><span class="bu">sum</span>(np.diag(Sigstar.dot<span class="op">\</span></span>
-<span id="cb17-184"><a href="#cb17-184" aria-hidden="true" tabindex="-1"></a>                                            (np.linalg.inv(SI[i]))))      </span>
-<span id="cb17-185"><a href="#cb17-185" aria-hidden="true" tabindex="-1"></a>    dklp[i]<span class="op">=</span>np.log(np.linalg.det(SIP[i]))<span class="op">+</span><span class="bu">sum</span>(np.diag(Sigstar.dot<span class="op">\</span></span>
-<span id="cb17-186"><a href="#cb17-186" aria-hidden="true" tabindex="-1"></a>                                            (np.linalg.inv(SIP[i]))))        </span>
-<span id="cb17-187"><a href="#cb17-187" aria-hidden="true" tabindex="-1"></a>    dklm[i]<span class="op">=</span>np.log(np.linalg.det(SIM[i]))<span class="op">+</span><span class="bu">sum</span>(np.diag(Sigstar.dot<span class="op">\</span></span>
-<span id="cb17-188"><a href="#cb17-188" aria-hidden="true" tabindex="-1"></a>                                            (np.linalg.inv(SIM[i]))))</span>
-<span id="cb17-189"><a href="#cb17-189" aria-hidden="true" tabindex="-1"></a>    dklpst[i]<span class="op">=</span>np.log(np.linalg.det(SIPst[i]))<span class="op">+</span><span class="bu">sum</span>(np.diag(Sigstar.dot<span class="op">\</span></span>
-<span id="cb17-190"><a href="#cb17-190" aria-hidden="true" tabindex="-1"></a>                                            (np.linalg.inv(SIPst[i]))))</span>
-<span id="cb17-191"><a href="#cb17-191" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-192"><a href="#cb17-192" aria-hidden="true" tabindex="-1"></a>Tabresult<span class="op">=</span>np.zeros((<span class="dv">3</span>,<span class="dv">7</span>)) <span class="co"># table of results</span></span>
-<span id="cb17-193"><a href="#cb17-193" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-194"><a href="#cb17-194" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">0</span>]<span class="op">=</span>np.log(np.linalg.det(Sigstar))<span class="op">+</span>n</span>
-<span id="cb17-195"><a href="#cb17-195" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">1</span>]<span class="op">=</span>np.mean(dkli)</span>
-<span id="cb17-196"><a href="#cb17-196" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">2</span>]<span class="op">=</span>np.mean(dklpst)</span>
-<span id="cb17-197"><a href="#cb17-197" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">3</span>]<span class="op">=</span>np.mean(dklpst)</span>
-<span id="cb17-198"><a href="#cb17-198" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">4</span>]<span class="op">=</span>np.mean(dklp)</span>
-<span id="cb17-199"><a href="#cb17-199" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">5</span>]<span class="op">=</span>np.mean(dklm)</span>
-<span id="cb17-200"><a href="#cb17-200" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">6</span>]<span class="op">=</span><span class="va">None</span></span>
-<span id="cb17-201"><a href="#cb17-201" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-202"><a href="#cb17-202" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">0</span>]<span class="op">=</span>np.mean(Eopt<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb17-203"><a href="#cb17-203" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">=</span>np.mean(EIS<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb17-204"><a href="#cb17-204" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">2</span>]<span class="op">=</span>np.mean(Eprjst<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb17-205"><a href="#cb17-205" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">3</span>]<span class="op">=</span>np.mean(Eprjst<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb17-206"><a href="#cb17-206" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">4</span>]<span class="op">=</span>np.mean(Eprj<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb17-207"><a href="#cb17-207" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">5</span>]<span class="op">=</span>np.mean(Eprm<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb17-208"><a href="#cb17-208" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">6</span>]<span class="op">=</span>np.mean(Evmfn<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb17-209"><a href="#cb17-209" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-210"><a href="#cb17-210" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">0</span>]<span class="op">=</span>np.sqrt(np.mean((Eopt<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb17-211"><a href="#cb17-211" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">1</span>]<span class="op">=</span>np.sqrt(np.mean((EIS<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb17-212"><a href="#cb17-212" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">2</span>]<span class="op">=</span>np.sqrt(np.mean((Eprjst<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb17-213"><a href="#cb17-213" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">3</span>]<span class="op">=</span>np.sqrt(np.mean((Eprjst<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb17-214"><a href="#cb17-214" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">4</span>]<span class="op">=</span>np.sqrt(np.mean((Eprj<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb17-215"><a href="#cb17-215" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">5</span>]<span class="op">=</span>np.sqrt(np.mean((Eprm<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb17-216"><a href="#cb17-216" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">6</span>]<span class="op">=</span>np.sqrt(np.mean((Evmfn<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb17-217"><a href="#cb17-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-218"><a href="#cb17-218" aria-hidden="true" tabindex="-1"></a>Tabresult<span class="op">=</span>np.<span class="bu">round</span>(Tabresult,<span class="dv">1</span>)</span>
-<span id="cb17-219"><a href="#cb17-219" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-220"><a href="#cb17-220" aria-hidden="true" tabindex="-1"></a>table<span class="op">=</span>[[<span class="st">"D'"</span>,Tabresult[<span class="dv">0</span>,<span class="dv">0</span>],Tabresult[<span class="dv">0</span>,<span class="dv">1</span>],Tabresult[<span class="dv">0</span>,<span class="dv">2</span>],Tabresult[<span class="dv">0</span>,<span class="dv">3</span>],</span>
-<span id="cb17-221"><a href="#cb17-221" aria-hidden="true" tabindex="-1"></a>        Tabresult[<span class="dv">0</span>,<span class="dv">4</span>],Tabresult[<span class="dv">0</span>,<span class="dv">5</span>],<span class="st">"/"</span>],</span>
-<span id="cb17-222"><a href="#cb17-222" aria-hidden="true" tabindex="-1"></a>      [<span class="st">"Relative error (\%)"</span>,Tabresult[<span class="dv">1</span>,<span class="dv">0</span>],Tabresult[<span class="dv">1</span>,<span class="dv">1</span>],</span>
-<span id="cb17-223"><a href="#cb17-223" aria-hidden="true" tabindex="-1"></a>       Tabresult[<span class="dv">1</span>,<span class="dv">2</span>],Tabresult[<span class="dv">1</span>,<span class="dv">3</span>],Tabresult[<span class="dv">1</span>,<span class="dv">4</span>],Tabresult[<span class="dv">1</span>,<span class="dv">5</span>],Tabresult[<span class="dv">1</span>,<span class="dv">6</span>]],</span>
-<span id="cb17-224"><a href="#cb17-224" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"Coefficient of variation (\%)"</span>,Tabresult[<span class="dv">2</span>,<span class="dv">0</span>],Tabresult[<span class="dv">2</span>,<span class="dv">1</span>],</span>
-<span id="cb17-225"><a href="#cb17-225" aria-hidden="true" tabindex="-1"></a>     Tabresult[<span class="dv">2</span>,<span class="dv">2</span>],Tabresult[<span class="dv">2</span>,<span class="dv">3</span>],Tabresult[<span class="dv">2</span>,<span class="dv">4</span>],Tabresult[<span class="dv">2</span>,<span class="dv">5</span>],Tabresult[<span class="dv">2</span>,<span class="dv">6</span>]]]</span>
-<span id="cb17-226"><a href="#cb17-226" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-227"><a href="#cb17-227" aria-hidden="true" tabindex="-1"></a>Markdown(tabulate(</span>
-<span id="cb17-228"><a href="#cb17-228" aria-hidden="true" tabindex="-1"></a>  table, </span>
-<span id="cb17-229"><a href="#cb17-229" aria-hidden="true" tabindex="-1"></a>  headers<span class="op">=</span>[<span class="st">""</span>,<span class="st">"$\mathbf{\Sigma}^*$"</span>, <span class="st">"$\widehat{\mathbf{\Sigma</span><span class="sc">}}</span><span class="st">^*$"</span>, <span class="st">"$\widehat{\mathbf{\Sigma</span><span class="sc">}}</span><span class="st">_</span><span class="sc">{opt}</span><span class="st">$"</span>,<span class="op">\</span></span>
-<span id="cb17-230"><a href="#cb17-230" aria-hidden="true" tabindex="-1"></a>           <span class="st">"$\widehat{\mathbf{\Sigma</span><span class="sc">}}</span><span class="st">_</span><span class="sc">{mean}</span><span class="st">$"</span>, <span class="st">"${\widehat{\mathbf{\Sigma</span><span class="sc">}}</span><span class="st">^{+d}_</span><span class="sc">{opt}</span><span class="st">}$"</span>,<span class="op">\</span></span>
-<span id="cb17-231"><a href="#cb17-231" aria-hidden="true" tabindex="-1"></a>           <span class="st">"$\widehat{\mathbf{\Sigma</span><span class="sc">}}</span><span class="st">^{+d}_</span><span class="sc">{mean}</span><span class="st">$"</span>, <span class="st">"vMFN"</span>],</span>
-<span id="cb17-232"><a href="#cb17-232" aria-hidden="true" tabindex="-1"></a>    tablefmt<span class="op">=</span><span class="st">"pipe"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-60"><a href="#cb17-60" aria-hidden="true" tabindex="-1"></a>   <span class="co">## g*-sample of size M with Metropolis-Hastings</span></span>
+<span id="cb17-61"><a href="#cb17-61" aria-hidden="true" tabindex="-1"></a>    X<span class="op">=</span>np.ones((<span class="dv">1</span>,n))<span class="op">*</span><span class="dv">3</span><span class="op">/</span>np.sqrt(n)</span>
+<span id="cb17-62"><a href="#cb17-62" aria-hidden="true" tabindex="-1"></a>    param_agit<span class="op">=</span><span class="fl">0.5</span></span>
+<span id="cb17-63"><a href="#cb17-63" aria-hidden="true" tabindex="-1"></a>    VA0<span class="op">=</span>sp.stats.multivariate_normal(mean<span class="op">=</span>np.zeros(n),cov<span class="op">=</span>np.eye(n))</span>
+<span id="cb17-64"><a href="#cb17-64" aria-hidden="true" tabindex="-1"></a>    j<span class="op">=</span><span class="dv">0</span></span>
+<span id="cb17-65"><a href="#cb17-65" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> j<span class="op">&lt;</span>(M<span class="op">+</span><span class="dv">2000</span><span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb17-66"><a href="#cb17-66" aria-hidden="true" tabindex="-1"></a>        j<span class="op">=</span>j<span class="op">+</span><span class="dv">1</span></span>
+<span id="cb17-67"><a href="#cb17-67" aria-hidden="true" tabindex="-1"></a>        P<span class="op">=</span>VA0.rvs(size<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb17-68"><a href="#cb17-68" aria-hidden="true" tabindex="-1"></a>        X2<span class="op">=</span>(X[<span class="op">-</span><span class="dv">1</span>,:]<span class="op">+</span>param_agit<span class="op">*</span>P)<span class="op">/</span>np.sqrt(<span class="dv">1</span><span class="op">+</span>param_agit<span class="op">*</span>param_agit)</span>
+<span id="cb17-69"><a href="#cb17-69" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(phi([X2])<span class="op">&gt;</span><span class="dv">0</span>):</span>
+<span id="cb17-70"><a href="#cb17-70" aria-hidden="true" tabindex="-1"></a>            X<span class="op">=</span>np.append(X,[X2],axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb17-71"><a href="#cb17-71" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb17-72"><a href="#cb17-72" aria-hidden="true" tabindex="-1"></a>            X<span class="op">=</span>np.append(X,[X[<span class="op">-</span><span class="dv">1</span>,:]],axis<span class="op">=</span><span class="dv">0</span>) </span>
+<span id="cb17-73"><a href="#cb17-73" aria-hidden="true" tabindex="-1"></a>             </span>
+<span id="cb17-74"><a href="#cb17-74" aria-hidden="true" tabindex="-1"></a>    X<span class="op">=</span>X[<span class="dv">0</span>:<span class="dv">2500</span>:<span class="dv">5</span>,:]</span>
+<span id="cb17-75"><a href="#cb17-75" aria-hidden="true" tabindex="-1"></a>    R<span class="op">=</span>np.sqrt(np.<span class="bu">sum</span>(X<span class="op">**</span><span class="dv">2</span>,axis<span class="op">=</span><span class="dv">1</span>))   </span>
+<span id="cb17-76"><a href="#cb17-76" aria-hidden="true" tabindex="-1"></a>    Xu<span class="op">=</span>(X.T<span class="op">/</span>R).T                </span>
+<span id="cb17-77"><a href="#cb17-77" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-78"><a href="#cb17-78" aria-hidden="true" tabindex="-1"></a>   <span class="co">## estimated gaussian mean and covariance </span></span>
+<span id="cb17-79"><a href="#cb17-79" aria-hidden="true" tabindex="-1"></a>    mm<span class="op">=</span>np.mean(X,axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb17-80"><a href="#cb17-80" aria-hidden="true" tabindex="-1"></a>    Xc<span class="op">=</span>(X<span class="op">-</span>mm).T</span>
+<span id="cb17-81"><a href="#cb17-81" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span>Xc <span class="op">@</span> Xc.T<span class="op">/</span>np.shape(Xc)[<span class="dv">1</span>]  </span>
+<span id="cb17-82"><a href="#cb17-82" aria-hidden="true" tabindex="-1"></a>    SI.append(sigma)</span>
+<span id="cb17-83"><a href="#cb17-83" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-84"><a href="#cb17-84" aria-hidden="true" tabindex="-1"></a>   <span class="co">## von Mises Fisher parameters</span></span>
+<span id="cb17-85"><a href="#cb17-85" aria-hidden="true" tabindex="-1"></a>    normu<span class="op">=</span>np.sqrt(np.mean(Xu,axis<span class="op">=</span><span class="dv">0</span>).dot(np.mean(Xu,axis<span class="op">=</span><span class="dv">0</span>).T))</span>
+<span id="cb17-86"><a href="#cb17-86" aria-hidden="true" tabindex="-1"></a>    mu<span class="op">=</span>np.mean(Xu,axis<span class="op">=</span><span class="dv">0</span>)<span class="op">/</span>normu</span>
+<span id="cb17-87"><a href="#cb17-87" aria-hidden="true" tabindex="-1"></a>    mu<span class="op">=</span>np.array(mu,ndmin<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb17-88"><a href="#cb17-88" aria-hidden="true" tabindex="-1"></a>    chi<span class="op">=</span><span class="bu">min</span>(normu,<span class="fl">0.95</span>)</span>
+<span id="cb17-89"><a href="#cb17-89" aria-hidden="true" tabindex="-1"></a>    kappa<span class="op">=</span>(chi<span class="op">*</span>n<span class="op">-</span>chi<span class="op">**</span><span class="dv">3</span>)<span class="op">/</span>(<span class="dv">1</span><span class="op">-</span>chi<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb17-90"><a href="#cb17-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-91"><a href="#cb17-91" aria-hidden="true" tabindex="-1"></a>   <span class="co">## Nakagami parameters</span></span>
+<span id="cb17-92"><a href="#cb17-92" aria-hidden="true" tabindex="-1"></a>    omega<span class="op">=</span>np.mean(R<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb17-93"><a href="#cb17-93" aria-hidden="true" tabindex="-1"></a>    tau4<span class="op">=</span>np.mean(R<span class="op">**</span><span class="dv">4</span>)</span>
+<span id="cb17-94"><a href="#cb17-94" aria-hidden="true" tabindex="-1"></a>    pp<span class="op">=</span>omega<span class="op">**</span><span class="dv">2</span><span class="op">/</span>(tau4<span class="op">-</span>omega<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb17-95"><a href="#cb17-95" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-96"><a href="#cb17-96" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
+<span id="cb17-97"><a href="#cb17-97" aria-hidden="true" tabindex="-1"></a>    Eig<span class="op">=</span>np.linalg.eigh(sigma)                     </span>
+<span id="cb17-98"><a href="#cb17-98" aria-hidden="true" tabindex="-1"></a>    logeig<span class="op">=</span>np.sort(np.log(Eig[<span class="dv">0</span>])<span class="op">-</span>Eig[<span class="dv">0</span>])     </span>
+<span id="cb17-99"><a href="#cb17-99" aria-hidden="true" tabindex="-1"></a>    delta<span class="op">=</span>np.zeros(<span class="bu">len</span>(logeig)<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb17-100"><a href="#cb17-100" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(logeig)<span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb17-101"><a href="#cb17-101" aria-hidden="true" tabindex="-1"></a>        delta[j]<span class="op">=</span><span class="bu">abs</span>(logeig[j]<span class="op">-</span>logeig[j<span class="op">+</span><span class="dv">1</span>])    </span>
+<span id="cb17-102"><a href="#cb17-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-103"><a href="#cb17-103" aria-hidden="true" tabindex="-1"></a>    k<span class="op">=</span>np.argmax(delta)<span class="op">+</span><span class="dv">1</span>         </span>
+<span id="cb17-104"><a href="#cb17-104" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-105"><a href="#cb17-105" aria-hidden="true" tabindex="-1"></a>    indi<span class="op">=</span>[]</span>
+<span id="cb17-106"><a href="#cb17-106" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> l <span class="kw">in</span> <span class="bu">range</span>(k):</span>
+<span id="cb17-107"><a href="#cb17-107" aria-hidden="true" tabindex="-1"></a>        indi.append(np.where(np.log(Eig[<span class="dv">0</span>])<span class="op">-</span>Eig[<span class="dv">0</span>]<span class="op">==</span>logeig[l])[<span class="dv">0</span>][<span class="dv">0</span>])</span>
+<span id="cb17-108"><a href="#cb17-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-109"><a href="#cb17-109" aria-hidden="true" tabindex="-1"></a>    P1<span class="op">=</span>np.array(Eig[<span class="dv">1</span>][:,indi[<span class="dv">0</span>]],ndmin<span class="op">=</span><span class="dv">2</span>).T</span>
+<span id="cb17-110"><a href="#cb17-110" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> l <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>,k):</span>
+<span id="cb17-111"><a href="#cb17-111" aria-hidden="true" tabindex="-1"></a>        P1<span class="op">=</span>np.concatenate((P1,np.array(Eig[<span class="dv">1</span>][:,indi[l]],ndmin<span class="op">=</span><span class="dv">2</span>).T)<span class="op">\</span></span>
+<span id="cb17-112"><a href="#cb17-112" aria-hidden="true" tabindex="-1"></a>                          ,axis<span class="op">=</span><span class="dv">1</span>)     </span>
+<span id="cb17-113"><a href="#cb17-113" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb17-114"><a href="#cb17-114" aria-hidden="true" tabindex="-1"></a>    diagsi<span class="op">=</span>np.diag(Eig[<span class="dv">0</span>][indi])                           </span>
+<span id="cb17-115"><a href="#cb17-115" aria-hidden="true" tabindex="-1"></a>    sig_opt_d<span class="op">=</span>P1.dot((diagsi<span class="op">-</span>np.eye(k))).dot(P1.T)<span class="op">+</span>np.eye(n)</span>
+<span id="cb17-116"><a href="#cb17-116" aria-hidden="true" tabindex="-1"></a>    SIP.append(sig_opt_d)</span>
+<span id="cb17-117"><a href="#cb17-117" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-118"><a href="#cb17-118" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
+<span id="cb17-119"><a href="#cb17-119" aria-hidden="true" tabindex="-1"></a>    diagsist<span class="op">=</span>P1st.T.dot(sigma).dot(P1st)                   </span>
+<span id="cb17-120"><a href="#cb17-120" aria-hidden="true" tabindex="-1"></a>    sig_opt<span class="op">=</span>P1st.dot(diagsist<span class="op">-</span>np.eye(k_st)).dot(P1st.T)<span class="op">+</span>np.eye(n)</span>
+<span id="cb17-121"><a href="#cb17-121" aria-hidden="true" tabindex="-1"></a>    SIPst.append(sig_opt)</span>
+<span id="cb17-122"><a href="#cb17-122" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-123"><a href="#cb17-123" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
+<span id="cb17-124"><a href="#cb17-124" aria-hidden="true" tabindex="-1"></a>    Norm_mm<span class="op">=</span>np.linalg.norm(mm)               </span>
+<span id="cb17-125"><a href="#cb17-125" aria-hidden="true" tabindex="-1"></a>    normalised_mm<span class="op">=</span>np.array(mm,ndmin<span class="op">=</span><span class="dv">2</span>).T<span class="op">/</span>Norm_mm        </span>
+<span id="cb17-126"><a href="#cb17-126" aria-hidden="true" tabindex="-1"></a>    vhat<span class="op">=</span>normalised_mm.T.dot(sigma).dot(normalised_mm)          </span>
+<span id="cb17-127"><a href="#cb17-127" aria-hidden="true" tabindex="-1"></a>    sig_mean_d<span class="op">=</span>(vhat<span class="op">-</span><span class="dv">1</span>)<span class="op">*</span>normalised_mm.dot(normalised_mm.T)<span class="op">+</span>np.eye(n) </span>
+<span id="cb17-128"><a href="#cb17-128" aria-hidden="true" tabindex="-1"></a>    SIM.append(sig_mean_d)</span>
+<span id="cb17-129"><a href="#cb17-129" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-130"><a href="#cb17-130" aria-hidden="true" tabindex="-1"></a><span class="co">############################################# Estimation of the integral</span></span>
+<span id="cb17-131"><a href="#cb17-131" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
+<span id="cb17-132"><a href="#cb17-132" aria-hidden="true" tabindex="-1"></a>    Xop<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>Sigstar,size<span class="op">=</span>N)              </span>
+<span id="cb17-133"><a href="#cb17-133" aria-hidden="true" tabindex="-1"></a>    wop<span class="op">=</span>mypi(Xop)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xop,mean<span class="op">=</span>mm, cov<span class="op">=</span>Sigstar)       </span>
+<span id="cb17-134"><a href="#cb17-134" aria-hidden="true" tabindex="-1"></a>    Eopt[i]<span class="op">=</span>np.mean(wop)                                                     </span>
+<span id="cb17-135"><a href="#cb17-135" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-136"><a href="#cb17-136" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
+<span id="cb17-137"><a href="#cb17-137" aria-hidden="true" tabindex="-1"></a>    Xis<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>sigma,size<span class="op">=</span>N)</span>
+<span id="cb17-138"><a href="#cb17-138" aria-hidden="true" tabindex="-1"></a>    wis<span class="op">=</span>mypi(Xis)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xis,mean<span class="op">=</span>mm, cov<span class="op">=</span>sigma)</span>
+<span id="cb17-139"><a href="#cb17-139" aria-hidden="true" tabindex="-1"></a>    EIS[i]<span class="op">=</span>np.mean(wis)</span>
+<span id="cb17-140"><a href="#cb17-140" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-141"><a href="#cb17-141" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
+<span id="cb17-142"><a href="#cb17-142" aria-hidden="true" tabindex="-1"></a>    Xpr<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>sig_opt_d,size<span class="op">=</span>N)</span>
+<span id="cb17-143"><a href="#cb17-143" aria-hidden="true" tabindex="-1"></a>    wpr<span class="op">=</span>mypi(Xpr)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xpr,mean<span class="op">=</span>mm,<span class="op">\</span></span>
+<span id="cb17-144"><a href="#cb17-144" aria-hidden="true" tabindex="-1"></a>                                                   cov<span class="op">=</span>sig_opt_d)</span>
+<span id="cb17-145"><a href="#cb17-145" aria-hidden="true" tabindex="-1"></a>    Eprj[i]<span class="op">=</span>np.mean(wpr)</span>
+<span id="cb17-146"><a href="#cb17-146" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-147"><a href="#cb17-147" aria-hidden="true" tabindex="-1"></a>   <span class="co">###   </span></span>
+<span id="cb17-148"><a href="#cb17-148" aria-hidden="true" tabindex="-1"></a>    Xpm<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>sig_mean_d,size<span class="op">=</span>N)</span>
+<span id="cb17-149"><a href="#cb17-149" aria-hidden="true" tabindex="-1"></a>    wpm<span class="op">=</span>mypi(Xpm)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xpm,mean<span class="op">=</span>mm,<span class="op">\</span></span>
+<span id="cb17-150"><a href="#cb17-150" aria-hidden="true" tabindex="-1"></a>                                                   cov<span class="op">=</span>sig_mean_d)</span>
+<span id="cb17-151"><a href="#cb17-151" aria-hidden="true" tabindex="-1"></a>    Eprm[i]<span class="op">=</span>np.mean(wpm)</span>
+<span id="cb17-152"><a href="#cb17-152" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-153"><a href="#cb17-153" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
+<span id="cb17-154"><a href="#cb17-154" aria-hidden="true" tabindex="-1"></a>    Xprst<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>sig_opt,size<span class="op">=</span>N)</span>
+<span id="cb17-155"><a href="#cb17-155" aria-hidden="true" tabindex="-1"></a>    wprst<span class="op">=</span>mypi(Xprst)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xprst,mean<span class="op">=</span>mm, <span class="op">\</span></span>
+<span id="cb17-156"><a href="#cb17-156" aria-hidden="true" tabindex="-1"></a>                                                       cov<span class="op">=</span>sig_opt)</span>
+<span id="cb17-157"><a href="#cb17-157" aria-hidden="true" tabindex="-1"></a>    Eprjst[i]<span class="op">=</span>np.mean(wprst)</span>
+<span id="cb17-158"><a href="#cb17-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-159"><a href="#cb17-159" aria-hidden="true" tabindex="-1"></a>   <span class="co">###</span></span>
+<span id="cb17-160"><a href="#cb17-160" aria-hidden="true" tabindex="-1"></a>    Xvmfn <span class="op">=</span> vMFNM_sample(mu, kappa, omega, pp, <span class="dv">1</span>, N)</span>
+<span id="cb17-161"><a href="#cb17-161" aria-hidden="true" tabindex="-1"></a>    Rvn<span class="op">=</span>np.sqrt(np.<span class="bu">sum</span>(Xvmfn<span class="op">**</span><span class="dv">2</span>,axis<span class="op">=</span><span class="dv">1</span>))</span>
+<span id="cb17-162"><a href="#cb17-162" aria-hidden="true" tabindex="-1"></a>    Xvnu<span class="op">=</span>Xvmfn.T<span class="op">/</span>Rvn</span>
+<span id="cb17-163"><a href="#cb17-163" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb17-164"><a href="#cb17-164" aria-hidden="true" tabindex="-1"></a>    h_log<span class="op">=</span>vMF_logpdf(Xvnu,mu.T,kappa)<span class="op">+</span>nakagami_logpdf(Rvn,pp,omega)</span>
+<span id="cb17-165"><a href="#cb17-165" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> np.log(n) <span class="op">+</span> np.log(np.pi <span class="op">**</span> (n <span class="op">/</span> <span class="dv">2</span>)) <span class="op">-</span> sp.special.gammaln(n <span class="op">/</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb17-166"><a href="#cb17-166" aria-hidden="true" tabindex="-1"></a>    f_u <span class="op">=</span> <span class="op">-</span>A       </span>
+<span id="cb17-167"><a href="#cb17-167" aria-hidden="true" tabindex="-1"></a>    f_chi <span class="op">=</span> (np.log(<span class="dv">2</span>) <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> n <span class="op">/</span> <span class="dv">2</span>) <span class="op">+</span> np.log(Rvn) <span class="op">*</span> (n <span class="op">-</span> <span class="dv">1</span>) <span class="op">-</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="op">\</span></span>
+<span id="cb17-168"><a href="#cb17-168" aria-hidden="true" tabindex="-1"></a>             Rvn <span class="op">**</span> <span class="dv">2</span> <span class="op">-</span> sp.special.gammaln(n <span class="op">/</span> <span class="dv">2</span>)) </span>
+<span id="cb17-169"><a href="#cb17-169" aria-hidden="true" tabindex="-1"></a>    f_log <span class="op">=</span> f_u <span class="op">+</span> f_chi</span>
+<span id="cb17-170"><a href="#cb17-170" aria-hidden="true" tabindex="-1"></a>    W_log <span class="op">=</span> f_log <span class="op">-</span> h_log</span>
+<span id="cb17-171"><a href="#cb17-171" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-172"><a href="#cb17-172" aria-hidden="true" tabindex="-1"></a>    wvmfn<span class="op">=</span>(phi(Xvmfn)<span class="op">&gt;</span><span class="dv">0</span>)<span class="op">*</span>np.exp(W_log)          </span>
+<span id="cb17-173"><a href="#cb17-173" aria-hidden="true" tabindex="-1"></a>    Evmfn[i]<span class="op">=</span>np.mean(wvmfn)</span>
+<span id="cb17-174"><a href="#cb17-174" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-175"><a href="#cb17-175" aria-hidden="true" tabindex="-1"></a><span class="co">### KL divergences    </span></span>
+<span id="cb17-176"><a href="#cb17-176" aria-hidden="true" tabindex="-1"></a>dkli<span class="op">=</span>np.zeros(B)</span>
+<span id="cb17-177"><a href="#cb17-177" aria-hidden="true" tabindex="-1"></a>dklp<span class="op">=</span>np.zeros(B)</span>
+<span id="cb17-178"><a href="#cb17-178" aria-hidden="true" tabindex="-1"></a>dklm<span class="op">=</span>np.zeros(B)</span>
+<span id="cb17-179"><a href="#cb17-179" aria-hidden="true" tabindex="-1"></a>dklpst<span class="op">=</span>np.zeros(B)</span>
+<span id="cb17-180"><a href="#cb17-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-181"><a href="#cb17-181" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(B):</span>
+<span id="cb17-182"><a href="#cb17-182" aria-hidden="true" tabindex="-1"></a>    dkli[i]<span class="op">=</span>np.log(np.linalg.det(SI[i]))<span class="op">+</span><span class="bu">sum</span>(np.diag(Sigstar.dot<span class="op">\</span></span>
+<span id="cb17-183"><a href="#cb17-183" aria-hidden="true" tabindex="-1"></a>                                            (np.linalg.inv(SI[i]))))      </span>
+<span id="cb17-184"><a href="#cb17-184" aria-hidden="true" tabindex="-1"></a>    dklp[i]<span class="op">=</span>np.log(np.linalg.det(SIP[i]))<span class="op">+</span><span class="bu">sum</span>(np.diag(Sigstar.dot<span class="op">\</span></span>
+<span id="cb17-185"><a href="#cb17-185" aria-hidden="true" tabindex="-1"></a>                                            (np.linalg.inv(SIP[i]))))        </span>
+<span id="cb17-186"><a href="#cb17-186" aria-hidden="true" tabindex="-1"></a>    dklm[i]<span class="op">=</span>np.log(np.linalg.det(SIM[i]))<span class="op">+</span><span class="bu">sum</span>(np.diag(Sigstar.dot<span class="op">\</span></span>
+<span id="cb17-187"><a href="#cb17-187" aria-hidden="true" tabindex="-1"></a>                                            (np.linalg.inv(SIM[i]))))</span>
+<span id="cb17-188"><a href="#cb17-188" aria-hidden="true" tabindex="-1"></a>    dklpst[i]<span class="op">=</span>np.log(np.linalg.det(SIPst[i]))<span class="op">+</span><span class="bu">sum</span>(np.diag(Sigstar.dot<span class="op">\</span></span>
+<span id="cb17-189"><a href="#cb17-189" aria-hidden="true" tabindex="-1"></a>                                            (np.linalg.inv(SIPst[i]))))</span>
+<span id="cb17-190"><a href="#cb17-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-191"><a href="#cb17-191" aria-hidden="true" tabindex="-1"></a>Tabresult<span class="op">=</span>np.zeros((<span class="dv">3</span>,<span class="dv">7</span>)) <span class="co"># table of results</span></span>
+<span id="cb17-192"><a href="#cb17-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-193"><a href="#cb17-193" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">0</span>]<span class="op">=</span>np.log(np.linalg.det(Sigstar))<span class="op">+</span>n</span>
+<span id="cb17-194"><a href="#cb17-194" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">1</span>]<span class="op">=</span>np.mean(dkli)</span>
+<span id="cb17-195"><a href="#cb17-195" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">2</span>]<span class="op">=</span>np.mean(dklpst)</span>
+<span id="cb17-196"><a href="#cb17-196" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">3</span>]<span class="op">=</span>np.mean(dklpst)</span>
+<span id="cb17-197"><a href="#cb17-197" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">4</span>]<span class="op">=</span>np.mean(dklp)</span>
+<span id="cb17-198"><a href="#cb17-198" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">5</span>]<span class="op">=</span>np.mean(dklm)</span>
+<span id="cb17-199"><a href="#cb17-199" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">6</span>]<span class="op">=</span><span class="va">None</span></span>
+<span id="cb17-200"><a href="#cb17-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-201"><a href="#cb17-201" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">0</span>]<span class="op">=</span>np.mean(Eopt<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb17-202"><a href="#cb17-202" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">=</span>np.mean(EIS<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb17-203"><a href="#cb17-203" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">2</span>]<span class="op">=</span>np.mean(Eprjst<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb17-204"><a href="#cb17-204" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">3</span>]<span class="op">=</span>np.mean(Eprjst<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb17-205"><a href="#cb17-205" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">4</span>]<span class="op">=</span>np.mean(Eprj<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb17-206"><a href="#cb17-206" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">5</span>]<span class="op">=</span>np.mean(Eprm<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb17-207"><a href="#cb17-207" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">6</span>]<span class="op">=</span>np.mean(Evmfn<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb17-208"><a href="#cb17-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-209"><a href="#cb17-209" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">0</span>]<span class="op">=</span>np.sqrt(np.mean((Eopt<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb17-210"><a href="#cb17-210" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">1</span>]<span class="op">=</span>np.sqrt(np.mean((EIS<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb17-211"><a href="#cb17-211" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">2</span>]<span class="op">=</span>np.sqrt(np.mean((Eprjst<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb17-212"><a href="#cb17-212" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">3</span>]<span class="op">=</span>np.sqrt(np.mean((Eprjst<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb17-213"><a href="#cb17-213" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">4</span>]<span class="op">=</span>np.sqrt(np.mean((Eprj<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb17-214"><a href="#cb17-214" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">5</span>]<span class="op">=</span>np.sqrt(np.mean((Eprm<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb17-215"><a href="#cb17-215" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">6</span>]<span class="op">=</span>np.sqrt(np.mean((Evmfn<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb17-216"><a href="#cb17-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-217"><a href="#cb17-217" aria-hidden="true" tabindex="-1"></a>Tabresult<span class="op">=</span>np.<span class="bu">round</span>(Tabresult,<span class="dv">1</span>)</span>
+<span id="cb17-218"><a href="#cb17-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-219"><a href="#cb17-219" aria-hidden="true" tabindex="-1"></a>table<span class="op">=</span>[[<span class="st">"D'"</span>,Tabresult[<span class="dv">0</span>,<span class="dv">0</span>],Tabresult[<span class="dv">0</span>,<span class="dv">1</span>],Tabresult[<span class="dv">0</span>,<span class="dv">2</span>],Tabresult[<span class="dv">0</span>,<span class="dv">3</span>],</span>
+<span id="cb17-220"><a href="#cb17-220" aria-hidden="true" tabindex="-1"></a>        Tabresult[<span class="dv">0</span>,<span class="dv">4</span>],Tabresult[<span class="dv">0</span>,<span class="dv">5</span>],<span class="st">"/"</span>],</span>
+<span id="cb17-221"><a href="#cb17-221" aria-hidden="true" tabindex="-1"></a>      [<span class="st">"Relative error (\%)"</span>,Tabresult[<span class="dv">1</span>,<span class="dv">0</span>],Tabresult[<span class="dv">1</span>,<span class="dv">1</span>],</span>
+<span id="cb17-222"><a href="#cb17-222" aria-hidden="true" tabindex="-1"></a>       Tabresult[<span class="dv">1</span>,<span class="dv">2</span>],Tabresult[<span class="dv">1</span>,<span class="dv">3</span>],Tabresult[<span class="dv">1</span>,<span class="dv">4</span>],Tabresult[<span class="dv">1</span>,<span class="dv">5</span>],Tabresult[<span class="dv">1</span>,<span class="dv">6</span>]],</span>
+<span id="cb17-223"><a href="#cb17-223" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"Coefficient of variation (\%)"</span>,Tabresult[<span class="dv">2</span>,<span class="dv">0</span>],Tabresult[<span class="dv">2</span>,<span class="dv">1</span>],</span>
+<span id="cb17-224"><a href="#cb17-224" aria-hidden="true" tabindex="-1"></a>     Tabresult[<span class="dv">2</span>,<span class="dv">2</span>],Tabresult[<span class="dv">2</span>,<span class="dv">3</span>],Tabresult[<span class="dv">2</span>,<span class="dv">4</span>],Tabresult[<span class="dv">2</span>,<span class="dv">5</span>],Tabresult[<span class="dv">2</span>,<span class="dv">6</span>]]]</span>
+<span id="cb17-225"><a href="#cb17-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-226"><a href="#cb17-226" aria-hidden="true" tabindex="-1"></a>Markdown(tabulate(</span>
+<span id="cb17-227"><a href="#cb17-227" aria-hidden="true" tabindex="-1"></a>  table, </span>
+<span id="cb17-228"><a href="#cb17-228" aria-hidden="true" tabindex="-1"></a>  headers<span class="op">=</span>[<span class="st">""</span>,<span class="st">"$\mathbf{\Sigma}^*$"</span>, <span class="st">"$\widehat{\mathbf{\Sigma</span><span class="sc">}}</span><span class="st">^*$"</span>, <span class="st">"$\widehat{\mathbf{\Sigma</span><span class="sc">}}</span><span class="st">_</span><span class="sc">{opt}</span><span class="st">$"</span>,<span class="op">\</span></span>
+<span id="cb17-229"><a href="#cb17-229" aria-hidden="true" tabindex="-1"></a>           <span class="st">"$\widehat{\mathbf{\Sigma</span><span class="sc">}}</span><span class="st">_</span><span class="sc">{mean}</span><span class="st">$"</span>, <span class="st">"${\widehat{\mathbf{\Sigma</span><span class="sc">}}</span><span class="st">^{+d}_</span><span class="sc">{opt}</span><span class="st">}$"</span>,<span class="op">\</span></span>
+<span id="cb17-230"><a href="#cb17-230" aria-hidden="true" tabindex="-1"></a>           <span class="st">"$\widehat{\mathbf{\Sigma</span><span class="sc">}}</span><span class="st">^{+d}_</span><span class="sc">{mean}</span><span class="st">$"</span>, <span class="st">"vMFN"</span>],</span>
+<span id="cb17-231"><a href="#cb17-231" aria-hidden="true" tabindex="-1"></a>    tablefmt<span class="op">=</span><span class="st">"pipe"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>&lt;&gt;:222: SyntaxWarning: invalid escape sequence '\%'
-&lt;&gt;:224: SyntaxWarning: invalid escape sequence '\%'
-&lt;&gt;:229: SyntaxWarning: invalid escape sequence '\m'
+<pre><code>&lt;&gt;:221: SyntaxWarning: invalid escape sequence '\%'
+&lt;&gt;:223: SyntaxWarning: invalid escape sequence '\%'
+&lt;&gt;:228: SyntaxWarning: invalid escape sequence '\m'
+&lt;&gt;:228: SyntaxWarning: invalid escape sequence '\w'
+&lt;&gt;:228: SyntaxWarning: invalid escape sequence '\w'
 &lt;&gt;:229: SyntaxWarning: invalid escape sequence '\w'
 &lt;&gt;:229: SyntaxWarning: invalid escape sequence '\w'
 &lt;&gt;:230: SyntaxWarning: invalid escape sequence '\w'
-&lt;&gt;:230: SyntaxWarning: invalid escape sequence '\w'
-&lt;&gt;:231: SyntaxWarning: invalid escape sequence '\w'
-&lt;&gt;:222: SyntaxWarning: invalid escape sequence '\%'
-&lt;&gt;:224: SyntaxWarning: invalid escape sequence '\%'
-&lt;&gt;:229: SyntaxWarning: invalid escape sequence '\m'
+&lt;&gt;:221: SyntaxWarning: invalid escape sequence '\%'
+&lt;&gt;:223: SyntaxWarning: invalid escape sequence '\%'
+&lt;&gt;:228: SyntaxWarning: invalid escape sequence '\m'
+&lt;&gt;:228: SyntaxWarning: invalid escape sequence '\w'
+&lt;&gt;:228: SyntaxWarning: invalid escape sequence '\w'
 &lt;&gt;:229: SyntaxWarning: invalid escape sequence '\w'
 &lt;&gt;:229: SyntaxWarning: invalid escape sequence '\w'
 &lt;&gt;:230: SyntaxWarning: invalid escape sequence '\w'
-&lt;&gt;:230: SyntaxWarning: invalid escape sequence '\w'
-&lt;&gt;:231: SyntaxWarning: invalid escape sequence '\w'
-/tmp/ipykernel_3377/1172887150.py:222: SyntaxWarning: invalid escape sequence '\%'
+/tmp/ipykernel_3352/2930059711.py:221: SyntaxWarning: invalid escape sequence '\%'
   ["Relative error (\%)",Tabresult[1,0],Tabresult[1,1],
-/tmp/ipykernel_3377/1172887150.py:224: SyntaxWarning: invalid escape sequence '\%'
+/tmp/ipykernel_3352/2930059711.py:223: SyntaxWarning: invalid escape sequence '\%'
   ["Coefficient of variation (\%)",Tabresult[2,0],Tabresult[2,1],
-/tmp/ipykernel_3377/1172887150.py:229: SyntaxWarning: invalid escape sequence '\m'
+/tmp/ipykernel_3352/2930059711.py:228: SyntaxWarning: invalid escape sequence '\m'
   headers=["","$\mathbf{\Sigma}^*$", "$\widehat{\mathbf{\Sigma}}^*$", "$\widehat{\mathbf{\Sigma}}_{opt}$",\
-/tmp/ipykernel_3377/1172887150.py:229: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/2930059711.py:228: SyntaxWarning: invalid escape sequence '\w'
   headers=["","$\mathbf{\Sigma}^*$", "$\widehat{\mathbf{\Sigma}}^*$", "$\widehat{\mathbf{\Sigma}}_{opt}$",\
-/tmp/ipykernel_3377/1172887150.py:229: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/2930059711.py:228: SyntaxWarning: invalid escape sequence '\w'
   headers=["","$\mathbf{\Sigma}^*$", "$\widehat{\mathbf{\Sigma}}^*$", "$\widehat{\mathbf{\Sigma}}_{opt}$",\
-/tmp/ipykernel_3377/1172887150.py:230: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/2930059711.py:229: SyntaxWarning: invalid escape sequence '\w'
   "$\widehat{\mathbf{\Sigma}}_{mean}$", "${\widehat{\mathbf{\Sigma}}^{+d}_{opt}}$",\
-/tmp/ipykernel_3377/1172887150.py:230: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/2930059711.py:229: SyntaxWarning: invalid escape sequence '\w'
   "$\widehat{\mathbf{\Sigma}}_{mean}$", "${\widehat{\mathbf{\Sigma}}^{+d}_{opt}}$",\
-/tmp/ipykernel_3377/1172887150.py:231: SyntaxWarning: invalid escape sequence '\w'
+/tmp/ipykernel_3352/2930059711.py:230: SyntaxWarning: invalid escape sequence '\w'
   "$\widehat{\mathbf{\Sigma}}^{+d}_{mean}$", "vMFN"],</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="12">
@@ -3570,32 +3569,32 @@ g_\text{N}(\lVert {\bf x}\rVert, p, \omega) = \frac{2 p^p}{\Gamma(p) \omega^p} \
 <tr class="odd">
 <td style="text-align: left;">D’</td>
 <td style="text-align: right;">97.3</td>
-<td style="text-align: right;">445.7</td>
+<td style="text-align: right;">194.9</td>
 <td style="text-align: right;">97.4</td>
 <td style="text-align: right;">97.4</td>
-<td style="text-align: right;">100.6</td>
-<td style="text-align: right;">98.6</td>
+<td style="text-align: right;">99</td>
+<td style="text-align: right;">98.2</td>
 <td style="text-align: left;">/</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Relative error (%)</td>
-<td style="text-align: right;">-0.5</td>
-<td style="text-align: right;">-100</td>
-<td style="text-align: right;">-2.1</td>
-<td style="text-align: right;">-2.1</td>
-<td style="text-align: right;">-2.5</td>
-<td style="text-align: right;">-1.7</td>
-<td style="text-align: left;">2.2</td>
+<td style="text-align: right;">-0.2</td>
+<td style="text-align: right;">-99</td>
+<td style="text-align: right;">-0.3</td>
+<td style="text-align: right;">-0.3</td>
+<td style="text-align: right;">1.2</td>
+<td style="text-align: right;">-3.6</td>
+<td style="text-align: left;">-1.0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Coefficient of variation (%)</td>
-<td style="text-align: right;">24.2</td>
-<td style="text-align: right;">100</td>
-<td style="text-align: right;">19.1</td>
-<td style="text-align: right;">19.1</td>
-<td style="text-align: right;">39.9</td>
-<td style="text-align: right;">97.6</td>
-<td style="text-align: left;">41.3</td>
+<td style="text-align: right;">7.7</td>
+<td style="text-align: right;">101.2</td>
+<td style="text-align: right;">7.9</td>
+<td style="text-align: right;">7.9</td>
+<td style="text-align: right;">44.1</td>
+<td style="text-align: right;">23.3</td>
+<td style="text-align: left;">12.0</td>
 </tr>
 </tbody>
 </table>
@@ -4142,7 +4141,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-240"><a href="#cb19-240" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-241"><a href="#cb19-241" aria-hidden="true" tabindex="-1"></a><span class="fu"># Computational framework {#sec-num-results-framework} </span></span>
 <span id="cb19-242"><a href="#cb19-242" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-243"><a href="#cb19-243" aria-hidden="true" tabindex="-1"></a><span class="fu">## Numerical procedure for IS estimate comparison</span></span>
+<span id="cb19-243"><a href="#cb19-243" aria-hidden="true" tabindex="-1"></a><span class="fu">## Numerical procedure for IS estimate comparison {#sec-def_proc} </span></span>
 <span id="cb19-244"><a href="#cb19-244" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-245"><a href="#cb19-245" aria-hidden="true" tabindex="-1"></a>The objective of the numerical simulations is to evaluate the impact of the choice of the covariance matrix on the estimation accuracy of a high dimensional integral $\mathcal{E}$. We thus want to compare the IS estimation results for different auxiliary densities and more particularly for different choices of the auxiliary covariance matrix when the IS auxiliary density is Gaussian. The details of the considered covariance matrices is given in @sec-def_cov. To extend this comparison, we also compute the results when the IS auxiliary density is chosen with the von Mises--Fisher--Nakagami (vMFN) model recently proposed in <span class="co">[</span><span class="ot">@PapaioannouEtAl_ImprovedCrossEntropybased_2019</span><span class="co">]</span> for high dimensional probability estimation (See <span class="co">[</span><span class="ot">Appendix B</span><span class="co">](#sec-naka)</span>). </span>
 <span id="cb19-246"><a href="#cb19-246" aria-hidden="true" tabindex="-1"></a></span>
@@ -5842,7 +5841,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-1956"><a href="#cb19-1956" aria-hidden="true" tabindex="-1"></a>$$ {#eq-payoff}</span>
 <span id="cb19-1957"><a href="#cb19-1957" aria-hidden="true" tabindex="-1"></a>    where $<span class="co">[</span><span class="ot">y</span><span class="co">]</span>_+=\max(y,0)$, for a real number $y$. The constants are taken from [@Kawai_OptimizingAdaptiveImportance_2018]: $S_0=50$, $r=0.05, T=0.5, \sigma=0.1, K=55$, where they test the function for dimension $n=16$. In our contribution, we test this example in dimension $100$. Concerning $\mathbf{m}^*$ and the $\mathbf{d}^*_i$'s, the situation is the same as in the previous example: they are not available analytically but can be estimated numerically by Monte Carlo with a large simulation budget. And again, it turns out that $\mathbf{m}^*$ and the first eigenvector $\mathbf{d}^*_1$ of $\mathbf{\Sigma}^*$ are numerically indistinguishable and that Algorithm 2 selects $k=1$ projection direction, so that ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{opt}}$ and ${\widehat{\mathbf{\Sigma}}^{\text{}}_\text{mean}}$ yield results that are numerically indistinguishable. The KL partial divergence and the spectrum with the associated $\ell$-order are respectively presented in @fig-inefficiency-kawai-1 and @fig-inefficiency-kawai-2. </span>
 <span id="cb19-1958"><a href="#cb19-1958" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1959"><a href="#cb19-1959" aria-hidden="true" tabindex="-1"></a>The results of this example are given in @tbl-payoff. The insight gained in the previous examples is confirmed. Projecting on $\mathbf{m}^*$ or $\mathbf{d}^*_1$ in dimension $n = 100$ enables to reach convergence and strongly reduces (compared to $\widehat{\mathbf{\Sigma}}^*$) the coefficient of variation. Moreover, this improvement goes through even when projection directions are estimated, with again ${\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{mean}}$ behaving better than ${\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{opt}}$.</span>
+<span id="cb19-1959"><a href="#cb19-1959" aria-hidden="true" tabindex="-1"></a>The results of this example are given in @tbl-payoff. The insight gained in the previous examples is confirmed. Projecting on $\mathbf{m}^*$ or $\mathbf{d}^*_1$ in dimension $n = 100$ enables to reach convergence and stongly reduces (compared to $\widehat{\mathbf{\Sigma}}^*$) the coefficient of variation from $559\%$ to nearly $2\%$. Moreover, this improvement goes through even when projection directions are estimated, with again ${\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{mean}}$ behaving better than ${\widehat{\mathbf{\Sigma}}^{\text{+d}}_\text{opt}}$.</span>
 <span id="cb19-1960"><a href="#cb19-1960" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-1963"><a href="#cb19-1963" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
 <span id="cb19-1964"><a href="#cb19-1964" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-inefficiency-kawai</span></span>
@@ -6358,7 +6357,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-2476"><a href="#cb19-2476" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb19-2477"><a href="#cb19-2477" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb19-2478"><a href="#cb19-2478" aria-hidden="true" tabindex="-1"></a><span class="fu"># Appendix C: MCMC sampling {#sec-MCMC .appendix .unnumbered}</span></span>
-<span id="cb19-2479"><a href="#cb19-2479" aria-hidden="true" tabindex="-1"></a>We consider again the test case 1 of @sec-sub:sum but the samples of $g^*$ are no more generated with rejection sampling but with the Metropolis--Hastings Algorithm. The computational cost to generate the samples of $g^*$ is thus much lower with MCMC but the resulting samples are dependent. The number $M$ of $g^*$ samples has been increased to $1000$ to reduce the influence of the sample dependency. The simulation results are available in @tbl-mcmc and leads to the same conclusion as with rejection sampling.</span>
+<span id="cb19-2479"><a href="#cb19-2479" aria-hidden="true" tabindex="-1"></a>We consider again the test case 1 of @sec-sub:sum but the samples of $g^*$ are no more generated with rejection sampling but with the Metropolis--Hastings Algorithm. The computational cost to generate the samples of $g^*$ is thus much lower with MCMC but the resulting samples are dependent. Remember that with rejection sampling, we did not account for the samples generated in the rejection step. Thus, in order to generate a sample of size $M = 500$ with an acceptance probability of the order of $10^{-3}$, of the order of $500,000$ samples are generated. Thus, a fair comparison between the rejection and MCMC methods would allow to consider sampling $500,000$ times. In practice, we found that the MCMC method performs reasonably well if we use it as a sampler. More precisely, the sample $(X^*_1, \cdots, X^*_M)$ in @sec-def_proc is given by $(Y_{5k})_{k = 1, \cdots, 500}$ where  $(Y_i)_{i = 1, \cdots, 2,500}$ is the MH Markov chain. The simulation results are available in @tbl-mcmc and leads to the same conclusion as with rejection sampling.</span>
 <span id="cb19-2480"><a href="#cb19-2480" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-2483"><a href="#cb19-2483" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
 <span id="cb19-2484"><a href="#cb19-2484" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-mcmc</span></span>
@@ -6376,7 +6375,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-2496"><a href="#cb19-2496" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span>((phi(X)<span class="op">&gt;</span><span class="dv">0</span>)<span class="op">*</span>f0)</span>
 <span id="cb19-2497"><a href="#cb19-2497" aria-hidden="true" tabindex="-1"></a>E<span class="op">=</span>sp.stats.norm.cdf(<span class="op">-</span><span class="dv">3</span>)</span>
 <span id="cb19-2498"><a href="#cb19-2498" aria-hidden="true" tabindex="-1"></a>N<span class="op">=</span><span class="dv">2000</span>   </span>
-<span id="cb19-2499"><a href="#cb19-2499" aria-hidden="true" tabindex="-1"></a>M<span class="op">=</span><span class="dv">1000</span>   </span>
+<span id="cb19-2499"><a href="#cb19-2499" aria-hidden="true" tabindex="-1"></a>M<span class="op">=</span><span class="dv">500</span>   </span>
 <span id="cb19-2500"><a href="#cb19-2500" aria-hidden="true" tabindex="-1"></a>B<span class="op">=</span><span class="dv">500</span>   <span class="co"># number of runs</span></span>
 <span id="cb19-2501"><a href="#cb19-2501" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-2502"><a href="#cb19-2502" aria-hidden="true" tabindex="-1"></a>Eopt<span class="op">=</span>np.zeros(B)</span>
@@ -6422,185 +6421,184 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-2542"><a href="#cb19-2542" aria-hidden="true" tabindex="-1"></a><span class="co">#np.random.seed(0)</span></span>
 <span id="cb19-2543"><a href="#cb19-2543" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(B):</span>
 <span id="cb19-2544"><a href="#cb19-2544" aria-hidden="true" tabindex="-1"></a><span class="co">############################# Estimation of the matrices</span></span>
-<span id="cb19-2545"><a href="#cb19-2545" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-2546"><a href="#cb19-2546" aria-hidden="true" tabindex="-1"></a>   <span class="co">## g*-sample of size M with Metropolis-Hastings</span></span>
-<span id="cb19-2547"><a href="#cb19-2547" aria-hidden="true" tabindex="-1"></a>    X<span class="op">=</span>np.ones((<span class="dv">1</span>,n))<span class="op">*</span><span class="dv">3</span><span class="op">/</span>np.sqrt(n)</span>
-<span id="cb19-2548"><a href="#cb19-2548" aria-hidden="true" tabindex="-1"></a>    param_agit<span class="op">=</span><span class="fl">0.5</span></span>
-<span id="cb19-2549"><a href="#cb19-2549" aria-hidden="true" tabindex="-1"></a>    VA0<span class="op">=</span>sp.stats.multivariate_normal(mean<span class="op">=</span>np.zeros(n),cov<span class="op">=</span>np.eye(n))</span>
-<span id="cb19-2550"><a href="#cb19-2550" aria-hidden="true" tabindex="-1"></a>    j<span class="op">=</span><span class="dv">0</span></span>
-<span id="cb19-2551"><a href="#cb19-2551" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> j<span class="op">&lt;</span>M:</span>
-<span id="cb19-2552"><a href="#cb19-2552" aria-hidden="true" tabindex="-1"></a>        j<span class="op">=</span>j<span class="op">+</span><span class="dv">1</span></span>
-<span id="cb19-2553"><a href="#cb19-2553" aria-hidden="true" tabindex="-1"></a>        P<span class="op">=</span>VA0.rvs(size<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb19-2554"><a href="#cb19-2554" aria-hidden="true" tabindex="-1"></a>        X2<span class="op">=</span>(X[<span class="op">-</span><span class="dv">1</span>,:]<span class="op">+</span>param_agit<span class="op">*</span>P)<span class="op">/</span>np.sqrt(<span class="dv">1</span><span class="op">+</span>param_agit<span class="op">*</span>param_agit)</span>
-<span id="cb19-2555"><a href="#cb19-2555" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(phi([X2])<span class="op">&gt;</span><span class="dv">0</span>):</span>
-<span id="cb19-2556"><a href="#cb19-2556" aria-hidden="true" tabindex="-1"></a>            X<span class="op">=</span>np.append(X,[X2],axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb19-2557"><a href="#cb19-2557" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb19-2558"><a href="#cb19-2558" aria-hidden="true" tabindex="-1"></a>            X<span class="op">=</span>np.append(X,[X[<span class="op">-</span><span class="dv">1</span>,:]],axis<span class="op">=</span><span class="dv">0</span>) </span>
-<span id="cb19-2559"><a href="#cb19-2559" aria-hidden="true" tabindex="-1"></a>             </span>
-<span id="cb19-2560"><a href="#cb19-2560" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-2561"><a href="#cb19-2561" aria-hidden="true" tabindex="-1"></a>    R<span class="op">=</span>np.sqrt(np.<span class="bu">sum</span>(X<span class="op">**</span><span class="dv">2</span>,axis<span class="op">=</span><span class="dv">1</span>))   </span>
-<span id="cb19-2562"><a href="#cb19-2562" aria-hidden="true" tabindex="-1"></a>    Xu<span class="op">=</span>(X.T<span class="op">/</span>R).T                </span>
-<span id="cb19-2563"><a href="#cb19-2563" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-2564"><a href="#cb19-2564" aria-hidden="true" tabindex="-1"></a>   <span class="co">## estimated gaussian mean and covariance </span></span>
-<span id="cb19-2565"><a href="#cb19-2565" aria-hidden="true" tabindex="-1"></a>    mm<span class="op">=</span>np.mean(X,axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb19-2566"><a href="#cb19-2566" aria-hidden="true" tabindex="-1"></a>    Xc<span class="op">=</span>(X<span class="op">-</span>mm).T</span>
-<span id="cb19-2567"><a href="#cb19-2567" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span>Xc <span class="op">@</span> Xc.T<span class="op">/</span>np.shape(Xc)[<span class="dv">1</span>]  </span>
-<span id="cb19-2568"><a href="#cb19-2568" aria-hidden="true" tabindex="-1"></a>    SI.append(sigma)</span>
-<span id="cb19-2569"><a href="#cb19-2569" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-2570"><a href="#cb19-2570" aria-hidden="true" tabindex="-1"></a>   <span class="co">## von Mises Fisher parameters</span></span>
-<span id="cb19-2571"><a href="#cb19-2571" aria-hidden="true" tabindex="-1"></a>    normu<span class="op">=</span>np.sqrt(np.mean(Xu,axis<span class="op">=</span><span class="dv">0</span>).dot(np.mean(Xu,axis<span class="op">=</span><span class="dv">0</span>).T))</span>
-<span id="cb19-2572"><a href="#cb19-2572" aria-hidden="true" tabindex="-1"></a>    mu<span class="op">=</span>np.mean(Xu,axis<span class="op">=</span><span class="dv">0</span>)<span class="op">/</span>normu</span>
-<span id="cb19-2573"><a href="#cb19-2573" aria-hidden="true" tabindex="-1"></a>    mu<span class="op">=</span>np.array(mu,ndmin<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb19-2574"><a href="#cb19-2574" aria-hidden="true" tabindex="-1"></a>    chi<span class="op">=</span><span class="bu">min</span>(normu,<span class="fl">0.95</span>)</span>
-<span id="cb19-2575"><a href="#cb19-2575" aria-hidden="true" tabindex="-1"></a>    kappa<span class="op">=</span>(chi<span class="op">*</span>n<span class="op">-</span>chi<span class="op">**</span><span class="dv">3</span>)<span class="op">/</span>(<span class="dv">1</span><span class="op">-</span>chi<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb19-2576"><a href="#cb19-2576" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-2577"><a href="#cb19-2577" aria-hidden="true" tabindex="-1"></a>   <span class="co">## Nakagami parameters</span></span>
-<span id="cb19-2578"><a href="#cb19-2578" aria-hidden="true" tabindex="-1"></a>    omega<span class="op">=</span>np.mean(R<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb19-2579"><a href="#cb19-2579" aria-hidden="true" tabindex="-1"></a>    tau4<span class="op">=</span>np.mean(R<span class="op">**</span><span class="dv">4</span>)</span>
-<span id="cb19-2580"><a href="#cb19-2580" aria-hidden="true" tabindex="-1"></a>    pp<span class="op">=</span>omega<span class="op">**</span><span class="dv">2</span><span class="op">/</span>(tau4<span class="op">-</span>omega<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb19-2581"><a href="#cb19-2581" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-2582"><a href="#cb19-2582" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
-<span id="cb19-2583"><a href="#cb19-2583" aria-hidden="true" tabindex="-1"></a>    Eig<span class="op">=</span>np.linalg.eigh(sigma)                     </span>
-<span id="cb19-2584"><a href="#cb19-2584" aria-hidden="true" tabindex="-1"></a>    logeig<span class="op">=</span>np.sort(np.log(Eig[<span class="dv">0</span>])<span class="op">-</span>Eig[<span class="dv">0</span>])     </span>
-<span id="cb19-2585"><a href="#cb19-2585" aria-hidden="true" tabindex="-1"></a>    delta<span class="op">=</span>np.zeros(<span class="bu">len</span>(logeig)<span class="op">-</span><span class="dv">1</span>)</span>
-<span id="cb19-2586"><a href="#cb19-2586" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(logeig)<span class="op">-</span><span class="dv">1</span>):</span>
-<span id="cb19-2587"><a href="#cb19-2587" aria-hidden="true" tabindex="-1"></a>        delta[j]<span class="op">=</span><span class="bu">abs</span>(logeig[j]<span class="op">-</span>logeig[j<span class="op">+</span><span class="dv">1</span>])    </span>
-<span id="cb19-2588"><a href="#cb19-2588" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-2589"><a href="#cb19-2589" aria-hidden="true" tabindex="-1"></a>    k<span class="op">=</span>np.argmax(delta)<span class="op">+</span><span class="dv">1</span>         </span>
-<span id="cb19-2590"><a href="#cb19-2590" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-2591"><a href="#cb19-2591" aria-hidden="true" tabindex="-1"></a>    indi<span class="op">=</span>[]</span>
-<span id="cb19-2592"><a href="#cb19-2592" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> l <span class="kw">in</span> <span class="bu">range</span>(k):</span>
-<span id="cb19-2593"><a href="#cb19-2593" aria-hidden="true" tabindex="-1"></a>        indi.append(np.where(np.log(Eig[<span class="dv">0</span>])<span class="op">-</span>Eig[<span class="dv">0</span>]<span class="op">==</span>logeig[l])[<span class="dv">0</span>][<span class="dv">0</span>])</span>
-<span id="cb19-2594"><a href="#cb19-2594" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-2595"><a href="#cb19-2595" aria-hidden="true" tabindex="-1"></a>    P1<span class="op">=</span>np.array(Eig[<span class="dv">1</span>][:,indi[<span class="dv">0</span>]],ndmin<span class="op">=</span><span class="dv">2</span>).T</span>
-<span id="cb19-2596"><a href="#cb19-2596" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> l <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>,k):</span>
-<span id="cb19-2597"><a href="#cb19-2597" aria-hidden="true" tabindex="-1"></a>        P1<span class="op">=</span>np.concatenate((P1,np.array(Eig[<span class="dv">1</span>][:,indi[l]],ndmin<span class="op">=</span><span class="dv">2</span>).T)<span class="op">\</span></span>
-<span id="cb19-2598"><a href="#cb19-2598" aria-hidden="true" tabindex="-1"></a>                          ,axis<span class="op">=</span><span class="dv">1</span>)     </span>
-<span id="cb19-2599"><a href="#cb19-2599" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb19-2600"><a href="#cb19-2600" aria-hidden="true" tabindex="-1"></a>    diagsi<span class="op">=</span>np.diag(Eig[<span class="dv">0</span>][indi])                           </span>
-<span id="cb19-2601"><a href="#cb19-2601" aria-hidden="true" tabindex="-1"></a>    sig_opt_d<span class="op">=</span>P1.dot((diagsi<span class="op">-</span>np.eye(k))).dot(P1.T)<span class="op">+</span>np.eye(n)</span>
-<span id="cb19-2602"><a href="#cb19-2602" aria-hidden="true" tabindex="-1"></a>    SIP.append(sig_opt_d)</span>
-<span id="cb19-2603"><a href="#cb19-2603" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-2604"><a href="#cb19-2604" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
-<span id="cb19-2605"><a href="#cb19-2605" aria-hidden="true" tabindex="-1"></a>    diagsist<span class="op">=</span>P1st.T.dot(sigma).dot(P1st)                   </span>
-<span id="cb19-2606"><a href="#cb19-2606" aria-hidden="true" tabindex="-1"></a>    sig_opt<span class="op">=</span>P1st.dot(diagsist<span class="op">-</span>np.eye(k_st)).dot(P1st.T)<span class="op">+</span>np.eye(n)</span>
-<span id="cb19-2607"><a href="#cb19-2607" aria-hidden="true" tabindex="-1"></a>    SIPst.append(sig_opt)</span>
-<span id="cb19-2608"><a href="#cb19-2608" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-2609"><a href="#cb19-2609" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
-<span id="cb19-2610"><a href="#cb19-2610" aria-hidden="true" tabindex="-1"></a>    Norm_mm<span class="op">=</span>np.linalg.norm(mm)               </span>
-<span id="cb19-2611"><a href="#cb19-2611" aria-hidden="true" tabindex="-1"></a>    normalised_mm<span class="op">=</span>np.array(mm,ndmin<span class="op">=</span><span class="dv">2</span>).T<span class="op">/</span>Norm_mm        </span>
-<span id="cb19-2612"><a href="#cb19-2612" aria-hidden="true" tabindex="-1"></a>    vhat<span class="op">=</span>normalised_mm.T.dot(sigma).dot(normalised_mm)          </span>
-<span id="cb19-2613"><a href="#cb19-2613" aria-hidden="true" tabindex="-1"></a>    sig_mean_d<span class="op">=</span>(vhat<span class="op">-</span><span class="dv">1</span>)<span class="op">*</span>normalised_mm.dot(normalised_mm.T)<span class="op">+</span>np.eye(n) </span>
-<span id="cb19-2614"><a href="#cb19-2614" aria-hidden="true" tabindex="-1"></a>    SIM.append(sig_mean_d)</span>
-<span id="cb19-2615"><a href="#cb19-2615" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-2616"><a href="#cb19-2616" aria-hidden="true" tabindex="-1"></a><span class="co">############################################# Estimation of the integral</span></span>
-<span id="cb19-2617"><a href="#cb19-2617" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
-<span id="cb19-2618"><a href="#cb19-2618" aria-hidden="true" tabindex="-1"></a>    Xop<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>Sigstar,size<span class="op">=</span>N)              </span>
-<span id="cb19-2619"><a href="#cb19-2619" aria-hidden="true" tabindex="-1"></a>    wop<span class="op">=</span>mypi(Xop)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xop,mean<span class="op">=</span>mm, cov<span class="op">=</span>Sigstar)       </span>
-<span id="cb19-2620"><a href="#cb19-2620" aria-hidden="true" tabindex="-1"></a>    Eopt[i]<span class="op">=</span>np.mean(wop)                                                     </span>
-<span id="cb19-2621"><a href="#cb19-2621" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-2622"><a href="#cb19-2622" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
-<span id="cb19-2623"><a href="#cb19-2623" aria-hidden="true" tabindex="-1"></a>    Xis<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>sigma,size<span class="op">=</span>N)</span>
-<span id="cb19-2624"><a href="#cb19-2624" aria-hidden="true" tabindex="-1"></a>    wis<span class="op">=</span>mypi(Xis)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xis,mean<span class="op">=</span>mm, cov<span class="op">=</span>sigma)</span>
-<span id="cb19-2625"><a href="#cb19-2625" aria-hidden="true" tabindex="-1"></a>    EIS[i]<span class="op">=</span>np.mean(wis)</span>
-<span id="cb19-2626"><a href="#cb19-2626" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-2627"><a href="#cb19-2627" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
-<span id="cb19-2628"><a href="#cb19-2628" aria-hidden="true" tabindex="-1"></a>    Xpr<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>sig_opt_d,size<span class="op">=</span>N)</span>
-<span id="cb19-2629"><a href="#cb19-2629" aria-hidden="true" tabindex="-1"></a>    wpr<span class="op">=</span>mypi(Xpr)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xpr,mean<span class="op">=</span>mm,<span class="op">\</span></span>
-<span id="cb19-2630"><a href="#cb19-2630" aria-hidden="true" tabindex="-1"></a>                                                   cov<span class="op">=</span>sig_opt_d)</span>
-<span id="cb19-2631"><a href="#cb19-2631" aria-hidden="true" tabindex="-1"></a>    Eprj[i]<span class="op">=</span>np.mean(wpr)</span>
-<span id="cb19-2632"><a href="#cb19-2632" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-2633"><a href="#cb19-2633" aria-hidden="true" tabindex="-1"></a>   <span class="co">###   </span></span>
-<span id="cb19-2634"><a href="#cb19-2634" aria-hidden="true" tabindex="-1"></a>    Xpm<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>sig_mean_d,size<span class="op">=</span>N)</span>
-<span id="cb19-2635"><a href="#cb19-2635" aria-hidden="true" tabindex="-1"></a>    wpm<span class="op">=</span>mypi(Xpm)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xpm,mean<span class="op">=</span>mm,<span class="op">\</span></span>
-<span id="cb19-2636"><a href="#cb19-2636" aria-hidden="true" tabindex="-1"></a>                                                   cov<span class="op">=</span>sig_mean_d)</span>
-<span id="cb19-2637"><a href="#cb19-2637" aria-hidden="true" tabindex="-1"></a>    Eprm[i]<span class="op">=</span>np.mean(wpm)</span>
-<span id="cb19-2638"><a href="#cb19-2638" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-2639"><a href="#cb19-2639" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
-<span id="cb19-2640"><a href="#cb19-2640" aria-hidden="true" tabindex="-1"></a>    Xprst<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>sig_opt,size<span class="op">=</span>N)</span>
-<span id="cb19-2641"><a href="#cb19-2641" aria-hidden="true" tabindex="-1"></a>    wprst<span class="op">=</span>mypi(Xprst)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xprst,mean<span class="op">=</span>mm, <span class="op">\</span></span>
-<span id="cb19-2642"><a href="#cb19-2642" aria-hidden="true" tabindex="-1"></a>                                                       cov<span class="op">=</span>sig_opt)</span>
-<span id="cb19-2643"><a href="#cb19-2643" aria-hidden="true" tabindex="-1"></a>    Eprjst[i]<span class="op">=</span>np.mean(wprst)</span>
-<span id="cb19-2644"><a href="#cb19-2644" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-2645"><a href="#cb19-2645" aria-hidden="true" tabindex="-1"></a>   <span class="co">###</span></span>
-<span id="cb19-2646"><a href="#cb19-2646" aria-hidden="true" tabindex="-1"></a>    Xvmfn <span class="op">=</span> vMFNM_sample(mu, kappa, omega, pp, <span class="dv">1</span>, N)</span>
-<span id="cb19-2647"><a href="#cb19-2647" aria-hidden="true" tabindex="-1"></a>    Rvn<span class="op">=</span>np.sqrt(np.<span class="bu">sum</span>(Xvmfn<span class="op">**</span><span class="dv">2</span>,axis<span class="op">=</span><span class="dv">1</span>))</span>
-<span id="cb19-2648"><a href="#cb19-2648" aria-hidden="true" tabindex="-1"></a>    Xvnu<span class="op">=</span>Xvmfn.T<span class="op">/</span>Rvn</span>
-<span id="cb19-2649"><a href="#cb19-2649" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb19-2650"><a href="#cb19-2650" aria-hidden="true" tabindex="-1"></a>    h_log<span class="op">=</span>vMF_logpdf(Xvnu,mu.T,kappa)<span class="op">+</span>nakagami_logpdf(Rvn,pp,omega)</span>
-<span id="cb19-2651"><a href="#cb19-2651" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> np.log(n) <span class="op">+</span> np.log(np.pi <span class="op">**</span> (n <span class="op">/</span> <span class="dv">2</span>)) <span class="op">-</span> sp.special.gammaln(n <span class="op">/</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb19-2652"><a href="#cb19-2652" aria-hidden="true" tabindex="-1"></a>    f_u <span class="op">=</span> <span class="op">-</span>A       </span>
-<span id="cb19-2653"><a href="#cb19-2653" aria-hidden="true" tabindex="-1"></a>    f_chi <span class="op">=</span> (np.log(<span class="dv">2</span>) <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> n <span class="op">/</span> <span class="dv">2</span>) <span class="op">+</span> np.log(Rvn) <span class="op">*</span> (n <span class="op">-</span> <span class="dv">1</span>) <span class="op">-</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="op">\</span></span>
-<span id="cb19-2654"><a href="#cb19-2654" aria-hidden="true" tabindex="-1"></a>             Rvn <span class="op">**</span> <span class="dv">2</span> <span class="op">-</span> sp.special.gammaln(n <span class="op">/</span> <span class="dv">2</span>)) </span>
-<span id="cb19-2655"><a href="#cb19-2655" aria-hidden="true" tabindex="-1"></a>    f_log <span class="op">=</span> f_u <span class="op">+</span> f_chi</span>
-<span id="cb19-2656"><a href="#cb19-2656" aria-hidden="true" tabindex="-1"></a>    W_log <span class="op">=</span> f_log <span class="op">-</span> h_log</span>
-<span id="cb19-2657"><a href="#cb19-2657" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-2658"><a href="#cb19-2658" aria-hidden="true" tabindex="-1"></a>    wvmfn<span class="op">=</span>(phi(Xvmfn)<span class="op">&gt;</span><span class="dv">0</span>)<span class="op">*</span>np.exp(W_log)          </span>
-<span id="cb19-2659"><a href="#cb19-2659" aria-hidden="true" tabindex="-1"></a>    Evmfn[i]<span class="op">=</span>np.mean(wvmfn)</span>
-<span id="cb19-2660"><a href="#cb19-2660" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-2661"><a href="#cb19-2661" aria-hidden="true" tabindex="-1"></a><span class="co">### KL divergences    </span></span>
-<span id="cb19-2662"><a href="#cb19-2662" aria-hidden="true" tabindex="-1"></a>dkli<span class="op">=</span>np.zeros(B)</span>
-<span id="cb19-2663"><a href="#cb19-2663" aria-hidden="true" tabindex="-1"></a>dklp<span class="op">=</span>np.zeros(B)</span>
-<span id="cb19-2664"><a href="#cb19-2664" aria-hidden="true" tabindex="-1"></a>dklm<span class="op">=</span>np.zeros(B)</span>
-<span id="cb19-2665"><a href="#cb19-2665" aria-hidden="true" tabindex="-1"></a>dklpst<span class="op">=</span>np.zeros(B)</span>
-<span id="cb19-2666"><a href="#cb19-2666" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-2667"><a href="#cb19-2667" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(B):</span>
-<span id="cb19-2668"><a href="#cb19-2668" aria-hidden="true" tabindex="-1"></a>    dkli[i]<span class="op">=</span>np.log(np.linalg.det(SI[i]))<span class="op">+</span><span class="bu">sum</span>(np.diag(Sigstar.dot<span class="op">\</span></span>
-<span id="cb19-2669"><a href="#cb19-2669" aria-hidden="true" tabindex="-1"></a>                                            (np.linalg.inv(SI[i]))))      </span>
-<span id="cb19-2670"><a href="#cb19-2670" aria-hidden="true" tabindex="-1"></a>    dklp[i]<span class="op">=</span>np.log(np.linalg.det(SIP[i]))<span class="op">+</span><span class="bu">sum</span>(np.diag(Sigstar.dot<span class="op">\</span></span>
-<span id="cb19-2671"><a href="#cb19-2671" aria-hidden="true" tabindex="-1"></a>                                            (np.linalg.inv(SIP[i]))))        </span>
-<span id="cb19-2672"><a href="#cb19-2672" aria-hidden="true" tabindex="-1"></a>    dklm[i]<span class="op">=</span>np.log(np.linalg.det(SIM[i]))<span class="op">+</span><span class="bu">sum</span>(np.diag(Sigstar.dot<span class="op">\</span></span>
-<span id="cb19-2673"><a href="#cb19-2673" aria-hidden="true" tabindex="-1"></a>                                            (np.linalg.inv(SIM[i]))))</span>
-<span id="cb19-2674"><a href="#cb19-2674" aria-hidden="true" tabindex="-1"></a>    dklpst[i]<span class="op">=</span>np.log(np.linalg.det(SIPst[i]))<span class="op">+</span><span class="bu">sum</span>(np.diag(Sigstar.dot<span class="op">\</span></span>
-<span id="cb19-2675"><a href="#cb19-2675" aria-hidden="true" tabindex="-1"></a>                                            (np.linalg.inv(SIPst[i]))))</span>
-<span id="cb19-2676"><a href="#cb19-2676" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-2677"><a href="#cb19-2677" aria-hidden="true" tabindex="-1"></a>Tabresult<span class="op">=</span>np.zeros((<span class="dv">3</span>,<span class="dv">7</span>)) <span class="co"># table of results</span></span>
-<span id="cb19-2678"><a href="#cb19-2678" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-2679"><a href="#cb19-2679" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">0</span>]<span class="op">=</span>np.log(np.linalg.det(Sigstar))<span class="op">+</span>n</span>
-<span id="cb19-2680"><a href="#cb19-2680" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">1</span>]<span class="op">=</span>np.mean(dkli)</span>
-<span id="cb19-2681"><a href="#cb19-2681" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">2</span>]<span class="op">=</span>np.mean(dklpst)</span>
-<span id="cb19-2682"><a href="#cb19-2682" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">3</span>]<span class="op">=</span>np.mean(dklpst)</span>
-<span id="cb19-2683"><a href="#cb19-2683" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">4</span>]<span class="op">=</span>np.mean(dklp)</span>
-<span id="cb19-2684"><a href="#cb19-2684" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">5</span>]<span class="op">=</span>np.mean(dklm)</span>
-<span id="cb19-2685"><a href="#cb19-2685" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">6</span>]<span class="op">=</span><span class="va">None</span></span>
-<span id="cb19-2686"><a href="#cb19-2686" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-2687"><a href="#cb19-2687" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">0</span>]<span class="op">=</span>np.mean(Eopt<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb19-2688"><a href="#cb19-2688" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">=</span>np.mean(EIS<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb19-2689"><a href="#cb19-2689" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">2</span>]<span class="op">=</span>np.mean(Eprjst<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb19-2690"><a href="#cb19-2690" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">3</span>]<span class="op">=</span>np.mean(Eprjst<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb19-2691"><a href="#cb19-2691" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">4</span>]<span class="op">=</span>np.mean(Eprj<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb19-2692"><a href="#cb19-2692" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">5</span>]<span class="op">=</span>np.mean(Eprm<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb19-2693"><a href="#cb19-2693" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">6</span>]<span class="op">=</span>np.mean(Evmfn<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb19-2694"><a href="#cb19-2694" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-2695"><a href="#cb19-2695" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">0</span>]<span class="op">=</span>np.sqrt(np.mean((Eopt<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb19-2696"><a href="#cb19-2696" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">1</span>]<span class="op">=</span>np.sqrt(np.mean((EIS<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb19-2697"><a href="#cb19-2697" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">2</span>]<span class="op">=</span>np.sqrt(np.mean((Eprjst<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb19-2698"><a href="#cb19-2698" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">3</span>]<span class="op">=</span>np.sqrt(np.mean((Eprjst<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb19-2699"><a href="#cb19-2699" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">4</span>]<span class="op">=</span>np.sqrt(np.mean((Eprj<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb19-2700"><a href="#cb19-2700" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">5</span>]<span class="op">=</span>np.sqrt(np.mean((Eprm<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb19-2701"><a href="#cb19-2701" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">6</span>]<span class="op">=</span>np.sqrt(np.mean((Evmfn<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb19-2702"><a href="#cb19-2702" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-2703"><a href="#cb19-2703" aria-hidden="true" tabindex="-1"></a>Tabresult<span class="op">=</span>np.<span class="bu">round</span>(Tabresult,<span class="dv">1</span>)</span>
-<span id="cb19-2704"><a href="#cb19-2704" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-2705"><a href="#cb19-2705" aria-hidden="true" tabindex="-1"></a>table<span class="op">=</span>[[<span class="st">"D'"</span>,Tabresult[<span class="dv">0</span>,<span class="dv">0</span>],Tabresult[<span class="dv">0</span>,<span class="dv">1</span>],Tabresult[<span class="dv">0</span>,<span class="dv">2</span>],Tabresult[<span class="dv">0</span>,<span class="dv">3</span>],</span>
-<span id="cb19-2706"><a href="#cb19-2706" aria-hidden="true" tabindex="-1"></a>        Tabresult[<span class="dv">0</span>,<span class="dv">4</span>],Tabresult[<span class="dv">0</span>,<span class="dv">5</span>],<span class="st">"/"</span>],</span>
-<span id="cb19-2707"><a href="#cb19-2707" aria-hidden="true" tabindex="-1"></a>      [<span class="st">"Relative error (\%)"</span>,Tabresult[<span class="dv">1</span>,<span class="dv">0</span>],Tabresult[<span class="dv">1</span>,<span class="dv">1</span>],</span>
-<span id="cb19-2708"><a href="#cb19-2708" aria-hidden="true" tabindex="-1"></a>       Tabresult[<span class="dv">1</span>,<span class="dv">2</span>],Tabresult[<span class="dv">1</span>,<span class="dv">3</span>],Tabresult[<span class="dv">1</span>,<span class="dv">4</span>],Tabresult[<span class="dv">1</span>,<span class="dv">5</span>],Tabresult[<span class="dv">1</span>,<span class="dv">6</span>]],</span>
-<span id="cb19-2709"><a href="#cb19-2709" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"Coefficient of variation (\%)"</span>,Tabresult[<span class="dv">2</span>,<span class="dv">0</span>],Tabresult[<span class="dv">2</span>,<span class="dv">1</span>],</span>
-<span id="cb19-2710"><a href="#cb19-2710" aria-hidden="true" tabindex="-1"></a>     Tabresult[<span class="dv">2</span>,<span class="dv">2</span>],Tabresult[<span class="dv">2</span>,<span class="dv">3</span>],Tabresult[<span class="dv">2</span>,<span class="dv">4</span>],Tabresult[<span class="dv">2</span>,<span class="dv">5</span>],Tabresult[<span class="dv">2</span>,<span class="dv">6</span>]]]</span>
-<span id="cb19-2711"><a href="#cb19-2711" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-2712"><a href="#cb19-2712" aria-hidden="true" tabindex="-1"></a>Markdown(tabulate(</span>
-<span id="cb19-2713"><a href="#cb19-2713" aria-hidden="true" tabindex="-1"></a>  table, </span>
-<span id="cb19-2714"><a href="#cb19-2714" aria-hidden="true" tabindex="-1"></a>  headers<span class="op">=</span>[<span class="st">""</span>,<span class="st">"$\mathbf{\Sigma}^*$"</span>, <span class="st">"$\widehat{\mathbf{\Sigma</span><span class="sc">}}</span><span class="st">^*$"</span>, <span class="st">"$\widehat{\mathbf{\Sigma</span><span class="sc">}}</span><span class="st">_</span><span class="sc">{opt}</span><span class="st">$"</span>,<span class="op">\</span></span>
-<span id="cb19-2715"><a href="#cb19-2715" aria-hidden="true" tabindex="-1"></a>           <span class="st">"$\widehat{\mathbf{\Sigma</span><span class="sc">}}</span><span class="st">_</span><span class="sc">{mean}</span><span class="st">$"</span>, <span class="st">"${\widehat{\mathbf{\Sigma</span><span class="sc">}}</span><span class="st">^{+d}_</span><span class="sc">{opt}</span><span class="st">}$"</span>,<span class="op">\</span></span>
-<span id="cb19-2716"><a href="#cb19-2716" aria-hidden="true" tabindex="-1"></a>           <span class="st">"$\widehat{\mathbf{\Sigma</span><span class="sc">}}</span><span class="st">^{+d}_</span><span class="sc">{mean}</span><span class="st">$"</span>, <span class="st">"vMFN"</span>],</span>
-<span id="cb19-2717"><a href="#cb19-2717" aria-hidden="true" tabindex="-1"></a>    tablefmt<span class="op">=</span><span class="st">"pipe"</span>))</span>
-<span id="cb19-2718"><a href="#cb19-2718" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-2719"><a href="#cb19-2719" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-2720"><a href="#cb19-2720" aria-hidden="true" tabindex="-1"></a><span class="fu"># References {.unnumbered}</span></span>
-<span id="cb19-2721"><a href="#cb19-2721" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-2722"><a href="#cb19-2722" aria-hidden="true" tabindex="-1"></a>::: {#refs}</span>
-<span id="cb19-2723"><a href="#cb19-2723" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb19-2545"><a href="#cb19-2545" aria-hidden="true" tabindex="-1"></a>   <span class="co">## g*-sample of size M with Metropolis-Hastings</span></span>
+<span id="cb19-2546"><a href="#cb19-2546" aria-hidden="true" tabindex="-1"></a>    X<span class="op">=</span>np.ones((<span class="dv">1</span>,n))<span class="op">*</span><span class="dv">3</span><span class="op">/</span>np.sqrt(n)</span>
+<span id="cb19-2547"><a href="#cb19-2547" aria-hidden="true" tabindex="-1"></a>    param_agit<span class="op">=</span><span class="fl">0.5</span></span>
+<span id="cb19-2548"><a href="#cb19-2548" aria-hidden="true" tabindex="-1"></a>    VA0<span class="op">=</span>sp.stats.multivariate_normal(mean<span class="op">=</span>np.zeros(n),cov<span class="op">=</span>np.eye(n))</span>
+<span id="cb19-2549"><a href="#cb19-2549" aria-hidden="true" tabindex="-1"></a>    j<span class="op">=</span><span class="dv">0</span></span>
+<span id="cb19-2550"><a href="#cb19-2550" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> j<span class="op">&lt;</span>(M<span class="op">+</span><span class="dv">2000</span><span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb19-2551"><a href="#cb19-2551" aria-hidden="true" tabindex="-1"></a>        j<span class="op">=</span>j<span class="op">+</span><span class="dv">1</span></span>
+<span id="cb19-2552"><a href="#cb19-2552" aria-hidden="true" tabindex="-1"></a>        P<span class="op">=</span>VA0.rvs(size<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb19-2553"><a href="#cb19-2553" aria-hidden="true" tabindex="-1"></a>        X2<span class="op">=</span>(X[<span class="op">-</span><span class="dv">1</span>,:]<span class="op">+</span>param_agit<span class="op">*</span>P)<span class="op">/</span>np.sqrt(<span class="dv">1</span><span class="op">+</span>param_agit<span class="op">*</span>param_agit)</span>
+<span id="cb19-2554"><a href="#cb19-2554" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(phi([X2])<span class="op">&gt;</span><span class="dv">0</span>):</span>
+<span id="cb19-2555"><a href="#cb19-2555" aria-hidden="true" tabindex="-1"></a>            X<span class="op">=</span>np.append(X,[X2],axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb19-2556"><a href="#cb19-2556" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb19-2557"><a href="#cb19-2557" aria-hidden="true" tabindex="-1"></a>            X<span class="op">=</span>np.append(X,[X[<span class="op">-</span><span class="dv">1</span>,:]],axis<span class="op">=</span><span class="dv">0</span>) </span>
+<span id="cb19-2558"><a href="#cb19-2558" aria-hidden="true" tabindex="-1"></a>             </span>
+<span id="cb19-2559"><a href="#cb19-2559" aria-hidden="true" tabindex="-1"></a>    X<span class="op">=</span>X[<span class="dv">0</span>:<span class="dv">2500</span>:<span class="dv">5</span>,:]</span>
+<span id="cb19-2560"><a href="#cb19-2560" aria-hidden="true" tabindex="-1"></a>    R<span class="op">=</span>np.sqrt(np.<span class="bu">sum</span>(X<span class="op">**</span><span class="dv">2</span>,axis<span class="op">=</span><span class="dv">1</span>))   </span>
+<span id="cb19-2561"><a href="#cb19-2561" aria-hidden="true" tabindex="-1"></a>    Xu<span class="op">=</span>(X.T<span class="op">/</span>R).T                </span>
+<span id="cb19-2562"><a href="#cb19-2562" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-2563"><a href="#cb19-2563" aria-hidden="true" tabindex="-1"></a>   <span class="co">## estimated gaussian mean and covariance </span></span>
+<span id="cb19-2564"><a href="#cb19-2564" aria-hidden="true" tabindex="-1"></a>    mm<span class="op">=</span>np.mean(X,axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb19-2565"><a href="#cb19-2565" aria-hidden="true" tabindex="-1"></a>    Xc<span class="op">=</span>(X<span class="op">-</span>mm).T</span>
+<span id="cb19-2566"><a href="#cb19-2566" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span>Xc <span class="op">@</span> Xc.T<span class="op">/</span>np.shape(Xc)[<span class="dv">1</span>]  </span>
+<span id="cb19-2567"><a href="#cb19-2567" aria-hidden="true" tabindex="-1"></a>    SI.append(sigma)</span>
+<span id="cb19-2568"><a href="#cb19-2568" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-2569"><a href="#cb19-2569" aria-hidden="true" tabindex="-1"></a>   <span class="co">## von Mises Fisher parameters</span></span>
+<span id="cb19-2570"><a href="#cb19-2570" aria-hidden="true" tabindex="-1"></a>    normu<span class="op">=</span>np.sqrt(np.mean(Xu,axis<span class="op">=</span><span class="dv">0</span>).dot(np.mean(Xu,axis<span class="op">=</span><span class="dv">0</span>).T))</span>
+<span id="cb19-2571"><a href="#cb19-2571" aria-hidden="true" tabindex="-1"></a>    mu<span class="op">=</span>np.mean(Xu,axis<span class="op">=</span><span class="dv">0</span>)<span class="op">/</span>normu</span>
+<span id="cb19-2572"><a href="#cb19-2572" aria-hidden="true" tabindex="-1"></a>    mu<span class="op">=</span>np.array(mu,ndmin<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb19-2573"><a href="#cb19-2573" aria-hidden="true" tabindex="-1"></a>    chi<span class="op">=</span><span class="bu">min</span>(normu,<span class="fl">0.95</span>)</span>
+<span id="cb19-2574"><a href="#cb19-2574" aria-hidden="true" tabindex="-1"></a>    kappa<span class="op">=</span>(chi<span class="op">*</span>n<span class="op">-</span>chi<span class="op">**</span><span class="dv">3</span>)<span class="op">/</span>(<span class="dv">1</span><span class="op">-</span>chi<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb19-2575"><a href="#cb19-2575" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-2576"><a href="#cb19-2576" aria-hidden="true" tabindex="-1"></a>   <span class="co">## Nakagami parameters</span></span>
+<span id="cb19-2577"><a href="#cb19-2577" aria-hidden="true" tabindex="-1"></a>    omega<span class="op">=</span>np.mean(R<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb19-2578"><a href="#cb19-2578" aria-hidden="true" tabindex="-1"></a>    tau4<span class="op">=</span>np.mean(R<span class="op">**</span><span class="dv">4</span>)</span>
+<span id="cb19-2579"><a href="#cb19-2579" aria-hidden="true" tabindex="-1"></a>    pp<span class="op">=</span>omega<span class="op">**</span><span class="dv">2</span><span class="op">/</span>(tau4<span class="op">-</span>omega<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb19-2580"><a href="#cb19-2580" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-2581"><a href="#cb19-2581" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
+<span id="cb19-2582"><a href="#cb19-2582" aria-hidden="true" tabindex="-1"></a>    Eig<span class="op">=</span>np.linalg.eigh(sigma)                     </span>
+<span id="cb19-2583"><a href="#cb19-2583" aria-hidden="true" tabindex="-1"></a>    logeig<span class="op">=</span>np.sort(np.log(Eig[<span class="dv">0</span>])<span class="op">-</span>Eig[<span class="dv">0</span>])     </span>
+<span id="cb19-2584"><a href="#cb19-2584" aria-hidden="true" tabindex="-1"></a>    delta<span class="op">=</span>np.zeros(<span class="bu">len</span>(logeig)<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb19-2585"><a href="#cb19-2585" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(logeig)<span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb19-2586"><a href="#cb19-2586" aria-hidden="true" tabindex="-1"></a>        delta[j]<span class="op">=</span><span class="bu">abs</span>(logeig[j]<span class="op">-</span>logeig[j<span class="op">+</span><span class="dv">1</span>])    </span>
+<span id="cb19-2587"><a href="#cb19-2587" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-2588"><a href="#cb19-2588" aria-hidden="true" tabindex="-1"></a>    k<span class="op">=</span>np.argmax(delta)<span class="op">+</span><span class="dv">1</span>         </span>
+<span id="cb19-2589"><a href="#cb19-2589" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-2590"><a href="#cb19-2590" aria-hidden="true" tabindex="-1"></a>    indi<span class="op">=</span>[]</span>
+<span id="cb19-2591"><a href="#cb19-2591" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> l <span class="kw">in</span> <span class="bu">range</span>(k):</span>
+<span id="cb19-2592"><a href="#cb19-2592" aria-hidden="true" tabindex="-1"></a>        indi.append(np.where(np.log(Eig[<span class="dv">0</span>])<span class="op">-</span>Eig[<span class="dv">0</span>]<span class="op">==</span>logeig[l])[<span class="dv">0</span>][<span class="dv">0</span>])</span>
+<span id="cb19-2593"><a href="#cb19-2593" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-2594"><a href="#cb19-2594" aria-hidden="true" tabindex="-1"></a>    P1<span class="op">=</span>np.array(Eig[<span class="dv">1</span>][:,indi[<span class="dv">0</span>]],ndmin<span class="op">=</span><span class="dv">2</span>).T</span>
+<span id="cb19-2595"><a href="#cb19-2595" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> l <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>,k):</span>
+<span id="cb19-2596"><a href="#cb19-2596" aria-hidden="true" tabindex="-1"></a>        P1<span class="op">=</span>np.concatenate((P1,np.array(Eig[<span class="dv">1</span>][:,indi[l]],ndmin<span class="op">=</span><span class="dv">2</span>).T)<span class="op">\</span></span>
+<span id="cb19-2597"><a href="#cb19-2597" aria-hidden="true" tabindex="-1"></a>                          ,axis<span class="op">=</span><span class="dv">1</span>)     </span>
+<span id="cb19-2598"><a href="#cb19-2598" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb19-2599"><a href="#cb19-2599" aria-hidden="true" tabindex="-1"></a>    diagsi<span class="op">=</span>np.diag(Eig[<span class="dv">0</span>][indi])                           </span>
+<span id="cb19-2600"><a href="#cb19-2600" aria-hidden="true" tabindex="-1"></a>    sig_opt_d<span class="op">=</span>P1.dot((diagsi<span class="op">-</span>np.eye(k))).dot(P1.T)<span class="op">+</span>np.eye(n)</span>
+<span id="cb19-2601"><a href="#cb19-2601" aria-hidden="true" tabindex="-1"></a>    SIP.append(sig_opt_d)</span>
+<span id="cb19-2602"><a href="#cb19-2602" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-2603"><a href="#cb19-2603" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
+<span id="cb19-2604"><a href="#cb19-2604" aria-hidden="true" tabindex="-1"></a>    diagsist<span class="op">=</span>P1st.T.dot(sigma).dot(P1st)                   </span>
+<span id="cb19-2605"><a href="#cb19-2605" aria-hidden="true" tabindex="-1"></a>    sig_opt<span class="op">=</span>P1st.dot(diagsist<span class="op">-</span>np.eye(k_st)).dot(P1st.T)<span class="op">+</span>np.eye(n)</span>
+<span id="cb19-2606"><a href="#cb19-2606" aria-hidden="true" tabindex="-1"></a>    SIPst.append(sig_opt)</span>
+<span id="cb19-2607"><a href="#cb19-2607" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-2608"><a href="#cb19-2608" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
+<span id="cb19-2609"><a href="#cb19-2609" aria-hidden="true" tabindex="-1"></a>    Norm_mm<span class="op">=</span>np.linalg.norm(mm)               </span>
+<span id="cb19-2610"><a href="#cb19-2610" aria-hidden="true" tabindex="-1"></a>    normalised_mm<span class="op">=</span>np.array(mm,ndmin<span class="op">=</span><span class="dv">2</span>).T<span class="op">/</span>Norm_mm        </span>
+<span id="cb19-2611"><a href="#cb19-2611" aria-hidden="true" tabindex="-1"></a>    vhat<span class="op">=</span>normalised_mm.T.dot(sigma).dot(normalised_mm)          </span>
+<span id="cb19-2612"><a href="#cb19-2612" aria-hidden="true" tabindex="-1"></a>    sig_mean_d<span class="op">=</span>(vhat<span class="op">-</span><span class="dv">1</span>)<span class="op">*</span>normalised_mm.dot(normalised_mm.T)<span class="op">+</span>np.eye(n) </span>
+<span id="cb19-2613"><a href="#cb19-2613" aria-hidden="true" tabindex="-1"></a>    SIM.append(sig_mean_d)</span>
+<span id="cb19-2614"><a href="#cb19-2614" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-2615"><a href="#cb19-2615" aria-hidden="true" tabindex="-1"></a><span class="co">############################################# Estimation of the integral</span></span>
+<span id="cb19-2616"><a href="#cb19-2616" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
+<span id="cb19-2617"><a href="#cb19-2617" aria-hidden="true" tabindex="-1"></a>    Xop<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>Sigstar,size<span class="op">=</span>N)              </span>
+<span id="cb19-2618"><a href="#cb19-2618" aria-hidden="true" tabindex="-1"></a>    wop<span class="op">=</span>mypi(Xop)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xop,mean<span class="op">=</span>mm, cov<span class="op">=</span>Sigstar)       </span>
+<span id="cb19-2619"><a href="#cb19-2619" aria-hidden="true" tabindex="-1"></a>    Eopt[i]<span class="op">=</span>np.mean(wop)                                                     </span>
+<span id="cb19-2620"><a href="#cb19-2620" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-2621"><a href="#cb19-2621" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
+<span id="cb19-2622"><a href="#cb19-2622" aria-hidden="true" tabindex="-1"></a>    Xis<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>sigma,size<span class="op">=</span>N)</span>
+<span id="cb19-2623"><a href="#cb19-2623" aria-hidden="true" tabindex="-1"></a>    wis<span class="op">=</span>mypi(Xis)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xis,mean<span class="op">=</span>mm, cov<span class="op">=</span>sigma)</span>
+<span id="cb19-2624"><a href="#cb19-2624" aria-hidden="true" tabindex="-1"></a>    EIS[i]<span class="op">=</span>np.mean(wis)</span>
+<span id="cb19-2625"><a href="#cb19-2625" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-2626"><a href="#cb19-2626" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
+<span id="cb19-2627"><a href="#cb19-2627" aria-hidden="true" tabindex="-1"></a>    Xpr<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>sig_opt_d,size<span class="op">=</span>N)</span>
+<span id="cb19-2628"><a href="#cb19-2628" aria-hidden="true" tabindex="-1"></a>    wpr<span class="op">=</span>mypi(Xpr)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xpr,mean<span class="op">=</span>mm,<span class="op">\</span></span>
+<span id="cb19-2629"><a href="#cb19-2629" aria-hidden="true" tabindex="-1"></a>                                                   cov<span class="op">=</span>sig_opt_d)</span>
+<span id="cb19-2630"><a href="#cb19-2630" aria-hidden="true" tabindex="-1"></a>    Eprj[i]<span class="op">=</span>np.mean(wpr)</span>
+<span id="cb19-2631"><a href="#cb19-2631" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-2632"><a href="#cb19-2632" aria-hidden="true" tabindex="-1"></a>   <span class="co">###   </span></span>
+<span id="cb19-2633"><a href="#cb19-2633" aria-hidden="true" tabindex="-1"></a>    Xpm<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>sig_mean_d,size<span class="op">=</span>N)</span>
+<span id="cb19-2634"><a href="#cb19-2634" aria-hidden="true" tabindex="-1"></a>    wpm<span class="op">=</span>mypi(Xpm)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xpm,mean<span class="op">=</span>mm,<span class="op">\</span></span>
+<span id="cb19-2635"><a href="#cb19-2635" aria-hidden="true" tabindex="-1"></a>                                                   cov<span class="op">=</span>sig_mean_d)</span>
+<span id="cb19-2636"><a href="#cb19-2636" aria-hidden="true" tabindex="-1"></a>    Eprm[i]<span class="op">=</span>np.mean(wpm)</span>
+<span id="cb19-2637"><a href="#cb19-2637" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-2638"><a href="#cb19-2638" aria-hidden="true" tabindex="-1"></a>   <span class="co">### </span></span>
+<span id="cb19-2639"><a href="#cb19-2639" aria-hidden="true" tabindex="-1"></a>    Xprst<span class="op">=</span>sp.stats.multivariate_normal.rvs(mean<span class="op">=</span>mm, cov<span class="op">=</span>sig_opt,size<span class="op">=</span>N)</span>
+<span id="cb19-2640"><a href="#cb19-2640" aria-hidden="true" tabindex="-1"></a>    wprst<span class="op">=</span>mypi(Xprst)<span class="op">/</span>sp.stats.multivariate_normal.pdf(Xprst,mean<span class="op">=</span>mm, <span class="op">\</span></span>
+<span id="cb19-2641"><a href="#cb19-2641" aria-hidden="true" tabindex="-1"></a>                                                       cov<span class="op">=</span>sig_opt)</span>
+<span id="cb19-2642"><a href="#cb19-2642" aria-hidden="true" tabindex="-1"></a>    Eprjst[i]<span class="op">=</span>np.mean(wprst)</span>
+<span id="cb19-2643"><a href="#cb19-2643" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-2644"><a href="#cb19-2644" aria-hidden="true" tabindex="-1"></a>   <span class="co">###</span></span>
+<span id="cb19-2645"><a href="#cb19-2645" aria-hidden="true" tabindex="-1"></a>    Xvmfn <span class="op">=</span> vMFNM_sample(mu, kappa, omega, pp, <span class="dv">1</span>, N)</span>
+<span id="cb19-2646"><a href="#cb19-2646" aria-hidden="true" tabindex="-1"></a>    Rvn<span class="op">=</span>np.sqrt(np.<span class="bu">sum</span>(Xvmfn<span class="op">**</span><span class="dv">2</span>,axis<span class="op">=</span><span class="dv">1</span>))</span>
+<span id="cb19-2647"><a href="#cb19-2647" aria-hidden="true" tabindex="-1"></a>    Xvnu<span class="op">=</span>Xvmfn.T<span class="op">/</span>Rvn</span>
+<span id="cb19-2648"><a href="#cb19-2648" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb19-2649"><a href="#cb19-2649" aria-hidden="true" tabindex="-1"></a>    h_log<span class="op">=</span>vMF_logpdf(Xvnu,mu.T,kappa)<span class="op">+</span>nakagami_logpdf(Rvn,pp,omega)</span>
+<span id="cb19-2650"><a href="#cb19-2650" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> np.log(n) <span class="op">+</span> np.log(np.pi <span class="op">**</span> (n <span class="op">/</span> <span class="dv">2</span>)) <span class="op">-</span> sp.special.gammaln(n <span class="op">/</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb19-2651"><a href="#cb19-2651" aria-hidden="true" tabindex="-1"></a>    f_u <span class="op">=</span> <span class="op">-</span>A       </span>
+<span id="cb19-2652"><a href="#cb19-2652" aria-hidden="true" tabindex="-1"></a>    f_chi <span class="op">=</span> (np.log(<span class="dv">2</span>) <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> n <span class="op">/</span> <span class="dv">2</span>) <span class="op">+</span> np.log(Rvn) <span class="op">*</span> (n <span class="op">-</span> <span class="dv">1</span>) <span class="op">-</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="op">\</span></span>
+<span id="cb19-2653"><a href="#cb19-2653" aria-hidden="true" tabindex="-1"></a>             Rvn <span class="op">**</span> <span class="dv">2</span> <span class="op">-</span> sp.special.gammaln(n <span class="op">/</span> <span class="dv">2</span>)) </span>
+<span id="cb19-2654"><a href="#cb19-2654" aria-hidden="true" tabindex="-1"></a>    f_log <span class="op">=</span> f_u <span class="op">+</span> f_chi</span>
+<span id="cb19-2655"><a href="#cb19-2655" aria-hidden="true" tabindex="-1"></a>    W_log <span class="op">=</span> f_log <span class="op">-</span> h_log</span>
+<span id="cb19-2656"><a href="#cb19-2656" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-2657"><a href="#cb19-2657" aria-hidden="true" tabindex="-1"></a>    wvmfn<span class="op">=</span>(phi(Xvmfn)<span class="op">&gt;</span><span class="dv">0</span>)<span class="op">*</span>np.exp(W_log)          </span>
+<span id="cb19-2658"><a href="#cb19-2658" aria-hidden="true" tabindex="-1"></a>    Evmfn[i]<span class="op">=</span>np.mean(wvmfn)</span>
+<span id="cb19-2659"><a href="#cb19-2659" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-2660"><a href="#cb19-2660" aria-hidden="true" tabindex="-1"></a><span class="co">### KL divergences    </span></span>
+<span id="cb19-2661"><a href="#cb19-2661" aria-hidden="true" tabindex="-1"></a>dkli<span class="op">=</span>np.zeros(B)</span>
+<span id="cb19-2662"><a href="#cb19-2662" aria-hidden="true" tabindex="-1"></a>dklp<span class="op">=</span>np.zeros(B)</span>
+<span id="cb19-2663"><a href="#cb19-2663" aria-hidden="true" tabindex="-1"></a>dklm<span class="op">=</span>np.zeros(B)</span>
+<span id="cb19-2664"><a href="#cb19-2664" aria-hidden="true" tabindex="-1"></a>dklpst<span class="op">=</span>np.zeros(B)</span>
+<span id="cb19-2665"><a href="#cb19-2665" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-2666"><a href="#cb19-2666" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(B):</span>
+<span id="cb19-2667"><a href="#cb19-2667" aria-hidden="true" tabindex="-1"></a>    dkli[i]<span class="op">=</span>np.log(np.linalg.det(SI[i]))<span class="op">+</span><span class="bu">sum</span>(np.diag(Sigstar.dot<span class="op">\</span></span>
+<span id="cb19-2668"><a href="#cb19-2668" aria-hidden="true" tabindex="-1"></a>                                            (np.linalg.inv(SI[i]))))      </span>
+<span id="cb19-2669"><a href="#cb19-2669" aria-hidden="true" tabindex="-1"></a>    dklp[i]<span class="op">=</span>np.log(np.linalg.det(SIP[i]))<span class="op">+</span><span class="bu">sum</span>(np.diag(Sigstar.dot<span class="op">\</span></span>
+<span id="cb19-2670"><a href="#cb19-2670" aria-hidden="true" tabindex="-1"></a>                                            (np.linalg.inv(SIP[i]))))        </span>
+<span id="cb19-2671"><a href="#cb19-2671" aria-hidden="true" tabindex="-1"></a>    dklm[i]<span class="op">=</span>np.log(np.linalg.det(SIM[i]))<span class="op">+</span><span class="bu">sum</span>(np.diag(Sigstar.dot<span class="op">\</span></span>
+<span id="cb19-2672"><a href="#cb19-2672" aria-hidden="true" tabindex="-1"></a>                                            (np.linalg.inv(SIM[i]))))</span>
+<span id="cb19-2673"><a href="#cb19-2673" aria-hidden="true" tabindex="-1"></a>    dklpst[i]<span class="op">=</span>np.log(np.linalg.det(SIPst[i]))<span class="op">+</span><span class="bu">sum</span>(np.diag(Sigstar.dot<span class="op">\</span></span>
+<span id="cb19-2674"><a href="#cb19-2674" aria-hidden="true" tabindex="-1"></a>                                            (np.linalg.inv(SIPst[i]))))</span>
+<span id="cb19-2675"><a href="#cb19-2675" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-2676"><a href="#cb19-2676" aria-hidden="true" tabindex="-1"></a>Tabresult<span class="op">=</span>np.zeros((<span class="dv">3</span>,<span class="dv">7</span>)) <span class="co"># table of results</span></span>
+<span id="cb19-2677"><a href="#cb19-2677" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-2678"><a href="#cb19-2678" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">0</span>]<span class="op">=</span>np.log(np.linalg.det(Sigstar))<span class="op">+</span>n</span>
+<span id="cb19-2679"><a href="#cb19-2679" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">1</span>]<span class="op">=</span>np.mean(dkli)</span>
+<span id="cb19-2680"><a href="#cb19-2680" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">2</span>]<span class="op">=</span>np.mean(dklpst)</span>
+<span id="cb19-2681"><a href="#cb19-2681" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">3</span>]<span class="op">=</span>np.mean(dklpst)</span>
+<span id="cb19-2682"><a href="#cb19-2682" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">4</span>]<span class="op">=</span>np.mean(dklp)</span>
+<span id="cb19-2683"><a href="#cb19-2683" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">5</span>]<span class="op">=</span>np.mean(dklm)</span>
+<span id="cb19-2684"><a href="#cb19-2684" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">0</span>,<span class="dv">6</span>]<span class="op">=</span><span class="va">None</span></span>
+<span id="cb19-2685"><a href="#cb19-2685" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-2686"><a href="#cb19-2686" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">0</span>]<span class="op">=</span>np.mean(Eopt<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb19-2687"><a href="#cb19-2687" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">=</span>np.mean(EIS<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb19-2688"><a href="#cb19-2688" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">2</span>]<span class="op">=</span>np.mean(Eprjst<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb19-2689"><a href="#cb19-2689" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">3</span>]<span class="op">=</span>np.mean(Eprjst<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb19-2690"><a href="#cb19-2690" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">4</span>]<span class="op">=</span>np.mean(Eprj<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb19-2691"><a href="#cb19-2691" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">5</span>]<span class="op">=</span>np.mean(Eprm<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb19-2692"><a href="#cb19-2692" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">1</span>,<span class="dv">6</span>]<span class="op">=</span>np.mean(Evmfn<span class="op">-</span>E)<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb19-2693"><a href="#cb19-2693" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-2694"><a href="#cb19-2694" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">0</span>]<span class="op">=</span>np.sqrt(np.mean((Eopt<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb19-2695"><a href="#cb19-2695" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">1</span>]<span class="op">=</span>np.sqrt(np.mean((EIS<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb19-2696"><a href="#cb19-2696" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">2</span>]<span class="op">=</span>np.sqrt(np.mean((Eprjst<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb19-2697"><a href="#cb19-2697" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">3</span>]<span class="op">=</span>np.sqrt(np.mean((Eprjst<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb19-2698"><a href="#cb19-2698" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">4</span>]<span class="op">=</span>np.sqrt(np.mean((Eprj<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb19-2699"><a href="#cb19-2699" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">5</span>]<span class="op">=</span>np.sqrt(np.mean((Eprm<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb19-2700"><a href="#cb19-2700" aria-hidden="true" tabindex="-1"></a>Tabresult[<span class="dv">2</span>,<span class="dv">6</span>]<span class="op">=</span>np.sqrt(np.mean((Evmfn<span class="op">-</span>E)<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span>E<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb19-2701"><a href="#cb19-2701" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-2702"><a href="#cb19-2702" aria-hidden="true" tabindex="-1"></a>Tabresult<span class="op">=</span>np.<span class="bu">round</span>(Tabresult,<span class="dv">1</span>)</span>
+<span id="cb19-2703"><a href="#cb19-2703" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-2704"><a href="#cb19-2704" aria-hidden="true" tabindex="-1"></a>table<span class="op">=</span>[[<span class="st">"D'"</span>,Tabresult[<span class="dv">0</span>,<span class="dv">0</span>],Tabresult[<span class="dv">0</span>,<span class="dv">1</span>],Tabresult[<span class="dv">0</span>,<span class="dv">2</span>],Tabresult[<span class="dv">0</span>,<span class="dv">3</span>],</span>
+<span id="cb19-2705"><a href="#cb19-2705" aria-hidden="true" tabindex="-1"></a>        Tabresult[<span class="dv">0</span>,<span class="dv">4</span>],Tabresult[<span class="dv">0</span>,<span class="dv">5</span>],<span class="st">"/"</span>],</span>
+<span id="cb19-2706"><a href="#cb19-2706" aria-hidden="true" tabindex="-1"></a>      [<span class="st">"Relative error (\%)"</span>,Tabresult[<span class="dv">1</span>,<span class="dv">0</span>],Tabresult[<span class="dv">1</span>,<span class="dv">1</span>],</span>
+<span id="cb19-2707"><a href="#cb19-2707" aria-hidden="true" tabindex="-1"></a>       Tabresult[<span class="dv">1</span>,<span class="dv">2</span>],Tabresult[<span class="dv">1</span>,<span class="dv">3</span>],Tabresult[<span class="dv">1</span>,<span class="dv">4</span>],Tabresult[<span class="dv">1</span>,<span class="dv">5</span>],Tabresult[<span class="dv">1</span>,<span class="dv">6</span>]],</span>
+<span id="cb19-2708"><a href="#cb19-2708" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"Coefficient of variation (\%)"</span>,Tabresult[<span class="dv">2</span>,<span class="dv">0</span>],Tabresult[<span class="dv">2</span>,<span class="dv">1</span>],</span>
+<span id="cb19-2709"><a href="#cb19-2709" aria-hidden="true" tabindex="-1"></a>     Tabresult[<span class="dv">2</span>,<span class="dv">2</span>],Tabresult[<span class="dv">2</span>,<span class="dv">3</span>],Tabresult[<span class="dv">2</span>,<span class="dv">4</span>],Tabresult[<span class="dv">2</span>,<span class="dv">5</span>],Tabresult[<span class="dv">2</span>,<span class="dv">6</span>]]]</span>
+<span id="cb19-2710"><a href="#cb19-2710" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-2711"><a href="#cb19-2711" aria-hidden="true" tabindex="-1"></a>Markdown(tabulate(</span>
+<span id="cb19-2712"><a href="#cb19-2712" aria-hidden="true" tabindex="-1"></a>  table, </span>
+<span id="cb19-2713"><a href="#cb19-2713" aria-hidden="true" tabindex="-1"></a>  headers<span class="op">=</span>[<span class="st">""</span>,<span class="st">"$\mathbf{\Sigma}^*$"</span>, <span class="st">"$\widehat{\mathbf{\Sigma</span><span class="sc">}}</span><span class="st">^*$"</span>, <span class="st">"$\widehat{\mathbf{\Sigma</span><span class="sc">}}</span><span class="st">_</span><span class="sc">{opt}</span><span class="st">$"</span>,<span class="op">\</span></span>
+<span id="cb19-2714"><a href="#cb19-2714" aria-hidden="true" tabindex="-1"></a>           <span class="st">"$\widehat{\mathbf{\Sigma</span><span class="sc">}}</span><span class="st">_</span><span class="sc">{mean}</span><span class="st">$"</span>, <span class="st">"${\widehat{\mathbf{\Sigma</span><span class="sc">}}</span><span class="st">^{+d}_</span><span class="sc">{opt}</span><span class="st">}$"</span>,<span class="op">\</span></span>
+<span id="cb19-2715"><a href="#cb19-2715" aria-hidden="true" tabindex="-1"></a>           <span class="st">"$\widehat{\mathbf{\Sigma</span><span class="sc">}}</span><span class="st">^{+d}_</span><span class="sc">{mean}</span><span class="st">$"</span>, <span class="st">"vMFN"</span>],</span>
+<span id="cb19-2716"><a href="#cb19-2716" aria-hidden="true" tabindex="-1"></a>    tablefmt<span class="op">=</span><span class="st">"pipe"</span>))</span>
+<span id="cb19-2717"><a href="#cb19-2717" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-2718"><a href="#cb19-2718" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-2719"><a href="#cb19-2719" aria-hidden="true" tabindex="-1"></a><span class="fu"># References {.unnumbered}</span></span>
+<span id="cb19-2720"><a href="#cb19-2720" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-2721"><a href="#cb19-2721" aria-hidden="true" tabindex="-1"></a>::: {#refs}</span>
+<span id="cb19-2722"><a href="#cb19-2722" aria-hidden="true" tabindex="-1"></a>:::</span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
